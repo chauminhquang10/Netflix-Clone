@@ -1,0 +1,19 @@
+.watchlist {
+  position: relative;
+  border: 1px solid #ccc;
+  transform: scaleY(0.98);
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  color: crimson;
+  cursor: pointer;
+}
+
+.total {
+  width: 100%;
+  height: 50px;
+  color: crimson;
+}

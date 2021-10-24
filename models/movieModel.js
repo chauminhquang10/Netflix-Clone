@@ -18,19 +18,15 @@ const MovieSchema = new mongoose.Schema(
     },
     imgTitle: {
       type: Object,
-      required: true,
     },
     imgSmall: {
       type: Object,
-      required: true,
     },
     trailer: {
       type: Object,
-      required: true,
     },
     video: {
       type: Object,
-      required: true,
     },
     year: {
       type: Number,

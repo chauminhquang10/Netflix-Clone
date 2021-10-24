@@ -9,6 +9,7 @@ const MovieDetail = () => {
   const state = useContext(GlobalState);
   const [movies] = state.moviesAPI.movies;
   const [movieDetail, setMovieDetail] = useState([]);
+  const addToWatchList = state.usersAPI.addToWatchList;
   useEffect(() => {
     if (params.id) {
       movies.forEach((movie) => {
@@ -33,7 +34,11 @@ const MovieDetail = () => {
           <p>{movieDetail.desc}</p>
           <p>{movieDetail.duration}p</p>
           <p>{movieDetail.limitAge}+</p>
-          <Link to="/watchlist" className="watchlist">
+          <Link
+            to="/favorite"
+            className="watchlist"
+            onClick={() => addToWatchList(movieDetail)}
+          >
             Add to Watchlist
           </Link>
         </div>

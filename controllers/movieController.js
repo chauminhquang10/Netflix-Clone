@@ -71,7 +71,9 @@ const movieController = {
         duration,
         genre,
       } = req.body;
-      if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      // if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      //nữa thêm cái comment này vào lại
+      if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });
       const movie = await Movies.findOne({ title: title.toLowerCase() });
       if (movie)
@@ -118,7 +120,9 @@ const movieController = {
         duration,
         genre,
       } = req.body;
-      if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      // if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      //nữa thêm cái comment này vào lại
+      if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });
       await Movies.findOneAndUpdate(
         { _id: req.params.id },

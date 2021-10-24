@@ -1,14 +1,16 @@
 const router = require("express").Router();
 const movieController = require("../controllers/movieController");
+const auth = require("../middlewares/Auth");
+const authAdmin = require("../middlewares/AuthAdmin");
 
 router
   .route("/movies")
   .get(movieController.getMovies)
-  .post(movieController.createMovie);
+  .post(auth, authAdmin, movieController.createMovie);
 
 router
   .route("/movies/:id")
-  .delete(movieController.deleteMovie)
-  .put(movieController.updateMovie);
+  .delete(auth, authAdmin, movieController.deleteMovie)
+  .put(auth, authAdmin, movieController.updateMovie);
 
 module.exports = router;

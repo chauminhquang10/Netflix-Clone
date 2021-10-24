@@ -1,4 +1,5 @@
 const Genre = require("../models/genreModel");
+const Movies = require("../models/movieModel");
 
 const genreController = {
   getGenres: async (req, res) => {
@@ -26,6 +27,11 @@ const genreController = {
   },
   deleteGenre: async (req, res) => {
     try {
+      const movies = await Movies.findOne({ genre: req.params.id });
+      if (movies)
+        return res
+          .status(400)
+          .json({ msg: "Please delete all movies of this genre before!" });
       await Genre.findByIdAndDelete(req.params.id);
       res.json({ msg: "Deleted a genre!" });
     } catch (error) {

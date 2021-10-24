@@ -5,3 +5,33 @@
   justify-items: center;
   margin: 20px 0;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.delete-all {
+  text-align: right;
+  margin: 20px;
+}
+
+.delete-all input {
+  height: 25px;
+  width: 25px;
+  transform: translateY(5px);
+  margin: 0 15px;
+}
+
+.delete-all span {
+  text-transform: uppercase;
+  color: crimson;
+  letter-spacing: 1.3px;
+}
+
+.delete-all button {
+  border: 1px solid crimson;
+  padding: 10px 25px;
+  color: crimson;
+  text-transform: uppercase;
+}
