@@ -3,6 +3,7 @@ import { GlobalState } from "../../GlobalState";
 import { Menu, Clear } from "@material-ui/icons";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 
 const Header = () => {
@@ -11,6 +12,7 @@ const Header = () => {
   const [isLogged] = state.usersAPI.isLogged;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [watchList] = state.usersAPI.watchList;
+  const [userData] = state.usersAPI.userData;
 
   const logoutUser = async () => {
     await axios.get("/user/logout");
@@ -34,10 +36,22 @@ const Header = () => {
   const loggedRouter = () => {
     return (
       <>
-        <li>
-          <Link to="/" onClick={logoutUser}>
-            Logout
+        <li className="drop-nav">
+          <Link to="#" className="avatar">
+            <img src={userData.avatar} alt="" className="avatar-img" />
+            {userData.name}
+            <ArrowDropDown />
           </Link>
+          <ul className="dropdown">
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/" onClick={logoutUser}>
+                Logout
+              </Link>
+            </li>
+          </ul>
         </li>
       </>
     );

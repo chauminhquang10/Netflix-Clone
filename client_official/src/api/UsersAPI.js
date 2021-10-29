@@ -5,6 +5,9 @@ const UsersAPI = (token) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [watchList, setWatchList] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const [callback, setCallback] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -17,6 +20,7 @@ const UsersAPI = (token) => {
           });
           setIsLogged(true);
           setWatchList(res.data.favoriteList);
+          setUserData(res.data);
           res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
         } catch (error) {
           alert(error.response.data.msg);
@@ -25,6 +29,22 @@ const UsersAPI = (token) => {
       getUser();
     }
   }, [token]);
+
+  useEffect(() => {
+    if (isAdmin && token) {
+      const getAllUser = async () => {
+        try {
+          const res = await axios.get("/user/all_info", {
+            headers: { Authorization: token },
+          });
+          setAllUsers(res.data);
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
+      };
+      getAllUser();
+    }
+  }, [token, isAdmin, callback]);
 
   const addToWatchList = async (movie) => {
     if (!isLogged) {
@@ -55,6 +75,9 @@ const UsersAPI = (token) => {
     isAdmin: [isAdmin, setIsAdmin],
     watchList: [watchList, setWatchList],
     addToWatchList: addToWatchList,
+    userData: [userData, setUserData],
+    allUsers: [allUsers, setAllUsers],
+    callback: [callback, setCallback],
   };
 };
 

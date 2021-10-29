@@ -36,7 +36,7 @@ const Filter = () => {
       ></input>
 
       <div className="row">
-        <span>Sort By: </span>
+        <span>Sort By:</span>
         <select value={sort} onChange={(e) => setSort(e.target.value)}>
           <option value="">Newest</option>
           <option value="sort=createdAt">Oldest</option>

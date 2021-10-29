@@ -8,6 +8,11 @@ import NotFound from "./utils/notfound/NotFound";
 import MovieDetail from "./movie_detail/MovieDetail";
 import Genres from "./genres/Genres";
 import CreateMovie from "./create_movie/CreateMovie";
+import ActivationEmail from "./auth/ActivationEmail";
+import ForgotPassword from "./auth/ForgotPassword";
+import ResetPassword from "./auth/ResetPassword";
+import Profile from "./profile/Profile";
+import EditUser from "./profile/EditUser";
 import { GlobalState } from "../../GlobalState";
 
 const Pages = () => {
@@ -22,6 +27,22 @@ const Pages = () => {
 
       <Route path="/login" component={isLogged ? NotFound : Login} />
       <Route path="/register" component={isLogged ? NotFound : Register} />
+      <Route
+        path="/user/activate/:activation_token"
+        component={ActivationEmail}
+      />
+
+      <Route
+        path="/forgot_password"
+        component={isLogged ? NotFound : ForgotPassword}
+      />
+      <Route
+        path="/user/reset/:access_token"
+        component={isLogged ? NotFound : ResetPassword}
+      />
+
+      <Route path="/profile" component={isLogged ? Profile : NotFound} />
+      <Route path="/edit_user/:id" component={isAdmin ? EditUser : NotFound} />
 
       <Route path="/genre" component={isAdmin ? Genres : NotFound} />
 

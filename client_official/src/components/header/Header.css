@@ -30,3 +30,39 @@ header ul li:hover {
 .menu {
   display: none;
 }
+
+.avatar-img {
+  width: 30px;
+  height: 30px;
+  transform: translateY(10px);
+  border-radius: 50%;
+}
+
+/* 
+height của drop nav này dùng tạm , nên xóa đi */
+.drop-nav {
+  position: relative;
+  padding: 10px 0;
+  height: 100px;
+}
+
+.drop-nav a {
+  text-transform: capitalize;
+  overflow: hidden;
+}
+.dropdown {
+  position: absolute;
+  background: #282c34;
+  width: 100%;
+  width: calc(100% + 30px);
+  top: 50px;
+  display: none;
+}
+
+.drop-nav:hover .dropdown {
+  display: block;
+}
+
+header ul {
+  transform: translateY(-5px);
+}

@@ -1,0 +1,19 @@
+.edit_user {
+  margin-top: 50px;
+}
+
+.edit_user .col-left input {
+  background-color: #eee;
+}
+
+#isAdmin {
+  width: 20px;
+  height: 20px;
+  transform: translateY(3px);
+  margin: 10px 0;
+}
+
+#isAdmin + label {
+  display: inline-block;
+  margin-left: 5px;
+}
