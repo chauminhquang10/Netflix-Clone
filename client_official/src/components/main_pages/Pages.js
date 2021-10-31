@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
+import Main from "./main/Main";
 import Movies from "./movies/Movies";
 import Favorite from "./favorite/Favorite";
 import Login from "./auth/Login";
@@ -22,7 +23,8 @@ const Pages = () => {
 
   return (
     <Switch>
-      <Route path="/" exact component={Movies} />
+      <Route path="/" exact component={Main} />
+      <Route path="/movies" exact component={Movies} />
       <Route path="/detail/:id" component={MovieDetail} />
 
       <Route path="/login" component={isLogged ? NotFound : Login} />

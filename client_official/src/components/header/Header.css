@@ -1,68 +1,112 @@
 header {
   min-height: 70px;
   width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-}
-
-header .logo {
-  flex: 1;
-}
-
-header a {
-  text-transform: uppercase;
-  color: #555;
-}
-
-header ul li {
-  display: inline-block;
-  opacity: 0.7;
   padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  align-items: center;
+  background-color: #181414;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
-header ul li:hover {
+
+.header_ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: flex-start;
+}
+
+.header_Link {
+  color: white;
+  font-family: "Radiant EF Text Demi Bold";
+  font-size: 20px;
+}
+
+.header_Link:hover {
+  cursor: pointer;
+}
+
+.header_lastItem {
+  display: grid;
+  justify-items: flex-end;
+}
+
+.header_logo {
+  height: 25px;
+  margin-right: 40px;
+}
+
+.Menu {
+  color: white;
+}
+
+.Menu:hover {
+  cursor: pointer;
+}
+
+.Clear {
+  color: white;
+}
+
+.Clear:hover {
+  cursor: pointer;
+}
+.login_btn {
+  -webkit-appearance: none;
+  height: 40px;
+  background-color: black;
+  width: 80px;
+  border-radius: 5%;
+  opacity: 0.6;
+  box-shadow: blanchedalmond 1px 1px;
+}
+
+.login_btn:hover {
   opacity: 1;
 }
 
-.menu {
-  display: none;
-}
+@media screen and (max-width: 700px) {
+  .header_ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    top: 70px;
+    left: -100%;
+    opacity: 1;
+    transition: all 1s ease;
+    width: 100%;
+  }
 
-.avatar-img {
-  width: 30px;
-  height: 30px;
-  transform: translateY(10px);
-  border-radius: 50%;
-}
+  .header_ul.active {
+    background: #242222;
+    left: 0;
+    opacity: 1;
+    transition: all 1s ease;
+    z-index: 1;
+  }
 
-/* 
-height của drop nav này dùng tạm , nên xóa đi */
-.drop-nav {
-  position: relative;
-  padding: 10px 0;
-  height: 100px;
-}
-
-.drop-nav a {
-  text-transform: capitalize;
-  overflow: hidden;
-}
-.dropdown {
-  position: absolute;
-  background: #282c34;
-  width: 100%;
-  width: calc(100% + 30px);
-  top: 50px;
-  display: none;
-}
-
-.drop-nav:hover .dropdown {
-  display: block;
-}
-
-header ul {
-  transform: translateY(-5px);
+  .header_Link {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    color: white;
+    font-family: "Radiant EF Text Demi Bold";
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+  }
+  .header_li {
+    position: relative;
+    text-align: center;
+    height: 60px;
+    width: 100%;
+  }
+  .header_li:hover {
+    background-color: gray;
+    opacity: 0.8;
+  }
 }
