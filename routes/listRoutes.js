@@ -6,11 +6,11 @@ const authAdmin = require("../middlewares/AuthAdmin");
 router
   .route("/lists")
   .get(listController.getLists)
-  .post(listController.createList);
+  .post(auth, authAdmin, listController.createList);
 
 router
   .route("/lists/:id")
-  .delete(listController.deleteList)
-  .put(listController.updateList);
+  .delete(auth, authAdmin, listController.deleteList)
+  .put(auth, authAdmin, listController.updateList);
 
 module.exports = router;

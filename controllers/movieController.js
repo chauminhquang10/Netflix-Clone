@@ -71,7 +71,7 @@ const movieController = {
         duration,
         genre,
       } = req.body;
-      // if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      // if (!img ||   !trailer || !video)
       //nữa thêm cái comment này vào lại
       if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });
@@ -120,7 +120,7 @@ const movieController = {
         duration,
         genre,
       } = req.body;
-      // if (!img || !imgTitle || !imgSmall || !trailer || !video)
+      // if (!img  || !trailer || !video)
       //nữa thêm cái comment này vào lại
       if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });

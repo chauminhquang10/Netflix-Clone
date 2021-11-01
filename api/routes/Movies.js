@@ -166,7 +166,7 @@ router.delete("/:movieId", verify, async (req, res) => {
   }
 });
 
-//get a movie
+//get a movie (có r)
 router.get("/find/:movieId", verify, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.movieId);

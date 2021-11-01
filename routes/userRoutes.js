@@ -36,9 +36,17 @@ router.patch(
 //delete user with role admin
 router.delete("/delete/:id", auth, authAdmin, userController.deleteUser);
 
+// thống kê user theo tháng trong năm
+router.get("/stats", auth, authAdmin, userController.getUserStats);
+
+// lấy user mới
+router.get("/newUsers", auth, authAdmin, userController.getNewUsers);
+
 // Social Media login
 router.post("/google_login", userController.googleLogin);
 router.post("/facebook_login", userController.facebookLogin);
+
+// Thống kê users
 
 module.exports = router;
 

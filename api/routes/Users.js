@@ -40,7 +40,7 @@ router.delete("/:userId", verify, async (req, res) => {
   }
 });
 
-//get
+//get (có r)
 router.get("/find/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId).select("-password");
@@ -51,7 +51,7 @@ router.get("/find/:userId", async (req, res) => {
 });
 
 //get all
-// (cần config: new query chưa có )
+// ( có r )
 router.get("/", verify, async (req, res) => {
   const query = req.query.new;
   if (req.user.isAdmin) {
@@ -70,7 +70,7 @@ router.get("/", verify, async (req, res) => {
   }
 });
 
-//*****(chưa có)
+//*****( có r)
 //get user stats
 // lay so lieu thong ke
 //  ***dang le ra phai kiem tra admin nữa chứ nhỉ
