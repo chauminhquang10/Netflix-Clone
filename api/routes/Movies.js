@@ -176,7 +176,7 @@ router.get("/find/:movieId", verify, async (req, res) => {
   }
 });
 
-//get random movie (ch có)
+//get random movie (kh cần)
 router.get("/random", verify, async (req, res) => {
   const type = req.query.type;
   let movie;
