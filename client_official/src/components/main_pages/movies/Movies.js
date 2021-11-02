@@ -14,6 +14,7 @@ const Movies = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
+  const [lists, setLists] = state.listsAPI.lists;
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
 

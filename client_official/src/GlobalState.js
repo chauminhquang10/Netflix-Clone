@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import MoviesAPI from "./api/MoviesAPI";
 import UsersAPI from "./api/UsersAPI";
 import GenresAPI from "./api/GenresAPI";
+import ListsAPI from "./api/ListsAPI";
 import axios from "axios";
 
 export const GlobalState = createContext();
@@ -29,6 +30,7 @@ export const DataProvider = ({ children }) => {
     moviesAPI: MoviesAPI(),
     usersAPI: UsersAPI(token),
     genresAPI: GenresAPI(),
+    listsAPI: ListsAPI(),
   };
 
   return <GlobalState.Provider value={state}>{children}</GlobalState.Provider>;
