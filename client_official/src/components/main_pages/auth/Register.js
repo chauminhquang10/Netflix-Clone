@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  Container,
+  Base,
+  Title,
+  Input,
+  Submit,
+  Text,
+  TextSmall,
+  RouteLink,
+} from "./styles";
 import axios from "axios";
-import "./Login.css";
+import "./Login.scss";
 import {
   showErrMessage,
   showSuccessMessage,
@@ -76,48 +85,101 @@ const Register = () => {
   };
 
   return (
-    <div className="login_page">
-      <h2>Register</h2>
-      {err && showErrMessage(err)}
-      {success && showSuccessMessage(success)}
-      <form onSubmit={registerSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Username"
-          value={name}
-          onChange={onChangeInput}
-        ></input>
-        <input
-          type="text"
-          name="email"
-          placeholder="Your email"
-          value={email}
-          onChange={onChangeInput}
-        ></input>
-        <input
-          type="password"
-          name="password"
-          autoComplete="on"
-          placeholder="Your password"
-          value={password}
-          onChange={onChangeInput}
-        ></input>
-        <input
-          type="password"
-          name="cf_password"
-          autoComplete="on"
-          placeholder="Confirm your password"
-          value={cf_password}
-          onChange={onChangeInput}
-        ></input>
-        <div className="row">
-          <button type="submit">Register</button>
-        </div>
-      </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
+    // <div className="login_page">
+    //   <h2>Register</h2>
+    //   {err && showErrMessage(err)}
+    //   {success && showSuccessMessage(success)}
+    //   <form onSubmit={registerSubmit}>
+    //     <input
+    //       type="text"
+    //       name="name"
+    //       placeholder="Your Username"
+    //       value={name}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <input
+    //       type="text"
+    //       name="email"
+    //       placeholder="Your email"
+    //       value={email}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <input
+    //       type="password"
+    //       name="password"
+    //       autoComplete="on"
+    //       placeholder="Your password"
+    //       value={password}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <input
+    //       type="password"
+    //       name="cf_password"
+    //       autoComplete="on"
+    //       placeholder="Confirm your password"
+    //       value={cf_password}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <div className="row">
+    //       <button type="submit">Register</button>
+    //     </div>
+    //   </form>
+    //   <p>
+    //     Already have an account? <Link to="/login">Login</Link>
+    //   </p>
+    // </div>
+    <div
+      className="footer"
+      style={{
+        backgroundImage: `url(https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1635778140/TestMovie/footer-bg_balrrj.jpg)`,
+      }}
+    >
+      <Container>
+        <Title>Sign Up</Title>
+        {err && showErrMessage(err)}
+        {success && showSuccessMessage(success)}
+        <Base onSubmit={registerSubmit}>
+          <Input
+            placeholder="Username"
+            type="text"
+            name="name"
+            value={name}
+            onChange={onChangeInput}
+          />
+          <Input
+            placeholder="Email address"
+            type="text"
+            name="email"
+            value={email}
+            onChange={onChangeInput}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            name="password"
+            autoComplete="on"
+            value={password}
+            onChange={onChangeInput}
+          />
+          <Input
+            type="password"
+            name="cf_password"
+            autoComplete="on"
+            placeholder="Confirm Password"
+            value={cf_password}
+            onChange={onChangeInput}
+          ></Input>
+          <Submit type="submit">Sign Up</Submit>
+        </Base>
+
+        <Text>
+          Already a user? <RouteLink to="/login">Sign in now.</RouteLink>
+        </Text>
+        <TextSmall>
+          This page is protected by Google reCAPTCHA to ensure you're not a bot.
+          Learn more.
+        </TextSmall>
+      </Container>
     </div>
   );
 };
