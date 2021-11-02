@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { DataProvider } from "./GlobalState";
 import Header from "./components/header/Header";
 import Pages from "./components/main_pages/Pages";
-import Footer from "./components/Footer/Footer";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
           <div className="App">
             <Header></Header>
             <Pages></Pages>
-            <Footer />
+            <Footer></Footer>
           </div>
         </Router>
       </DataProvider>

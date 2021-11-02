@@ -166,7 +166,7 @@ router.delete("/:movieId", verify, async (req, res) => {
   }
 });
 
-//get a movie
+//get a movie (có r)
 router.get("/find/:movieId", verify, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.movieId);
@@ -176,7 +176,7 @@ router.get("/find/:movieId", verify, async (req, res) => {
   }
 });
 
-//get random movie (ch có)
+//get random movie (kh cần)
 router.get("/random", verify, async (req, res) => {
   const type = req.query.type;
   let movie;

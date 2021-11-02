@@ -2,7 +2,7 @@ const Lists = require("../models/listModel");
 const Movies = require("../models/movieModel");
 
 const listController = {
-  //lay random 10 lists
+  //lay random 5 lists
   getLists: async (req, res) => {
     try {
       const lists = await Lists.aggregate([{ $sample: { size: 5 } }]);
