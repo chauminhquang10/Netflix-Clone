@@ -335,6 +335,40 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getUserStats: async (req, res) => {
+    try {
+      //tinh tong users theo tung thang trong nam
+      const data = await Users.aggregate([
+        {
+          $match: { role: 0 },
+        },
+        {
+          $project: {
+            month: { $month: "$createdAt" },
+          },
+        },
+        {
+          $group: {
+            _id: "$month",
+            total: {
+              $sum: 1,
+            },
+          },
+        },
+      ]);
+      res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getNewUsers: async (req, res) => {
+    try {
+      const users = await Users.find({ role: 0 }).sort({ _id: -1 }).limit(5);
+      res.status(200).json(users);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 const createActivationToken = (payload) => {

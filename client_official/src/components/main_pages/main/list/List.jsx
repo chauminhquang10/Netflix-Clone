@@ -9,10 +9,8 @@ import MovieItem from "../MovieItem";
 import axios from "axios";
 import ListItem from "./listItem/ListItem";
 
-const List = ({ title, genre }) => {
+const List = ({ title, movies }) => {
   const listRef = useRef();
-  const state = useContext(GlobalState);
-  const [movies, setMovies] = state.moviesAPI.movies;
   const [slideNumber, setSlideNumber] = useState(0);
 
   const handleClick = (direction) => {
@@ -36,10 +34,9 @@ const List = ({ title, genre }) => {
           style={{ display: slideNumber === 0 && "none" }}
         ></ArrowBackIosOutlined>
         <div className="container" ref={listRef}>
-          {movies.map(
-            (movie, index) =>
-              movie.genre === genre && <MovieItem movie={movie}></MovieItem>
-          )}
+          {movies.map((movie, index) => (
+            <MovieItem movie={movie}></MovieItem>
+          ))}
         </div>
         <ArrowForwardIosOutlined
           className="sliderArrow right"

@@ -52,7 +52,7 @@ const CreateMovie = () => {
 
       if (!file) return alert("File not exist");
 
-      if (file.size > 1024 * 1024) return alert("Size too large");
+      if (file.size > 4024 * 4024) return alert("Size too large");
 
       if (file.type !== "image/png" && file.type !== "image/jpeg")
         return alert("File format is incorrect");
