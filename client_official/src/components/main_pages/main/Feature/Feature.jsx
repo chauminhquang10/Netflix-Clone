@@ -1,5 +1,6 @@
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import "./Feature.scss";
+import Button from "../../../button/Button";
 
 export default function Featured({ type, setGenre }) {
   return (
@@ -44,10 +45,10 @@ export default function Featured({ type, setGenre }) {
           Loki and his Chitauri army in New York City.
         </span>
         <div className="buttons">
-          <button className="play">
+          <Button className="play">
             <PlayArrow color="primary" />
             <span>Play</span>
-          </button>
+          </Button>
           <button className="more">
             <InfoOutlined />
             <span>Info</span>

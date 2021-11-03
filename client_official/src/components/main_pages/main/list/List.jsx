@@ -16,11 +16,21 @@ const List = ({ title, movies }) => {
   const handleClick = (direction) => {
     let distance = listRef.current.getBoundingClientRect().x - 50;
     if (direction === "left" && slideNumber > 0) {
-      setSlideNumber(slideNumber - 1);
-      listRef.current.style.transform = `translateX(${230 + distance}px)`;
-    } else if (direction === "right" && slideNumber < 4) {
-      setSlideNumber(slideNumber + 1);
-      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+      if (direction === "left" && slideNumber == 1) {
+        setSlideNumber(slideNumber - 1);
+        listRef.current.style.transform = `translateX(${340 + distance}px)`;
+      } else {
+        setSlideNumber(slideNumber - 1);
+        listRef.current.style.transform = `translateX(${290 + distance}px)`;
+      }
+    } else if (direction === "right" && slideNumber < 3) {
+      if (direction === "right" && slideNumber == 0) {
+        setSlideNumber(slideNumber + 1);
+        listRef.current.style.transform = `translateX(${-340 + distance}px)`;
+      } else {
+        setSlideNumber(slideNumber + 1);
+        listRef.current.style.transform = `translateX(${-290 + distance}px)`;
+      }
     }
   };
 
@@ -33,7 +43,7 @@ const List = ({ title, movies }) => {
           onClick={() => handleClick("left")}
           style={{ display: slideNumber === 0 && "none" }}
         ></ArrowBackIosOutlined>
-        <div className="container" ref={listRef}>
+        <div className="list_container" ref={listRef}>
           {movies.map((movie, index) => (
             <MovieItem movie={movie}></MovieItem>
           ))}
