@@ -1,7 +1,17 @@
 import React from "react";
 
 const NotFound = () => {
-  return <div> 404 | Not Found</div>;
+  return (
+    <div
+      style={{
+        minHeight: "700px",
+        textAlign: "center",
+        justifyContent: "center",
+      }}
+    >
+      404 | Not Found
+    </div>
+  );
 };
 
 export default NotFound;

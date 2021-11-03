@@ -14,7 +14,8 @@ const MoviesAPI = () => {
   useEffect(() => {
     const getMovies = async () => {
       const res = await axios.get(
-        `/api/movies?limit=${page * 9}&${genre}&${sort}&title[regex]=${search}`
+        //Lay 20 movie, sau khi da update list se chinh thanh 9
+        `/api/movies?limit=${page * 20}&${genre}&${sort}&title[regex]=${search}`
       );
       setMovies(res.data.movies);
       setResult(res.data.result);

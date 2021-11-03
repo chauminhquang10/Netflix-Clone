@@ -36,12 +36,16 @@ const Favorite = () => {
 
   if (watchList.length === 0)
     return (
-      <h2 style={{ textAlign: "center", fontSize: "2rem", marginTop: "50px" }}>
-        Watchlist Empty
-      </h2>
+      <div style={{ minHeight: "700px" }}>
+        <h2
+          style={{ textAlign: "center", fontSize: "2rem", marginTop: "50px" }}
+        >
+          Watchlist Empty
+        </h2>
+      </div>
     );
   return (
-    <div>
+    <div style={{ minHeight: "1000px" }}>
       {watchList.map((movie) => (
         <div className="detail watchlist">
           <img src={movie.img.url} alt=""></img>
