@@ -7,6 +7,7 @@ import "./Main.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 import Listitem from "../main/list/List";
+import Featured from "./Feature/Feature";
 
 const Movies = () => {
   const state = useContext(GlobalState);
@@ -24,9 +25,10 @@ const Movies = () => {
 
   return (
     <>
+      <Featured />
       <div className="main_page">
         {lists.map((list) => {
-          return <Listitem genre={list.genre} title={list.title}></Listitem>;
+          return <Listitem movies={list.items} title={list.title}></Listitem>;
         })}
       </div>
     </>

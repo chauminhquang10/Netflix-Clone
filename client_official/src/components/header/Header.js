@@ -7,6 +7,18 @@ import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserProfile";
 
+window.onscroll = () => {
+  OnScroll();
+};
+
+function OnScroll() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("Header").style.backgroundColor = "black";
+  } else {
+    document.getElementById("Header").style.backgroundColor = "transparent";
+  }
+}
+
 const Header = () => {
   const state = useContext(GlobalState);
 
@@ -70,7 +82,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header id="Header" style={{ backgroundColor: "transparent" }}>
       <div className="logo">
         <h1>
           <Link to="/">
