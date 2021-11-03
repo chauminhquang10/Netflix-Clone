@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
+import {
+  Container,
+  Base,
+  Title,
+  Input,
+  Submit,
+  Text,
+  TextSmall,
+  RouteLink,
+} from "./styles";
 import axios from "axios";
-import "./Login.css";
+import "./Login.scss";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+
 import {
   showErrMessage,
   showSuccessMessage,
@@ -94,56 +105,120 @@ const Login = () => {
   };
 
   return (
-    <div className="login_page">
-      <h2>Login</h2>
-      {err && showErrMessage(err)}
-      {success && showSuccessMessage(success)}
-      <form onSubmit={loginSubmit}>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="Your email"
-          value={email}
-          onChange={onChangeInput}
-        ></input>
-        <input
-          type="password"
-          name="password"
-          autoComplete="on"
-          required
-          placeholder="Your password"
-          value={password}
-          onChange={onChangeInput}
-        ></input>
-        <div className="row">
-          <button type="submit">Login</button>
+    // <div className="login_page">
+    //   <h2>Login</h2>
+    //   {err && showErrMessage(err)}
+    //   {success && showSuccessMessage(success)}
+    //   <form onSubmit={loginSubmit}>
+    //     <input
+    //       type="email"
+    //       name="email"
+    //       required
+    //       placeholder="Your email"
+    //       value={email}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <input
+    //       type="password"
+    //       name="password"
+    //       autoComplete="on"
+    //       required
+    //       placeholder="Your password"
+    //       value={password}
+    //       onChange={onChangeInput}
+    //     ></input>
+    //     <div className="row">
+    //       <button type="submit">Login</button>
 
-          <Link to="/forgot_password">Forgot your password?</Link>
+    //       <Link to="/forgot_password">Forgot your password?</Link>
+    //     </div>
+    //   </form>
+
+    //   <div className="hr">Or Login With</div>
+
+    //   <div className="social">
+    //     <GoogleLogin
+    //       clientId="995505543329-q9ug4f4eqvp402h4vv16963e3pi2oro0.apps.googleusercontent.com"
+    //       buttonText="Login with google"
+    //       onSuccess={responseGoogle}
+    //       cookiePolicy={"single_host_origin"}
+    //     />
+
+    //     <FacebookLogin
+    //       appId="467718794599736"
+    //       autoLoad={false}
+    //       fields="name,email,picture"
+    //       callback={responseFacebook}
+    //     />
+    //   </div>
+
+    //   <p>
+    //     New Member? <Link to="/register">Register</Link>
+    //   </p>
+    // </div>
+
+    <div
+      className="footer"
+      style={{
+        backgroundImage: `url(https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1635778140/TestMovie/footer-bg_balrrj.jpg)`,
+      }}
+    >
+      <Container>
+        <Title>Sign In</Title>
+        {err && showErrMessage(err)}
+        {success && showSuccessMessage(success)}
+        <Base onSubmit={loginSubmit}>
+          <Input
+            type="email"
+            name="email"
+            required
+            placeholder="Email address"
+            value={email}
+            onChange={onChangeInput}
+          />
+          <Input
+            type="password"
+            autoComplete="on"
+            placeholder="Password"
+            name="password"
+            required
+            value={password}
+            onChange={onChangeInput}
+          />
+          <Submit type="submit">Sign In</Submit>
+        </Base>
+
+        <div className="hr">Or Login With</div>
+
+        <div className="social">
+          <GoogleLogin
+            clientId="995505543329-q9ug4f4eqvp402h4vv16963e3pi2oro0.apps.googleusercontent.com"
+            buttonText="Login with google"
+            onSuccess={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
+
+          <FacebookLogin
+            appId="467718794599736"
+            autoLoad={false}
+            fields="name,email,picture"
+            callback={responseFacebook}
+          />
         </div>
-      </form>
 
-      <div className="hr">Or Login With</div>
+        <Text>
+          New to Netflix? <RouteLink to="/register">Sign up now.</RouteLink>
+        </Text>
+        <Text>
+          Forgot Password?
+          <RouteLink to="/forgot_password"> Get it back.</RouteLink>
+        </Text>
 
-      <div className="social">
-        <GoogleLogin
-          clientId="995505543329-q9ug4f4eqvp402h4vv16963e3pi2oro0.apps.googleusercontent.com"
-          buttonText="Login with google"
-          onSuccess={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
-
-        <FacebookLogin
-          appId="467718794599736"
-          autoLoad={false}
-          fields="name,email,picture"
-          callback={responseFacebook}
-        />
-      </div>
-
-      <p>
-        New Member? <Link to="/register">Register</Link>
-      </p>
+        <TextSmall>
+          This page is protected by Google reCAPTCHA to ensure you're not a bot.
+          Learn more.
+        </TextSmall>
+      </Container>
     </div>
   );
 };
