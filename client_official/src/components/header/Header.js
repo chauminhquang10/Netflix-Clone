@@ -17,6 +17,14 @@ function OnScroll() {
   } else {
     document.getElementById("Header").style.backgroundColor = "transparent";
   }
+  if (
+    document.body.scrollTop > 1000 ||
+    document.documentElement.scrollTop > 1000
+  ) {
+    document.getElementById("Header").style.display = "none";
+  } else {
+    document.getElementById("Header").style.display = "grid";
+  }
 }
 
 const Header = () => {
@@ -82,7 +90,7 @@ const Header = () => {
   };
 
   return (
-    <header id="Header" style={{ backgroundColor: "transparent" }}>
+    <header id="Header">
       <div className="logo">
         <h1>
           <Link to="/">

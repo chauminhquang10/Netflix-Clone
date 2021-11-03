@@ -4,10 +4,11 @@ import {
 } from "@material-ui/icons";
 import "./List.scss";
 import React, { useContext, useState, useRef } from "react";
-import { GlobalState } from "../../../../GlobalState";
 import MovieItem from "../MovieItem";
-import axios from "axios";
 import ListItem from "./listItem/ListItem";
+import { SwiperSlide, Swiper } from "swiper/react";
+import { OutlineButton } from "../../../button/Button";
+import { Link } from "react-router-dom";
 
 const List = ({ title, movies }) => {
   const listRef = useRef();
@@ -36,7 +37,12 @@ const List = ({ title, movies }) => {
 
   return (
     <div className="list">
-      <span className="listTitle">{title}</span>
+      <div className="list_header">
+        <span className="listTitle">{title}</span>
+        <Link to="/movies">
+          <OutlineButton className="small">view more</OutlineButton>
+        </Link>
+      </div>
       <div className="wrapper">
         <ArrowBackIosOutlined
           className="sliderArrow left"

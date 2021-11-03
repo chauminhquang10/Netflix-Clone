@@ -8,14 +8,14 @@ header {
   position: sticky;
   top: 0;
   z-index: 999;
-  background-color: white;
   transition: 1s all;
+  background-color: "transparent";
 }
 
 .header_ul {
   display: grid;
   grid-template-columns: auto auto auto auto 1fr;
-  column-gap: 20px;
+  column-gap: 40px;
   align-items: flex-start;
 }
 
