@@ -4,9 +4,10 @@ import { GlobalState } from "../../../GlobalState";
 import CastList from "./CastList";
 import VideoList from "./VideoList";
 import "./MovieDetail.scss";
-
+import { Button } from "../../button/Button";
+import { PlayArrow } from "@material-ui/icons";
 import MovieList from "../movie-list/MovieList";
-
+import AddIcon from "@mui/icons-material/Add";
 import { OutlineButton } from "../../button/Button";
 
 const MovieDetail = () => {
@@ -102,13 +103,24 @@ const MovieDetail = () => {
               <h2>Casts</h2>
             </div>
             <CastList />
-            <Link
-              to="/favorite"
-              className="watchlist"
-              onClick={() => addToWatchList(movieDetail)}
-            >
-              Add to Watchlist
-            </Link>
+            <div className="movie_detail_buttons">
+              <div className="buttons">
+                <button className="play">
+                  <PlayArrow />
+                  <span>Play</span>
+                </button>
+
+                <Link
+                  to="/favorite"
+                  onClick={() => addToWatchList(movieDetail)}
+                >
+                  <button className="more">
+                    <AddIcon />
+                    My List
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

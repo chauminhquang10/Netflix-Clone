@@ -1,8 +1,8 @@
 @use "../../../scss/breakpoint" as *;
 
-.movie-list {
+.movie_detail_list {
   .swiper-slide {
-    width: 15%;
+    width: fit-content;
 
     @include tablet {
       width: 30%;
