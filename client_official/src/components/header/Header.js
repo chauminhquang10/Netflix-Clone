@@ -37,22 +37,22 @@ const Header = () => {
     window.location.href = "/";
   };
 
-  const adminRouter = () => {
-    return (
-      <>
-        <li className="header_li">
-          <Link className="header_Link" to="/genre">
-            Genres
-          </Link>
-        </li>
-        <li className="header_li">
-          <Link className="header_Link" to="/create_movie">
-            Create Movie
-          </Link>
-        </li>
-      </>
-    );
-  };
+  // const adminRouter = () => {
+  //   return (
+  //     <>
+  //       <li className="header_li">
+  //         <Link className="header_Link" to="/genre">
+  //           Genres
+  //         </Link>
+  //       </li>
+  //       <li className="header_li">
+  //         <Link className="header_Link" to="/create_movie">
+  //           Create Movie
+  //         </Link>
+  //       </li>
+  //     </>
+  //   );
+  // };
 
   const loggedRouter = () => {
     return (
@@ -98,7 +98,9 @@ const Header = () => {
           </li>
         )}
 
-        {isAdmin && adminRouter()}
+        {/* không cần thiết, xử lí phần admin router ở sidebar */}
+        {/* {isAdmin && adminRouter()} */}
+
         {/* <li>
           <div className="hd_menu">
             <Clear className="menu"></Clear>

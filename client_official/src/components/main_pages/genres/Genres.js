@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { GlobalState } from "../../../GlobalState";
+
 import "./Genres.css";
 import axios from "axios";
 
@@ -68,32 +69,34 @@ const Genres = () => {
   };
 
   return (
-    <div className="genres">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="genre">Genre</label>
-        <input
-          type="text"
-          name="genre"
-          value={genre}
-          onChange={(e) => {
-            setGenre(e.target.value);
-          }}
-          required
-        ></input>
-        <button type="submit">{onEdit ? "Update" : "Create"}</button>
-      </form>
-      <div className="col">
-        {genres.map((genre) => (
-          <div className="row" key={genre._id}>
-            <p>{genre.name}</p>
-            <div>
-              <button onClick={() => editGenre(genre._id, genre.name)}>
-                Edit
-              </button>
-              <button onClick={() => deleteGenre(genre._id)}>Delete</button>
+    <div className="genres-wrapper">
+      <div className="genres">
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="genre">Genre</label>
+          <input
+            type="text"
+            name="genre"
+            value={genre}
+            onChange={(e) => {
+              setGenre(e.target.value);
+            }}
+            required
+          ></input>
+          <button type="submit">{onEdit ? "Update" : "Create"}</button>
+        </form>
+        <div className="col">
+          {genres.map((genre) => (
+            <div className="row" key={genre._id}>
+              <p>{genre.name}</p>
+              <div>
+                <button onClick={() => editGenre(genre._id, genre.name)}>
+                  Edit
+                </button>
+                <button onClick={() => deleteGenre(genre._id)}>Delete</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
