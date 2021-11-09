@@ -3,17 +3,19 @@ header {
   width: 100%;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 7fr 1fr;
   align-items: center;
-  background-color: #181414;
   position: sticky;
   top: 0;
   z-index: 999;
+  transition: 1s all;
+  background-color: "transparent";
 }
 
 .header_ul {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: auto auto auto auto 1fr;
+  column-gap: 40px;
   align-items: flex-start;
 }
 
@@ -25,6 +27,7 @@ header {
 
 .header_Link:hover {
   cursor: pointer;
+  opacity: 0.5;
 }
 
 .header_lastItem {

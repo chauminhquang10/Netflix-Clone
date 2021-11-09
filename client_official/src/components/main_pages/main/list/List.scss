@@ -1,6 +1,10 @@
 .list {
   width: 100%;
   margin-top: 10px;
+  .list_header {
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+  }
   .listTitle {
     color: white;
     font-size: 20px;
@@ -31,8 +35,7 @@
         right: 0;
       }
     }
-
-    .container {
+    .list_container {
       margin-left: 50px;
       display: flex;
       width: max-content;

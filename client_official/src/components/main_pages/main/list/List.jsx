@@ -4,42 +4,55 @@ import {
 } from "@material-ui/icons";
 import "./List.scss";
 import React, { useContext, useState, useRef } from "react";
-import { GlobalState } from "../../../../GlobalState";
 import MovieItem from "../MovieItem";
-import axios from "axios";
 import ListItem from "./listItem/ListItem";
+import { SwiperSlide, Swiper } from "swiper/react";
+import { OutlineButton } from "../../../button/Button";
+import { Link } from "react-router-dom";
 
-const List = ({ title, genre }) => {
+const List = ({ title, movies }) => {
   const listRef = useRef();
-  const state = useContext(GlobalState);
-  const [movies, setMovies] = state.moviesAPI.movies;
   const [slideNumber, setSlideNumber] = useState(0);
 
   const handleClick = (direction) => {
     let distance = listRef.current.getBoundingClientRect().x - 50;
     if (direction === "left" && slideNumber > 0) {
-      setSlideNumber(slideNumber - 1);
-      listRef.current.style.transform = `translateX(${230 + distance}px)`;
-    } else if (direction === "right" && slideNumber < 4) {
-      setSlideNumber(slideNumber + 1);
-      listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+      if (direction === "left" && slideNumber == 1) {
+        setSlideNumber(slideNumber - 1);
+        listRef.current.style.transform = `translateX(${340 + distance}px)`;
+      } else {
+        setSlideNumber(slideNumber - 1);
+        listRef.current.style.transform = `translateX(${290 + distance}px)`;
+      }
+    } else if (direction === "right" && slideNumber < 3) {
+      if (direction === "right" && slideNumber == 0) {
+        setSlideNumber(slideNumber + 1);
+        listRef.current.style.transform = `translateX(${-340 + distance}px)`;
+      } else {
+        setSlideNumber(slideNumber + 1);
+        listRef.current.style.transform = `translateX(${-290 + distance}px)`;
+      }
     }
   };
 
   return (
     <div className="list">
-      <span className="listTitle">{title}</span>
+      <div className="list_header">
+        <span className="listTitle">{title}</span>
+        <Link to="/movies">
+          <OutlineButton className="small">view more</OutlineButton>
+        </Link>
+      </div>
       <div className="wrapper">
         <ArrowBackIosOutlined
           className="sliderArrow left"
           onClick={() => handleClick("left")}
           style={{ display: slideNumber === 0 && "none" }}
         ></ArrowBackIosOutlined>
-        <div className="container" ref={listRef}>
-          {movies.map(
-            (movie, index) =>
-              movie.genre === genre && <MovieItem movie={movie}></MovieItem>
-          )}
+        <div className="list_container" ref={listRef}>
+          {movies.map((movie, index) => (
+            <MovieItem movie={movie}></MovieItem>
+          ))}
         </div>
         <ArrowForwardIosOutlined
           className="sliderArrow right"

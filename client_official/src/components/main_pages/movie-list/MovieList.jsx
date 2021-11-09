@@ -10,7 +10,7 @@ import MovieItem from "../movies/MovieItem";
 
 const MovieList = ({ movies, movieDetail }) => {
   return (
-    <div className="movie-list">
+    <div className="movie_detail_list">
       <Swiper grabCursor={true} spaceBetween={10} slidesPerView={"auto"}>
         {movies.map((movie, index) => {
           return movie.genre === movieDetail.genre &&

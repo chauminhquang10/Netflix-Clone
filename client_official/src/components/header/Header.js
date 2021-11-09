@@ -7,6 +7,26 @@ import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserProfile";
 
+window.onscroll = () => {
+  OnScroll();
+};
+
+function OnScroll() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("Header").style.backgroundColor = "black";
+  } else {
+    document.getElementById("Header").style.backgroundColor = "transparent";
+  }
+  if (
+    document.body.scrollTop > 1000 ||
+    document.documentElement.scrollTop > 1000
+  ) {
+    document.getElementById("Header").style.display = "none";
+  } else {
+    document.getElementById("Header").style.display = "grid";
+  }
+}
+
 const Header = () => {
   const state = useContext(GlobalState);
 
@@ -70,7 +90,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header id="Header">
       <div className="logo">
         <h1>
           <Link to="/">
