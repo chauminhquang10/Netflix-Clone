@@ -3,9 +3,9 @@ import "./Feature.scss";
 import { Button, OutlineButton } from "../../../button/Button";
 
 function OnScroll() {
-  let offset = window.pageYOffset;
-  document.getElementById("bigImg").style.backgroundPositionY =
-    offset * 0.2 + "px";
+  // let offset = window.pageYOffset;
+  // document.getElementById("bigImg").style.backgroundPositionY =
+  //   offset * 0.2 + "px";
 }
 window.onscroll = () => {
   OnScroll();

@@ -12,19 +12,19 @@ window.onscroll = () => {
 };
 
 function OnScroll() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("Header").style.backgroundColor = "black";
-  } else {
-    document.getElementById("Header").style.backgroundColor = "transparent";
-  }
-  if (
-    document.body.scrollTop > 1000 ||
-    document.documentElement.scrollTop > 1000
-  ) {
-    document.getElementById("Header").style.display = "none";
-  } else {
-    document.getElementById("Header").style.display = "grid";
-  }
+  // if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  //   document.getElementById("Header").style.backgroundColor = "black";
+  // } else {
+  //   document.getElementById("Header").style.backgroundColor = "transparent";
+  // }
+  // if (
+  //   document.body.scrollTop > 1000 ||
+  //   document.documentElement.scrollTop > 1000
+  // ) {
+  //   document.getElementById("Header").style.display = "none";
+  // } else {
+  //   document.getElementById("Header").style.display = "grid";
+  // }
 }
 
 const Header = () => {

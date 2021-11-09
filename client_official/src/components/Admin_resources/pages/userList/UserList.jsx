@@ -202,11 +202,11 @@ const UserList = () => {
                   <TableCell>
                     {userData._id !== user._id ? (
                       <>
-                        <AdminButtons color="primary">
-                          <Link to={`/edit_user/${user._id}`}>
+                        <Link to={`/edit_user/${user._id}`}>
+                          <AdminButtons color="primary">
                             <EditOutlinedIcon fontSize="small" />
-                          </Link>
-                        </AdminButtons>
+                          </AdminButtons>
+                        </Link>
                         <AdminButtons
                           color="secondary"
                           onClick={() => handleDelete(user._id)}

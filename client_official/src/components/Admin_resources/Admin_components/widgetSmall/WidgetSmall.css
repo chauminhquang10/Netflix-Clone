@@ -9,6 +9,7 @@
 .widgetSmallTitle {
   font-size: 22px;
   font-weight: 600;
+  color: #333;
 }
 
 .widgetSmallImg {
@@ -38,6 +39,7 @@
 
 .widgetSmallUsername {
   font-weight: 600;
+  color: black;
 }
 
 .widgetSmallJob {

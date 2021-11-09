@@ -4,7 +4,7 @@
   background-color: white;
   position: sticky;
   top: 0;
-  z-index: 999999999999;
+  z-index: 999;
 }
 
 .topbarWrapper {
@@ -20,10 +20,6 @@
   font-size: 30px;
   color: darkblue;
   cursor: pointer;
-}
-
-.logo:hover {
-  color: #1e81b0;
 }
 
 .topRight {

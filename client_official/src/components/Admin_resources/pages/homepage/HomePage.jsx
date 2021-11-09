@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./HomePage.css";
 import FeaturedInfo from "../../Admin_components/featuredInfo/FeaturedInfo";
 import Chart from "../../Admin_components/chart/Chart";
 import WidgetLarge from "../../Admin_components/WidgetLarge/WidgetLarge";
 import WidgetSmall from "../../Admin_components/widgetSmall/WidgetSmall";
+import { GlobalState } from "../../../../GlobalState";
 
 const HomePage = () => {
   const months = [
@@ -21,15 +22,18 @@ const HomePage = () => {
     "Nov",
     "Dec",
   ];
+
+  const state = useContext(GlobalState);
+  const [token] = state.token;
+
   const [userStats, setUserStats] = useState([]);
 
   useEffect(() => {
     const getStats = async () => {
       try {
-        const res = await axios.get("/users/stats", {
+        const res = await axios.get("/user/stats", {
           headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNjJmZWIwM2Q0NWQwMjhjNjJlMjc1NyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzMzg4NDEzOCwiZXhwIjoxNjM0MzE2MTM4fQ.bMIgOpjcn-aPlL0nRTYct0umO8gw01kfwlQKp8WtGdE",
+            Authorization: token,
           },
         });
         const statsList = res.data.sort(function (a, b) {
@@ -48,9 +52,8 @@ const HomePage = () => {
     getStats();
   }, []);
 
-  console.log(userStats);
   return (
-    <div className="home">
+    <div className="admin-home">
       <FeaturedInfo />
       <Chart
         data={userStats}

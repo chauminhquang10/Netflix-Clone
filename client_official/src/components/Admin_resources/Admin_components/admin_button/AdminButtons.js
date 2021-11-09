@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiButton-label": {
       color: theme.palette.primary.main,
     },
-    paddingTop: theme.spacing(1.5),
   },
 }));
 

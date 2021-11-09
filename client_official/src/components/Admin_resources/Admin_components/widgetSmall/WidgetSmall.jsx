@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { GlobalState } from "../../../../GlobalState";
 import "./WidgetSmall.css";
 import axios from "axios";
 import { Visibility } from "@material-ui/icons";
 
 const WidgetSmall = () => {
+  const state = useContext(GlobalState);
+  const [token] = state.token;
   const [newUsers, setNewUsers] = useState([]);
   useEffect(() => {
     const getNewUsers = async () => {
       try {
-        const res = await axios.get("/users?new=true", {
+        const res = await axios.get("/user/newUsers", {
           headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNjJmZWIwM2Q0NWQwMjhjNjJlMjc1NyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzMzg4NDEzOCwiZXhwIjoxNjM0MzE2MTM4fQ.bMIgOpjcn-aPlL0nRTYct0umO8gw01kfwlQKp8WtGdE",
+            Authorization: token,
           },
         });
         setNewUsers(res.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getNewUsers();
-  }, []);
+  }, [token]);
   return (
     <div className="widgetSmall">
       <span className="widgetSmallTitle">New Join Members</span>
@@ -29,13 +32,13 @@ const WidgetSmall = () => {
           <li className="widgetSmallListItem">
             <img
               src={
-                user.profilePic ||
+                user.avatar ||
                 "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
               }
               className="widgetSmallImg"
             ></img>
             <div className="widgetSmallUser">
-              <span className="widgetSmallUsername">{user.username}</span>
+              <span className="widgetSmallUsername">{user.name}</span>
             </div>
             <button className="widgetSmallButton">
               <Visibility className="widgetSmallIcon"></Visibility>

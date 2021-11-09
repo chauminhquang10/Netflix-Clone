@@ -8,6 +8,7 @@
 .widgetLargeTitle {
   font-size: 22px;
   font-weight: 600;
+  color: #333;
 }
 
 .widgetLargeTable {
@@ -20,12 +21,14 @@
 
 .widgetLargeTh {
   text-align: left;
+  color: #333;
 }
 
 .widgetLargeUser {
   display: flex;
   align-items: center;
   font-weight: 600;
+  color: #333;
 }
 
 .widgetLargeImg {
@@ -39,6 +42,7 @@
 .widgetLargeDate,
 .widgetLargeAmount {
   font-weight: 300;
+  color: #555;
 }
 
 .widgetLargeButton {
