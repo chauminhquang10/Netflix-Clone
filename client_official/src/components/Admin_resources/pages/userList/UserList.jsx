@@ -8,6 +8,7 @@ import {
   TableRow,
   TableSortLabel,
 } from "@material-ui/core";
+
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import {
@@ -19,7 +20,7 @@ import { Check, Clear } from "@material-ui/icons";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 
-import AdminButtons from "../../Admin_components/admin_button/AdminButtons";
+import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 
 import { Link } from "react-router-dom";
 
@@ -190,7 +191,11 @@ const UserList = () => {
               {recordsAfterPagingAndSorting().map((user, index) => (
                 <TableRow key={index}>
                   <TableCell>{user._id}</TableCell>
-                  <TableCell>{user.name}</TableCell>
+                  <TableCell>
+                    {user.name.replace(/\w\S*/g, (w) =>
+                      w.replace(/^\w/, (c) => c.toUpperCase())
+                    )}
+                  </TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
                     {user.role === 1 ? (
@@ -203,16 +208,16 @@ const UserList = () => {
                     {userData._id !== user._id ? (
                       <>
                         <Link to={`/edit_user/${user._id}`}>
-                          <AdminButtons color="primary">
+                          <AdminActionButtons color="primary">
                             <EditOutlinedIcon fontSize="small" />
-                          </AdminButtons>
+                          </AdminActionButtons>
                         </Link>
-                        <AdminButtons
+                        <AdminActionButtons
                           color="secondary"
                           onClick={() => handleDelete(user._id)}
                         >
                           <CloseIcon fontSize="small" />
-                        </AdminButtons>
+                        </AdminActionButtons>
                       </>
                     ) : (
                       ""

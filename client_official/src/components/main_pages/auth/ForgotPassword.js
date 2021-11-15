@@ -3,6 +3,7 @@ import {
   showErrMessage,
   showSuccessMessage,
 } from "../utils/notifications/Notification";
+import { Container, Base, Title, Input, Submit } from "./styles";
 import axios from "axios";
 import { isEmail } from "../utils/validation/Validation";
 import "./ForgotPassword.css";
@@ -35,22 +36,48 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot_password">
-      <h2>Forgot Your Password?</h2>
+    // <div className="forgot_password">
+    //   <h2>Forgot Your Password?</h2>
 
-      <div className="row">
+    //   <div className="row">
+    //     {err && showErrMessage(err)}
+    //     {success && showSuccessMessage(success)}
+    //     <label htmlFor="email">Enter your email</label>
+    //     <input
+    //       type="email"
+    //       name="email"
+    //       id="email"
+    //       value={email}
+    //       onChange={handleChangeInput}
+    //     ></input>
+    //     <button onClick={handleForgotPassword}>Verify your email</button>
+    //   </div>
+    // </div>
+
+    <div
+      className="footer"
+      style={{
+        backgroundImage: `url(https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1635778140/TestMovie/footer-bg_balrrj.jpg)`,
+      }}
+    >
+      <Container style={{ minHeight: "400px" }}>
+        <Title>Reset Password</Title>
         {err && showErrMessage(err)}
         {success && showSuccessMessage(success)}
-        <label htmlFor="email">Enter your email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={handleChangeInput}
-        ></input>
-        <button onClick={handleForgotPassword}>Verify your email</button>
-      </div>
+        <Base onSubmit={handleForgotPassword}>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder="Email address"
+            value={email}
+            onChange={handleChangeInput}
+          />
+
+          <Submit type="submit">Verify your email</Submit>
+        </Base>
+      </Container>
     </div>
   );
 };

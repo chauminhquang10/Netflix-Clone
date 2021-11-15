@@ -1,8 +1,4 @@
-.productList {
-  flex: 4;
-}
-
-.productListItem {
+/* .productListItem {
   display: flex;
   align-items: center;
 }
@@ -28,4 +24,8 @@
 .productListDelete {
   color: red;
   cursor: pointer;
+} */
+
+.admin-movies-list {
+  flex: 4;
 }

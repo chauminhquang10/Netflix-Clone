@@ -1,40 +1,48 @@
-.newProduct {
+.newMovie {
   flex: 4;
   padding: 20px;
 }
 
-.addProductForm {
+.addMovieForm {
   margin-top: 10px;
 }
 
-.addProductItem {
+.addMovieTitle {
+  color: #333;
+}
+
+.addMovieItem {
   width: 250px;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
 
-.addProductItem > label {
+.addMovieItem > label {
   color: gray;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.addProductItem > input {
+.addMovieItem > input {
   padding: 10px;
 }
 
-.addProductItem > select {
+.addMovieItem > select {
   padding: 10px;
 }
 
-.addProductButton {
+.addMovieButton {
   margin-top: 10px;
-  padding: 7px 10px;
+  padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background-color: darkblue;
+  background-color: blue;
   color: white;
   font-weight: 600;
   cursor: pointer;
+}
+
+.addMovieButton:hover {
+  background-color: darkblue;
 }

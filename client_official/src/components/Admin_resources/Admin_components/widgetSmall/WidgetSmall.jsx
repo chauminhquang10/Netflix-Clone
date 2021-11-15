@@ -38,7 +38,11 @@ const WidgetSmall = () => {
               className="widgetSmallImg"
             ></img>
             <div className="widgetSmallUser">
-              <span className="widgetSmallUsername">{user.name}</span>
+              <span className="widgetSmallUsername">
+                {user.name.replace(/\w\S*/g, (w) =>
+                  w.replace(/^\w/, (c) => c.toUpperCase())
+                )}
+              </span>
             </div>
             <button className="widgetSmallButton">
               <Visibility className="widgetSmallIcon"></Visibility>

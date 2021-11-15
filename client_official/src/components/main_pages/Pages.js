@@ -8,7 +8,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import NotFound from "./utils/notfound/NotFound";
 import MovieDetail from "./movie_detail/MovieDetail";
-import Genres from "./genres/Genres";
+import AdminGenres from "./genres/AdminGenres";
 import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
 import ForgotPassword from "./auth/ForgotPassword";
@@ -57,24 +57,14 @@ const Pages = () => {
             ></Route>
 
             {/* Edit phim */}
-            <Route
-              path="/products/:productId"
-              component={isAdmin ? EditMovie : NotFound}
-            />
+
             <Route
               path="/edit_movie/:id"
-              component={isAdmin ? CreateMovie : NotFound}
+              component={isAdmin ? EditMovie : NotFound}
             />
 
             {/* Tạo phim */}
-            <Route
-              path="/newProduct"
-              component={isAdmin ? NewMovie : NotFound}
-            />
-            <Route
-              path="/create_movie"
-              component={isAdmin ? CreateMovie : NotFound}
-            />
+            <Route path="/newMovie" component={isAdmin ? NewMovie : NotFound} />
 
             <Route
               path="/profile"
@@ -82,7 +72,10 @@ const Pages = () => {
             />
 
             {/* Thể loại */}
-            <Route path="/genres" component={isAdmin ? Genres : NotFound} />
+            <Route
+              path="/genres"
+              component={isAdmin ? AdminGenres : NotFound}
+            />
 
             <Route path="*" component={NotFound} />
           </Switch>

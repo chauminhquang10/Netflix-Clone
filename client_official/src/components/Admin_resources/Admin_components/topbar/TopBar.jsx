@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
 import "./TopBar.css";
+import Userlink from "../../../UserLink/UserLink";
+import { GlobalState } from "../../../../GlobalState";
+import axios from "axios";
 
 const TopBar = () => {
+  const state = useContext(GlobalState);
+  const [userData] = state.usersAPI.userData;
+
+  const logoutUser = async () => {
+    await axios.get("/user/logout");
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -12,7 +23,7 @@ const TopBar = () => {
         </div>
         <div className="topRight">
           <div className="topbarIconContainer">
-            <NotificationsNone></NotificationsNone>
+            <NotificationsNone style={{ fontSize: "20px" }} />
             <span className="topIconBadge">2</span>
           </div>
           <div className="topbarIconContainer">
@@ -22,10 +33,12 @@ const TopBar = () => {
           <div className="topbarIconContainer">
             <Settings />
           </div>
-          <img
-            className="topAvatar"
-            src="https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1633587460/avatar/b39244lnkpdl8jtgwca3.jpg"
-          ></img>
+          <Userlink
+            logout={logoutUser}
+            userName={userData.name}
+            userAvatar={userData.avatar}
+            userMail={userData.email}
+          />
         </div>
       </div>
     </div>

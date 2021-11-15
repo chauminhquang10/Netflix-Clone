@@ -5,7 +5,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
-import UserLink from "../UserLink/UserProfile";
+import UserLink from "../UserLink/UserLink";
 
 window.onscroll = () => {
   OnScroll();

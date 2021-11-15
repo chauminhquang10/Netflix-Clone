@@ -29,3 +29,11 @@
   color: red;
   cursor: pointer;
 }
+
+.check-icon {
+  color: green;
+}
+
+.clear-icon {
+  color: crimson;
+}

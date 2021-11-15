@@ -4,6 +4,7 @@ import axios from "axios";
 const MoviesAPI = () => {
   const [movies, setMovies] = useState([]);
   const [moviesCallback, setMoviesCallback] = useState(false);
+
   //using for filter movies
   const [genre, setGenre] = useState("");
   const [sort, setSort] = useState("");

@@ -3,12 +3,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
-import "./UserProfile.css";
+import "./UserLink.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-const UserProfile = ({ logout, userName, userAvatar, userMail }) => {
+const UserLink = ({ logout, userName, userAvatar, userMail }) => {
   const [avatar1, setAvatar1] = useState(true);
   const [avatar2, setAvatar2] = useState(true);
   const [avatar3, setAvatar3] = useState(true);
@@ -92,4 +92,4 @@ const UserProfile = ({ logout, userName, userAvatar, userMail }) => {
   );
 };
 
-export default UserProfile;
+export default UserLink;
