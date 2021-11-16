@@ -23,25 +23,27 @@ const EditMovie = () => {
   const [token] = state.token;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [movie, setMovie] = useState(initialState);
+  const [movies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
   const [img, setImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   //hiển thị thể loại của phim
   const [movieGenre, setMovieGenre] = useState([]);
 
   useEffect(() => {
-    const getMovie = async () => {
-      if (param.id) {
-        const res = await axios.get(`/api/movies/${param.id}`);
-        setMovie(res.data);
-        setImg(res.data.img);
-      }
-    };
-    getMovie();
-  }, [param.id]);
+    if (param.id) {
+      movies.forEach((movie) => {
+        if (movie._id === param.id) {
+          setMovie(movie);
+          setImg(movie.img);
+        }
+      });
+    }
+  }, [param.id, movies]);
 
   useEffect(() => {
     if (movie) {
@@ -124,6 +126,7 @@ const EditMovie = () => {
           },
         }
       );
+      setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {
       alert(error.response.data.msg);

@@ -61,10 +61,12 @@ const SideBar = () => {
                 Genres
               </li>
             </Link>
-            <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
+            <Link to="/genres" className="link">
+              <li className="sidebarListItem">
+                <AttachMoney className="sidebarIcon" />
+                Lists
+              </li>
+            </Link>
           </ul>
         </div>
         <div className="sidebarMenu">

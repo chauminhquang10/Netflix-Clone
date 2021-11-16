@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "./MovieItem";
 import Filter from "./Filter";
-import LoadMore from "./LoadMore";
+import Pagination from "./Pagination";
 import "./Movies.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
@@ -15,8 +15,23 @@ const Movies = () => {
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
+
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
+
+  // phân trang trên front end
+  const [currentPage, setCurrentPage] = useState(1);
+  const [moviesPerPage, setMoviesPerPage] = useState(20);
+
+  // index của last Movie tuy là 10 , 20 ,... nhưng hàm slice nó k lấy (nó chỉ lấy 9,19,....)
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+
+  //Chuyển trang
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleCheck = (id) => {
     movies.forEach((movie) => {
@@ -90,7 +105,7 @@ const Movies = () => {
       )}
 
       <div className="movies">
-        {movies.map((movie) => {
+        {currentMovies.map((movie) => {
           return (
             <MovieItem
               key={movie._id}
@@ -102,7 +117,13 @@ const Movies = () => {
           );
         })}
       </div>
-      <LoadMore></LoadMore>
+
+      <Pagination
+        moviesPerPage={moviesPerPage}
+        totalMovies={movies.length}
+        paginate={paginate}
+      ></Pagination>
+
       {movies.length === 0 && (
         <div className="loading">
           <PuffLoader color={"#36D7B7"} loading={true} size={60} />

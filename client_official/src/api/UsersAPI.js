@@ -65,9 +65,25 @@ const UsersAPI = (token) => {
           },
         }
       );
-    } else {
-      alert("This movie has been added to your watchlist!");
     }
+  };
+
+  const removeFromWatchList = async (id) => {
+    watchList.forEach((item, index) => {
+      if (item._id === id) {
+        watchList.splice(index, 1);
+      }
+    });
+    setWatchList([...watchList]);
+    await axios.patch(
+      "/user/addwatchlist",
+      { watchlist: watchList },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
   };
 
   return {
@@ -75,6 +91,7 @@ const UsersAPI = (token) => {
     isAdmin: [isAdmin, setIsAdmin],
     watchList: [watchList, setWatchList],
     addToWatchList: addToWatchList,
+    removeFromWatchList: removeFromWatchList,
     userData: [userData, setUserData],
     allUsers: [allUsers, setAllUsers],
     callback: [callback, setCallback],

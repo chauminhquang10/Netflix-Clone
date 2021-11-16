@@ -53,10 +53,8 @@ const MovieList = () => {
   const state = useContext(GlobalState);
 
   const [token] = state.token;
-
-  const [movies, setMovies] = useState([]);
-
-  const [callback, setCallback] = useState(false);
+  const [movies, setMovies] = state.moviesAPI.movies;
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
@@ -94,14 +92,6 @@ const MovieList = () => {
     },
   ];
 
-  useEffect(() => {
-    const getMovies = async () => {
-      const res = await axios.get("/api/allMovies");
-      setMovies(res.data);
-    };
-    getMovies();
-  }, [callback]);
-
   const handleCheck = (id) => {
     movies.forEach((movie) => {
       if (movie._id === id) movie.checked = !movie.checked;
@@ -127,7 +117,7 @@ const MovieList = () => {
       });
       await deleteImg;
       await delMovie;
-      setCallback(!callback);
+      setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }

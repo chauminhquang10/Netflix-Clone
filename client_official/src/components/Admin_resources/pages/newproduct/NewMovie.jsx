@@ -23,6 +23,7 @@ const initialState = {
 
 const NewMovie = () => {
   const [movie, setMovie] = useState(initialState);
+
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
@@ -31,6 +32,7 @@ const NewMovie = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -103,7 +105,7 @@ const NewMovie = () => {
           },
         }
       );
-
+      setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {
       alert(error.response.data.msg);
