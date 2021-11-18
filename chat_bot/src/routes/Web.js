@@ -1,13 +1,14 @@
 import express from "express";
-import homeController from "../controllers/HomeController";
+import HomeController from "../controllers/HomeController";
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-  router.get("/", homeController.getHomePage);
+  router.get("/", HomeController.getHomePage);
 
-  router.post("/webhook", homeController.postWebhook);
-  router.get("/webhook", homeController.getWebhook);
+  router.post("/webhook", HomeController.postWebHook);
+  router.get("/webhook", HomeController.getWebHook);
+
   return app.use("/", router);
 };
 
