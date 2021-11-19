@@ -5,10 +5,10 @@ import {
 import "./List.scss";
 import React, { useContext, useState, useRef } from "react";
 import MovieItem from "../MovieItem";
-import ListItem from "./listItem/ListItem";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { OutlineButton } from "../../../button/Button";
 import { Link } from "react-router-dom";
+import ListItem from "./listItem/ListItem";
 
 const List = ({ title, movies }) => {
   const listRef = useRef();
@@ -51,7 +51,7 @@ const List = ({ title, movies }) => {
         ></ArrowBackIosOutlined>
         <div className="list_container" ref={listRef}>
           {movies.map((movie, index) => (
-            <MovieItem movie={movie}></MovieItem>
+            <ListItem movie={movie}></ListItem>
           ))}
         </div>
         <ArrowForwardIosOutlined

@@ -5,9 +5,9 @@ import "./Filter.css";
 const Filter = () => {
   const state = useContext(GlobalState);
   const [genre, setGenre] = state.moviesAPI.genre;
+  const [genres] = state.genresAPI.genres;
   const [search, setSearch] = state.moviesAPI.search;
   const [sort, setSort] = state.moviesAPI.sort;
-  const [genres] = state.genresAPI.genres;
 
   const handleGenre = (e) => {
     setGenre(e.target.value);
@@ -27,13 +27,6 @@ const Filter = () => {
           ))}
         </select>
       </div>
-
-      <input
-        type="text"
-        value={search}
-        placeholder="Search..."
-        onChange={(e) => setSearch(e.target.value.toLowerCase())}
-      ></input>
 
       <div className="row">
         <span>Sort By:</span>

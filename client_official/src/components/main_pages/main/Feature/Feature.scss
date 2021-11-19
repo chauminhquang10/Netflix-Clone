@@ -4,10 +4,12 @@
   top: 0;
 
   .titleImg {
+    width: 420px;
+    height: 190px;
+    top: 30px;
+    left: 50px;
+    object-fit: cover;
     position: absolute;
-    top: -20%;
-    margin-left: 2%;
-    filter: brightness(150%);
   }
 
   .poster_card {
@@ -25,6 +27,7 @@
 
     .small_img {
       position: absolute;
+      z-index: 3;
     }
   }
 
@@ -35,17 +38,18 @@
   }
   .category {
     position: absolute;
-    top: 80px;
+    top: 40px;
     left: 50px;
     font-size: 30px;
     font-weight: 500;
     color: white;
     display: flex;
     align-items: center;
+    z-index: 100;
 
     select {
       cursor: pointer;
-      background-color: var(--main-color);
+      background-color: black;
       border: 1px solid white;
       color: white;
       margin-left: 20px;
@@ -64,7 +68,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(50%);
+    // filter: brightness(50%);
   }
 
   .info {
