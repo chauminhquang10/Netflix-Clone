@@ -5,30 +5,27 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
-import UserLink from "../UserLink/UserProfile";
-import "./SearchBar.scss";
+import UserLink from "../UserLink/UserLink";
+
 
 window.onscroll = () => {
   OnScroll();
 };
 
 function OnScroll() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("Header").style.backgroundColor = "black";
-  } else {
-    document.getElementById("Header").style.backgroundColor = "transparent";
-  }
-  if (document.documentElement.scrollTop > 1000) {
-    document.getElementById("Header").style.display = "none";
-  }
+  // if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  //   document.getElementById("Header").style.backgroundColor = "black";
+  // } else {
+  //   document.getElementById("Header").style.backgroundColor = "transparent";
+  // }
   // if (
-  //   document.body.scrollTop < 100 ||
-  //   document.documentElement.scrollTop < 100
-  // )
-  else {
-    if (document.documentElement.scrollTop < 800)
-      document.getElementById("Header").style.display = "grid";
-  }
+  //   document.body.scrollTop > 1000 ||
+  //   document.documentElement.scrollTop > 1000
+  // ) {
+  //   document.getElementById("Header").style.display = "none";
+  // } else {
+  //   document.getElementById("Header").style.display = "grid";
+  // }
 }
 
 const Header = () => {
@@ -61,22 +58,25 @@ const Header = () => {
     localStorage.clear();
     window.location.href = "/";
   };
-  const adminRouter = () => {
-    return (
-      <>
-        <li className="header_li">
-          <Link className="header_Link" to="/genre">
-            Genres
-          </Link>
-        </li>
-        <li className="header_li">
-          <Link className="header_Link" to="/create_movie">
-            Create Movie
-          </Link>
-        </li>
-      </>
-    );
-  };
+
+
+  // const adminRouter = () => {
+  //   return (
+  //     <>
+  //       <li className="header_li">
+  //         <Link className="header_Link" to="/genre">
+  //           Genres
+  //         </Link>
+  //       </li>
+  //       <li className="header_li">
+  //         <Link className="header_Link" to="/create_movie">
+  //           Create Movie
+  //         </Link>
+  //       </li>
+  //     </>
+  //   );
+  // };
+
   const loggedRouter = () => {
     return (
       <>
@@ -119,7 +119,9 @@ const Header = () => {
           </li>
         )}
 
-        {isAdmin && adminRouter()}
+        {/* không cần thiết, xử lí phần admin router ở sidebar */}
+        {/* {isAdmin && adminRouter()} */}
+
         {/* <li>
           <div className="hd_menu">
             <Clear className="menu"></Clear>

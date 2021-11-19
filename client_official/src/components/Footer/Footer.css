@@ -28,6 +28,7 @@ footer {
 }
 .main-content {
   display: flex;
+  color: white;
 }
 .main-content .box {
   flex-basis: 50%;

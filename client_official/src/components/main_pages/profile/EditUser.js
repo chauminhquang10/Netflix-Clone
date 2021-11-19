@@ -14,7 +14,7 @@ const EditUser = () => {
   const [editUser, setEditUser] = useState([]);
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [allUsers, setAllUsers] = state.usersAPI.allUsers;
+  const [allUsers] = state.usersAPI.allUsers;
   const [callback, setCallback] = state.usersAPI.callback;
   const [checkAdmin, setCheckAdmin] = useState(false);
   const [err, setErr] = useState(false);

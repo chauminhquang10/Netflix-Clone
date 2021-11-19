@@ -1,18 +1,18 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { DataProvider } from "./GlobalState";
-import Header from "./components/header/Header";
+import MainHeader from "./components/main_header/MainHeader";
 import Pages from "./components/main_pages/Pages";
-import Footer from "./components/Footer2/Footer";
+import OfficialFooter from "./components/official_footer/OfficialFooter";
 
 function App() {
   return (
     <>
       <DataProvider>
         <Router>
-          <div className="App">
-            <Header></Header>
+          <div>
+            <MainHeader></MainHeader>
             <Pages></Pages>
-            <Footer />
+            <OfficialFooter />
           </div>
         </Router>
       </DataProvider>

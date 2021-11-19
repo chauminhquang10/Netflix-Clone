@@ -44,8 +44,8 @@ const movieController = {
     try {
       const features = new APIfeatures(Movies.find(), req.query)
         .filtering()
-        .sorting()
-        .paginating();
+        .sorting();
+
       const movies = await features.query;
       res.status(200).json({
         status: "success",
@@ -56,6 +56,23 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  // getAllMovies: async (req, res) => {
+  //   try {
+  //     const movies = await Movies.find();
+  //     res.status(200).json(movies);
+  //   } catch (error) {
+  //     return res.status(500).json({ msg: error.message });
+  //   }
+  // },
+  // //get a movie
+  // getOneMovie: async (req, res) => {
+  //   try {
+  //     const movie = await Movies.findById(req.params.id);
+  //     return res.status(200).json(movie);
+  //   } catch (error) {
+  //     return res.status(500).json({ msg: error.message });
+  //   }
+  // },
   createMovie: async (req, res) => {
     try {
       const {
@@ -82,8 +99,7 @@ const movieController = {
         title: title.toLowerCase(),
         desc,
         img,
-        imgTitle,
-        imgSmall,
+
         trailer,
         video,
         year,
@@ -111,8 +127,7 @@ const movieController = {
         title,
         desc,
         img,
-        imgTitle,
-        imgSmall,
+
         trailer,
         video,
         year,

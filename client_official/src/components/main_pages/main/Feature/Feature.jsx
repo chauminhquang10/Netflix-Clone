@@ -43,6 +43,7 @@ export default function Featured({
     setGenre(e.target.value);
   };
 
+
   return (
     <div className="featured" id="Feature">
       {type && (

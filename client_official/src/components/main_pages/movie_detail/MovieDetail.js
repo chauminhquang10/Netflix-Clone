@@ -8,6 +8,7 @@ import { Button } from "../../button/Button";
 import { PlayArrow } from "@material-ui/icons";
 import MovieList from "../movie-list/MovieList";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { OutlineButton } from "../../button/Button";
 
 const MovieDetail = () => {
@@ -16,7 +17,12 @@ const MovieDetail = () => {
   const [movies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
   const [movieDetail, setMovieDetail] = useState([]);
+  const [watchList, setWatchList] = state.usersAPI.watchList;
   const addToWatchList = state.usersAPI.addToWatchList;
+  const removeFromWatchList = state.usersAPI.removeFromWatchList;
+
+  //biến ktra xem movie detail này đã có trong watchList hay chưa?
+  const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
 
   //hiển thị thể loại của sản phẩm
   const [movieGenre, setMovieGenre] = useState([]);
@@ -38,6 +44,16 @@ const MovieDetail = () => {
       });
     }
   }, [movieDetail, genres]);
+
+  useEffect(() => {
+    if (movieDetail) {
+      watchList.forEach((item) => {
+        if (item._id === movieDetail._id) {
+          setIsAddedToWatchList(true);
+        }
+      });
+    }
+  }, [movieDetail, watchList]);
 
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
@@ -110,15 +126,29 @@ const MovieDetail = () => {
                   <span>Play</span>
                 </button>
 
-                <Link
-                  to="/favorite"
-                  onClick={() => addToWatchList(movieDetail)}
-                >
-                  <button className="more">
+                {isAddedToWatchList ? (
+                  <button
+                    className="more"
+                    onClick={() => {
+                      removeFromWatchList(movieDetail._id);
+                      setIsAddedToWatchList(false);
+                    }}
+                  >
+                    <RemoveIcon />
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    className="more"
+                    onClick={() => {
+                      addToWatchList(movieDetail);
+                      setIsAddedToWatchList(true);
+                    }}
+                  >
                     <AddIcon />
                     My List
                   </button>
-                </Link>
+                )}
               </div>
             </div>
           </div>

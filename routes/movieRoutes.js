@@ -8,8 +8,11 @@ router
   .get(movieController.getMovies)
   .post(auth, authAdmin, movieController.createMovie);
 
+// router.route("/allMovies").get(movieController.getAllMovies);
+
 router
   .route("/movies/:id")
+  // .get(movieController.getOneMovie)
   .delete(auth, authAdmin, movieController.deleteMovie)
   .put(auth, authAdmin, movieController.updateMovie);
 

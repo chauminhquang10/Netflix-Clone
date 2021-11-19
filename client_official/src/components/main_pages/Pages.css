@@ -1,0 +1,10 @@
+.admin-container {
+  display: flex;
+  margin-top: 10px;
+  background-color: white;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
