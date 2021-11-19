@@ -1,0 +1,9 @@
+.Grid_Img {
+  width: fit-content;
+  min-height: 190px;
+  object-fit: fill;
+  transition: all 0.75s;
+}
+.Grid_Img:hover {
+  transform: scale(1.1);
+}

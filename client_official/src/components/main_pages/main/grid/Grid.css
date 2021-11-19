@@ -1,0 +1,109 @@
+.grid_header {
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+  margin-top: 1em;
+  margin-left: 3em;
+}
+.gridTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.MP_First_Grid_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "one one  one   two   three"
+    "one one  one   five  four"
+    "ten nine eight seven six";
+  height: 100vh;
+  margin: 10px 10px 0 3em;
+  grid-gap: 5px;
+  max-height: 500px;
+}
+
+.MP_Second_Grid_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "two three  four   six   eight"
+    "five seven  one   one  one"
+    "ten nine one one one";
+  height: 100vh;
+  margin: 10px 10px 0 3em;
+  grid-gap: 5px;
+  max-height: 500px;
+}
+.Grid_1 {
+  grid-area: one;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_2 {
+  grid-area: two;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_3 {
+  grid-area: three;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_4 {
+  grid-area: four;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_5 {
+  grid-area: five;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_6 {
+  grid-area: six;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_7 {
+  grid-area: seven;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_8 {
+  grid-area: eight;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_9 {
+  grid-area: nine;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+.Grid_10 {
+  grid-area: ten;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}

@@ -34,7 +34,7 @@ class APIfeatures {
     const page = this.queryString.page * 1 || 1; // page number
     const limit = this.queryString.limit * 1 || 9; // page size (số phần tử 1 trang)
     const skip = (page - 1) * limit;
-    this.query = this.query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(99);
     return this;
   }
 }

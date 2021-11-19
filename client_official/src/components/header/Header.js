@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GlobalState } from "../../GlobalState";
-import { Menu, Clear } from "@material-ui/icons";
+import { Menu, Clear, ContactSupportOutlined } from "@material-ui/icons";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserProfile";
+import "./SearchBar.scss";
 
 window.onscroll = () => {
   OnScroll();
@@ -17,23 +18,27 @@ function OnScroll() {
   } else {
     document.getElementById("Header").style.backgroundColor = "transparent";
   }
-  if (
-    document.body.scrollTop > 1000 ||
-    document.documentElement.scrollTop > 1000
-  ) {
+  if (document.documentElement.scrollTop > 1000) {
     document.getElementById("Header").style.display = "none";
-  } else {
-    document.getElementById("Header").style.display = "grid";
+  }
+  // if (
+  //   document.body.scrollTop < 100 ||
+  //   document.documentElement.scrollTop < 100
+  // )
+  else {
+    if (document.documentElement.scrollTop < 800)
+      document.getElementById("Header").style.display = "grid";
   }
 }
 
 const Header = () => {
   const state = useContext(GlobalState);
-
+  const [search, setSearch] = state.moviesAPI.search;
+  const [userData] = state.usersAPI.userData;
   const [isLogged] = state.usersAPI.isLogged;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [watchList] = state.usersAPI.watchList;
-  const [userData] = state.usersAPI.userData;
+  const [toggleSearch, setToggleSearch] = useState(true);
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
 
@@ -56,7 +61,6 @@ const Header = () => {
     localStorage.clear();
     window.location.href = "/";
   };
-
   const adminRouter = () => {
     return (
       <>
@@ -73,7 +77,6 @@ const Header = () => {
       </>
     );
   };
-
   const loggedRouter = () => {
     return (
       <>
@@ -88,7 +91,6 @@ const Header = () => {
       </>
     );
   };
-
   return (
     <header id="Header">
       <div className="logo">
@@ -108,7 +110,6 @@ const Header = () => {
             Movies
           </Link>
         </li>
-
         {!isAdmin && isLogged && (
           <li className="header_li">
             <Link className="header_Link" to="/favorite">
@@ -154,6 +155,27 @@ const Header = () => {
           </li>
         )}
       </ul>
+      <div style={{ display: "grid", justifyContent: "flex-end" }}>
+        <div class={toggleSearch ? "search" : "search open"} id="searchBar">
+          <input
+            type="text"
+            value={search}
+            placeholder="Search..."
+            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            class="search-box"
+          />
+          <Link to="/movies">
+            <span
+              onClick={() => {
+                setToggleSearch(!toggleSearch);
+              }}
+              class="search-button"
+            >
+              <span class="search-icon"></span>
+            </span>
+          </Link>
+        </div>
+      </div>
       {!button && (
         <div className="header_lastItem">
           {isLogged ? (

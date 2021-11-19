@@ -21,6 +21,7 @@ const CreateMovie = () => {
   const [token] = state.token;
   const [genres] = state.genresAPI.genres;
   const [img, setImg] = useState(false);
+  const [smallImg, setSmallImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
