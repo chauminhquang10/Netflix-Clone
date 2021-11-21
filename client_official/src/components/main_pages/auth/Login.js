@@ -199,7 +199,7 @@ const Login = () => {
           />
 
           <FacebookLogin
-            appId="467718794599736"
+            appId="606295480526555"
             autoLoad={false}
             fields="name,email,picture"
             callback={responseFacebook}
