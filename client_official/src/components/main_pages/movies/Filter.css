@@ -1,12 +1,11 @@
 .filter_menu {
-  width: 100%;
+  width: fit-content;
   min-height: 40px;
   overflow: hidden;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   margin: 15px 0;
+  position: absolute;
 }
 
 .filter_menu select,

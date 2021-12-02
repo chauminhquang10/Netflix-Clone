@@ -16,6 +16,10 @@ const MovieSchema = new mongoose.Schema(
       type: Object,
       required: true,
     },
+    imgSmall: {
+      type: Object,
+      required: true,
+    },
     trailer: {
       type: Object,
     },
