@@ -160,7 +160,11 @@ const AdminProfile = () => {
 
           <div className="detail-photo">
             <div className="avatar">
-              <img src={avatar ? avatar : userData.avatar} alt=""></img>
+              <img
+                className="AD_img"
+                src={avatar ? avatar : userData.avatar}
+                alt=""
+              ></img>
               <span>
                 <CameraAlt></CameraAlt>
                 <p>Change</p>

@@ -2,7 +2,7 @@ import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddIcon from "@mui/icons-material/Add";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./ListItem.scss";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../../../../GlobalState";
@@ -14,7 +14,7 @@ const ListItem = ({ index, movie }) => {
   const [isHovered, setIsHovered] = useState(false);
   const addToWatchList = state.usersAPI.addToWatchList;
   const [watchList, setWatchList] = state.usersAPI.watchList;
-  const [toggleAddFVR, setToggleAddFVR] = useState(false);
+  const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
 
   const updateWatchList = async (watchList) => {
     await axios.patch(
@@ -40,17 +40,18 @@ const ListItem = ({ index, movie }) => {
     }
   };
 
-  window.onmousemove = () => {
-    watchList.forEach(checkToggleAddFVR);
-  };
-
-  function checkToggleAddFVR(item) {
-    console.log(item._id, movie._id);
-    if (movie._id === item._id) setToggleAddFVR(true);
-  }
+  useEffect(() => {
+    if (movie) {
+      watchList.forEach((item) => {
+        if (item._id === movie._id) {
+          setIsAddedToWatchList(true);
+        }
+      });
+    }
+  }, [movie, watchList]);
 
   return (
-    <Link to={{ pathname: "/watch", movie }}>
+    <Link to={{ pathname: "#", movie }}>
       <div
         className="listItem"
         style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
@@ -72,12 +73,12 @@ const ListItem = ({ index, movie }) => {
                 <Link
                   to="#!"
                   onClick={() => {
-                    !toggleAddFVR
+                    !isAddedToWatchList
                       ? addToWatchList(movie)
                       : removeMovie(movie._id);
                   }}
                 >
-                  {!toggleAddFVR ? (
+                  {!isAddedToWatchList ? (
                     <Add className="icon"></Add>
                   ) : (
                     <DeleteForeverIcon className="icon" />

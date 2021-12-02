@@ -26,6 +26,7 @@ const EditMovie = () => {
   const [movies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
   const [img, setImg] = useState(false);
+  const [imgSmall, setImgSmall] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
@@ -40,6 +41,7 @@ const EditMovie = () => {
         if (movie._id === param.id) {
           setMovie(movie);
           setImg(movie.img);
+          if (movie.imgSmall) setImgSmall(movie.imgSmall);
         }
       });
     }
@@ -86,6 +88,38 @@ const EditMovie = () => {
     }
   };
 
+  const handleUploadSmall = async (e) => {
+    e.preventDefault();
+    try {
+      if (!isAdmin) return alert("You're not an admin");
+      const file = e.target.files[0];
+
+      if (!file) return alert("File not exist");
+
+      if (file.size > 2000 * 2000) return alert("Size too large");
+
+      if (file.type !== "image/png" && file.type !== "image/jpeg")
+        return alert("File format is incorrect");
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      setLoading(true);
+
+      const res = await axios.post("/api/uploadSmall", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: token,
+        },
+      });
+      setLoading(false);
+      setImgSmall(res.data);
+      console.log("Uploaded 2");
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
   const handleDelete = async () => {
     try {
       if (!isAdmin) return alert("You're not an admin");
@@ -119,7 +153,7 @@ const EditMovie = () => {
 
       await axios.put(
         `/api/movies/${movie._id}`,
-        { ...movie, img },
+        { ...movie, img, imgSmall },
         {
           headers: {
             Authorization: token,
@@ -135,11 +169,7 @@ const EditMovie = () => {
 
   return (
     <div className="movie">
-      <div className="movieTitleContainer">
-        <Link to="/newMovie">
-          <button className="movieAddButton">Create</button>
-        </Link>
-      </div>
+      <div className="movieTitleContainer"></div>
       <div className="movieTop">
         <div className="movieTopLeft">
           <Chart
@@ -253,8 +283,21 @@ const EditMovie = () => {
               <label htmlFor="file">
                 <Publish></Publish>
               </label>
-              <input type="file" id="file" style={{ display: "none" }}></input>
+              <input type="file" id="file" onChange={handleUpload}></input>
             </div>
+            {imgSmall && (
+              <div className="movieUpload">
+                <img
+                  className="movieUploadImg"
+                  src={imgSmall.url}
+                  alt="movie-img"
+                ></img>
+                <label htmlFor="file">
+                  <Publish></Publish>
+                </label>
+                <input type="file" id="file" onChange={handleUpload}></input>
+              </div>
+            )}
             <button className="movieButton">Update</button>
           </div>
         </form>

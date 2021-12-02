@@ -35,6 +35,28 @@ router.post("/upload", UploadImage, auth, AuthAdmin, (req, res) => {
   }
 });
 
+//upload only admin can
+router.post("/uploadSmall", UploadImage, auth, AuthAdmin, (req, res) => {
+  try {
+    const file = req.files.file;
+
+    cloudinary.v2.uploader.upload(
+      file.tempFilePath,
+      {
+        folder: "movieSmall",
+      },
+      async (err, result) => {
+        if (err) throw err;
+        removeTmp(file.tempFilePath);
+
+        res.json({ public_id: result.public_id, url: result.secure_url });
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+});
+
 //delete only admin can
 router.post("/delete", auth, AuthAdmin, (req, res) => {
   try {
