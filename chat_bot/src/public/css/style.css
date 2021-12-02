@@ -18,3 +18,8 @@ a:focus {
   font-weight: 600;
   font-size: 30px;
 }
+
+.handle-error {
+  display: none;
+  padding-top: 15px;
+}

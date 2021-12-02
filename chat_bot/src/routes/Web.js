@@ -13,7 +13,7 @@ let initWebRoutes = (app) => {
   router.post("/setup-persistent-menu", HomeController.setupPersistentMenu);
 
   //mở cái giao diện form tạo tài khoản
-  router.get("/reserve-account", HomeController.handleReserveAccount);
+  router.get("/reserve-account/:senderId", HomeController.handleReserveAccount);
 
   //xử lí cái nút nhấn Tạo tài khoản
   router.post("/reserve-account-ajax", HomeController.handlePostReserveAccount);

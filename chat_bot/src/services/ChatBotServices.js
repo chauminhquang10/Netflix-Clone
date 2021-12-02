@@ -80,38 +80,47 @@ const VIEW_LOVE_IMAGE_3 =
 const IMAGE_RATING_MOVIES =
   "https://img1.kakaocdn.net/thumb/R1280x0/?fname=https://img.phimchill.tv/images/info/squid-game-2021.jpg";
 
+const MOVIE_GIF_WELCOME =
+  "https://media0.giphy.com/media/3o7rc0qU6m5hneMsuc/giphy.gif?cid=ecf05e47hk9iee6897or2m99o4kgpelg2yd10r8v5nqxpqwr&rid=giphy.gif&ct=g";
+
 let callSendAPI = async (sender_psid, response) => {
-  // Construct the message body
-  let request_body = {
-    recipient: {
-      id: sender_psid,
-    },
-    message: response,
-  };
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Construct the message body
+      let request_body = {
+        recipient: {
+          id: sender_psid,
+        },
+        message: response,
+      };
 
-  // trước khi gửi lại tin cho người dùng phải đọc
-  await sendMarkSeen(sender_psid);
+      // trước khi gửi lại tin cho người dùng phải đọc
+      await sendMarkSeen(sender_psid);
 
-  // sau đó typing (dấu 3 chấm) rồi mới gửi
-  await sendTypingOn(sender_psid);
+      // sau đó typing (dấu 3 chấm) rồi mới gửi
+      await sendTypingOn(sender_psid);
 
-  // khúc này là gửi nè
-  // Send the HTTP request to the Messenger Platform
-  request(
-    {
-      uri: "https://graph.facebook.com/v12.0/me/messages",
-      qs: { access_token: PAGE_ACCESS_TOKEN },
-      method: "POST",
-      json: request_body,
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
-      }
+      // khúc này là gửi nè
+      // Send the HTTP request to the Messenger Platform
+      request(
+        {
+          uri: "https://graph.facebook.com/v12.0/me/messages",
+          qs: { access_token: PAGE_ACCESS_TOKEN },
+          method: "POST",
+          json: request_body,
+        },
+        (err, res, body) => {
+          if (!err) {
+            resolve("message sent!");
+          } else {
+            console.error("Unable to send message:" + err);
+          }
+        }
+      );
+    } catch (error) {
+      reject(error);
     }
-  );
+  });
 };
 
 // lấy tên người dùng để hiển thị câu chào
@@ -149,13 +158,22 @@ let handleGetStarted = (sender_psid) => {
       };
 
       //cái carousel template sau câu chào mừng
-      let response2 = sendGetStartedTemplate();
+      // let response2 = sendGetStartedTemplate();
+
+      //send an image
+      let response2 = getImageGetStartedTemplate();
+
+      // quick repli template
+      let response3 = sendGetStartedQuickReplyTemplate();
 
       // gửi câu chào mừng
       await callSendAPI(sender_psid, response1);
 
-      //gửi cái carousel sau câu chào mừng
+      //gửi image chào mừng
       await callSendAPI(sender_psid, response2);
+
+      //quick reply
+      await callSendAPI(sender_psid, response3);
 
       resolve("done");
     } catch (error) {
@@ -188,7 +206,11 @@ let sendGetStartedTemplate = () => {
                 url: `${process.env.URL_WEB_VIEW_ACCOUNT}`,
                 title: "TẠO TÀI KHOẢN",
                 webview_height_ratio: "tall",
-                messenger_extensions: true, // false : open the webview in new tab
+                messenger_extensions: true, //false: open the webview in new tab
+
+                // type: "postback",
+                // title: "TẠO TÀI KHOẢN",
+                // payload: "RESERVE_ACCOUNT",
               },
               {
                 type: "postback",
@@ -204,12 +226,48 @@ let sendGetStartedTemplate = () => {
   return response;
 };
 
+// image chào mừng
+let getImageGetStartedTemplate = () => {
+  let response = {
+    attachment: {
+      type: "image",
+      payload: {
+        url: MOVIE_GIF_WELCOME,
+        is_reusable: true,
+      },
+    },
+  };
+  return response;
+};
+
+// template mới của get started
+let sendGetStartedQuickReplyTemplate = () => {
+  let response = {
+    text: "Hãy tận hưởng phút giây thư giãn với bộ phim yêu thích của bạn!",
+    quick_replies: [
+      {
+        content_type: "text",
+        title: "DANH MỤC PHIM",
+        payload: "MAIN_MENU",
+        // cái này là cái ảnh hiện bên cạnh chữ trong quick reply (sau này muốn dùng thì dùng)
+        // image_url:"http://example.com/img/red.png"
+      },
+      {
+        content_type: "text",
+        title: "HD SỬ DỤNG BOT",
+        payload: "GUIDE_TO_USE",
+      },
+    ],
+  };
+  return response;
+};
+
 // xử lí khi nhấn vào nút danh mục phim
 let handleSendMainMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       //cái template khi nhấn vào nút danh mục phim
-      let response1 = sendMainMenuTemplate();
+      let response1 = sendMainMenuTemplate(sender_psid);
 
       await callSendAPI(sender_psid, response1);
 
@@ -221,7 +279,7 @@ let handleSendMainMenu = (sender_psid) => {
 };
 
 //template cho xử lí sau khi nhấn danh mục phim
-let sendMainMenuTemplate = () => {
+let sendMainMenuTemplate = (senderID) => {
   let response = {
     attachment: {
       type: "template",
@@ -254,10 +312,14 @@ let sendMainMenuTemplate = () => {
             buttons: [
               {
                 type: "web_url",
-                url: `${process.env.URL_WEB_VIEW_ACCOUNT}`,
+                url: `${process.env.URL_WEB_VIEW_ACCOUNT}/${senderID}`,
                 title: "TẠO TÀI KHOẢN",
                 webview_height_ratio: "tall",
-                messenger_extensions: true, // false : open the webview in new tab
+                messenger_extensions: true, //false: open the webview in new tab
+
+                // type: "postback",
+                // title: "TẠO TÀI KHOẢN",
+                // payload: "RESERVE_ACCOUNT",
               },
             ],
           },
@@ -869,7 +931,7 @@ let sendImageDetailRatingMovies = () => {
 };
 
 // template nút bên dưới ảnh phim đề cử
-let sendTemplateDetailRatingMovies = () => {
+let sendTemplateDetailRatingMovies = (senderID) => {
   let response = {
     attachment: {
       type: "template",
@@ -879,10 +941,14 @@ let sendTemplateDetailRatingMovies = () => {
         buttons: [
           {
             type: "web_url",
-            url: `${process.env.URL_WEB_VIEW_ACCOUNT}`,
+            url: `${process.env.URL_WEB_VIEW_ACCOUNT}/${senderID}`,
             title: "TẠO TÀI KHOẢN",
             webview_height_ratio: "tall",
-            messenger_extensions: true, // false : open the webview in new tab
+            messenger_extensions: true, //false: open the webview in new tab
+
+            // type: "postback",
+            // title: "TẠO TÀI KHOẢN",
+            // payload: "RESERVE_ACCOUNT",
           },
           {
             type: "postback",
@@ -905,7 +971,7 @@ let handleDetailRatingMovies = (sender_psid) => {
       let response1 = sendImageDetailRatingMovies();
 
       //send a button template : text, buttons
-      let response2 = sendTemplateDetailRatingMovies();
+      let response2 = sendTemplateDetailRatingMovies(sender_psid);
 
       await callSendAPI(sender_psid, response1);
 
@@ -916,6 +982,78 @@ let handleDetailRatingMovies = (sender_psid) => {
       reject(error);
     }
   });
+};
+
+// let handleReserveAccount = (sender_psid) => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       let username = await getUserName(sender_psid);
+//       let response = {
+//         text: `Hi ${username}, What username do want you to use for this account?`,
+//       };
+//       await callSendAPI(sender_psid, response);
+
+//       resolve("done");
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+// };
+
+let handleSendBotGuide = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      //send text message
+      let username = await getUserName(sender_psid);
+
+      let response1 = {
+        text: `Xin chào ${username}, mình là chatbot của website xem phim.
+        \n Để biết thêm thông tin, bạn vui lòng tham khảo video bên dưới 😍`,
+      };
+
+      //send a media template : video, buttons
+      let response2 = sendVideoMediaTemplate();
+
+      await callSendAPI(sender_psid, response1);
+
+      await callSendAPI(sender_psid, response2);
+
+      resolve("done");
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+let sendVideoMediaTemplate = () => {
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "media",
+        elements: [
+          {
+            media_type: "video",
+            url: "https://business.facebook.com/102898768901702/videos/322976289342857/",
+            buttons: [
+              {
+                type: "postback",
+                title: "DANH MỤC PHIM",
+                payload: "MAIN_MENU",
+              },
+              {
+                type: "web_url",
+                title: "THÊM THÔNG TIN",
+                url: "https://www.facebook.com/profile.php?id=100009899738623",
+                webview_height_ratio: "full",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+  return response;
 };
 
 module.exports = {
@@ -931,5 +1069,8 @@ module.exports = {
   handleDetailViewPsycho: handleDetailViewPsycho,
   handleDetailViewLove: handleDetailViewLove,
   handleDetailRatingMovies: handleDetailRatingMovies,
+  // handleReserveAccount: handleReserveAccount,
+  handleSendBotGuide: handleSendBotGuide,
   callSendAPI: callSendAPI,
+  getUserName: getUserName,
 };

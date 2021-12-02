@@ -3,6 +3,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      let senderId = "<%= senderId %>";
+    </script>
+
     <title>Tạo tài khoản Netflix Clone</title>
     <!-- Latest compiled and minified CSS -->
     <link
@@ -20,13 +25,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Load custom Javascript and CSS-->
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <script src="../public/js/reserve-account.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/reserve-account.js"></script>
   </head>
 
   <body>
     <div class="container fix-height">
-      <div class="row">
+      <div class="row" id="customerInfo">
         <div class="col-12">
           <div class="text-center mt-3">
             <span class="title">Thông tin cá nhân</span>
@@ -69,6 +74,9 @@
             TẠO TÀI KHOẢN
           </button>
         </div>
+      </div>
+      <div class="row handle-error" id="handleError">
+        <h5>Thông tin của bạn đã được ghi nhận! Vui lòng đóng popup.</h5>
       </div>
     </div>
     <footer>

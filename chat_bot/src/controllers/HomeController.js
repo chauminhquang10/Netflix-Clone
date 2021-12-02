@@ -1,11 +1,55 @@
 require("dotenv").config();
 import request from "request";
 import ChatBotServices from "../services/ChatBotServices";
+import moment from "moment";
+
+const { GoogleSpreadsheet } = require("google-spreadsheet");
+
+// const PRIVATE_KEY =
+//   "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDTZ4zoQ7zleQJ3\n+TIdfARK10wgrrVQ/8P/KB/p8YYdDA7gdXMAb+BM+GK7tkja+o6uoPoASGmZtWer\nxJKWXc3Fe4E9O0Mukj5aNohhxhDMCc6m7chTDa4+m9kaR9eFNc/y8GxviyNjXy4F\ne9yY3zbyD5QrP2C5zocvLNYVGAb0n/VQTbRbFkn+ACXoISCzGDFiBYJq6PppjtAC\nZmYC5pI/rCF/HBIv/fbFo9iG3WX4gLcYu817QOai378zySfkuSQbtakRgJ0p1cPC\nD2xtxaFSo21BaS/oMgXdWhANDyuD3q8nQS6UrjwjQT5BNH4RedVKn1aOI+t1CJoI\nmCATsEVJAgMBAAECggEAAKLb2nnx1zoSvwuUHOmRYJsDBXw5Gyi14IfwoU/6Xmxg\nBBXvdhN1cbiEw2jyInr2LUHrhZvLxsGWWBhdhfZZVdsmkph7aKgeX2qPByPlD8/b\nrTmwMLh1d/3uK4EGrLj/WY1BTGoqW4v6wsp/PvZ03Q4/gzbwD217KQdMj/VjTSul\nhT3swpnploJZ2doCZ1wpuGIV/UiIfq9nrZwF9x95x9yhNUtnrnfMUyPuUKFJv1MO\n339BXr+Jly6Zu6hr0aCrbD7jn2G+PkqflHdVK5rvIoZiGZdUJwqWTFr3K21iQrnS\nHP6Nf1VH+sMm9yxJtA15OWE1QNHIVSHkv3Tiak3DoQKBgQD6dZwNc498ECPRIAgE\nypytJfTpUPfO1GVJFycTOze9BBNweusB7pyWDDLIpGoDYq/39eh8oishKpk2U9W7\nurN+3qQWTIoPxWboFcuaEVd1tR6FCg8yXiGSGwmOU3Nmrso5dIBz0IC9X/HI+oWs\nYIxhEYEZPR/v641s9ZkBWoXSUQKBgQDYFMRMVJ8HBBJs9y7Hne4jwAxksxASI24n\n3DWkaVjPTKyRs5YbCvP13YU9dD23w+lIh4pBdhkH+Gf2P1ppLiA7y1Ir73nXL4Pm\n9UPAs5FnccA9VnI6rHn6CDKIRJrlxNtLS/2C5yqwGQyzkna67CCxW5VQ3CSw8Z3y\nUKJjYnXNeQKBgQCjz6hxY9PE4QmMDdcwyxQOa3Tz5PEvZduZInt8KI8cIT5Vow9y\nBA6GVRQiBucPr8xH8Z5NZgOvfZ0X210/m60qnZPUwdrK1eGoihjQe+coJX4ApcOq\nvcZXOTfWzt37mvbI/VnGZejN86LAQJqNU9h85GX7i+8HjJjDWx7ns70zAQKBgEQK\nvgl/OBiAesDfUVbAb4XIat6m2C+uAnkAyc988N9OOKUk1OatG0dXuyYv3WNpiKMz\nMyEL7DPrT+ll57VpNfM+QiDdpxNQvgtTPkOHCAl3814dQ5kgSMSoIilw2QnzZE6g\nnjLDUljjenFtdH/F7UGMIke1GsSxQNhV9dyv24KZAoGBAJlwLi1fKuNe8I/jQgMs\nEKKsRRc2PmAROKhhE+bnDG9poh/KRFVoMdTW94v7cK122zB3yEXEePvUBjSVTRYS\n6dRBl9yzzbULOTcLcAla0CxK2UVXrkVGmZpdZ1nR6UoRAFDm7bDmGS7Dw73vrmE9\nzFcs+V+sMgg/N2yqO+aviYNA\n-----END PRIVATE KEY-----\n";
+// const CLIENT_EMAIL =
+//   "movie-google-sheet@movieproject-328107.iam.gserviceaccount.com";
+// const SHEET_ID = "1EDGDhiZGPjG_Gy8Sm_7sUXulo0HVuMxmEXLdpik0Fzg";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
+
+const SHEET_ID = process.env.SHEET_ID;
+
 let getHomePage = (req, res) => {
   return res.render("HomePage.ejs");
+};
+
+// ghi dữ liệu khách hàng vào google sheet
+let writeDataToGoogleSheet = async (data) => {
+  let formatedDate = new Date().toLocaleString("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  });
+
+  // Initialize the sheet - doc ID is the long id in the sheets URL
+  const doc = new GoogleSpreadsheet(SHEET_ID);
+
+  // Initialize Auth - see more available options at https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
+  await doc.useServiceAccountAuth({
+    client_email: JSON.parse(`"${CLIENT_EMAIL}"`),
+    private_key: JSON.parse(`"${PRIVATE_KEY}"`),
+  });
+
+  await doc.loadInfo(); // loads document properties and worksheets
+
+  const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id] or doc.sheetsByTitle[title]
+
+  // append rows
+  await sheet.addRow({
+    "Tên Facebook": data.username,
+    Email: data.email,
+    "Số điện thoại": `'` + data.phoneNumber,
+    "Thời gian": formatedDate,
+    "Tên khách hàng": data.customerName,
+  });
 };
 
 let setupProfile = async (req, res) => {
@@ -90,7 +134,10 @@ let setupPersistentMenu = async (req, res) => {
 };
 
 let handleReserveAccount = (req, res) => {
-  return res.render("ReserveAccount.ejs");
+  let senderId = req.params.senderId;
+  return res.render("ReserveAccount.ejs", {
+    senderId: senderId,
+  });
 };
 
 let postWebHook = (req, res) => {
@@ -149,8 +196,19 @@ let getWebHook = (req, res) => {
 };
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
   let response;
+
+  //check messages for quick replies
+  if (received_message.quick_reply && received_message.quick_reply.payload) {
+    if (received_message.quick_reply.payload === "MAIN_MENU") {
+      await ChatBotServices.handleSendMainMenu(sender_psid);
+    }
+    if (received_message.quick_reply.payload === "GUIDE_TO_USE") {
+      await ChatBotServices.handleSendBotGuide(sender_psid);
+    }
+    return;
+  }
 
   // Checks if the message contains text
   if (received_message.text) {
@@ -190,10 +248,36 @@ function handleMessage(sender_psid, received_message) {
       },
     };
   }
-
   // Send the response message
   callSendAPI(sender_psid, response);
 }
+
+// //  HÀM XỬ LÍ TRẢ LỜI TIN NHẮN ĐẶT BÀN
+// let handleMessageWithEntities = (received_message) => {
+//   let entitiesArr = ["wit$datetime:datetime", "wit$phone_number:phone_number"];
+//   let entityChosen = "";
+//   let data = {}; // data is an object saving value and name of the entity.
+
+//   entitiesArr.forEach((name) => {
+//     let entity = firstTrait(message.nlp, name.trim());
+//     if (entity && entity.confidence > 0.8) {
+//       entityChosen = name;
+//       data.value = entity.value;
+//     }
+//   });
+
+//   data.name = entityChosen;
+
+//   console.log("-------------");
+//   console.log("giá trị:", entitiesArr);
+//   console.log("-------------");
+
+//   return data;
+// };
+
+// function firstTrait(nlp, name) {
+//   return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+// }
 
 // Handles messaging_postbacks events
 async function handlePostback(sender_psid, received_postback) {
@@ -259,6 +343,14 @@ async function handlePostback(sender_psid, received_postback) {
       await ChatBotServices.handleDetailRatingMovies(sender_psid);
       break;
 
+    // case "RESERVE_ACCOUNT":
+    //   await ChatBotServices.handleReserveAccount(sender_psid);
+    //   break;
+
+    case "GUIDE_TO_USE":
+      await ChatBotServices.handleSendBotGuide(sender_psid);
+      break;
+
     default:
       response = {
         text: `Oops, I don't know response with postback ${payload}`,
@@ -300,9 +392,21 @@ function callSendAPI(sender_psid, response) {
 //xử lí cho việc nhấn nút tạo tài khoản trong form
 let handlePostReserveAccount = async (req, res) => {
   try {
+    let username = await ChatBotServices.getUserName(req.body.psid);
+
+    // data sẽ ghi vào google sheet
+    let data = {
+      username: username,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      customerName: req.body.customerName,
+    };
+
+    await writeDataToGoogleSheet(data);
+
     let customerName = "";
     if (req.body.customerName === "") {
-      customerName = "Để trống";
+      customerName = username;
     } else customerName = req.body.customerName;
 
     // I demo response with sample text
@@ -311,8 +415,8 @@ let handlePostReserveAccount = async (req, res) => {
     let response1 = {
       text: `---Thông tin tài khoản người dùng---
            \nHọ và tên: ${customerName}
-             \nĐịa chỉ email: ${req.body.email}
-             \nSố điện thoại: ${req.body.phoneNumber}
+           \nĐịa chỉ email: ${req.body.email}
+           \nSố điện thoại: ${req.body.phoneNumber}
              `,
     };
 
