@@ -11,6 +11,9 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { OutlineButton } from "../../button/Button";
 
+import LikeAndShare from "../../Social Plugin/LikeAndShare";
+import Comment from "../../Social Plugin/Comment";
+
 const MovieDetail = () => {
   const params = useParams();
   const state = useContext(GlobalState);
@@ -57,6 +60,13 @@ const MovieDetail = () => {
 
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
+
+  let currentURL =
+    +process.env.REACT_APP_IS_LOCALHOST === 1
+      ? "https://netflix-chat-bot.herokuapp.com/"
+      : window.location.href;
+
+  console.log(process.env.REACT_APP_IS_LOCALHOST);
 
   return (
     <>
@@ -164,6 +174,12 @@ const MovieDetail = () => {
           </div>
           <MovieList movies={movies} movieDetail={movieDetail}></MovieList>
         </div>
+      </div>
+
+      {/* Facebook Plugins  */}
+      <div>
+        <LikeAndShare dataHref={currentURL} />
+        <Comment width={"100%"} dataHref={currentURL} />
       </div>
     </>
   );
