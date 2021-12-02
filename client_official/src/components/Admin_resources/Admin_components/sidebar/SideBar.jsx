@@ -61,7 +61,7 @@ const SideBar = () => {
                 Genres
               </li>
             </Link>
-            <Link to="/genres" className="link">
+            <Link to="/lists" className="link">
               <li className="sidebarListItem">
                 <AttachMoney className="sidebarIcon" />
                 Lists

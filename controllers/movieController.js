@@ -79,8 +79,8 @@ const movieController = {
         title,
         desc,
         img,
-        imgTitle,
         imgSmall,
+        imgTitle,
         trailer,
         video,
         year,
@@ -93,13 +93,15 @@ const movieController = {
       if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });
       const movie = await Movies.findOne({ title: title.toLowerCase() });
+      if (!imgSmall)
+        return res.status(400).json({ msg: "No imgSmall uploaded!" });
       if (movie)
         return res.status(400).json({ msg: "This movie already exist!" });
       const newMovie = new Movies({
         title: title.toLowerCase(),
         desc,
         img,
-
+        imgSmall,
         trailer,
         video,
         year,
@@ -127,7 +129,6 @@ const movieController = {
         title,
         desc,
         img,
-
         trailer,
         video,
         year,
@@ -146,7 +147,6 @@ const movieController = {
           desc,
           img,
           imgTitle,
-          imgSmall,
           trailer,
           video,
           year,

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { GlobalState } from "../../GlobalState";
 import { Menu, Clear, ContactSupportOutlined } from "@material-ui/icons";
 import "./Header.css";
@@ -6,27 +6,7 @@ import { Link } from "react-router-dom";
 import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
-
-
-window.onscroll = () => {
-  OnScroll();
-};
-
-function OnScroll() {
-  // if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-  //   document.getElementById("Header").style.backgroundColor = "black";
-  // } else {
-  //   document.getElementById("Header").style.backgroundColor = "transparent";
-  // }
-  // if (
-  //   document.body.scrollTop > 1000 ||
-  //   document.documentElement.scrollTop > 1000
-  // ) {
-  //   document.getElementById("Header").style.display = "none";
-  // } else {
-  //   document.getElementById("Header").style.display = "grid";
-  // }
-}
+import "./SearchBar.scss";
 
 const Header = () => {
   const state = useContext(GlobalState);
@@ -38,6 +18,28 @@ const Header = () => {
   const [toggleSearch, setToggleSearch] = useState(true);
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
+  const headerRef = useRef(null);
+
+  function OnScroll() {
+    if (headerRef.current) {
+      if (
+        document.body.scrollTop > 20 ||
+        document.documentElement.scrollTop > 20
+      ) {
+        headerRef.current.style.backgroundColor = "black";
+      } else {
+        headerRef.current.style.backgroundColor = "transparent";
+      }
+      if (
+        document.body.scrollTop > 1300 ||
+        document.documentElement.scrollTop > 1300
+      ) {
+        headerRef.current.style.display = "none";
+      } else if (document.documentElement.scrollTop <= 1000) {
+        headerRef.current.style.display = "grid";
+      }
+    }
+  }
 
   const showButton = () => {
     if (window.innerWidth <= 700) {
@@ -51,6 +53,8 @@ const Header = () => {
     showButton();
   }, []);
 
+  window.addEventListener("scroll", OnScroll);
+
   window.addEventListener("resize", showButton);
 
   const logoutUser = async () => {
@@ -58,24 +62,6 @@ const Header = () => {
     localStorage.clear();
     window.location.href = "/";
   };
-
-
-  // const adminRouter = () => {
-  //   return (
-  //     <>
-  //       <li className="header_li">
-  //         <Link className="header_Link" to="/genre">
-  //           Genres
-  //         </Link>
-  //       </li>
-  //       <li className="header_li">
-  //         <Link className="header_Link" to="/create_movie">
-  //           Create Movie
-  //         </Link>
-  //       </li>
-  //     </>
-  //   );
-  // };
 
   const loggedRouter = () => {
     return (
@@ -92,11 +78,12 @@ const Header = () => {
     );
   };
   return (
-    <header id="Header">
+    <header className="header" ref={headerRef}>
       <div className="logo">
         <h1>
           <Link to="/">
             <img
+              className="logoImg"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
               alt="logo"
               className="header_logo"
@@ -114,19 +101,9 @@ const Header = () => {
           <li className="header_li">
             <Link className="header_Link" to="/favorite">
               Favorites
-              {/* <span>{watchList.length}</span> */}
             </Link>
           </li>
         )}
-
-        {/* không cần thiết, xử lí phần admin router ở sidebar */}
-        {/* {isAdmin && adminRouter()} */}
-
-        {/* <li>
-          <div className="hd_menu">
-            <Clear className="menu"></Clear>
-          </div>
-        </li> */}
 
         {button && (
           <li className="header_li">

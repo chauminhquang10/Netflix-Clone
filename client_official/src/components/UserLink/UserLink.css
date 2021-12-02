@@ -20,7 +20,7 @@
   left: 30%;
   margin-top: 2%;
 }
-.action .popupProfile img {
+.propup_Img {
   position: absolute;
   top: 0;
   right: 0;
@@ -29,7 +29,7 @@
   object-fit: cover;
   opacity: 1;
 }
-.action .profile img {
+.profile_Img {
   position: absolute;
   top: 0;
   right: 0;

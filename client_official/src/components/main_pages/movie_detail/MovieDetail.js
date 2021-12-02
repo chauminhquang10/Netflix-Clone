@@ -21,6 +21,11 @@ const MovieDetail = () => {
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
 
+  const [isCommented, setIsCommented] = useState(false);
+  const [productDetail, setProductDetail] = useState([]);
+  //comments khách hàng
+  const [comments, setComments] = useState([]);
+
   //biến ktra xem movie detail này đã có trong watchList hay chưa?
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
 
@@ -60,39 +65,6 @@ const MovieDetail = () => {
 
   return (
     <>
-      {/* <div className="detail">
-        <img src={movieDetail.img.url} alt=""></img>
-        <div className="box_detail">
-          <div className="row">
-            <h2>{movieDetail.title}</h2>
-            <h6>#id: {movieDetail._id}</h6>
-          </div>
-          <span>year: {movieDetail.year}</span>
-          <p>{movieDetail.desc}</p>
-          <p>{movieDetail.duration}p</p>
-          <p>{movieDetail.limitAge}+</p>
-          <Link
-            to="/favorite"
-            className="watchlist"
-            onClick={() => addToWatchList(movieDetail)}
-          >
-            Add to Watchlist
-          </Link>
-        </div>
-      </div>
-
-      <div>
-        <h2>Related movies</h2>
-        <div className="movies">
-          {movies.map((movie) => {
-            return movie.genre === movieDetail.genre &&
-              movie._id !== movieDetail._id ? (
-              <MovieItem key={movie._id} movie={movie}></MovieItem>
-            ) : null;
-          })}
-        </div>
-      </div> */}
-
       <div
         className="banner"
         style={{
@@ -104,7 +76,11 @@ const MovieDetail = () => {
           <div
             className="movie-content__poster__img"
             style={{
-              backgroundImage: `url(${movieDetail.img.url})`,
+              backgroundImage: `url(${
+                movieDetail.imgSmall
+                  ? movieDetail.imgSmall.url
+                  : movieDetail.img.url
+              })`,
             }}
           ></div>
         </div>
@@ -119,12 +95,15 @@ const MovieDetail = () => {
               <h2>Casts</h2>
             </div>
             <CastList />
+
             <div className="movie_detail_buttons">
               <div className="buttons">
-                <button className="play">
-                  <PlayArrow />
-                  <span>Play</span>
-                </button>
+                <Link to={{ pathname: "/watch", movieDetail }}>
+                  <button className="play">
+                    <PlayArrow />
+                    <span>Play</span>
+                  </button>
+                </Link>
 
                 {isAddedToWatchList ? (
                   <button

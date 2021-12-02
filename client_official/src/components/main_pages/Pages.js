@@ -9,11 +9,13 @@ import Register from "./auth/Register";
 import NotFound from "./utils/notfound/NotFound";
 import MovieDetail from "./movie_detail/MovieDetail";
 import AdminGenres from "./genres/AdminGenres";
+import AdminLists from "./lists/AdminLists";
 import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import UserProfile from "./profile/UserProfile";
+import Watch from "./watch/Watch";
 
 import SideBar from "../Admin_resources/Admin_components/sidebar/SideBar";
 import HomePage from "../Admin_resources/pages/homepage/HomePage";
@@ -77,6 +79,9 @@ const Pages = () => {
               component={isAdmin ? AdminGenres : NotFound}
             />
 
+            {/* List */}
+            <Route path="/lists" component={isAdmin ? AdminLists : NotFound} />
+
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
@@ -87,6 +92,7 @@ const Pages = () => {
             <Route path="/movies" exact component={Movies} />
             <Route path="/detail/:id" component={MovieDetail} />
             <Route path="/favorite" component={Favorite} />
+            <Route path="/watch" component={Watch} />
 
             <Route path="/login" component={isLogged ? NotFound : Login} />
             <Route

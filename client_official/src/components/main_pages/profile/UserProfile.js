@@ -157,7 +157,11 @@ const UserProfile = () => {
 
           <div className="detail-photo">
             <div className="avatar">
-              <img src={avatar ? avatar : userData.avatar} alt=""></img>
+              <img
+                className="UP_img"
+                src={avatar ? avatar : userData.avatar}
+                alt=""
+              ></img>
               <span>
                 <CameraAlt></CameraAlt>
                 <p>Change</p>

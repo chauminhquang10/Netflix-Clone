@@ -1,4 +1,4 @@
-header {
+.header {
   min-height: 70px;
   width: 100%;
   padding: 0 20px;
@@ -9,6 +9,10 @@ header {
   top: 0;
   z-index: 999;
   transition: 1s all;
+}
+
+.logoImg {
+  width: 200px;
 }
 
 .logo {

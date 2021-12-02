@@ -190,6 +190,9 @@ const MovieList = () => {
     <div className="admin-movies-list">
       <Paper className={classes.pageContent}>
         <Toolbar>
+          <Link to="/newMovie">
+            <button className="movieAddButton">Create</button>
+          </Link>
           <AdminNormalButton
             text="Delete(s)"
             variant="outlined"
