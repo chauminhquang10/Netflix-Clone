@@ -24,6 +24,8 @@ import EditUser from "../Admin_resources/pages/edit_user/EditUser";
 import AdminMovieList from "../Admin_resources/pages/productList/MovieList";
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
+
+import LandingPage from "../LandingPage/LandingPage";
 import { GlobalState } from "../../GlobalState";
 
 import AdminProfile from "../Admin_resources/pages/profile/AdminProfile";
@@ -34,92 +36,112 @@ const Pages = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
 
   return (
-    <>
-      {isAdmin ? (
-        <div className="admin-container">
-          <SideBar></SideBar>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route
-              exact
-              path="/users"
-              component={isAdmin ? UserList : NotFound}
-            />
+    <div>
+      <>
+        {isAdmin ? (
+          <div className="admin-container">
+            <SideBar></SideBar>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route
+                exact
+                path="/users"
+                component={isAdmin ? UserList : NotFound}
+              />
 
-            <Route
-              path="/edit_user/:id"
-              component={isAdmin ? EditUser : NotFound}
-            />
+              <Route
+                path="/edit_user/:id"
+                component={isAdmin ? EditUser : NotFound}
+              />
 
-            {/* Movie List */}
-            <Route
-              exact
-              path="/movies"
-              component={isAdmin ? AdminMovieList : NotFound}
-            ></Route>
+              {/* Movie List */}
+              <Route
+                exact
+                path="/movies"
+                component={isAdmin ? AdminMovieList : NotFound}
+              ></Route>
 
-            {/* Edit phim */}
+              {/* Edit phim */}
 
-            <Route
-              path="/edit_movie/:id"
-              component={isAdmin ? EditMovie : NotFound}
-            />
+              <Route
+                path="/edit_movie/:id"
+                component={isAdmin ? EditMovie : NotFound}
+              />
 
-            {/* Tạo phim */}
-            <Route path="/newMovie" component={isAdmin ? NewMovie : NotFound} />
+              {/* Tạo phim */}
+              <Route
+                path="/newMovie"
+                component={isAdmin ? NewMovie : NotFound}
+              />
 
-            <Route
-              path="/profile"
-              component={isLogged ? AdminProfile : NotFound}
-            />
+              <Route
+                path="/profile"
+                component={isLogged ? AdminProfile : NotFound}
+              />
 
-            {/* Thể loại */}
-            <Route
-              path="/genres"
-              component={isAdmin ? AdminGenres : NotFound}
-            />
+              {/* Thể loại */}
+              <Route
+                path="/genres"
+                component={isAdmin ? AdminGenres : NotFound}
+              />
 
-            {/* List */}
-            <Route path="/lists" component={isAdmin ? AdminLists : NotFound} />
+              {/* List */}
+              <Route
+                path="/lists"
+                component={isAdmin ? AdminLists : NotFound}
+              />
 
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </div>
-      ) : (
-        <>
-          <Switch>
-            <Route path="/" exact component={Main} />
-            <Route path="/movies" exact component={Movies} />
-            <Route path="/detail/:id" component={MovieDetail} />
-            <Route path="/favorite" component={Favorite} />
-            <Route path="/watch" component={Watch} />
-
-            <Route path="/login" component={isLogged ? NotFound : Login} />
-            <Route
-              path="/register"
-              component={isLogged ? NotFound : Register}
-            />
-            <Route
-              path="/user/activate/:activation_token"
-              component={ActivationEmail}
-            />
-            <Route
-              path="/forgot_password"
-              component={isLogged ? NotFound : ForgotPassword}
-            />
-            <Route
-              path="/user/reset/:access_token"
-              component={isLogged ? NotFound : ResetPassword}
-            />
-            <Route
-              path="/profile"
-              component={isLogged ? UserProfile : NotFound}
-            />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </>
-      )}
-    </>
+              <Route path="*" component={NotFound} />
+            </Switch>
+          </div>
+        ) : (
+          <>
+            <Switch>
+              <Route path="/" exact component={isLogged ? Main : LandingPage} />
+              <Route
+                path="/movies"
+                exact
+                component={isLogged ? Movies : LandingPage}
+              />
+              <Route
+                path="/detail/:id"
+                component={isLogged ? MovieDetail : LandingPage}
+              />
+              <Route
+                path="/favorite"
+                component={isLogged ? Favorite : LandingPage}
+              />
+              <Route
+                path="/watch/:TMDBid/:id"
+                component={isLogged ? Watch : LandingPage}
+              />
+              <Route path="/login" component={isLogged ? NotFound : Login} />
+              <Route
+                path="/register"
+                component={isLogged ? NotFound : Register}
+              />
+              <Route
+                path="/user/activate/:activation_token"
+                component={ActivationEmail}
+              />
+              <Route
+                path="/forgot_password"
+                component={isLogged ? NotFound : ForgotPassword}
+              />
+              <Route
+                path="/user/reset/:access_token"
+                component={isLogged ? NotFound : ResetPassword}
+              />
+              <Route
+                path="/profile"
+                component={isLogged ? UserProfile : NotFound}
+              />
+              <Route path="*" component={NotFound} />
+            </Switch>
+          </>
+        )}
+      </>
+    </div>
   );
 };
 

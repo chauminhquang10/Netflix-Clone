@@ -5,8 +5,6 @@ import { GlobalState } from "../../../../GlobalState";
 import { Button, Input } from "antd";
 
 import axios from "axios";
-import SingleComment from "./SingleComment";
-import ReplyComment from "./ReplyComment";
 
 import StarRating from "../CommentStarRating/StarRating";
 const { TextArea } = Input;
@@ -48,41 +46,16 @@ const Comments = ({ productDetail, comments, setComments, isShow }) => {
       }
       setToTalStar(tempTotalStar);
     };
-
-    const getAllComments = async () => {
-      const res = await axios.get(`/api/getAllComments/${productDetail._id}`);
-      setComments(res.data.comments);
-      setLength(res.data.length);
-      getToTalStar(res.data.comments);
-    };
-
-    getAllComments();
   }, [productDetail, callback]);
-
-  const handleChange = (event) => {
-    setComment(event.target.value);
-  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
-    const commentDetail = {
-      content: comment,
-      writer: user,
-      about: productDetail._id,
-      star: rating,
-      length: length,
-      totalStar: totalStar,
-    };
 
     try {
       if (rating !== null) {
         await axios.post("/api/saveComment", commentDetail, {
           headers: { Authorization: token },
         });
-        setComment("");
-        setCommentCallback(!commentCallback);
-        setCallback(!callback);
         setRating(null);
         setStarArray([]);
         setToTalStar(0);
@@ -96,53 +69,8 @@ const Comments = ({ productDetail, comments, setComments, isShow }) => {
   };
 
   return (
-    <div>
-      <br />
-      {isShow && <p>{comments.length} replies</p>}
-      <hr />
-
-      {/* Comments List */}
-      {comments &&
-        isShow &&
-        comments.map(
-          (comment, index) =>
-            !comment.responseTo && (
-              <>
-                <SingleComment
-                  comment={comment}
-                  productDetail={productDetail}
-                  callback={callback}
-                  setCallback={setCallback}
-                ></SingleComment>
-                <ReplyComment
-                  comments={comments}
-                  productDetail={productDetail}
-                  callback={callback}
-                  setCallback={setCallback}
-                  parentCommentID={comment._id}
-                ></ReplyComment>
-              </>
-            )
-        )}
-
-      {/* Comment Form */}
-      <br></br>
-      <h5>Your comment</h5>
+    <div className="Comment_container">
       <StarRating rating={rating} setRating={setRating}></StarRating>
-
-      <form style={{ display: "flex" }} onSubmit={onSubmit}>
-        <TextArea
-          style={{ width: "100%", borderRadius: "5px" }}
-          placeholder="write some comment"
-          value={comment}
-          onChange={handleChange}
-        ></TextArea>
-        <br />
-
-        <Button style={{ width: "20%", height: "52px" }} onClick={onSubmit}>
-          Submit
-        </Button>
-      </form>
     </div>
   );
 };

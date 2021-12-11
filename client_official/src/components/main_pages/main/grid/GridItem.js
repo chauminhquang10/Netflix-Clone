@@ -3,9 +3,11 @@ import "./GridItem.css";
 import { Link } from "react-router-dom";
 const GridItem = ({ movie }) => {
   return (
-    <Link to={`/detail/${movie._id}`}>
-      <img className="Grid_Img" src={movie.img.url}></img>;
-    </Link>
+    <div className="Grid_item_container">
+      <Link to={`/detail/${movie._id}`}>
+        <img className="Grid_item_img" src={movie.img.url}></img>
+      </Link>
+    </div>
   );
 };
 

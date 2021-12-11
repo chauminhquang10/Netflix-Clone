@@ -3,7 +3,7 @@ import { GlobalState } from "../../../GlobalState";
 import { HighlightOff } from "@material-ui/icons";
 import "./Favorite.css";
 import axios from "axios";
-import ListItem from "../main/list/listItem/ListItem";
+import ListItem from "../main/MovieItem";
 
 const Favorite = () => {
   const state = useContext(GlobalState);

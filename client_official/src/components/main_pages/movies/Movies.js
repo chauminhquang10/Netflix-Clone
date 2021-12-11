@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../GlobalState";
-import MovieItem from "../main/list/listItem/ListItem";
+import MovieItem from "../main/MovieItem";
 import Filter from "./Filter";
 import Pagination from "./Pagination";
 import "./Movies.css";
@@ -22,7 +22,7 @@ const Movies = () => {
 
   // phân trang trên front end
   const [currentPage, setCurrentPage] = useState(1);
-  const [moviesPerPage, setMoviesPerPage] = useState(20);
+  const [moviesPerPage, setMoviesPerPage] = useState(30);
 
   // index của last Movie tuy là 10 , 20 ,... nhưng hàm slice nó k lấy (nó chỉ lấy 9,19,....)
   const indexOfLastMovie = currentPage * moviesPerPage;
@@ -125,13 +125,15 @@ const Movies = () => {
           );
         })}
       </div>
-
-      <Pagination
-        moviesPerPage={moviesPerPage}
-        totalMovies={movies.length}
-        paginate={paginate}
-      ></Pagination>
-
+      <div className="Pagination">
+        <div className="Pagination1">
+          <Pagination
+            moviesPerPage={moviesPerPage}
+            totalMovies={movies.length}
+            paginate={paginate}
+          ></Pagination>
+        </div>
+      </div>
       {movies.length === 0 && (
         <div className="loading">
           <PuffLoader color={"#36D7B7"} loading={true} size={60} />

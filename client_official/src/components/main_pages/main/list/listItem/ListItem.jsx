@@ -1,75 +1,45 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
-import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./ListItem.scss";
 import { Link } from "react-router-dom";
-import { GlobalState } from "../../../../../GlobalState";
-import axios from "axios";
 
-const ListItem = ({ index, movie }) => {
-  const state = useContext(GlobalState);
-  const [token] = state.token;
+const ListItem = ({ SetMovie, movie, MoveOut }) => {
+  const inputRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-  const addToWatchList = state.usersAPI.addToWatchList;
-  const [watchList, setWatchList] = state.usersAPI.watchList;
-  const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
-
-  const updateWatchList = async (watchList) => {
-    await axios.patch(
-      "/user/addwatchlist",
-      { watchlist: watchList },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-  };
-
-  const removeMovie = (id) => {
-    if (window.confirm("Do you want to remove this movie?")) {
-      watchList.forEach((item, index) => {
-        if (item._id === id) {
-          watchList.splice(index, 1);
-        }
-      });
-      setWatchList([...watchList]);
-      updateWatchList(watchList);
-    }
-  };
-
-  useEffect(() => {
-    if (movie) {
-      watchList.forEach((item) => {
-        if (item._id === movie._id) {
-          setIsAddedToWatchList(true);
-        }
-      });
-    }
-  }, [movie, watchList]);
-
+  // const scrollHandler = (_) => {
+  //   console.log(inputRef.current.getBoundingClientRect().left);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", scrollHandler, true);
+  //   return () => {
+  //     window.removeEventListener("scroll", scrollHandler, true);
+  //   };
+  // }, []);
   return (
-    <Link to={{ pathname: "#", movie }}>
+    <Link to={{ pathname: "", movie }}>
       <div
         className="listItem"
-        style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseOver={() =>
+          SetMovie(
+            movie,
+            inputRef.current.getBoundingClientRect().left,
+            inputRef.current.getBoundingClientRect().top
+          )
+        }
+        ref={inputRef}
       >
         <img src={movie.img.url} alt="list-item-img"></img>
         <>
-          <div className="Popup">
-            <img
-              className="Popup_img"
-              src={movie.img.url}
-              alt="list-item-img"
-            ></img>
+          {/* <div className="Popup">
+            <Link to={`/detail/${movie._id}`}>
+              <img
+                className="Popup_img"
+                src={movie.img.url}
+                alt="list-item-img"
+              ></img>
+            </Link>
             <div className="itemInfo">
               <div className="icons">
                 <PlayArrow className="icon"></PlayArrow>
-
                 <Link
                   to="#!"
                   onClick={() => {
@@ -90,7 +60,7 @@ const ListItem = ({ index, movie }) => {
                 </Link>
               </div>
               <div className="itemInfoTop">
-                <h4
+                <span
                   style={{
                     fontWeight: "500",
                     fontSize: "13px",
@@ -99,14 +69,13 @@ const ListItem = ({ index, movie }) => {
                   }}
                 >
                   {movie.title}
-                </h4>
+                </span>
                 <span className="limit">+{movie.limitAge}</span>
                 <span>{movie.year}</span>
               </div>
               <div className="desc">{movie.desc}</div>
-              {/* <div className="genre">{movie.genre}</div> */}
             </div>
-          </div>
+          </div> */}
         </>
       </div>
     </Link>

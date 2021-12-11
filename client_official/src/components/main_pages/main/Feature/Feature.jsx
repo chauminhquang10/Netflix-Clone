@@ -43,7 +43,6 @@ export default function Featured({
     setGenre(e.target.value);
   };
 
-
   return (
     <div className="featured" id="Feature">
       {type && (
@@ -73,8 +72,8 @@ export default function Featured({
       <div className="info">
         <span className="desc">{desc}</span>
         <div className="buttons">
-          <Button className="play">
-            <PlayArrow color="primary" />
+          <Button>
+            <PlayArrow className="play" color="primary" />
             Play
           </Button>
           <OutlineButton onClick={openModal}>

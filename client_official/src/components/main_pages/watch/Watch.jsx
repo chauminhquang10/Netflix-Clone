@@ -1,26 +1,24 @@
 import { ArrowBackOutlined } from "@material-ui/icons";
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import "./Watch.scss";
+import { useParams, Link } from "react-router-dom";
 
 const Watch = () => {
-  const location = useLocation();
-  const movie = location.movie;
+  const params = useParams();
+  console.log(params.TMDBid);
   return (
     <div className="watch">
-      <Link to="/">
-        <div className="back">
-          <ArrowBackOutlined />
-          Home
-        </div>
-      </Link>
-      <video
-        className="video"
-        autoPlay
-        progress
-        controls
-        src="https://drive.google.com/file/d/1rLAhlRYuwUloF9FdcKU5v-E8MJYyfaME/preview"
-      />
+      <iframe
+        width="100%"
+        height="100%"
+        src={
+          params.TMDBid
+            ? `https://www.2embed.ru/embed/tmdb/movie?id=${params.TMDBid}`
+            : "https://res.cloudinary.com/minh-quang-21-kg/video/upload/v1638518344/Video/StarCraft_II-_Heart_of_the_Swarm_Opening_Cinematic_uh2cpa.mkv"
+        }
+        frameborder="0"
+        allowfullscreen="true"
+      ></iframe>
     </div>
   );
 };

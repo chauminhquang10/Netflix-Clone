@@ -1,6 +1,6 @@
 .newMovie {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   padding: 20px;
 }
 

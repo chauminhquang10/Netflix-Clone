@@ -78,7 +78,7 @@ const Header = () => {
     );
   };
   return (
-    <header className="header" ref={headerRef}>
+    <header className="Mainheader" ref={headerRef}>
       <div className="logo">
         <h1>
           <Link to="/">
@@ -92,11 +92,13 @@ const Header = () => {
         </h1>
       </div>
       <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
-        <li className="header_li">
-          <Link className="header_Link" to="/movies">
-            Movies
-          </Link>
-        </li>
+        {isLogged && (
+          <li className="header_li">
+            <Link className="header_Link" to="/movies">
+              Movies
+            </Link>
+          </li>
+        )}
         {!isAdmin && isLogged && (
           <li className="header_li">
             <Link className="header_Link" to="/favorite">
@@ -135,38 +137,37 @@ const Header = () => {
         )}
       </ul>
       <div style={{ display: "grid", justifyContent: "flex-end" }}>
-        <div class={toggleSearch ? "search" : "search open"} id="searchBar">
-          <input
-            type="text"
-            value={search}
-            placeholder="Search..."
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            class="search-box"
-          />
-          <Link to="/movies">
-            <span
-              onClick={() => {
-                setToggleSearch(!toggleSearch);
-              }}
-              class="search-button"
-            >
-              <span class="search-icon"></span>
-            </span>
-          </Link>
-        </div>
+        {isLogged && (
+          <div class={toggleSearch ? "search" : "search open"} id="searchBar">
+            <input
+              type="text"
+              value={search}
+              placeholder="Search..."
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              class="search-box"
+            />
+
+            <Link to="/movies">
+              <span
+                onClick={() => {
+                  setToggleSearch(!toggleSearch);
+                }}
+                class="search-button"
+              >
+                <span class="search-icon"></span>
+              </span>
+            </Link>
+          </div>
+        )}
       </div>
       {!button && (
         <div className="header_lastItem">
           {isLogged ? (
             loggedRouter()
           ) : (
-            <li style={{ listStyle: "none" }}>
-              <button className="login_btn">
-                <Link className="header_Link" to="/login">
-                  LOGIN
-                </Link>
-              </button>
-            </li>
+            <Link className="header_Link" to="/login">
+              <button className="login_btn">Sign in</button>
+            </Link>
           )}
         </div>
       )}

@@ -1,21 +1,29 @@
 import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import React, { useContext, useState, useEffect, useRef } from "react";
-import "./MovieItem.scss";
 import { Link } from "react-router-dom";
-import { GlobalState } from "../../../GlobalState";
+import { GlobalState } from "../../../../../GlobalState";
 import axios from "axios";
+import "./ListItemPopUp.scss";
 
-const ListItem = ({ index, movie }) => {
+const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
   const state = useContext(GlobalState);
-  const [token] = state.token;
-  const [isHovered, setIsHovered] = useState(false);
-  const addToWatchList = state.usersAPI.addToWatchList;
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
+  const [token] = state.token;
+  const addToWatchList = state.usersAPI.addToWatchList;
   const PopupRef = useRef();
+
+  useEffect(() => {
+    if (movie) {
+      watchList.forEach((item) => {
+        if (item._id === movie._id) {
+          setIsAddedToWatchList(true);
+        }
+      });
+    }
+  }, [movie, watchList]);
 
   const updateWatchList = async (watchList) => {
     await axios.patch(
@@ -41,39 +49,38 @@ const ListItem = ({ index, movie }) => {
     }
   };
 
+  const handlePosition = () => {
+    left = left - 100;
+    if (left < 0) left = 0;
+    if (left > 1111) left = 1111;
+    PopupRef.current.style.left = `${left}px`;
+  };
+
   useEffect(() => {
-    if (movie) {
-      watchList.forEach((item) => {
-        if (item._id === movie._id) {
-          setIsAddedToWatchList(true);
-        }
-      });
+    if (left) {
+      handlePosition();
     }
-    // if (PopupRef.current.getBoundingClientRect().left < 0) {
-    //   PopupRef.current.style.left = "4px";
-    // }
-  }, [movie, watchList]);
+  }, [left]);
 
   return (
-    <Link to={{ pathname: "#", movie }}>
-      <div
-        className="listItem"
-        style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <img src={movie.img.url} alt="list-item-img"></img>
-        <>
-          <div className="Popup" ref={PopupRef}>
-            <img
-              className="Popup_img"
-              src={movie.img.url}
-              alt="list-item-img"
-            ></img>
+    <div
+      className={movie ? "div_Hovered" : "not_Hovered"}
+      onMouseLeave={() => SetTrigger(false)}
+      onMouseOver={() => SetTrigger(true)}
+    >
+      <div className="Popup" ref={PopupRef}>
+        {movie && (
+          <div>
+            <Link to={`/detail/${movie._id}`}>
+              <img
+                className="Popup_img"
+                src={movie.img.url}
+                alt="list-item-img"
+              ></img>
+            </Link>
             <div className="itemInfo">
               <div className="icons">
                 <PlayArrow className="icon"></PlayArrow>
-
                 <Link
                   to="#!"
                   onClick={() => {
@@ -110,10 +117,10 @@ const ListItem = ({ index, movie }) => {
               <div className="desc">{movie.desc}</div>
             </div>
           </div>
-        </>
+        )}
       </div>
-    </Link>
+    </div>
   );
 };
 
-export default ListItem;
+export default ListItemPopUp;

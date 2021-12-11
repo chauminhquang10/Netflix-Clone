@@ -12,6 +12,8 @@ const initialState = {
   limitAge: 0,
   duration: 0,
   genre: "",
+  TMDBid: "",
+  trailer: "",
 };
 
 const CreateMovie = () => {
@@ -181,6 +183,28 @@ const CreateMovie = () => {
             id="year"
             required
             value={movie.year}
+            onChange={handleChangeInput}
+          ></input>
+        </div>
+        <div className="row">
+          <label htmlFor="TMDBid">The Movie DB id</label>
+          <input
+            type="text"
+            name="TMDBid"
+            id="TMDBid"
+            required
+            value={movie.TMDBid}
+            onChange={handleChangeInput}
+          ></input>
+        </div>
+        <div className="row">
+          <label htmlFor="TMDBid">Trailer link</label>
+          <input
+            type="text"
+            name="trailer"
+            id="trailer"
+            required
+            value={movie.trailer}
             onChange={handleChangeInput}
           ></input>
         </div>

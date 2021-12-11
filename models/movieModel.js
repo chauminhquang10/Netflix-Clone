@@ -12,6 +12,9 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    TMDBid: {
+      type: String,
+    },
     img: {
       type: Object,
       required: true,

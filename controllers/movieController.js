@@ -87,6 +87,7 @@ const movieController = {
         limitAge,
         duration,
         genre,
+        TMDBid,
       } = req.body;
       // if (!img ||   !trailer || !video)
       //nữa thêm cái comment này vào lại
@@ -108,6 +109,7 @@ const movieController = {
         limitAge,
         duration,
         genre,
+        TMDBid,
       });
       await newMovie.save();
       res.json({ msg: "Created a new movie!" });
@@ -129,12 +131,14 @@ const movieController = {
         title,
         desc,
         img,
+        imgSmall,
         trailer,
         video,
         year,
         limitAge,
         duration,
         genre,
+        TMDBid,
       } = req.body;
       // if (!img  || !trailer || !video)
       //nữa thêm cái comment này vào lại
@@ -146,13 +150,14 @@ const movieController = {
           title: title.toLowerCase(),
           desc,
           img,
-          imgTitle,
+          imgSmall,
           trailer,
           video,
           year,
           limitAge,
           duration,
           genre,
+          TMDBid,
         }
       );
       res.json({ msg: "Updated a movie!" });

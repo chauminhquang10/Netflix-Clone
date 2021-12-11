@@ -86,6 +86,10 @@ const MovieList = () => {
       label: "Limit Age",
     },
     {
+      id: "TMDBid",
+      label: "The Movie DB id",
+    },
+    {
       id: "actions",
       label: "Actions",
       disableSorting: true,
@@ -254,7 +258,7 @@ const MovieList = () => {
                 <TableCell>{movie.year}</TableCell>
                 <TableCell>{movie.duration}</TableCell>
                 <TableCell>{movie.limitAge}</TableCell>
-
+                <TableCell>{movie.TMDBid}</TableCell>
                 <TableCell>
                   <>
                     <Link to={`/edit_movie/${movie._id}`}>
