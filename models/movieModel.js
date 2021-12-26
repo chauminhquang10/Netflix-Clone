@@ -26,9 +26,6 @@ const MovieSchema = new mongoose.Schema(
     trailer: {
       type: Object,
     },
-    video: {
-      type: Object,
-    },
     year: {
       type: Number,
       required: true,

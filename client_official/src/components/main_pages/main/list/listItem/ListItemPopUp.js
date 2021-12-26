@@ -1,5 +1,5 @@
 import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import CheckIcon from "@mui/icons-material/Check";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -92,7 +92,7 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
                   {!isAddedToWatchList ? (
                     <Add className="icon"></Add>
                   ) : (
-                    <DeleteForeverIcon className="icon" />
+                    <CheckIcon className="icon" />
                   )}
                 </Link>
                 {/* <ThumbUpAltOutlined className="icon"></ThumbUpAltOutlined> */}

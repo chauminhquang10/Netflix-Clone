@@ -14,7 +14,7 @@ const initialState = {
   desc: "How to and tutorial videos of cool CSS effect, Web Design ideas,JavaScript libraries, Node.",
   year: 0,
   limitAge: 0,
-  duration: 0,
+  duration: 120,
   genre: "",
   TMDBid: "",
   trailer: "",
@@ -183,8 +183,9 @@ const EditMovie = () => {
       </div>
       <form className="addMovieForm" onSubmit={handleSubmit}>
         <div className="movieBottom">
-          <div>
+          <div className="child_container">
             <div class="file-upload">
+              <label className="Addmovie-label">BackDrop</label>
               {img ? (
                 <div class="file-upload-content">
                   <img
@@ -219,6 +220,7 @@ const EditMovie = () => {
               )}
             </div>
             <div class="file-upload">
+              <label className="Addmovie-label">Poster</label>
               {imgSmall ? (
                 <div class="file-upload-content">
                   <img
@@ -253,7 +255,7 @@ const EditMovie = () => {
               )}
             </div>
           </div>
-          <div>
+          <div className="child_container">
             <div className="addMovieItem">
               <label htmlFor="title">Title</label>
               <input
@@ -314,7 +316,7 @@ const EditMovie = () => {
               </select>
             </div>
           </div>
-          <div>
+          <div className="child_container">
             <div className="addMovieItem">
               <label htmlFor="duration">Duration</label>
               <input

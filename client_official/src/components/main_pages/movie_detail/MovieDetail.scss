@@ -118,8 +118,20 @@
       &.play {
         background-color: #cd0613;
       }
+
       &.play:hover {
         filter: brightness(200%);
+
+        text-decoration: none;
+
+        &.detail_link:hover {
+          text-decoration: none;
+        }
+
+        .Movie_detail_span:hover {
+          color: black;
+          text-decoration: none;
+        }
       }
 
       .Movie_detail_span {

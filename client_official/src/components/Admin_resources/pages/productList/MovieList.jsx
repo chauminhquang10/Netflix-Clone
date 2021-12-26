@@ -22,6 +22,7 @@ import Checkbox from "@mui/material/Checkbox";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -31,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   deleteButton: {
     position: "absolute",
     right: "10px",
+  },
+  AddButton: {
+    position: "absolute",
+    left: "10px",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -195,7 +200,12 @@ const MovieList = () => {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Link to="/newMovie">
-            <button className="movieAddButton">Create</button>
+            <AdminNormalButton
+              text="Create"
+              variant="outlined"
+              startIcon={<AddIcon />}
+              className={classes.AddButton}
+            ></AdminNormalButton>
           </Link>
           <AdminNormalButton
             text="Delete(s)"

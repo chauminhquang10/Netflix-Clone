@@ -99,7 +99,7 @@ const Header = () => {
             </Link>
           </li>
         )}
-        {!isAdmin && isLogged && (
+        {isLogged && (
           <li className="header_li">
             <Link className="header_Link" to="/favorite">
               Favorites

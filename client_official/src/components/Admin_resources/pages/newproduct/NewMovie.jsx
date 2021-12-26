@@ -151,8 +151,9 @@ const NewMovie = () => {
   return (
     <form className="addMovieForm" onSubmit={handleSubmit}>
       <div className="newMovie">
-        <div>
+        <div className="child_container">
           <div class="file-upload">
+            <label className="Addmovie-label">BackDrop</label>
             {img ? (
               <div class="file-upload-content">
                 <img class="file-upload-image" src={img.url} alt="your image" />
@@ -183,6 +184,7 @@ const NewMovie = () => {
             )}
           </div>
           <div class="file-upload">
+            <label className="Addmovie-label">Poster</label>
             {imgSmall ? (
               <div class="file-upload-content">
                 <img
@@ -217,7 +219,7 @@ const NewMovie = () => {
             )}
           </div>
         </div>
-        <div>
+        <div className="child_container">
           <div className="addMovieItem">
             <label htmlFor="title">Title</label>
             <input
@@ -278,7 +280,7 @@ const NewMovie = () => {
             </select>
           </div>
         </div>
-        <div>
+        <div className="child_container">
           <div className="addMovieItem">
             <label htmlFor="duration">Duration</label>
             <input

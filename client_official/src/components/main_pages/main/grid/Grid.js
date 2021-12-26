@@ -27,6 +27,12 @@ const Grid = ({ movies, title, index }) => {
                 <div className={"Grid_1"}>
                   <GridItem movie={movie}></GridItem>
                   <div className="Grid_item_title_large">{movie.title}</div>
+                  <div>
+                    <img
+                      className="Grid_item_HD"
+                      src="https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1640439030/movie/ultra-4k-hd-logo-AAA0E9BB23-seeklogo.com_ccexpress_yaag0h.png"
+                    />
+                  </div>
                 </div>
               );
             case 2:

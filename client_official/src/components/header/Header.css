@@ -74,6 +74,15 @@
   opacity: 0.9;
 }
 
+.header_Link {
+  color: white;
+}
+
+.header_Link:hover {
+  text-decoration: none;
+  color: #e50914;
+}
+
 @media screen and (max-width: 700px) {
   .header_ul {
     display: flex;

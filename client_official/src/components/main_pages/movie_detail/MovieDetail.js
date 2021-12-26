@@ -108,7 +108,10 @@ const MovieDetail = () => {
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                <Link to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}>
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
+                >
                   <button className="play">
                     <PlayArrow />
                     <span className="Movie_detail_span">Play</span>
