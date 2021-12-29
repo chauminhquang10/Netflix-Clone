@@ -26,6 +26,10 @@
   cursor: pointer;
 } */
 
+.movieAddButton {
+  width: fit-content;
+}
+
 .admin-movies-list {
   flex: 4;
 }

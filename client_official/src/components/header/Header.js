@@ -7,6 +7,7 @@ import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
+import { Notifications } from "@material-ui/icons";
 
 const Header = () => {
   const state = useContext(GlobalState);
@@ -78,26 +79,25 @@ const Header = () => {
     );
   };
   return (
-    <header className="header" ref={headerRef}>
+    <header className="Mainheader" ref={headerRef}>
       <div className="logo">
-        <h1>
-          <Link to="/">
-            <img
-              className="logoImg"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-              alt="logo"
-              className="header_logo"
-            ></img>
-          </Link>
-        </h1>
+        <Link to="/">
+          <img
+            className="logoImg"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+            alt="logo"
+          ></img>
+        </Link>
       </div>
       <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
-        <li className="header_li">
-          <Link className="header_Link" to="/movies">
-            Movies
-          </Link>
-        </li>
-        {!isAdmin && isLogged && (
+        {isLogged && (
+          <li className="header_li">
+            <Link className="header_Link" to="/movies">
+              Movies
+            </Link>
+          </li>
+        )}
+        {isLogged && (
           <li className="header_li">
             <Link className="header_Link" to="/favorite">
               Favorites
@@ -135,38 +135,38 @@ const Header = () => {
         )}
       </ul>
       <div style={{ display: "grid", justifyContent: "flex-end" }}>
-        <div class={toggleSearch ? "search" : "search open"} id="searchBar">
-          <input
-            type="text"
-            value={search}
-            placeholder="Search..."
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            class="search-box"
-          />
-          <Link to="/movies">
-            <span
-              onClick={() => {
-                setToggleSearch(!toggleSearch);
-              }}
-              class="search-button"
-            >
-              <span class="search-icon"></span>
-            </span>
-          </Link>
-        </div>
+        {isLogged && (
+          <div class={toggleSearch ? "search" : "search open"} id="searchBar">
+            <input
+              type="text"
+              value={search}
+              placeholder="Search..."
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              class="search-box"
+            />
+
+            <Link to="/movies">
+              <span
+                onClick={() => {
+                  setToggleSearch(!toggleSearch);
+                }}
+                class="search-button"
+              >
+                <span class="search-icon"></span>
+              </span>
+            </Link>
+          </div>
+        )}
       </div>
+      <Notifications style={{ fontSize: "40px", marginLeft: "1.5rem" }} />
       {!button && (
         <div className="header_lastItem">
           {isLogged ? (
             loggedRouter()
           ) : (
-            <li style={{ listStyle: "none" }}>
-              <button className="login_btn">
-                <Link className="header_Link" to="/login">
-                  LOGIN
-                </Link>
-              </button>
-            </li>
+            <Link className="header_Link" to="/login">
+              <button className="login_btn">Sign in</button>
+            </Link>
           )}
         </div>
       )}

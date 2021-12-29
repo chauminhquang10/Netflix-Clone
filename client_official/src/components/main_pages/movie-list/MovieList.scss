@@ -1,6 +1,7 @@
 @use "../../../scss/breakpoint" as *;
 
 .movie_detail_list {
+  position: relative;
   .swiper-slide {
     width: fit-content;
 

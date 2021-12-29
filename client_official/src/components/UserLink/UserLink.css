@@ -41,6 +41,7 @@
 .userlink_menu {
   position: absolute;
   top: -1000px;
+  left: -128px;
   padding: 15px 10px;
   background-color: white;
   border-radius: 15px;

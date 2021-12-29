@@ -37,6 +37,8 @@ const Comment = ({ dataHref, width, numPost }) => {
         data-href={dataHref}
         data-width={width ? width : ""}
         data-numposts={numPost ? numPost : 5}
+        data-colorscheme="dark"
+        data-order-by="time"
       ></div>
     </>
   );

@@ -14,11 +14,13 @@ import {
 
 const initialState = {
   title: "",
-  desc: "How to and tutorial videos of cool CSS effect, Web Design ideas,JavaScript libraries, Node.",
+  desc: "Movie decscription",
   year: 0,
   limitAge: 0,
   duration: 0,
   genre: "",
+  trailer: "",
+  TMDBid: "",
 };
 
 const NewMovie = () => {
@@ -149,8 +151,9 @@ const NewMovie = () => {
   return (
     <form className="addMovieForm" onSubmit={handleSubmit}>
       <div className="newMovie">
-        <div>
+        <div className="child_container">
           <div class="file-upload">
+            <label className="Addmovie-label">BackDrop</label>
             {img ? (
               <div class="file-upload-content">
                 <img class="file-upload-image" src={img.url} alt="your image" />
@@ -181,6 +184,7 @@ const NewMovie = () => {
             )}
           </div>
           <div class="file-upload">
+            <label className="Addmovie-label">Poster</label>
             {imgSmall ? (
               <div class="file-upload-content">
                 <img
@@ -214,31 +218,8 @@ const NewMovie = () => {
               </div>
             )}
           </div>
-          {/* <div className="addMovieItem">
-            <label>Image</label>
-            <input type="file" id="file" onChange={handleUpload} />
-          </div>
-          <div className="addMovieItem">
-            <label>Image Small</label>
-            <input type="file" id="fileSmall" onChange={handleUploadSmall} />
-          </div> */}
-          <div className="addMovieItem">
-            <label htmlFor="genres">Genres:</label>
-            <select
-              name="genre"
-              value={movie.genre}
-              onChange={handleChangeInput}
-            >
-              <option value="">Please select a genre</option>
-              {genres.map((genre) => (
-                <option value={genre._id} key={genre._id}>
-                  {genre.name}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
-        <div>
+        <div className="child_container">
           <div className="addMovieItem">
             <label htmlFor="title">Title</label>
             <input
@@ -261,6 +242,45 @@ const NewMovie = () => {
               onChange={handleChangeInput}
             ></input>
           </div>
+          <div className="addMovieItem">
+            <label htmlFor="TMDBid">The Movie DB id</label>
+            <input
+              type="text"
+              name="TMDBid"
+              id="TMDBid"
+              required
+              value={movie.TMDBid}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+          <div className="addMovieItem">
+            <label htmlFor="TMDBid">Trailer link</label>
+            <input
+              type="text"
+              name="trailer"
+              id="trailer"
+              required
+              value={movie.trailer}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+          <div className="addMovieItem">
+            <label htmlFor="genres">Genres:</label>
+            <select
+              name="genre"
+              value={movie.genre}
+              onChange={handleChangeInput}
+            >
+              <option value="">Please select a genre</option>
+              {genres.map((genre) => (
+                <option value={genre._id} key={genre._id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="child_container">
           <div className="addMovieItem">
             <label htmlFor="duration">Duration</label>
             <input

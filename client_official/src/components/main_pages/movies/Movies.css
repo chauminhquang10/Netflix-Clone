@@ -2,10 +2,22 @@
   display: grid;
   grid-template-columns: auto auto auto auto auto auto;
   grid-template-rows: auto auto auto auto auto auto 1fr;
-  grid-row-gap: 30px;
+  grid-row-gap: 5px;
   justify-items: center;
   min-height: 700px;
   padding-top: 70px;
+  margin: 0 50px;
+  top: -80px;
+  position: relative;
+}
+
+.Pagination {
+  width: 100%;
+}
+
+.Pagination1 {
+  width: fit-content;
+  margin-left: 46%;
 }
 
 .loading {

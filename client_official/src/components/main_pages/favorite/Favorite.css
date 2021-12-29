@@ -12,6 +12,12 @@
   grid-row-gap: 20px;
 }
 
+.Fav_header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 2.5rem;
+}
+
 @media (max-width: 1100px) {
   .Fav_item_container {
     grid-template-columns: auto auto 1fr;

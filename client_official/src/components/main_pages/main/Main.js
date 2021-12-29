@@ -15,7 +15,7 @@ const Movies = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
-
+  const [listTrigger, setListTrigger] = useState(true);
   if (loading) {
     return (
       <div className="loading">
@@ -23,6 +23,14 @@ const Movies = () => {
       </div>
     );
   }
+
+  const ToggleTrigger = (value) => {
+    setListTrigger(value);
+  };
+
+  const getTrigger = () => {
+    return listTrigger;
+  };
 
   return (
     <>
@@ -39,7 +47,14 @@ const Movies = () => {
       <div className="main_page">
         {lists.map((list, index) => {
           if (index < 2) {
-            return <Listitem movies={list.items} title={list.title}></Listitem>;
+            return (
+              <Listitem
+                movies={list.items}
+                title={list.title}
+                getTrigger={getTrigger}
+                ToggleTrigger={ToggleTrigger}
+              ></Listitem>
+            );
           } else {
             return (
               <Grid movies={list.items} title={list.title} index={index}></Grid>

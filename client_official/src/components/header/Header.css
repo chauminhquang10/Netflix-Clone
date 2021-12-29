@@ -1,21 +1,23 @@
-.header {
+.Mainheader {
   min-height: 70px;
-  width: 100%;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 3fr 9fr 4fr 1fr;
+  grid-template-columns: 3fr 9fr 4fr 1fr 1fr;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 999;
   transition: 1s all;
+  left: 0;
 }
 
 .logoImg {
-  width: 200px;
+  margin-bottom: 3rem;
 }
 
 .logo {
+  height: 20px;
+  width: 119px;
   position: relative;
   left: 33px;
 }
@@ -25,17 +27,7 @@
   grid-template-columns: auto auto auto auto 1fr;
   column-gap: 40px;
   align-items: flex-start;
-}
-
-.header_Link {
-  color: white;
-  font-family: "Radiant EF Text Demi Bold";
-  font-size: 20px;
-}
-
-.header_Link:hover {
-  cursor: pointer;
-  opacity: 0.5;
+  margin: 0;
 }
 
 .header_lastItem {
@@ -44,7 +36,6 @@
 }
 
 .header_logo {
-  height: 25px;
   margin-right: 40px;
 }
 
@@ -64,17 +55,29 @@
   cursor: pointer;
 }
 .login_btn {
-  -webkit-appearance: none;
   height: 40px;
-  background-color: black;
-  width: 80px;
-  border-radius: 5%;
-  opacity: 0.6;
-  box-shadow: blanchedalmond 1px 1px;
+  width: 100px;
+  font-family: "Radiant EF Text Demi Bold";
+  font-size: 20px;
+  background-color: #e50914;
+  color: white;
+  opacity: 1;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-left: 20px;
 }
 
 .login_btn:hover {
-  opacity: 1;
+  opacity: 0.9;
+}
+
+.header_Link {
+  color: white;
+}
+
+.header_Link:hover {
+  text-decoration: none;
+  color: #e50914;
 }
 
 @media screen and (max-width: 700px) {

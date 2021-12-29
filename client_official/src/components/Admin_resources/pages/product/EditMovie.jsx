@@ -14,8 +14,10 @@ const initialState = {
   desc: "How to and tutorial videos of cool CSS effect, Web Design ideas,JavaScript libraries, Node.",
   year: 0,
   limitAge: 0,
-  duration: 0,
+  duration: 120,
   genre: "",
+  TMDBid: "",
+  trailer: "",
 };
 
 const EditMovie = () => {
@@ -178,130 +180,181 @@ const EditMovie = () => {
             title="Views Performance"
           ></Chart>
         </div>
-        <div className="movieTopRight">
-          <div className="movieInfoBottom">
-            <div className="movieInfoItem">
-              <span className="movieInfoName">
-                {movie.title.replace(/\w\S*/g, (w) =>
-                  w.replace(/^\w/, (c) => c.toUpperCase())
-                )}
-              </span>
+      </div>
+      <form className="addMovieForm" onSubmit={handleSubmit}>
+        <div className="movieBottom">
+          <div className="child_container">
+            <div class="file-upload">
+              <label className="Addmovie-label">BackDrop</label>
+              {img ? (
+                <div class="file-upload-content">
+                  <img
+                    class="file-upload-image"
+                    src={img.url}
+                    alt="your image"
+                  />
+                  <div class="image-title-wrap">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImg(false);
+                      }}
+                      class="remove-image"
+                    >
+                      Remove <span class="image-title">Back Drop</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div class="image-upload-wrap">
+                  <input
+                    class="file-upload-input"
+                    type="file"
+                    id="file"
+                    onChange={handleUpload}
+                  />
+                  <div class="drag-text">
+                    <h5>Drag and drop a file or select add Back Drop</h5>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="movieInfoItem">
-              <span className="movieInfoKey">Description:</span>
-              <span className="movieInfoValue">{movie.desc}</span>
-            </div>
-            <div className="movieInfoItem">
-              <span className="movieInfoKey">Genre:</span>
-              <span className="movieInfoValue">{movieGenre.name}</span>
-            </div>
-            <div className="movieInfoItem">
-              <span className="movieInfoKey">Views:</span>
-              <span className="movieInfoValue">{movie.views}</span>
-            </div>
-            <div className="movieInfoItem">
-              <span className="movieInfoKey">Rating:</span>
-              <span className="movieInfoValue">{movie.rating}</span>
+            <div class="file-upload">
+              <label className="Addmovie-label">Poster</label>
+              {imgSmall ? (
+                <div class="file-upload-content">
+                  <img
+                    class="file-upload-image"
+                    src={imgSmall.url}
+                    alt="your image"
+                  />
+                  <div class="image-title-wrap">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImgSmall(false);
+                      }}
+                      class="remove-image"
+                    >
+                      Remove <span class="image-title">Poster</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div class="image-upload-wrap">
+                  <input
+                    class="file-upload-input"
+                    type="file"
+                    id="fileSmall"
+                    onChange={handleUploadSmall}
+                  />
+                  <div class="drag-text">
+                    <h5>Drag and drop a file or select add Poster</h5>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
-      <div className="movieBottom" onSubmit={handleSubmit}>
-        <form className="movieForm">
-          <div className="movieFormLeft">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              required
-              value={movie.title}
-              onChange={handleChangeInput}
-            ></input>
-            <label htmlFor="year">Year</label>
-            <input
-              type="number"
-              name="year"
-              id="year"
-              required
-              value={movie.year}
-              onChange={handleChangeInput}
-            ></input>
-            <label htmlFor="duration">Duration</label>
-            <input
-              type="number"
-              name="duration"
-              id="duration"
-              required
-              value={movie.duration}
-              onChange={handleChangeInput}
-            ></input>
-            <label htmlFor="limitAge">Limit Age</label>
-            <input
-              type="number"
-              name="limitAge"
-              id="limitAge"
-              required
-              value={movie.limitAge}
-              onChange={handleChangeInput}
-            ></input>
-            <label htmlFor="desc">Description</label>
-            <textarea
-              type="text"
-              name="desc"
-              id="desc"
-              required
-              value={movie.desc}
-              rows={5}
-              onChange={handleChangeInput}
-            ></textarea>
-
-            <label htmlFor="genres">Genres</label>
-            <FormControl>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={movie.genre}
+          <div className="child_container">
+            <div className="addMovieItem">
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                required
+                value={movie.title}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="year">Year</label>
+              <input
+                type="number"
+                name="year"
+                id="year"
+                required
+                value={movie.year}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="TMDBid">The Movie DB id</label>
+              <input
+                type="text"
+                name="TMDBid"
+                id="TMDBid"
+                required
+                value={movie.TMDBid}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="TMDBid">Trailer link</label>
+              <input
+                type="text"
+                name="trailer"
+                id="trailer"
+                required
+                value={movie.trailer}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="genres">Genres:</label>
+              <select
                 name="genre"
+                value={movie.genre}
                 onChange={handleChangeInput}
               >
+                <option value="">Please select a genre</option>
                 {genres.map((genre) => (
-                  <MenuItem value={genre._id} key={genre._id}>
+                  <option value={genre._id} key={genre._id}>
                     {genre.name}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="movieFormRight">
-            <div className="movieUpload">
-              <img
-                className="movieUploadImg"
-                src={img.url}
-                alt="movie-img"
-              ></img>
-              <label htmlFor="file">
-                <Publish></Publish>
-              </label>
-              <input type="file" id="file" onChange={handleUpload}></input>
+              </select>
             </div>
-            {imgSmall && (
-              <div className="movieUpload">
-                <img
-                  className="movieUploadImg"
-                  src={imgSmall.url}
-                  alt="movie-img"
-                ></img>
-                <label htmlFor="file">
-                  <Publish></Publish>
-                </label>
-                <input type="file" id="file" onChange={handleUpload}></input>
-              </div>
-            )}
-            <button className="movieButton">Update</button>
           </div>
-        </form>
-      </div>
+          <div className="child_container">
+            <div className="addMovieItem">
+              <label htmlFor="duration">Duration</label>
+              <input
+                type="number"
+                name="duration"
+                id="duration"
+                required
+                value={movie.duration}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="limitAge">Limit Age</label>
+              <input
+                type="number"
+                name="limitAge"
+                id="limitAge"
+                required
+                value={movie.limitAge}
+                onChange={handleChangeInput}
+              ></input>
+            </div>
+            <div className="addMovieItem">
+              <label htmlFor="desc">Description</label>
+              <textarea
+                type="text"
+                name="desc"
+                id="desc"
+                required
+                value={movie.desc}
+                rows={5}
+                onChange={handleChangeInput}
+              ></textarea>
+            </div>
+            <button className="addMovieButton">Update</button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

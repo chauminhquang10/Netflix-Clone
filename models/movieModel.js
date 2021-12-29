@@ -12,6 +12,9 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    TMDBid: {
+      type: String,
+    },
     img: {
       type: Object,
       required: true,
@@ -21,9 +24,6 @@ const MovieSchema = new mongoose.Schema(
       required: true,
     },
     trailer: {
-      type: Object,
-    },
-    video: {
       type: Object,
     },
     year: {

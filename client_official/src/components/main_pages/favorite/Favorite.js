@@ -3,7 +3,7 @@ import { GlobalState } from "../../../GlobalState";
 import { HighlightOff } from "@material-ui/icons";
 import "./Favorite.css";
 import axios from "axios";
-import ListItem from "../main/list/listItem/ListItem";
+import ListItem from "../main/MovieItem";
 
 const Favorite = () => {
   const state = useContext(GlobalState);
@@ -21,14 +21,16 @@ const Favorite = () => {
     );
   return (
     <div className="Fav_container">
-      <h2>My Favotites</h2>
+      <div className="Fav_header">
+        <h2>My Favotites</h2>
+        <div className="total">
+          <h3>Total: {watchList.length}</h3>
+        </div>
+      </div>
       <div className="Fav_item_container">
         {watchList.map((movie) => (
           <ListItem movie={movie}></ListItem>
         ))}
-      </div>
-      <div className="total">
-        <h3>Total: {watchList.length}</h3>
       </div>
     </div>
   );

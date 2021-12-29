@@ -108,10 +108,13 @@ const MovieDetail = () => {
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                <Link to={{ pathname: "/watch", movieDetail }}>
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
+                >
                   <button className="play">
                     <PlayArrow />
-                    <span>Play</span>
+                    <span className="Movie_detail_span">Play</span>
                   </button>
                 </Link>
 
@@ -156,7 +159,7 @@ const MovieDetail = () => {
       </div>
 
       {/* Facebook Plugins  */}
-      <div>
+      <div className="Comment_container">
         <LikeAndShare dataHref={currentURL} />
         <Comment width={"100%"} dataHref={currentURL} />
       </div>

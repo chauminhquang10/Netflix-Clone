@@ -161,6 +161,8 @@ const Login = () => {
       className="footer"
       style={{
         backgroundImage: `url(https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1635778140/TestMovie/footer-bg_balrrj.jpg)`,
+        top: "-70px",
+        position: "relative",
       }}
     >
       <Container>
