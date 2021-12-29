@@ -88,6 +88,7 @@ const List = ({ title, movies, getTrigger, ToggleTrigger }) => {
           wrapperTag="ul"
           navigation
           slidesPerView={6}
+          loop={true}
         >
           {movies.map((movie, index) => (
             <SwiperSlide style={{ listStyle: "none" }} key={index} tag="li">

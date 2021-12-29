@@ -99,6 +99,9 @@ export default function Featured({
           </div>
         </div>
       </div>
+      <div className="AgeRec">
+        <span>13+</span>
+      </div>
     </div>
   );
 }

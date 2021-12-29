@@ -7,6 +7,7 @@ import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
+import { Notifications } from "@material-ui/icons";
 
 const Header = () => {
   const state = useContext(GlobalState);
@@ -80,16 +81,13 @@ const Header = () => {
   return (
     <header className="Mainheader" ref={headerRef}>
       <div className="logo">
-        <h1>
-          <Link to="/">
-            <img
-              className="logoImg"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-              alt="logo"
-              className="header_logo"
-            ></img>
-          </Link>
-        </h1>
+        <Link to="/">
+          <img
+            className="logoImg"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+            alt="logo"
+          ></img>
+        </Link>
       </div>
       <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
         {isLogged && (
@@ -160,6 +158,7 @@ const Header = () => {
           </div>
         )}
       </div>
+      <Notifications style={{ fontSize: "40px", marginLeft: "1.5rem" }} />
       {!button && (
         <div className="header_lastItem">
           {isLogged ? (

@@ -2,7 +2,7 @@
   min-height: 70px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 3fr 9fr 4fr 1fr;
+  grid-template-columns: 3fr 9fr 4fr 1fr 1fr;
   align-items: center;
   position: sticky;
   top: 0;
@@ -12,14 +12,12 @@
 }
 
 .logoImg {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+  margin-bottom: 3rem;
 }
 
 .logo {
-  height: 40px;
-  width: 134px;
+  height: 20px;
+  width: 119px;
   position: relative;
   left: 33px;
 }
@@ -38,7 +36,6 @@
 }
 
 .header_logo {
-  height: 40px;
   margin-right: 40px;
 }
 

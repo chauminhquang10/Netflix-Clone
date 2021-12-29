@@ -63,7 +63,7 @@
 }
 
 .avatar:hover span {
-  bottom: -20%;
+  top: 50%;
 }
 
 #file_up {

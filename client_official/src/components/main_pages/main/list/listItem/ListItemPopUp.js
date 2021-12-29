@@ -111,7 +111,8 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
                 >
                   {movie.title}
                 </span>
-                <span className="limit">+{movie.limitAge}</span>
+                {/* <span className="limit">{movie.limitAge}+</span> */}
+                <span className="limit">13+</span>
                 <span>{movie.year}</span>
               </div>
               <div className="desc">{movie.desc}</div>
