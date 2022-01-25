@@ -9,6 +9,8 @@ import axios from "axios";
 import Listitem from "../main/list/List";
 import Featured from "./Feature/Feature";
 import Grid from "./grid/Grid";
+import VerticalList from "./VerticalList/VerticalList";
+import HorizontalList from "./HorizontalList/HorizontalList";
 
 const Movies = () => {
   const state = useContext(GlobalState);
@@ -46,19 +48,26 @@ const Movies = () => {
       />
       <div className="main_page">
         {lists.map((list, index) => {
-          if (index < 2) {
-            return (
-              <Listitem
-                movies={list.items}
-                title={list.title}
-                getTrigger={getTrigger}
-                ToggleTrigger={ToggleTrigger}
-              ></Listitem>
-            );
-          } else {
-            return (
-              <Grid movies={list.items} title={list.title} index={index}></Grid>
-            );
+          switch (index) {
+            case 2:
+              return <HorizontalList movies={list.items} />;
+            case 3:
+              return (
+                <Grid
+                  movies={list.items}
+                  title={list.title}
+                  index={index}
+                ></Grid>
+              );
+            default:
+              return (
+                <Listitem
+                  movies={list.items}
+                  title={list.title}
+                  getTrigger={getTrigger}
+                  ToggleTrigger={ToggleTrigger}
+                ></Listitem>
+              );
           }
         })}
       </div>

@@ -8,8 +8,10 @@ import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
 import { Notifications } from "@material-ui/icons";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
   const state = useContext(GlobalState);
   const [search, setSearch] = state.moviesAPI.search;
   const [userData] = state.usersAPI.userData;
@@ -20,6 +22,8 @@ const Header = () => {
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
+
+  console.log(location.pathname);
 
   function OnScroll() {
     if (headerRef.current) {
@@ -40,6 +44,11 @@ const Header = () => {
         headerRef.current.style.display = "grid";
       }
     }
+  }
+
+  function usePageViews() {
+    let location = useLocation();
+    React.useEffect(() => {}, [location]);
   }
 
   const showButton = () => {
@@ -78,6 +87,8 @@ const Header = () => {
       </>
     );
   };
+
+  usePageViews();
   return (
     <header className="Mainheader" ref={headerRef}>
       <div className="logo">
@@ -92,14 +103,28 @@ const Header = () => {
       <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
         {isLogged && (
           <li className="header_li">
-            <Link className="header_Link" to="/movies">
+            <Link
+              className={
+                location.pathname === "/movies"
+                  ? "header_Link active"
+                  : "header_Link"
+              }
+              to="/movies"
+            >
               Movies
             </Link>
           </li>
         )}
         {isLogged && (
           <li className="header_li">
-            <Link className="header_Link" to="/favorite">
+            <Link
+              className={
+                location.pathname === "/favorite"
+                  ? "header_Link active"
+                  : "header_Link"
+              }
+              to="/favorite"
+            >
               Favorites
             </Link>
           </li>
