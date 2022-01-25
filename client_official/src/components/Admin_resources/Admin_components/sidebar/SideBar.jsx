@@ -15,6 +15,7 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  Payment,
 } from "@material-ui/icons";
 
 const SideBar = () => {
@@ -65,6 +66,12 @@ const SideBar = () => {
               <li className="sidebarListItem">
                 <AttachMoney className="sidebarIcon" />
                 Lists
+              </li>
+            </Link>
+            <Link to="/payments" className="link">
+              <li className="sidebarListItem">
+                <Payment className="sidebarIcon" />
+                Payments
               </li>
             </Link>
           </ul>

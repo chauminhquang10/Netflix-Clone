@@ -25,6 +25,12 @@ router.patch("/update", auth, userController.updateUserInfo);
 
 router.patch("/addwatchlist", auth, userController.addWatchList);
 
+// xử lí mua gói
+router.patch("/addpackage", auth, userController.addPackage);
+
+// xử lí lấy các gói đã mua
+router.get("/history", auth, userController.getHistory);
+
 //update user permissions with role admin
 router.patch(
   "/update_role/:id",

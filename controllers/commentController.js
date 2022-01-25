@@ -1,24 +1,22 @@
 const Comments = require("../models/commentModel");
-const Products = require("../models/productModel");
+const Movies = require("../models/movieModel");
 
 const commentController = {
   createComment: async (req, res) => {
     try {
-      const { content, writer, about, responseTo, star, length, totalStar } =
-        req.body;
+      const { content, writer, movieId, responseTo } = req.body;
 
       const newComment = new Comments({
         content,
         writer,
-        about,
+        movieId,
         responseTo,
-        star,
       });
 
-      const calcStar = (totalStar + star) / (length + 1);
+      // const calcStar = (totalStar + star) / (length + 1);
 
-      // cập nhật số sao cho sản phẩm đang comment sau khi người dùng comment đánh giá.
-      productStarUpdate(about, calcStar);
+      // // cập nhật số sao cho sản phẩm đang comment sau khi người dùng comment đánh giá.
+      // productStarUpdate(about, calcStar);
 
       await newComment.save();
 
@@ -29,7 +27,7 @@ const commentController = {
   },
   getAllComments: async (req, res) => {
     try {
-      const comments = await Comments.find({ about: req.params.id });
+      const comments = await Comments.find({ movieId: req.params.id });
       res.json({
         length: comments.length,
         comments: comments,
@@ -38,15 +36,36 @@ const commentController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  deleteComment: async (req, res) => {
+    try {
+      deleteChildComment(req.params.id);
+      res.json({ msg: "Deleted a comment!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
-const productStarUpdate = async (about, calcStar) => {
-  await Products.findOneAndUpdate(
-    { _id: about },
-    {
-      star: calcStar,
-    }
-  );
+// const productStarUpdate = async (about, calcStar) => {
+//   await Products.findOneAndUpdate(
+//     { _id: about },
+//     {
+//       star: calcStar,
+//     }
+//   );
+// };
+
+const deleteChildComment = async (commentId) => {
+  await Comments.findByIdAndDelete({ _id: commentId });
+
+  const childComments = await Comments.find({
+    responseTo: commentId,
+  });
+  if (childComments) {
+    childComments.filter((comment) => {
+      return deleteChildComment(comment._id);
+    });
+  } else return;
 };
 
 module.exports = commentController;

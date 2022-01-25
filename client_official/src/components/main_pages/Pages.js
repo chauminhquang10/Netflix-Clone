@@ -30,6 +30,14 @@ import { GlobalState } from "../../GlobalState";
 
 import AdminProfile from "../Admin_resources/pages/profile/AdminProfile";
 
+import ServicePackage from "./service_pack/ServicePackage";
+import CheckOut from "./service_pack/checkout/CheckOut";
+import OrderHistory from "./service_pack/history/OrderHistory";
+import OrderDetail from "./service_pack/history/OrderDetail";
+
+import AdminPayments from "./payments/AdminPayments";
+import PaymentDetail from "./payments/PaymentDetail";
+
 const Pages = () => {
   const state = useContext(GlobalState);
   const [isLogged] = state.usersAPI.isLogged;
@@ -91,6 +99,18 @@ const Pages = () => {
                 component={isAdmin ? AdminLists : NotFound}
               />
 
+              {/* Packages */}
+              <Route
+                path="/payments"
+                exact
+                component={isAdmin ? AdminPayments : NotFound}
+              />
+
+              <Route
+                path="/payments/:id"
+                component={isAdmin ? PaymentDetail : NotFound}
+              />
+
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
@@ -111,6 +131,12 @@ const Pages = () => {
                 path="/favorite"
                 component={isLogged ? Favorite : LandingPage}
               />
+
+              {/* Thử nghiệm mua gói */}
+              <Route path="/packages" component={ServicePackage} />
+
+              <Route path="/checkout" component={CheckOut} />
+
               <Route
                 path="/watch/:TMDBid/:id"
                 component={isLogged ? Watch : LandingPage}
@@ -136,6 +162,20 @@ const Pages = () => {
                 path="/profile"
                 component={isLogged ? UserProfile : NotFound}
               />
+
+              {/* Xem những gói đã mua */}
+              <Route
+                exact
+                path="/history"
+                component={isLogged ? OrderHistory : NotFound}
+              />
+
+              {/* Xem chi tiết gói đã mua */}
+              <Route
+                path="/detailHistory"
+                component={isLogged ? OrderDetail : NotFound}
+              />
+
               <Route path="*" component={NotFound} />
             </Switch>
           </>

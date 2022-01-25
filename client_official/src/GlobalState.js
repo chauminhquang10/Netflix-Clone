@@ -3,6 +3,7 @@ import MoviesAPI from "./api/MoviesAPI";
 import UsersAPI from "./api/UsersAPI";
 import GenresAPI from "./api/GenresAPI";
 import ListsAPI from "./api/ListsAPI";
+import PackgesAPI from "./api/PackagesAPI";
 import axios from "axios";
 
 export const GlobalState = createContext();
@@ -31,6 +32,7 @@ export const DataProvider = ({ children }) => {
     usersAPI: UsersAPI(token),
     genresAPI: GenresAPI(),
     listsAPI: ListsAPI(),
+    packagesAPI: PackgesAPI(),
   };
 
   return <GlobalState.Provider value={state}>{children}</GlobalState.Provider>;

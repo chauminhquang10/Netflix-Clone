@@ -10,9 +10,12 @@ import MovieList from "../movie-list/MovieList";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { OutlineButton } from "../../button/Button";
+import axios from "axios";
 
-import LikeAndShare from "../../Social Plugin/LikeAndShare";
-import Comment from "../../Social Plugin/Comment";
+// import LikeAndShare from "../../Social Plugin/LikeAndShare";
+// import Comment from "../../Social Plugin/Comment";
+
+import Comments from "./Comments/Comments";
 
 const MovieDetail = () => {
   const params = useParams();
@@ -24,10 +27,10 @@ const MovieDetail = () => {
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
 
-  const [isCommented, setIsCommented] = useState(false);
-  const [productDetail, setProductDetail] = useState([]);
   //comments khách hàng
-  const [comments, setComments] = useState([]);
+  const [commentList, setCommentList] = useState([]);
+
+  const [commentCallback, setCommentCallback] = useState(false);
 
   //biến ktra xem movie detail này đã có trong watchList hay chưa?
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
@@ -63,6 +66,15 @@ const MovieDetail = () => {
     }
   }, [movieDetail, watchList]);
 
+  useEffect(() => {
+    const getAllComments = async () => {
+      const res = await axios.get(`/api/getAllComments/${movieDetail._id}`);
+      setCommentList(res.data.comments);
+    };
+
+    getAllComments();
+  }, [movieDetail, commentCallback]);
+
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
 
@@ -70,8 +82,6 @@ const MovieDetail = () => {
     +process.env.REACT_APP_IS_LOCALHOST === 1
       ? "https://netflix-chat-bot.herokuapp.com/"
       : window.location.href;
-
-  console.log(process.env.REACT_APP_IS_LOCALHOST);
 
   return (
     <>
@@ -159,10 +169,18 @@ const MovieDetail = () => {
       </div>
 
       {/* Facebook Plugins  */}
-      <div className="Comment_container">
+      {/* <div className="Comment_container">
         <LikeAndShare dataHref={currentURL} />
         <Comment width={"100%"} dataHref={currentURL} />
-      </div>
+      </div> */}
+
+      <Comments
+        movieId={movieDetail._id}
+        commentList={commentList}
+        setCommentList={setCommentList}
+        commentCallback={commentCallback}
+        setCommentCallback={setCommentCallback}
+      ></Comments>
     </>
   );
 };
