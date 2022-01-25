@@ -22,6 +22,11 @@ app.use("/api", require("./routes/upload"));
 app.use("/api", require("./routes/genreRoutes"));
 app.use("/api", require("./routes/listRoutes"));
 app.use("/api", require("./routes/movieRoutes"));
+app.use("/api", require("./routes/commentRoutes"));
+app.use("/api", require("./routes/likeRoutes"));
+app.use("/api", require("./routes/dislikeRoutes"));
+app.use("/api", require("./routes/servicePackageRoutes"));
+app.use("/api", require("./routes/paymentRoutes"));
 
 // Connect to the database
 const URI = process.env.MONGODB_URL;

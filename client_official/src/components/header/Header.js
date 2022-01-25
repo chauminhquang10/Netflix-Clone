@@ -130,6 +130,24 @@ const Header = () => {
           </li>
         )}
 
+        {/* Thử nghiệm mua gói */}
+        {isLogged && (
+          <li className="header_li">
+            <Link className="header_Link" to="/packages">
+              Packages
+            </Link>
+          </li>
+        )}
+
+        {/* Phần lịch sử mua gói */}
+        {isLogged && (
+          <li className="header_li">
+            <Link className="header_Link" to="/history">
+              History
+            </Link>
+          </li>
+        )}
+
         {button && (
           <li className="header_li">
             <Link className="header_Link" to="/">

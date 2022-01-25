@@ -2,75 +2,118 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { GlobalState } from "../../../../GlobalState";
 
-import { Button, Input } from "antd";
-
 import axios from "axios";
 
-import StarRating from "../CommentStarRating/StarRating";
+import { Button, Input } from "antd";
+
+import SingleComment from "./SingleComment";
+import ReplyComment from "./ReplyComment";
+
 const { TextArea } = Input;
 
-const Comments = ({ productDetail, comments, setComments, isShow }) => {
+const Comments = ({
+  movieId,
+  commentList,
+  setCommentList,
+  commentCallback,
+  setCommentCallback,
+}) => {
+  const [commentContent, setCommentContent] = useState("");
+
+  const [replyNumbers, setReplyNumbers] = useState(0);
+
   const state = useContext(GlobalState);
   const [token] = state.token;
 
-  const [user, setUser] = state.userAPI.user;
-
-  const [callback, setCallback] = state.productsAPI.callback;
-
-  const [comment, setComment] = useState("");
-
-  const [commentCallback, setCommentCallback] = useState(false);
-
-  const [rating, setRating] = useState(null);
-
-  const [length, setLength] = useState(0);
-
-  const [starArray, setStarArray] = useState([]);
-
-  const [totalStar, setToTalStar] = useState(0);
+  const [user] = state.usersAPI.userData;
 
   useEffect(() => {
-    const getStarArray = (totalComments) => {
-      if (totalComments !== null) {
-        totalComments.map((comment) => {
-          return setStarArray([...starArray, starArray.push(comment.star)]);
-        });
-      }
-    };
+    if (commentList) {
+      let parentCommentList = commentList.filter(
+        (comment) => !comment.responseTo
+      );
+      setReplyNumbers(parentCommentList.length);
+    }
+  }, [commentList]);
 
-    const getToTalStar = (totalComments) => {
-      getStarArray(totalComments);
-      let tempTotalStar = 0;
-      for (let i = 0; i < starArray.length; i++) {
-        tempTotalStar += starArray[i];
-      }
-      setToTalStar(tempTotalStar);
-    };
-  }, [productDetail, callback]);
+  const handleChange = (e) => {
+    setCommentContent(e.target.value);
+  };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const commentDetail = {
+      content: commentContent,
+      writer: user,
+      movieId: movieId,
+    };
 
     try {
-      if (rating !== null) {
-        await axios.post("/api/saveComment", commentDetail, {
-          headers: { Authorization: token },
-        });
-        setRating(null);
-        setStarArray([]);
-        setToTalStar(0);
-        setLength(0);
-      } else {
-        alert("Please choose a star valuation!");
-      }
+      await axios.post("/api/saveComment", commentDetail, {
+        headers: { Authorization: token },
+      });
+      setCommentContent("");
+      setCommentCallback(!commentCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }
   };
 
   return (
-    <div className="Comment_container">
-      <StarRating rating={rating} setRating={setRating}></StarRating>
+    <div style={{ backgroundColor: "white", color: "black" }}>
+      <br />
+      <p>{replyNumbers} replies</p>
+      <hr />
+
+      {/* Comment List */}
+      {commentList &&
+        commentList.map(
+          (comment, index) =>
+            !comment.responseTo && (
+              <>
+                <SingleComment
+                  comment={comment}
+                  movieId={movieId}
+                  commentCallback={commentCallback}
+                  setCommentCallback={setCommentCallback}
+                ></SingleComment>
+                <ReplyComment
+                  commentList={commentList}
+                  movieId={movieId}
+                  commentCallback={commentCallback}
+                  setCommentCallback={setCommentCallback}
+                  parentCommentID={comment._id}
+                />
+              </>
+            )
+        )}
+
+      {/* Comment Form */}
+      <br></br>
+      <h5>Your comment</h5>
+      <form style={{ display: "flex" }} onSubmit={onSubmit}>
+        <TextArea
+          style={{ width: "100%", borderRadius: "5px" }}
+          placeholder="write some comment"
+          value={commentContent}
+          onChange={handleChange}
+        ></TextArea>
+        <br />
+
+        <Button
+          style={{
+            width: "20%",
+            height: "52px",
+            backgroundColor: "black",
+            color: "white",
+            border: "none",
+          }}
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
+      </form>
     </div>
   );
 };
