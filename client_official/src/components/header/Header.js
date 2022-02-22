@@ -27,7 +27,7 @@ const Header = () => {
   const headerRef = useRef(null);
 
   // phần thông báo
-  const { notify, newNotifies } = useSelector((state) => state);
+  const { notify } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   function OnScroll() {
@@ -92,7 +92,7 @@ const Header = () => {
     //đóng cái dropdown navbar lại
     //rồi sau đó
 
-    if (newNotifies.length !== 0) {
+    if (notify.newNotifies.length !== 0) {
       dispatch(deleteAllNewNotifies(token));
     }
   };
