@@ -5,6 +5,8 @@ const auth = require("../middlewares/Auth");
 router.route("/notify").post(auth, notifyController.createNotify);
 
 // xóa luôn cái thông báo khi admin xóa phim
+
+// xóa 1 thông báo của user
 router
   .route("/notify/:id")
   .delete(auth, notifyController.removeNotify)

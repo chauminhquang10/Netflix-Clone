@@ -80,8 +80,14 @@ const NotifyController = {
     try {
       const updateNotifies = await Notifies.find({ recipients: req.user.id });
 
+      const deleteNotifies = await Notifies.find({ newToUsers: req.user.id });
+
       updateNotifies.filter((notify) => {
         return deleteSingleNotify(notify._id, req.user.id);
+      });
+
+      deleteNotifies.filter((notify) => {
+        return deleteSingleNewNotify(notify._id, req.user.id);
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -90,7 +96,24 @@ const NotifyController = {
   deleteOneNotify: async (req, res) => {
     try {
       deleteSingleNotify(req.params.id, req.user.id);
+
+      const deleteNewNotify = await Notifies.findOne({
+        _id: req.params.id,
+        newToUsers: req.user.id,
+      });
+      if (deleteNewNotify) {
+        deleteSingleNewNotify(req.params.id, req.user.id);
+      }
+
       return res.json({ msg: "Deleted a notify!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  deleteOneNewNotify: async (req, res) => {
+    try {
+      deleteSingleNewNotify(req.params.id, req.user.id);
+      return res.json({ msg: "Deleted a new notify!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

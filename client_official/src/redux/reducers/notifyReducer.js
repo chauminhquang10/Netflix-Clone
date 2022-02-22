@@ -52,6 +52,7 @@ const notifyReducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload,
+        newNotifies: action.payload,
       };
     case NOTIFY_TYPES.DELETE_ALL_NEW_NOTIFIES:
       return {

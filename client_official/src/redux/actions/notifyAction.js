@@ -91,6 +91,7 @@ export const deleteAllNotifies = (token) => async (dispatch) => {
     type: NOTIFY_TYPES.DELETE_ALL_NOTIFIES,
     payload: [],
   });
+
   try {
     await patchDataAPI("/deleteAllNotifies", null, token);
   } catch (error) {
