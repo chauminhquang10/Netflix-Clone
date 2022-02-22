@@ -12,7 +12,7 @@ router
 
 router
   .route("/movies/:id")
-  // .get(movieController.getOneMovie)
+  .get(movieController.getOneMovie)
   .delete(auth, authAdmin, movieController.deleteMovie)
   .put(auth, authAdmin, movieController.updateMovie);
 

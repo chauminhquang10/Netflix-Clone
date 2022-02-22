@@ -38,6 +38,8 @@ import OrderDetail from "./service_pack/history/OrderDetail";
 import AdminPayments from "./payments/AdminPayments";
 import PaymentDetail from "./payments/PaymentDetail";
 
+import Notification from "./push_notifications/Notification";
+
 const Pages = () => {
   const state = useContext(GlobalState);
   const [isLogged] = state.usersAPI.isLogged;
@@ -118,6 +120,7 @@ const Pages = () => {
           <>
             <Switch>
               <Route path="/" exact component={isLogged ? Main : LandingPage} />
+
               <Route
                 path="/movies"
                 exact

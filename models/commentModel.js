@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema(
     },
     responseTo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Users",
     },
     star: {
       type: Number,
