@@ -38,6 +38,14 @@ const notifyReducer = (state = initialState, action) => {
             item.id !== action.payload.id || item.url !== action.payload.url
         ),
       };
+    case NOTIFY_TYPES.REMOVE_NEW_NOTIFY:
+      return {
+        ...state,
+        newNotifies: state.newNotifies.filter(
+          (item) =>
+            item.id !== action.payload.id || item.url !== action.payload.url
+        ),
+      };
     case NOTIFY_TYPES.UDPDATE_NOTIFY:
       return {
         ...state,

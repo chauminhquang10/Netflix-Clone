@@ -16,6 +16,7 @@ import {
   NOTIFY_TYPES,
   deleteAllNotifies,
   deleteOneNotify,
+  deleteOneNewNotify,
 } from "../../../redux/actions/notifyAction";
 
 import "./NotifyModal.css";
@@ -32,6 +33,13 @@ const NotifyModal = () => {
 
   const handleIsRead = (msg, seenUsers) => {
     dispatch(isReadNotify({ msg, token, userData, seenUsers }));
+
+    const checkIsNewNotify = notify.newNotifies.filter(
+      (item) => item._id === msg._id
+    );
+    if (checkIsNewNotify) {
+      dispatch(deleteOneNewNotify({ msg, token }));
+    }
   };
 
   const handleDeleteSingleNotify = (item) => {

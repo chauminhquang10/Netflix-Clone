@@ -12,6 +12,8 @@ router
   .delete(auth, notifyController.removeNotify)
   .patch(auth, notifyController.deleteOneNotify);
 
+router.route("/newNotify/:id").patch(auth, notifyController.deleteOneNewNotify);
+
 // lấy tất cả thông báo
 router.route("/notifies").get(auth, notifyController.getNotifies);
 

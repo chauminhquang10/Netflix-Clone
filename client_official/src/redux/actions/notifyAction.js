@@ -11,7 +11,9 @@ export const NOTIFY_TYPES = {
   GET_NEW_NOTIFIES: "GET_NEW_NOTIFIES",
   CREATE_NOTIFY: "CREATE_NOTIFY",
   REMOVE_NOTIFY: "REMOVE_NOTIFY",
+  REMOVE_NEW_NOTIFY: "REMOVE_NEW_NOTIFY",
   UDPDATE_NOTIFY: "UDPDATE_NOTIFY",
+  UDPDATE_NEW_NOTIFY: "UDPDATE_NEW_NOTIFY",
   UDPDATE_SOUND: "UDPDATE_SOUND",
   DELETE_ALL_NOTIFIES: "DELETE_ALL_NOTIFIES",
   DELETE_ALL_NEW_NOTIFIES: "DELETE_ALL_NEW_NOTIFIES",
@@ -105,6 +107,17 @@ export const deleteOneNotify =
     dispatch({ type: NOTIFY_TYPES.REMOVE_NOTIFY, payload: msg });
     try {
       await patchDataAPI(`/notify/${item._id}`, null, token);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+export const deleteOneNewNotify =
+  ({ msg, token }) =>
+  async (dispatch) => {
+    dispatch({ type: NOTIFY_TYPES.REMOVE_NEW_NOTIFY, payload: msg });
+    try {
+      await patchDataAPI(`/newNotify/${msg._id}`, null, token);
     } catch (error) {
       alert(error.response.data.msg);
     }
