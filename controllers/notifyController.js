@@ -110,15 +110,7 @@ const NotifyController = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  deleteOneNewNotify: async (req, res) => {
-    try {
-      deleteSingleNewNotify(req.params.id, req.user.id);
 
-      return res.json({ msg: "Deleted a new notify!" });
-    } catch (error) {
-      return res.status(500).json({ msg: error.message });
-    }
-  },
   deleteOneNewNotify: async (req, res) => {
     try {
       deleteSingleNewNotify(req.params.id, req.user.id);
