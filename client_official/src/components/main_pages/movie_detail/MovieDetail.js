@@ -156,7 +156,7 @@ const MovieDetail = () => {
           </div>
         </div>
       </div>
-      <div className="container">
+      {/* <div className="container">
         <div className="section mb-3">
           <VideoList></VideoList>
         </div>
@@ -166,7 +166,7 @@ const MovieDetail = () => {
           </div>
           <MovieList movies={movies} movieDetail={movieDetail}></MovieList>
         </div>
-      </div>
+      </div> */}
 
       {/* Facebook Plugins  */}
       {/* <div className="Comment_container">
