@@ -72,12 +72,32 @@
 }
 
 .header_Link {
+  position: relative;
   color: white;
+}
+
+.header_Link.active {
+  color: #e50914;
 }
 
 .header_Link:hover {
   text-decoration: none;
   color: #e50914;
+}
+
+.header_Link:after {
+  content: "";
+  position: absolute;
+  background-color: #e50914;
+  height: 3px;
+  width: 0;
+  left: 0;
+  bottom: -10px;
+  transition: 0.3s;
+}
+
+.header_Link:hover:after {
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {

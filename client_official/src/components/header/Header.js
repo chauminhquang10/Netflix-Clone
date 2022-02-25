@@ -13,7 +13,9 @@ import NotifyModal from "../main_pages/notify/NotifyModal";
 
 import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
 
+
 const Header = () => {
+  const location = useLocation();
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [search, setSearch] = state.moviesAPI.search;
@@ -26,9 +28,11 @@ const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
 
+
   // phần thông báo
   const { notify } = useSelector((state) => state);
   const dispatch = useDispatch();
+
 
   function OnScroll() {
     if (headerRef.current) {
@@ -49,6 +53,11 @@ const Header = () => {
         headerRef.current.style.display = "grid";
       }
     }
+  }
+
+  function usePageViews() {
+    let location = useLocation();
+    React.useEffect(() => {}, [location]);
   }
 
   const showButton = () => {
@@ -88,6 +97,7 @@ const Header = () => {
     );
   };
 
+
   const handleClickNewNotifies = () => {
     //đóng cái dropdown navbar lại
     //rồi sau đó
@@ -124,6 +134,7 @@ const Header = () => {
               </Link>
             </li>
           )}
+
 
           {/* Thử nghiệm mua gói */}
           {isLogged && (

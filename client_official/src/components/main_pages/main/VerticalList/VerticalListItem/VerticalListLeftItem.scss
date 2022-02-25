@@ -1,0 +1,81 @@
+// .Popup {
+//   width: 325px;
+//   height: 335px;
+//   position: absolute;
+//   -webkit-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+//   box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+//   border-radius: 5px;
+//   background-color: black;
+//   z-index: 99;
+//   overflow: hidden;
+//   transition-property: top, height, width;
+//   transition-duration: 0.5s, 0.5s, 0.5s;
+// }
+
+.VerticalListLeftItem_container {
+  .VerticalListLeftItem_img {
+    width: 100%;
+    object-fit: fill;
+  }
+
+  .VerticalListLeftItem_itemInfo {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    flex-direction: column;
+    padding: 1px;
+    width: 100%;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    .VerticalListLeftItem_icons {
+      display: flex;
+
+      .VerticalListLeftItem_icon {
+        border: 2px solid white;
+        padding: 5px;
+        border-radius: 50%;
+        margin-right: 10px;
+        font-size: 40px;
+
+        &:hover {
+          background-color: #f9f9ea;
+          color: #ff0000;
+          transition: 0.5s all;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    .VerticalListLeftItem_itemInfo {
+      display: flex;
+    }
+  }
+}
+
+// .itemInfoTop {
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 10px;
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: gray;
+
+//   .limit {
+//     border: 1px solid gray;
+//     padding: 1px 3px;
+//     margin: 0px 10px;
+//   }
+// }
+
+// .desc {
+//   font-size: 13px;
+//   margin-bottom: 10px;
+// }
+
+// .genre {
+//   font-size: 14px;
+//   color: lightgray;
+// }

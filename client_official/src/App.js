@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import MainHeader from "./components/main_header/MainHeader";
 import Pages from "./components/main_pages/Pages";
 import OfficialFooter from "./components/official_footer/OfficialFooter";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { useContext } from "react";
 
