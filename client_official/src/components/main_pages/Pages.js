@@ -118,6 +118,7 @@ const Pages = () => {
           <>
             <Switch>
               <Route path="/" exact component={isLogged ? Main : LandingPage} />
+
               <Route
                 path="/movies"
                 exact

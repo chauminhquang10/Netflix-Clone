@@ -3,11 +3,11 @@ const dislikeSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Users",
     },
     commentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "Comments",
     },
   },
   { timestamps: true }

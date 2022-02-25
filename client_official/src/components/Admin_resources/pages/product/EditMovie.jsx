@@ -126,6 +126,7 @@ const EditMovie = () => {
     try {
       if (!isAdmin) return alert("You're not an admin");
       setLoading(true);
+
       await axios.post(
         "/api/delete",
         { public_id: img.public_id },
@@ -135,6 +136,7 @@ const EditMovie = () => {
           },
         }
       );
+
       setLoading(false);
       setImg(false);
     } catch (error) {

@@ -18,16 +18,20 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const LandingPage = () => {
   // xử lí show answer
-  const [showAnswer1, setShowAnswer1] = useState(false);
-  const [showAnswer2, setShowAnswer2] = useState(false);
-  const [showAnswer3, setShowAnswer3] = useState(false);
-  const [showAnswer4, setShowAnswer4] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(null);
 
   //xử lí tabs
   const [toggleTabs, setToggleTabs] = useState(1);
 
   const handleTabsToggle = (tabIndex) => {
     setToggleTabs(tabIndex);
+  };
+
+  const handleShowAnswer = (answerIndex) => {
+    if (showAnswer === answerIndex) {
+      return setShowAnswer(null);
+    }
+    setShowAnswer(answerIndex);
   };
 
   return (
@@ -197,10 +201,10 @@ const LandingPage = () => {
             <div className="landing-list-item">
               <button
                 className="landing-list-item-title"
-                onClick={() => setShowAnswer1(!showAnswer1)}
+                onClick={() => handleShowAnswer(1)}
               >
                 <span>What is Netflix Clone?</span>
-                {showAnswer1 ? (
+                {showAnswer === 1 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
                   <AddIcon fontSize="large" />
@@ -208,7 +212,7 @@ const LandingPage = () => {
               </button>
               <p
                 className={
-                  showAnswer1
+                  showAnswer === 1
                     ? "landing-list-item-text"
                     : "landing-list-item-text-disappear"
                 }
@@ -228,10 +232,10 @@ const LandingPage = () => {
             <div className="landing-list-item">
               <button
                 className="landing-list-item-title"
-                onClick={() => setShowAnswer2(!showAnswer2)}
+                onClick={() => handleShowAnswer(2)}
               >
                 <span>How much does Netflix Clone cost?</span>
-                {showAnswer2 ? (
+                {showAnswer === 2 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
                   <AddIcon fontSize="large" />
@@ -239,7 +243,7 @@ const LandingPage = () => {
               </button>
               <p
                 className={
-                  showAnswer2
+                  showAnswer === 2
                     ? "landing-list-item-text"
                     : "landing-list-item-text-disappear"
                 }
@@ -254,10 +258,10 @@ const LandingPage = () => {
             <div className="landing-list-item">
               <button
                 className="landing-list-item-title"
-                onClick={() => setShowAnswer3(!showAnswer3)}
+                onClick={() => handleShowAnswer(3)}
               >
                 <span>Where can I watch?</span>
-                {showAnswer3 ? (
+                {showAnswer === 3 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
                   <AddIcon fontSize="large" />
@@ -265,7 +269,7 @@ const LandingPage = () => {
               </button>
               <p
                 className={
-                  showAnswer3
+                  showAnswer === 3
                     ? "landing-list-item-text"
                     : "landing-list-item-text-disappear"
                 }
@@ -286,10 +290,10 @@ const LandingPage = () => {
             <div className="landing-list-item">
               <button
                 className="landing-list-item-title"
-                onClick={() => setShowAnswer4(!showAnswer4)}
+                onClick={() => handleShowAnswer(4)}
               >
                 <span>How do I cancel?</span>
-                {showAnswer4 ? (
+                {showAnswer === 4 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
                   <AddIcon fontSize="large" />
@@ -297,7 +301,7 @@ const LandingPage = () => {
               </button>
               <p
                 className={
-                  showAnswer4
+                  showAnswer === 4
                     ? "landing-list-item-text"
                     : "landing-list-item-text-disappear"
                 }
