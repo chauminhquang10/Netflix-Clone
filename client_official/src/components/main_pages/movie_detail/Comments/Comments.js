@@ -61,7 +61,14 @@ const Comments = ({
   };
 
   return (
-    <div style={{ backgroundColor: "white", color: "black" }}>
+    <div
+      style={{
+        backgroundColor: "white",
+        color: "black",
+        margin: "3rem",
+        padding: "1rem",
+      }}
+    >
       <br />
       <p>{replyNumbers} replies</p>
       <hr />

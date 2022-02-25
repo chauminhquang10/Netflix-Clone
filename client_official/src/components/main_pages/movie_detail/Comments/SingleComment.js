@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { createElement, useState, useContext, useEffect } from "react";
 import { Comment, Avatar, Tooltip, Button, Input } from "antd";
 
 import LikeDislike from "./LikeDislike";
@@ -7,6 +7,8 @@ import { format } from "timeago.js";
 
 import { GlobalState } from "../../../../GlobalState";
 import axios from "axios";
+
+import "./SingleComment.scss";
 
 const { TextArea } = Input;
 
@@ -17,6 +19,7 @@ const SingleComment = ({
   setCommentCallback,
 }) => {
   const state = useContext(GlobalState);
+
   const [token] = state.token;
 
   const [user] = state.usersAPI.userData;
@@ -25,11 +28,14 @@ const SingleComment = ({
 
   const [openReply, setOpenReply] = useState(false);
 
+  const [openEdit, setOpenEdit] = useState(false);
+
   const [showEditOptions, setShowEditOptions] = useState(false);
 
-  // const [isEdit, setIsEdit] = useState(false);
+  const [content, setContent] = useState("");
 
   useEffect(() => {
+    setContent(comment.content);
     if (comment.writer._id === user._id) {
       setShowEditOptions(true);
     }
@@ -37,6 +43,10 @@ const SingleComment = ({
 
   const toggleReply = () => {
     setOpenReply(!openReply);
+  };
+
+  const toggleEdit = () => {
+    setOpenEdit(!openEdit);
   };
 
   const onSubmit = async (event) => {
@@ -61,6 +71,8 @@ const SingleComment = ({
     }
   };
 
+  const handleUpdate = async (event) => {};
+
   const handleDelete = async (event) => {
     event.preventDefault();
     try {
@@ -76,14 +88,19 @@ const SingleComment = ({
   const action = [
     <LikeDislike comment={comment} user={user} token={token} />,
     <span onClick={toggleReply} key="comment-basic-reply-to">
-      Reply to
+      {!openReply ? "Reply to" : "Cancel"}
     </span>,
     <>
       {showEditOptions && (
         <>
-          <span onClick key="comment-basic-reply-to">
-            Edit
+          <span onClick={toggleEdit} key="comment-basic-reply-to">
+            {!openEdit ? "Edit" : "Cancel"}
           </span>
+          {openEdit && (
+            <span style={{ marginLeft: "8px" }} onClick={handleUpdate}>
+              Update
+            </span>
+          )}
           <span
             style={{ marginLeft: "8px" }}
             onClick={handleDelete}
@@ -103,10 +120,21 @@ const SingleComment = ({
   return (
     <div>
       <Comment
+        className="AntSingleComment"
         actions={action}
         author={comment.writer.name}
         avatar={<Avatar src={comment.writer.avatar} alt="commentor image" />}
-        content={<p>{comment.content}</p>}
+        content={
+          openEdit ? (
+            <textarea
+              rows="5"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          ) : (
+            <div>{comment.content}</div>
+          )
+        }
         datetime={
           <span style={{ marginLeft: "8px" }}>{format(comment.createdAt)}</span>
         }
@@ -116,7 +144,11 @@ const SingleComment = ({
       {openReply && (
         <form style={{ display: "flex" }} onSubmit={onSubmit}>
           <TextArea
-            style={{ width: "100%", borderRadius: "5px" }}
+            style={{
+              width: "100%",
+              borderRadius: "5px",
+              margin: "0rem 0rem 0rem 2rem",
+            }}
             placeholder="write some comment"
             value={replyComment}
             onChange={handleChange}
