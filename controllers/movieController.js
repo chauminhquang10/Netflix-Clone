@@ -64,15 +64,16 @@ const movieController = {
   //     return res.status(500).json({ msg: error.message });
   //   }
   // },
-  // //get a movie
-  // getOneMovie: async (req, res) => {
-  //   try {
-  //     const movie = await Movies.findById(req.params.id);
-  //     return res.status(200).json(movie);
-  //   } catch (error) {
-  //     return res.status(500).json({ msg: error.message });
-  //   }
-  // },
+
+  //get a movie
+  getOneMovie: async (req, res) => {
+    try {
+      const movie = await Movies.findById(req.params.id);
+      return res.status(200).json({ movie });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
   createMovie: async (req, res) => {
     try {
       const {
@@ -112,7 +113,13 @@ const movieController = {
         TMDBid,
       });
       await newMovie.save();
-      res.json({ msg: "Created a new movie!" });
+      res.json({
+        msg: "Created a new movie!",
+        newMovie: {
+          ...newMovie._doc,
+          user: req.user,
+        },
+      });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

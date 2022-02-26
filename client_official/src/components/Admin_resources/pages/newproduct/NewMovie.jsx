@@ -4,6 +4,10 @@ import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import { useHistory, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import { createNotify } from "../../../../redux/actions/notifyAction";
+
 import {
   FormControl,
   InputLabel,
@@ -26,9 +30,13 @@ const initialState = {
 const NewMovie = () => {
   const [movie, setMovie] = useState(initialState);
 
+  const { socket } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
+  const [userData] = state.usersAPI.userData;
   const [genres] = state.genresAPI.genres;
   const [img, setImg] = useState(false);
   const [imgSmall, setImgSmall] = useState(false);
@@ -132,7 +140,7 @@ const NewMovie = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!img) return alert("No image upload");
 
-      await axios.post(
+      const res = await axios.post(
         "/api/movies",
         { ...movie, img, imgSmall },
         {
@@ -141,6 +149,18 @@ const NewMovie = () => {
           },
         }
       );
+
+      //Notify
+      const msg = {
+        id: res.data.newMovie._id,
+        text: "added a new movie",
+        url: `/detail/${res.data.newMovie._id}`,
+        content: movie.title,
+        image: imgSmall.url,
+      };
+
+      dispatch(createNotify({ msg, socket, token, userData }));
+
       setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {

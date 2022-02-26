@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { GlobalState } from "../../GlobalState";
 import { Menu, Clear, ContactSupportOutlined } from "@material-ui/icons";
 import "./Header.css";
@@ -8,11 +9,15 @@ import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
 import { Notifications } from "@material-ui/icons";
-import { useLocation } from "react-router-dom";
+import NotifyModal from "../main_pages/notify/NotifyModal";
+
+import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
+
 
 const Header = () => {
   const location = useLocation();
   const state = useContext(GlobalState);
+  const [token] = state.token;
   const [search, setSearch] = state.moviesAPI.search;
   const [userData] = state.usersAPI.userData;
   const [isLogged] = state.usersAPI.isLogged;
@@ -23,7 +28,11 @@ const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
 
-  console.log(location.pathname);
+
+  // phần thông báo
+  const { notify } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
 
   function OnScroll() {
     if (headerRef.current) {
@@ -88,145 +97,157 @@ const Header = () => {
     );
   };
 
-  usePageViews();
+
+  const handleClickNewNotifies = () => {
+    //đóng cái dropdown navbar lại
+    //rồi sau đó
+
+    if (notify.newNotifies.length !== 0) {
+      dispatch(deleteAllNewNotifies(token));
+    }
+  };
+
   return (
-    <header className="Mainheader" ref={headerRef}>
-      <div className="logo">
-        <Link to="/">
-          <img
-            className="logoImg"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-            alt="logo"
-          ></img>
-        </Link>
-      </div>
-      <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
-        {isLogged && (
-          <li className="header_li">
-            <Link
-              className={
-                location.pathname === "/movies"
-                  ? "header_Link active"
-                  : "header_Link"
-              }
-              to="/movies"
-            >
-              Movies
-            </Link>
-          </li>
-        )}
-        {isLogged && (
-          <li className="header_li">
-            <Link
-              className={
-                location.pathname === "/favorite"
-                  ? "header_Link active"
-                  : "header_Link"
-              }
-              to="/favorite"
-            >
-              Favorites
-            </Link>
-          </li>
-        )}
+    <>
+      <header className="Mainheader" ref={headerRef}>
+        <div className="logo">
+          <Link to="/">
+            <img
+              className="logoImg"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+              alt="logo"
+            ></img>
+          </Link>
+        </div>
+        <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
+          {isLogged && (
+            <li className="header_li">
+              <Link className="header_Link" to="/movies">
+                Movies
+              </Link>
+            </li>
+          )}
+          {isLogged && (
+            <li className="header_li">
+              <Link className="header_Link" to="/favorite">
+                Favorites
+              </Link>
+            </li>
+          )}
 
-        {/* Thử nghiệm mua gói */}
-        {isLogged && (
-          <li className="header_li">
-            <Link className="header_Link" to="/packages">
-              Packages
-            </Link>
-          </li>
-        )}
 
-        {/* Phần lịch sử mua gói */}
-        {isLogged && (
-          <li className="header_li">
-            <Link className="header_Link" to="/history">
-              History
-            </Link>
-          </li>
-        )}
+          {/* Thử nghiệm mua gói */}
+          {isLogged && (
+            <li className="header_li">
+              <Link className="header_Link" to="/packages">
+                Packages
+              </Link>
+            </li>
+          )}
 
-        {button && (
-          <li className="header_li">
-            <Link className="header_Link" to="/">
-              Setting
-            </Link>
-          </li>
-        )}
-        {button && isLogged && (
-          <li className="header_li">
-            <Link className="header_Link" to="/">
-              My Account
-            </Link>
-          </li>
-        )}
-        {button && isLogged && (
-          <li className="header_li">
-            <Link onClick={logoutUser} className="header_Link" to="/">
-              Logout
-            </Link>
-          </li>
-        )}
-        {button && !isLogged && (
-          <li className="header_li">
-            <Link to="/login" className="header_Link" to="/">
-              Login
-            </Link>
-          </li>
-        )}
-      </ul>
-      <div style={{ display: "grid", justifyContent: "flex-end" }}>
-        {isLogged && (
-          <div class={toggleSearch ? "search" : "search open"} id="searchBar">
-            <input
-              type="text"
-              value={search}
-              placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value.toLowerCase())}
-              class="search-box"
-            />
+          {/* Phần lịch sử mua gói */}
+          {isLogged && (
+            <li className="header_li">
+              <Link className="header_Link" to="/history">
+                History
+              </Link>
+            </li>
+          )}
 
-            <Link to="/movies">
-              <span
-                onClick={() => {
-                  setToggleSearch(!toggleSearch);
-                }}
-                class="search-button"
-              >
-                <span class="search-icon"></span>
+          {/* Phần thông báo */}
+          {isLogged && (
+            <li className="header_li">
+              {/* <span className="header_Link">{notify.data.length}</span> */}
+              <span className="header_Link" onClick={handleClickNewNotifies}>
+                {notify.newNotifies.length}
               </span>
-            </Link>
-          </div>
-        )}
-      </div>
-      <Notifications style={{ fontSize: "40px", marginLeft: "1.5rem" }} />
-      {!button && (
-        <div className="header_lastItem">
-          {isLogged ? (
-            loggedRouter()
-          ) : (
-            <Link className="header_Link" to="/login">
-              <button className="login_btn">Sign in</button>
-            </Link>
+              <NotifyModal></NotifyModal>
+            </li>
+          )}
+
+          {button && (
+            <li className="header_li">
+              <Link className="header_Link" to="/">
+                Setting
+              </Link>
+            </li>
+          )}
+          {button && isLogged && (
+            <li className="header_li">
+              <Link className="header_Link" to="/">
+                My Account
+              </Link>
+            </li>
+          )}
+          {button && isLogged && (
+            <li className="header_li">
+              <Link onClick={logoutUser} className="header_Link" to="/">
+                Logout
+              </Link>
+            </li>
+          )}
+          {button && !isLogged && (
+            <li className="header_li">
+              <Link to="/login" className="header_Link" to="/">
+                Login
+              </Link>
+            </li>
+          )}
+        </ul>
+        <div style={{ display: "grid", justifyContent: "flex-end" }}>
+          {isLogged && (
+            <div class={toggleSearch ? "search" : "search open"} id="searchBar">
+              <input
+                type="text"
+                value={search}
+                placeholder="Search..."
+                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                class="search-box"
+              />
+
+              <Link to="/movies">
+                <span
+                  onClick={() => {
+                    setToggleSearch(!toggleSearch);
+                  }}
+                  class="search-button"
+                >
+                  <span class="search-icon"></span>
+                </span>
+              </Link>
+            </div>
           )}
         </div>
-      )}
-      {button &&
-        (toggleMenu ? (
+        <Notifications style={{ fontSize: "40px", marginLeft: "1.5rem" }} />
+        {!button && (
           <div className="header_lastItem">
-            <Menu onClick={() => setToggleMenu(false)} className="Menu"></Menu>
+            {isLogged ? (
+              loggedRouter()
+            ) : (
+              <Link className="header_Link" to="/login">
+                <button className="login_btn">Sign in</button>
+              </Link>
+            )}
           </div>
-        ) : (
-          <div className="header_lastItem">
-            <Clear
-              onClick={() => setToggleMenu(true)}
-              className="Clear"
-            ></Clear>
-          </div>
-        ))}
-    </header>
+        )}
+        {button &&
+          (toggleMenu ? (
+            <div className="header_lastItem">
+              <Menu
+                onClick={() => setToggleMenu(false)}
+                className="Menu"
+              ></Menu>
+            </div>
+          ) : (
+            <div className="header_lastItem">
+              <Clear
+                onClick={() => setToggleMenu(true)}
+                className="Clear"
+              ></Clear>
+            </div>
+          ))}
+      </header>
+    </>
   );
 };
 

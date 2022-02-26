@@ -24,6 +24,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
+import { useSelector, useDispatch } from "react-redux";
+import { removeNotify } from "../../../../redux/actions/notifyAction";
+
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -60,6 +63,9 @@ const MovieList = () => {
   const [token] = state.token;
   const [movies, setMovies] = state.moviesAPI.movies;
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+
+  const { socket } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
@@ -126,6 +132,15 @@ const MovieList = () => {
       });
       await deleteImg;
       await delMovie;
+
+      //Notify
+      const msg = {
+        id,
+        url: `/detail/${id}`,
+      };
+
+      dispatch(removeNotify({ msg, socket, token }));
+
       setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);

@@ -27,6 +27,8 @@ const MovieDetail = () => {
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
 
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+
   //comments khách hàng
   const [commentList, setCommentList] = useState([]);
 
@@ -39,15 +41,31 @@ const MovieDetail = () => {
   const [movieGenre, setMovieGenre] = useState([]);
 
   useEffect(() => {
-    if (params.id) {
-      movies.forEach((movie) => {
-        if (movie._id === params.id) setMovieDetail(movie);
-      });
-    }
+    const getDetailMovie = async () => {
+      if (params.id) {
+        if (movies.every((movie) => movie._id !== params.id)) {
+          try {
+            const res = await axios.get(`/api/movies/${params.id}`);
+            if (res.data.movie !== null) {
+              setMovieDetail(res.data.movie);
+              // reload để cập nhật phim mới vào danh sách phim
+              setMoviesCallback(!moviesCallback);
+            }
+          } catch (error) {
+            alert(error.response.data.msg);
+          }
+        } else {
+          movies.forEach((movie) => {
+            if (movie._id === params.id) setMovieDetail(movie);
+          });
+        }
+      }
+    };
+    getDetailMovie();
   }, [params.id, movies]);
 
   useEffect(() => {
-    if (movieDetail) {
+    if (movieDetail.length !== 0) {
       genres.forEach((genre) => {
         if (genre._id === movieDetail.genre) {
           setMovieGenre(genre);
@@ -57,7 +75,7 @@ const MovieDetail = () => {
   }, [movieDetail, genres]);
 
   useEffect(() => {
-    if (movieDetail) {
+    if (movieDetail.length !== 0) {
       watchList.forEach((item) => {
         if (item._id === movieDetail._id) {
           setIsAddedToWatchList(true);
@@ -72,7 +90,7 @@ const MovieDetail = () => {
       setCommentList(res.data.comments);
     };
 
-    getAllComments();
+    if (movieDetail.length !== 0) getAllComments();
   }, [movieDetail, commentCallback]);
 
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
