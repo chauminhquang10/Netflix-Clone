@@ -351,9 +351,24 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  buyPackage: async (req, res) => {
+    try {
+      const user = await Users.findById(req.user.id);
+      if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          buy_package: req.body.buy_package,
+        }
+      );
+      return res.json({ msg: "Save Account State!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   getHistory: async (req, res) => {
     try {
-      const history = await Payments.findOne({ user_id: req.user.id });
+      const history = await Payments.find({ user_id: req.user.id });
 
       res.json(history);
     } catch (err) {

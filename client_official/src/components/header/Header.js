@@ -144,15 +144,14 @@ const Header = () => {
           )}
 
           {/* Phần thông báo */}
-          {isLogged && (
-            <li className="header_li">
-              {/* <span className="header_Link">{notify.data.length}</span> */}
-              <span className="header_Link" onClick={handleClickNewNotifies}>
-                {notify.newNotifies.length}
-              </span>
-              <NotifyModal></NotifyModal>
-            </li>
-          )}
+
+          {/* // <li className="header_li">
+            //   <span className="header_Link">{notify.data.length}</span>
+            //   <span className="header_Link" onClick={handleClickNewNotifies}>
+            //     {notify.newNotifies.length}
+            //   </span>
+            //   <NotifyModal></NotifyModal>
+            // </li> */}
 
           {button && (
             <li className="header_li">

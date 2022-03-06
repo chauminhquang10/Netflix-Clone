@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
     },
     service_pack: {
       type: Object,
+      default: {},
+    },
+    buy_package: {
+      type: Object,
+      default: {},
     },
     favoriteList: {
       type: Array,

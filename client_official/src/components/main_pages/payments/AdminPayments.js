@@ -1,19 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
 import { Link } from "react-router-dom";
+
 import "./AdminPayments.css";
+import moment from "moment";
 
 const AdminPayments = () => {
   const state = useContext(GlobalState);
   const [adminHistory] = state.usersAPI.adminHistory;
-
-  if (!adminHistory) {
-    return (
-      <div style={{ minHeight: "900px", backgroundColor: "#f9f9f9" }}>
-        <h1 style={{ paddingTop: "5rem", fontSize: "60px" }}>History Emty</h1>
-      </div>
-    );
-  }
 
   return (
     <div className="history-page" style={{ flex: 4, color: "black" }}>
@@ -33,7 +27,9 @@ const AdminPayments = () => {
           {adminHistory.map((items) => (
             <tr key={items._id}>
               <td>{items.paymentID}</td>
-              <td>{new Date(items.createdAt).toLocaleDateString()}</td>
+              <td>
+                {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
+              </td>
               <td>
                 <Link to={`/payments/${items._id}`}>View</Link>
               </td>

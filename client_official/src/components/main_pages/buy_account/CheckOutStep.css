@@ -1,0 +1,138 @@
+.checkout_step_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: white;
+  color: #333;
+}
+
+.checkout_step_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 440px;
+  margin: 80px auto;
+}
+
+.checkout_step_number {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.checkout_step_bold_number {
+  font-weight: 700;
+}
+
+.choice_text_checkout_step {
+  margin-top: 5px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.checkout_step_logos img {
+  margin-top: 4px;
+  margin-right: 6px;
+  width: auto;
+  background-image: none;
+  height: 25px;
+}
+
+.checkout_step_btn_no_plan {
+  width: 440px;
+  border: none;
+  text-transform: capitalize;
+  color: white;
+  outline: none;
+  letter-spacing: 0.1px;
+  border-radius: 5px;
+  font-size: 1.625rem;
+  padding: 0 30px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 15px;
+  background-color: #e50914;
+  line-height: 60px;
+}
+
+.checkout_step_btn {
+  width: 440px;
+  border: none;
+  text-transform: capitalize;
+  color: white;
+  outline: none;
+  letter-spacing: 0.1px;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  font-size: 1.625rem;
+  padding: 0 30px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkout_step_btn_left_content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 72px;
+  line-height: 16px;
+}
+
+.checkout_step_btn_left_content_title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.checkout_step_btn_left_content_description {
+  font-size: 16px;
+  font-weight: 500;
+  color: #737373;
+  padding-top: 5px;
+}
+
+.checkout_step_btn_right_content {
+  flex: 0 0 auto;
+  padding: 14px;
+  font-weight: 700;
+  color: #0071eb;
+  cursor: pointer;
+  font-size: 16px;
+  min-height: 72px;
+  border: none;
+  background: 0 0;
+}
+
+.checkout_step_subtext {
+  font-size: 13px;
+  color: #8c8c8c;
+  width: 100%;
+  text-align: left;
+}
+
+.checkout_step_first_subtext {
+  margin: 20px 0;
+}
+
+.checkout_step_second_subtext {
+  margin-top: 20px;
+}
+
+.policy_term_text {
+  text-decoration: none;
+  color: #0071eb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.policy_term_text:hover {
+  text-decoration: underline;
+}

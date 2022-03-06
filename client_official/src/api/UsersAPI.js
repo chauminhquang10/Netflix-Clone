@@ -13,9 +13,16 @@ const UsersAPI = (token) => {
 
   const [historyCallback, setHistoryCallback] = useState(false);
 
+  // lưu trạng thái chọn gói của khách hàng
   const [userPackage, setUserPackage] = useState({});
 
-  const [userHistory, setUserHistory] = useState({});
+  // kiểm tra trạng thái tài khoản đã mua gói chưa
+  const [isValidAccount, setIsValidAccount] = useState(false);
+
+  // kiểm tra trạng thái tài khoản còn hạn hay không? (mặc định là hết hạn)
+  const [isNotExpireAccount, setIsNotExpireAccount] = useState(false);
+
+  const [userHistory, setUserHistory] = useState([]);
 
   const [adminHistory, setAdminHistory] = useState([]);
 
@@ -31,7 +38,14 @@ const UsersAPI = (token) => {
           setIsLogged(true);
           setWatchList(res.data.favoriteList);
           setUserData(res.data);
-          setUserPackage(res.data.service_pack);
+          res.data?.service_pack && setUserPackage(res.data.service_pack);
+          let currentDate = moment().format("MMMM Do YYYY");
+          if (res.data?.buy_package) {
+            setIsValidAccount(true);
+            if (res.data.buy_package.expireTime >= currentDate) {
+              setIsNotExpireAccount(true);
+            }
+          }
           res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
         } catch (error) {
           alert(error.response.data.msg);
@@ -59,16 +73,8 @@ const UsersAPI = (token) => {
 
   useEffect(() => {
     if (token) {
-      const getHistory = async () => {
-        if (isAdmin) {
-          const res = await axios.get("/api/payment", {
-            headers: {
-              Authorization: token,
-            },
-          });
-
-          setAdminHistory(res.data);
-        } else {
+      const getUserHistory = async () => {
+        if (!isAdmin) {
           const res = await axios.get("/user/history", {
             headers: {
               Authorization: token,
@@ -77,9 +83,25 @@ const UsersAPI = (token) => {
           setUserHistory(res.data);
         }
       };
-      getHistory();
+      getUserHistory();
     }
-  }, [token, historyCallback, isAdmin]);
+  }, [token, isAdmin, historyCallback]);
+
+  useEffect(() => {
+    if (token) {
+      const getAdminHistory = async () => {
+        if (isAdmin) {
+          const res = await axios.get("/api/payment", {
+            headers: {
+              Authorization: token,
+            },
+          });
+          setAdminHistory(res.data);
+        }
+      };
+      getAdminHistory();
+    }
+  }, [token, isAdmin, historyCallback]);
 
   const addToWatchList = async (movie) => {
     if (!isLogged) {
@@ -122,8 +144,8 @@ const UsersAPI = (token) => {
   };
 
   const addUserPackageService = async (pack) => {
-    let currentDate = moment().format("DD.MM.YYYY");
-    var expireDate = moment().add(30, "days").format("DD.MM.YYYY");
+    let currentDate = moment().format("MMMM Do YYYY");
+    let expireDate = moment().add(30, "days").format("MMMM Do YYYY");
 
     setUserPackage({
       ...pack,
@@ -149,6 +171,8 @@ const UsersAPI = (token) => {
   return {
     isLogged: [isLogged, setIsLogged],
     isAdmin: [isAdmin, setIsAdmin],
+    isValidAccount: [isValidAccount, setIsValidAccount],
+    isNotExpireAccount: [isNotExpireAccount, setIsNotExpireAccount],
     watchList: [watchList, setWatchList],
     addToWatchList: addToWatchList,
     removeFromWatchList: removeFromWatchList,
