@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "./MovieItem";
 import Filter from "./Filter";
@@ -12,12 +12,27 @@ import Grid from "./grid/Grid";
 import VerticalList from "./VerticalList/VerticalList";
 import HorizontalList from "./HorizontalList/HorizontalList";
 
+import PopUp from "../utils/popup/PopUp";
+
 const Movies = () => {
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
   const [listTrigger, setListTrigger] = useState(true);
+
+  const [isNotExpireAccount, setIsNotExpireAccount] =
+    state.usersAPI.isNotExpireAccount;
+
+  //trigger Popup
+  const [popupTrigger, setPopupTrigger] = useState(false);
+
+  useEffect(() => {
+    if (!isNotExpireAccount) {
+      setPopupTrigger(true);
+    }
+  }, [isNotExpireAccount]);
+
   if (loading) {
     return (
       <div className="loading">
@@ -36,6 +51,15 @@ const Movies = () => {
 
   return (
     <>
+      {/* Popup thông báo hết hạn */}
+
+      <div className="popup_container">
+        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
+          <h1>My Popup</h1>
+          <p>This is the notification that your account is expired</p>
+        </PopUp>
+      </div>
+
       <Featured
         trailer="https://www.youtube.com/embed/hIR8Ar-Z4hw"
         bigImg="https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1635843565/movie/481123_uqa9vw.jpg"

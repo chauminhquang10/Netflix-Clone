@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./LandingPage.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CardImg1 from "../../images/tv.png";
@@ -16,7 +16,12 @@ import StyleIcon from "@mui/icons-material/Style";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
+import { GlobalState } from "../../GlobalState";
+
 const LandingPage = () => {
+  const state = useContext(GlobalState);
+  const [isLogged] = state.usersAPI.isLogged;
+
   // xử lí show answer
   const [showAnswer, setShowAnswer] = useState(null);
 
@@ -60,19 +65,35 @@ const LandingPage = () => {
 
           <div className="our-story-card-text">
             <div className="heading-text">
+              {isLogged && <span>Welcome back!</span>}
               <h2>Unlimited movies, TV shows, and more.</h2>
               <h5>Watch anywhere. Cancel anytime.</h5>
-              <p>
-                Ready to watch? Enter your email to create or restart your
-                membership.
-              </p>
+              {!isLogged && (
+                <p>
+                  Ready to watch? Enter your email to create or restart your
+                  membership.
+                </p>
+              )}
               <form className="global-search">
-                <input type="text" placeholder="Email address"></input>
-
-                <button type="button">
-                  Get Started{" "}
-                  <ArrowForwardIosIcon className="get-started-icon" />
-                </button>
+                {isLogged ? (
+                  <Link to="/step_1">
+                    <button type="button" style={{ width: "300px" }}>
+                      Finish Sign Up
+                      <ArrowForwardIosIcon
+                        className="get-started-icon"
+                        style={{ marginRight: "10px" }}
+                      />
+                    </button>
+                  </Link>
+                ) : (
+                  <>
+                    <input type="text" placeholder="Email address"></input>
+                    <button type="button">
+                      Get Started
+                      <ArrowForwardIosIcon className="get-started-icon" />
+                    </button>
+                  </>
+                )}
               </form>
             </div>
           </div>

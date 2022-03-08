@@ -15,6 +15,8 @@ import axios from "axios";
 // import LikeAndShare from "../../Social Plugin/LikeAndShare";
 // import Comment from "../../Social Plugin/Comment";
 
+import PopUp from "../utils/popup/PopUp";
+
 import Comments from "./Comments/Comments";
 
 const MovieDetail = () => {
@@ -39,6 +41,11 @@ const MovieDetail = () => {
 
   //hiển thị thể loại của sản phẩm
   const [movieGenre, setMovieGenre] = useState([]);
+
+  const [isNotExpireAccount, setIsNotExpireAccount] =
+    state.usersAPI.isNotExpireAccount;
+  //trigger Popup
+  const [popupTrigger, setPopupTrigger] = useState(false);
 
   useEffect(() => {
     const getDetailMovie = async () => {
@@ -93,6 +100,12 @@ const MovieDetail = () => {
     if (movieDetail.length !== 0) getAllComments();
   }, [movieDetail, commentCallback]);
 
+  const handlePlayMovie = () => {
+    if (!isNotExpireAccount) {
+      setPopupTrigger(true);
+    }
+  };
+
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
 
@@ -103,6 +116,13 @@ const MovieDetail = () => {
 
   return (
     <>
+      <div className="movie_detail_popup_container">
+        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
+          <h1>My Popup</h1>
+          <p>This is the notification that your account is expired</p>
+        </PopUp>
+      </div>
+
       <div
         className="banner"
         style={{
@@ -136,15 +156,22 @@ const MovieDetail = () => {
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                <Link
-                  className="detail_link"
-                  to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
-                >
-                  <button className="play">
+                {isNotExpireAccount ? (
+                  <Link
+                    className="detail_link"
+                    to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
+                  >
+                    <button className="play">
+                      <PlayArrow />
+                      <span className="Movie_detail_span">Play</span>
+                    </button>
+                  </Link>
+                ) : (
+                  <button className="play" onClick={handlePlayMovie}>
                     <PlayArrow />
                     <span className="Movie_detail_span">Play</span>
                   </button>
-                </Link>
+                )}
 
                 {isAddedToWatchList ? (
                   <button

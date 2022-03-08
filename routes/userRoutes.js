@@ -25,8 +25,11 @@ router.patch("/update", auth, userController.updateUserInfo);
 
 router.patch("/addwatchlist", auth, userController.addWatchList);
 
-// xử lí mua gói
+// xử lí trạng thái gói đã chọn của người dùng
 router.patch("/addpackage", auth, userController.addPackage);
+
+// lưu gói người dùng mua hiện tại
+router.patch("/buypackage", auth, userController.buyPackage);
 
 // xử lí lấy các gói đã mua
 router.get("/history", auth, userController.getHistory);

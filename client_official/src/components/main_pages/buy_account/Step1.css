@@ -1,0 +1,83 @@
+.step1_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: #333;
+}
+
+.step1_top_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.step1_wrapper {
+  margin-top: -80px;
+}
+
+.step1_number {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.step1_bold_number {
+  font-weight: 700;
+}
+
+.step1_logo {
+  margin-bottom: 25px;
+}
+
+.choice_text {
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.step1_bottom_content {
+  max-width: 320px;
+}
+
+.checkmark_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.checkmark_group_item {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.checkmark_group_item p {
+  font-weight: 500;
+  margin-left: 7px;
+  font-size: 18px;
+}
+
+.step1_next_btn {
+  border: none;
+  text-transform: capitalize;
+  color: white;
+  outline: none;
+  letter-spacing: 0.1px;
+  border-radius: 5px;
+  background-color: #e50914;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  font-size: 1.625rem;
+  padding: 0 30px;
+  line-height: 60px;
+  min-width: 220px;
+  cursor: pointer;
+  position: relative;
+  font-weight: 500;
+  margin-top: 15px;
+  width: 340px;
+}
