@@ -1,16 +1,37 @@
 import React from "react";
 import "./Movie_News_List.scss";
 import Movie_News_Item from "./Movie_News_Item";
-
-const Movie_News_List = () => {
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
+import Button from "@mui/material/Button";
+const Movie_News_List = ({
+  notify,
+  handleIsRead,
+  handleDeleteSingleNotify,
+  handleDeleteAll,
+}) => {
   return (
     <div className="Movie_News_List">
       <div className="Movie_News_List_container">
-        <Movie_News_Item />
-        <Movie_News_Item />
-        <Movie_News_Item />
-        <Movie_News_Item />
-        <Movie_News_Item />
+        <div className="Movie_News_List_buttons">
+          <Button
+            variant="outlined"
+            startIcon={<DeleteSweepIcon />}
+            onClick={handleDeleteAll}
+          >
+            Delete All
+          </Button>
+          <Button variant="outlined" startIcon={<MarkChatReadIcon />}>
+            Mark As Read All
+          </Button>
+        </div>
+        {notify.data.map((item, index) => (
+          <Movie_News_Item
+            notify={item}
+            handleIsRead={handleIsRead}
+            handleDeleteSingleNotify={handleDeleteSingleNotify}
+          />
+        ))}
       </div>
     </div>
   );

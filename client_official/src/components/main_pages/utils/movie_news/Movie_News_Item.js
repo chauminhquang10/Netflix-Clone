@@ -1,18 +1,45 @@
 import React from "react";
 import "./Movie_News_Item.scss";
-
-const Movie_News_Item = () => {
+import moment from "moment";
+import { Link } from "react-router-dom";
+import CancelIcon from "@mui/icons-material/Cancel";
+const Movie_News_Item = ({
+  notify,
+  handleIsRead,
+  handleDeleteSingleNotify,
+}) => {
   return (
     <div className="Movie_News_Item_container">
-      <img
-        className="Movie_News_Item_img"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0NvmXqKsBY68oW_4lvg7bh7f8ZsblbwFlCw&usqp=CAU"
-      />
-      <div className="Movie_News_Item_info">
-        <div className="Movie_News_Item_info_title">
-          New Content !!<br></br>HAHA
+      <Link
+        className="Movie_News_Item_Link"
+        to={`${notify.url}`}
+        onClick={() => handleIsRead(notify, notify.seenUsers)}
+        style={{ textDecoration: "none" }}
+      >
+        <img className="Movie_News_Item_img" src={notify.image} />
+      </Link>
+      <Link
+        className="Movie_News_Item_Link"
+        to={`${notify.url}`}
+        onClick={() => handleIsRead(notify, notify.seenUsers)}
+        style={{ textDecoration: "none" }}
+      >
+        <div className="Movie_News_Item_info">
+          <div className="Movie_News_Item_info_title">
+            New Content !!!
+            <br></br>
+            {notify.content.slice(0, 20)}
+          </div>
+          <div className="Movie_News_Item_info_time">
+            {moment(notify.createdAt).fromNow()}
+          </div>
         </div>
-        <div className="Movie_News_Item_info_time">2h20min ago</div>
+      </Link>
+      <div className="Movie_News_Item_info_icon">
+        <CancelIcon
+          fontSize="large"
+          onClick={handleDeleteSingleNotify(notify)}
+        />
       </div>
     </div>
   );
