@@ -3,14 +3,6 @@ import { GlobalState } from "../../../GlobalState";
 import { useSelector, useDispatch } from "react-redux";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
-import CircleIcon from "@mui/icons-material/Circle";
-
-import DeleteIcon from "@material-ui/icons/Delete";
-
-import NoNotice from "../../../images/notice.png";
-
-import moment from "moment";
-
 import {
   isReadNotify,
   NOTIFY_TYPES,
@@ -19,9 +11,8 @@ import {
   deleteOneNewNotify,
 } from "../../../redux/actions/notifyAction";
 
-import "./NotifyModal.css";
-
-import { Link } from "react-router-dom";
+import "./NotifyModal.scss";
+import MovieNews from "../utils/movie_news/Movie_News_List";
 
 const NotifyModal = () => {
   const state = useContext(GlobalState);
@@ -74,57 +65,30 @@ const NotifyModal = () => {
   };
 
   return (
-    <div style={{ minWidth: "280px" }}>
-      <div className="notification-container">
-        <h3>Notifications</h3>
+    <div
+      className="Notify_container"
+      style={{ position: "relative", margin: "0 1rem" }}
+    >
+      <div style={{ position: "relative", margin: "0 1rem" }}>
+        <div className="notify_count">{notify.newNotifies.length}</div>
         {notify.sound ? (
           <NotificationsActiveIcon
-            style={{ fontSize: "1.2rem", cursor: "pointer" }}
+            style={{ fontSize: "40px", cursor: "pointer" }}
             onClick={handleSound}
           />
         ) : (
           <NotificationsOffIcon
-            style={{ fontSize: "1.2rem", cursor: "pointer" }}
+            style={{ fontSize: "40px", cursor: "pointer" }}
             onClick={handleSound}
           />
         )}
       </div>
-
-      <hr />
-
-      {notify.data.length === 0 && (
-        <img
-          src={NoNotice}
-          alt="NoNotification"
-          style={{ width: "100px" }}
-        ></img>
-      )}
-
-      <div style={{ maxHeight: "calc(100vh-200px)", overflow: "autp" }}>
-        {notify.data.map((item, index) => (
-          <div key={index} style={{ marginBottom: "3px", padding: "2px" }}>
-            <Link
-              to={`${item.url}`}
-              onClick={() => handleIsRead(item, item.seenUsers)}
-            >
-              <img src={item.image}></img>
-
-              <div>
-                <span>{item.text}</span>
-              </div>
-              {item.content && <small>{item.content.slice(0, 20)}</small>}
-            </Link>
-
-            <DeleteIcon onClick={() => handleDeleteSingleNotify(item)} />
-            <small>
-              {moment(item.createdAt).fromNow()}
-              {!item.seenUsers.includes(userData._id) && <CircleIcon />}
-            </small>
-          </div>
-        ))}
-      </div>
-      <hr />
-      <div onClick={handleDeleteAll}>Delete All</div>
+      <MovieNews
+        notify={notify}
+        handleIsRead={handleIsRead}
+        handleDeleteAll={handleDeleteAll}
+        handleDeleteSingleNotify={handleDeleteSingleNotify}
+      />
     </div>
   );
 };

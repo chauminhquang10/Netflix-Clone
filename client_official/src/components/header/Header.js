@@ -8,14 +8,12 @@ import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
-import { Notifications } from "@material-ui/icons";
+
 import NotifyModal from "../main_pages/notify/NotifyModal";
 
 import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
 
-
 const Header = () => {
-  const location = useLocation();
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [search, setSearch] = state.moviesAPI.search;
@@ -28,11 +26,9 @@ const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
 
-
   // phần thông báo
   const { notify } = useSelector((state) => state);
   const dispatch = useDispatch();
-
 
   function OnScroll() {
     if (headerRef.current) {
@@ -53,11 +49,6 @@ const Header = () => {
         headerRef.current.style.display = "grid";
       }
     }
-  }
-
-  function usePageViews() {
-    let location = useLocation();
-    React.useEffect(() => {}, [location]);
   }
 
   const showButton = () => {
@@ -97,7 +88,6 @@ const Header = () => {
     );
   };
 
-
   const handleClickNewNotifies = () => {
     //đóng cái dropdown navbar lại
     //rồi sau đó
@@ -135,7 +125,6 @@ const Header = () => {
             </li>
           )}
 
-
           {/* Thử nghiệm mua gói */}
           {isLogged && (
             <li className="header_li">
@@ -153,17 +142,6 @@ const Header = () => {
               </Link>
             </li>
           )}
-
-          {/* Phần thông báo */}
-
-          {/* // <li className="header_li">
-            //   <span className="header_Link">{notify.data.length}</span>
-            //   <span className="header_Link" onClick={handleClickNewNotifies}>
-            //     {notify.newNotifies.length}
-            //   </span>
-            //   <NotifyModal></NotifyModal>
-            // </li> */}
-
           {button && (
             <li className="header_li">
               <Link className="header_Link" to="/">
@@ -217,7 +195,17 @@ const Header = () => {
             </div>
           )}
         </div>
-        <Notifications style={{ fontSize: "40px", marginLeft: "1.5rem" }} />
+        {/* Phần thông báo */}
+        {isLogged && (
+          <li className="header_li" style={{ listStyle: "none" }}>
+            {/* <span className="header_Link">{notify.data.length}</span>
+              <span className="header_Link" onClick={handleClickNewNotifies}>
+                {notify.newNotifies.length}
+              </span> */}
+            <NotifyModal></NotifyModal>
+          </li>
+        )}
+
         {!button && (
           <div className="header_lastItem">
             {isLogged ? (

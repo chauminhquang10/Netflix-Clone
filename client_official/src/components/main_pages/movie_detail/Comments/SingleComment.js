@@ -7,7 +7,7 @@ import { format } from "timeago.js";
 
 import { GlobalState } from "../../../../GlobalState";
 import axios from "axios";
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./SingleComment.scss";
 
 const { TextArea } = Input;
@@ -91,25 +91,10 @@ const SingleComment = ({
       {!openReply ? "Reply to" : "Cancel"}
     </span>,
     <>
-      {showEditOptions && (
-        <>
-          <span onClick={toggleEdit} key="comment-basic-reply-to">
-            {!openEdit ? "Edit" : "Cancel"}
-          </span>
-          {openEdit && (
-            <span style={{ marginLeft: "8px" }} onClick={handleUpdate}>
-              Update
-            </span>
-          )}
-          <span
-            style={{ marginLeft: "8px" }}
-            onClick={handleDelete}
-            key="comment-basic-reply-to"
-          >
-            Delete
-          </span>
-        </>
-      )}
+      <span onClick={toggleEdit} key="comment-basic-reply-to">
+        {openEdit && "Cancel"}
+      </span>
+      {openEdit && <span onClick={handleUpdate}>Update</span>}
     </>,
   ];
 
@@ -118,7 +103,7 @@ const SingleComment = ({
   };
 
   return (
-    <div>
+    <div className="single_comment_container">
       <Comment
         className="AntSingleComment"
         actions={action}
@@ -127,7 +112,11 @@ const SingleComment = ({
         content={
           openEdit ? (
             <textarea
-              rows="5"
+              style={{
+                width: "70%",
+                borderRadius: "5px",
+              }}
+              rows="auto"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -139,7 +128,29 @@ const SingleComment = ({
           <span style={{ marginLeft: "8px" }}>{format(comment.createdAt)}</span>
         }
       ></Comment>
-
+      <div className="single_comment_option">
+        <MoreVertIcon />
+        <div className="single_comment_option_choice">
+          {showEditOptions && (
+            <>
+              {!openEdit && (
+                <span
+                  className="single_comment_option_choice_span"
+                  onClick={toggleEdit}
+                >
+                  Edit
+                </span>
+              )}
+              <span
+                className="single_comment_option_choice_span"
+                onClick={handleDelete}
+              >
+                Delete
+              </span>
+            </>
+          )}
+        </div>
+      </div>
       {/* Comment Form */}
       {openReply && (
         <form style={{ display: "flex" }} onSubmit={onSubmit}>

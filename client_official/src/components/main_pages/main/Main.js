@@ -11,7 +11,6 @@ import Featured from "./Feature/Feature";
 import Grid from "./grid/Grid";
 import VerticalList from "./VerticalList/VerticalList";
 import HorizontalList from "./HorizontalList/HorizontalList";
-import Movie_News_List from "../utils/movie_news/Movie_News_List";
 
 import PopUp from "../utils/popup/PopUp";
 
@@ -95,9 +94,6 @@ const Movies = () => {
               );
           }
         })}
-      </div>
-      <div>
-        <Movie_News_List />
       </div>
     </>
   );

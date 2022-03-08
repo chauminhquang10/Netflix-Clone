@@ -1,12 +1,12 @@
 .Movie_News_Item_container {
-  width: 500px;
-  height: 120px;
+  width: 400px;
+  height: 100px;
   display: flex;
   padding: 1rem;
   border: 0.5px ridge #343434;
   .Movie_News_Item_img {
-    width: 140px;
-    height: 80px;
+    width: 120px;
+    height: 70px;
     object-fit: cover;
   }
   .Movie_News_Item_info {
@@ -22,6 +22,29 @@
     }
   }
 }
+.Movie_News_Item_info_icon {
+  display: none;
+  color: white;
+  cursor: pointer;
+}
 .Movie_News_Item_container:hover {
   background-color: black;
+  display: flex;
+  .Movie_News_Item_info_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    :hover {
+      color: white;
+    }
+  }
+}
+.Movie_News_Item_Link {
+  :hover {
+    color: #e50914;
+  }
+  width: fit-content;
+  height: fit-content;
+  max-width: 200px;
 }
