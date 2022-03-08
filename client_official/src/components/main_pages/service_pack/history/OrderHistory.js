@@ -1,30 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import { Link } from "react-router-dom";
 import "./OrderHistory.css";
+
+import moment from "moment";
 
 const OrderHistory = () => {
   const state = useContext(GlobalState);
   const [userHistory] = state.usersAPI.userHistory;
 
-  if (!userHistory) {
-    return (
-      <div style={{ minHeight: "900px", backgroundColor: "#f9f9f9" }}>
-        <h1 style={{ paddingTop: "5rem", fontSize: "60px" }}>History Emty</h1>
-      </div>
-    );
-  }
-
   return (
     <div>
       <h2> History</h2>
 
-      <h4>Payment ID: {userHistory.paymentID}</h4>
-      <h4>
-        Date of Purchased:
-        {new Date(userHistory.createdAt).toLocaleDateString()}
-      </h4>
-      <Link to={"/detailHistory"}>View</Link>
+      <h4>You have {userHistory.length} ordered</h4>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Payment ID</th>
+            <th>Date of Purchased</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {userHistory.map((items) => (
+            <tr key={items._id}>
+              <td>{items.paymentID}</td>
+              <td>
+                {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
+              </td>
+              <td>
+                <Link to={`/history/${items._id}`}>View</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

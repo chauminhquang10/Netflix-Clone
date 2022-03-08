@@ -10,8 +10,6 @@ const CheckOut = () => {
   const [token] = state.token;
   const [userPackage, setUserPackage] = state.usersAPI.userPackage;
 
-  const [historyCallback, setHistoryCallback] = state.usersAPI.historyCallback;
-
   const updateUserPackage = async (userPackage) => {
     await axios.patch(
       "/user/addpackage",
@@ -39,7 +37,6 @@ const CheckOut = () => {
     updateUserPackage({});
 
     alert("You have check out successfully");
-    setHistoryCallback(!historyCallback);
   };
 
   return (

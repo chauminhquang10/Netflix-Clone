@@ -6,6 +6,7 @@ import PackageItem from "./PackageItem";
 const ServicePackage = () => {
   const state = useContext(GlobalState);
   const [packages, setPackages] = state.packagesAPI.packages;
+
   return (
     <div className="products">
       {packages.map((pack) => {

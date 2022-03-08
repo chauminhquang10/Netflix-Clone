@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "./Pages.css";
 import Main from "./main/Main";
 import Movies from "./movies/Movies";
@@ -38,10 +38,17 @@ import OrderDetail from "./service_pack/history/OrderDetail";
 import AdminPayments from "./payments/AdminPayments";
 import PaymentDetail from "./payments/PaymentDetail";
 
+import Step1 from "./buy_account/Step1";
+import Step2 from "./buy_account/Step2";
+import Step3 from "./buy_account/Step3";
+import CheckOutStep from "./buy_account/CheckOutStep";
+
 const Pages = () => {
   const state = useContext(GlobalState);
   const [isLogged] = state.usersAPI.isLogged;
   const [isAdmin] = state.usersAPI.isAdmin;
+  const [isValidAccount] = state.usersAPI.isValidAccount;
+  const [isNotExpireAccount] = state.usersAPI.isNotExpireAccount;
 
   return (
     <div>
@@ -117,7 +124,49 @@ const Pages = () => {
         ) : (
           <>
             <Switch>
-              <Route path="/" exact component={isLogged ? Main : LandingPage} />
+              <Route exact path="/">
+                {isLogged && isValidAccount ? (
+                  <Redirect exact from="/" to="/browse" />
+                ) : (
+                  <LandingPage />
+                )}
+              </Route>
+
+              <Route exact path="/browse">
+                {isLogged && isValidAccount ? <Main /> : <Redirect to="/" />}
+              </Route>
+
+              <Route exact path="/step_1">
+                {isLogged && !isNotExpireAccount ? (
+                  <Step1 />
+                ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
+
+              <Route exact path="/step_2">
+                {isLogged && !isNotExpireAccount ? (
+                  <Step2 />
+                ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
+
+              <Route exact path="/step_3">
+                {isLogged && !isNotExpireAccount ? (
+                  <Step3 />
+                ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
+
+              <Route exact path="/checkout_step">
+                {isLogged && !isNotExpireAccount ? (
+                  <CheckOutStep />
+                ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
 
               <Route
                 path="/movies"
@@ -132,12 +181,9 @@ const Pages = () => {
                 path="/favorite"
                 component={isLogged ? Favorite : LandingPage}
               />
-
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />
-
               <Route path="/checkout" component={CheckOut} />
-
               <Route
                 path="/watch/:TMDBid/:id"
                 component={isLogged ? Watch : LandingPage}
@@ -163,20 +209,17 @@ const Pages = () => {
                 path="/profile"
                 component={isLogged ? UserProfile : NotFound}
               />
-
               {/* Xem những gói đã mua */}
               <Route
                 exact
                 path="/history"
                 component={isLogged ? OrderHistory : NotFound}
               />
-
               {/* Xem chi tiết gói đã mua */}
               <Route
-                path="/detailHistory"
+                path="/history/:id"
                 component={isLogged ? OrderDetail : NotFound}
               />
-
               <Route path="*" component={NotFound} />
             </Switch>
           </>
