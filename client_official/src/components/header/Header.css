@@ -61,14 +61,14 @@
   font-size: 20px;
   background-color: #e50914;
   color: white;
-  opacity: 1;
+  opacity: 0.8;
   border-radius: 5px;
   font-weight: 500;
   margin-left: 20px;
 }
 
 .login_btn:hover {
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .header_Link {
@@ -81,6 +81,16 @@
 }
 
 .header_Link:hover {
+  text-decoration: none;
+  color: #e50914;
+}
+
+.header_Link_normal {
+  position: relative;
+  color: white;
+}
+
+.header_Link_normal:hover {
   text-decoration: none;
   color: #e50914;
 }

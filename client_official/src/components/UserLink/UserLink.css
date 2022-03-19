@@ -49,6 +49,7 @@
   opacity: 0;
   z-index: 999;
   align-items: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .userlink_menu.active {
   top: 80px;
@@ -84,7 +85,6 @@
   margin-left: 10px;
   font-size: 14px;
   display: inline-block;
-  text-decoration: none;
   color: black;
   font-weight: 500;
   transition: 0.2s;
@@ -92,6 +92,7 @@
 .profile-link:hover {
   color: black;
   font-weight: 520;
+  text-decoration: none;
 }
 .userlink_item {
   list-style: none;
