@@ -7,10 +7,7 @@ const ListSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    genre: {
-      type: String,
-      required: true,
-    },
+    genre: { type: mongoose.Types.ObjectId, ref: "Genre", required: true },
     items: {
       type: Array,
       default: [],

@@ -20,13 +20,14 @@
 }
 
 .widgetLargeTh {
-  text-align: left;
+  text-align: center;
   color: #333;
 }
 
 .widgetLargeUser {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-weight: 600;
   color: #333;
 }

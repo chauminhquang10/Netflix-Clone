@@ -38,6 +38,8 @@ app.use("/api", require("./routes/dislikeRoutes"));
 app.use("/api", require("./routes/servicePackageRoutes"));
 app.use("/api", require("./routes/paymentRoutes"));
 app.use("/api", require("./routes/notifyRoutes"));
+app.use("/api", require("./routes/stripeRoutes"));
+app.use("/api", require("./routes/discountRoutes"));
 
 // Connect to the database
 const URI = process.env.MONGODB_URL;

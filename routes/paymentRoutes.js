@@ -8,4 +8,8 @@ router
   .get(auth, authAdmin, paymentController.getPayments)
   .post(auth, paymentController.createPayment);
 
+router
+  .route("/newPayments")
+  .get(auth, authAdmin, paymentController.getNewPayments);
+
 module.exports = router;
