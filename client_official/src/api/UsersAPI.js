@@ -39,10 +39,11 @@ const UsersAPI = (token) => {
           setWatchList(res.data.favoriteList);
           setUserData(res.data);
           res.data?.service_pack && setUserPackage(res.data.service_pack);
-          let currentDate = moment().format("MMMM Do YYYY");
+
           if (res.data?.buy_package) {
             setIsValidAccount(true);
-            if (res.data.buy_package.expireTime >= currentDate) {
+
+            if (new Date() <= new Date(res.data.buy_package.expireTime)) {
               setIsNotExpireAccount(true);
             }
           }
@@ -144,13 +145,14 @@ const UsersAPI = (token) => {
   };
 
   const addUserPackageService = async (pack) => {
-    let currentDate = moment().format("MMMM Do YYYY");
-    let expireDate = moment().add(30, "days").format("MMMM Do YYYY");
+    let currentDate = new Date();
+    let expireDate = new Date(currentDate);
+    expireDate.setDate(expireDate.getDate() + 30);
 
     setUserPackage({
       ...pack,
-      startedTime: currentDate,
-      expireTime: expireDate,
+      startedTime: currentDate.toDateString(),
+      expireTime: expireDate.toDateString(),
     });
 
     await axios.patch(

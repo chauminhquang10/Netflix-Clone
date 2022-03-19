@@ -71,7 +71,22 @@ const SingleComment = ({
     }
   };
 
-  const handleUpdate = async (event) => {};
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.put(
+        `/api/editComment/${comment._id}`,
+        { content },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      setCommentCallback(!commentCallback);
+      setOpenEdit(!openEdit);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
 
   const handleDelete = async (event) => {
     event.preventDefault();

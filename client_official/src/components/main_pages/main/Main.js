@@ -25,11 +25,11 @@ const Movies = () => {
     state.usersAPI.isNotExpireAccount;
 
   //trigger Popup
-  const [popupTrigger, setPopupTrigger] = useState(false);
+  const [popupTrigger, setPopupTrigger] = useState(true);
 
   useEffect(() => {
-    if (!isNotExpireAccount) {
-      setPopupTrigger(true);
+    if (isNotExpireAccount) {
+      setPopupTrigger(false);
     }
   }, [isNotExpireAccount]);
 

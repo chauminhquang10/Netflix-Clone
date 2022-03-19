@@ -1,5 +1,6 @@
 const Packages = require("../models/packModel");
 const Movies = require("../models/movieModel");
+const Users = require("../models/userModel");
 
 const packageController = {
   getPackages: async (req, res) => {
@@ -37,7 +38,14 @@ const packageController = {
   },
   deletePackage: async (req, res) => {
     try {
+      const users = await Users.find();
+
+      users.filter((user) => {
+        return deleteUserPack(req.params.id, user);
+      });
+
       await Packages.findByIdAndDelete(req.params.id);
+
       res.json({ msg: "Deleted a package!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -66,6 +74,18 @@ const packageController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+};
+
+// KHI ADMIN XÓA 1 GÓI THÌ XÓA CÁI USER_PACK (TRẠNG THÁI LƯU GÓI ĐÓ) Ở TẤT CẢ NGƯỜI DÙNG NÀO CÓ LƯU NÓ.
+const deleteUserPack = async (packId, user) => {
+  if (user.service_pack && user.service_pack._id === packId) {
+    await Users.findOneAndUpdate(
+      { _id: user._id },
+      {
+        service_pack: [],
+      }
+    );
+  }
 };
 
 module.exports = packageController;

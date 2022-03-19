@@ -11,19 +11,34 @@ const paymentController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getNewPayments: async (req, res) => {
+    try {
+      const payments = await Payments.find()
+        .populate("user_id", "avatar")
+        .sort("-createdAt")
+        .limit(4);
+      res.json(payments);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 
   createPayment: async (req, res) => {
     try {
-      const user = await Users.findById(req.user.id).select("name email");
+      const user = await Users.findById(req.user.id).select(
+        "name email avatar"
+      );
       if (!user) return res.status(400).json({ msg: "User does not exist" });
 
-      const { service_pack, paymentID, address } = req.body;
-      const { _id, name, email } = user;
+      const { service_pack, paymentID, address, paymentMethod } = req.body;
+      const { _id, name, email, avatar } = user;
 
       const newPayment = new Payments({
         user_id: _id,
         name,
         email,
+        avatar,
+        paymentMethod,
         address,
         service_pack,
         paymentID,

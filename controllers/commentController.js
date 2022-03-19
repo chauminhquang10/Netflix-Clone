@@ -25,7 +25,19 @@ const commentController = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  updateComment: async (req, res) => {},
+  updateComment: async (req, res) => {
+    try {
+      const { content } = req.body;
+      await Comments.findOneAndUpdate(
+        { _id: req.params.id },
+        { content: content.toLowerCase() }
+      );
+      res.json({ msg: "Updated a comment!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   getAllComments: async (req, res) => {
     try {
       const comments = await Comments.find({ movieId: req.params.id });

@@ -10,6 +10,8 @@ import "./CheckOutStep.css";
 
 import PayPalCheckOut from "./PayPalCheckOut";
 
+import StripeCheckout from "react-stripe-checkout";
+
 import moment from "moment";
 
 const CheckOutStep = () => {
@@ -25,7 +27,15 @@ const CheckOutStep = () => {
 
   const [checkOutPackage, setCheckOutPackage] = useState({});
 
+  // stripe payment
+  const [stripeToken, setStripeToken] = useState(null);
+
   const history = useHistory();
+
+  // get stripe token
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
 
   useEffect(() => {
     if (packages.length !== 0) {
@@ -47,6 +57,22 @@ const CheckOutStep = () => {
       }
     }
   }, [userPackage, packages]);
+
+  useEffect(() => {
+    const callStripeAPI = async () => {
+      try {
+        const res = await axios.post("/api/stripe_payment", {
+          tokenId: stripeToken.id,
+          amount: checkOutPackage.price * 100,
+        });
+
+        stripeTranSucess(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && callStripeAPI();
+  }, [stripeToken, history]);
 
   const updateUserPackage = async (userPackage) => {
     await axios.patch(
@@ -77,7 +103,12 @@ const CheckOutStep = () => {
 
     await axios.post(
       "/api/payment",
-      { service_pack: checkOutPackage, paymentID, address },
+      {
+        service_pack: checkOutPackage,
+        paymentID,
+        address,
+        paymentMethod: "paypal",
+      },
       {
         headers: { Authorization: token },
       }
@@ -95,6 +126,46 @@ const CheckOutStep = () => {
 
     // chuyển trang
     history.push("/browse");
+  };
+
+  const stripeTranSucess = async (payment) => {
+    if (payment.status === "succeeded") {
+      const { name, address } = payment.billing_details;
+      const newAddress = {
+        recipient_name: name,
+        line1: address.line1,
+        city: address.city,
+        state: address.state,
+        postal_code: address.postal_code,
+        country_code: address.country,
+      };
+
+      await axios.post(
+        "/api/payment",
+        {
+          service_pack: checkOutPackage,
+          paymentID: payment.id,
+          address: newAddress,
+          paymentMethod: "stripe",
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      setUserPackage({});
+      updateUserPackage({});
+      updateBuyPackage(checkOutPackage);
+
+      alert("You have check out successfully");
+      setHistoryCallback(!historyCallback);
+
+      setIsValidAccount(true);
+      setIsNotExpireAccount(true);
+
+      // chuyển trang
+      history.push("/browse");
+    }
   };
 
   return (
@@ -176,10 +247,37 @@ const CheckOutStep = () => {
           cancel at any time to avoid future charges.
         </span>
         {checkOutPackage.title && (
-          <PayPalCheckOut
-            total={checkOutPackage.price}
-            tranSuccess={tranSuccess}
-          ></PayPalCheckOut>
+          <>
+            <PayPalCheckOut
+              total={checkOutPackage.price}
+              tranSuccess={tranSuccess}
+            ></PayPalCheckOut>
+            <StripeCheckout
+              name="Rex Movie"
+              image="https://t3.ftcdn.net/jpg/02/80/09/58/360_F_280095865_QBy7eRsxjFhiB4dhFnuUq0Uz0HC5An7Q.jpg"
+              billingAddress
+              shippingAddress
+              description={`Your total is $${checkOutPackage.price}`}
+              amount={checkOutPackage.price * 100}
+              token={onToken}
+              stripeKey="pk_test_51KaF2rLjv0wfcc1sJyQlomCRXjfcJoD9vZ8U1BInVIwR7hGiP9kQF3KXOqiSyMiq3x4CZApKHjOwdgDFoTrtu8GS00Q4LpDso9"
+            >
+              <button
+                style={{
+                  border: "none",
+                  width: 120,
+                  borderRadius: 5,
+                  padding: "20px",
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                }}
+              >
+                Pay Now
+              </button>
+            </StripeCheckout>
+          </>
         )}
       </div>
     </div>
