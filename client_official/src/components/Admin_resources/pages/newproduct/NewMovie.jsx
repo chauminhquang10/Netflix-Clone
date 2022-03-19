@@ -153,7 +153,7 @@ const NewMovie = () => {
       //Notify
       const msg = {
         id: res.data.newMovie._id,
-        text: "added a new movie",
+        text: res.data.newMovie.desc,
         url: `/detail/${res.data.newMovie._id}`,
         content: movie.title,
         image: imgSmall.url,

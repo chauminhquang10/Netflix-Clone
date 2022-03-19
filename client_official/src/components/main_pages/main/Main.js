@@ -53,12 +53,12 @@ const Movies = () => {
     <>
       {/* Popup thông báo hết hạn */}
 
-      <div className="popup_container">
+      {/* <div className="popup_container">
         <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
           <h1>My Popup</h1>
           <p>This is the notification that your account is expired</p>
         </PopUp>
-      </div>
+      </div> */}
 
       <Featured
         trailer="https://www.youtube.com/embed/hIR8Ar-Z4hw"

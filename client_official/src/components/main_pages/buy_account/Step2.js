@@ -24,7 +24,7 @@ const Step2 = () => {
 
   const handleActivePackage = (pack) => {
     addUserPackageService(pack);
-    setTogglePackage(pack.title);
+    setTogglePackage(pack._id);
   };
 
   useEffect(() => {
@@ -32,12 +32,12 @@ const Step2 = () => {
       // ktra gói khách hàng chọn có bị admin xóa k ?
       if (
         userPackage.title &&
-        packages.some((pack) => pack.title === userPackage.title)
+        packages.some((pack) => pack._id === userPackage._id)
       ) {
-        setTogglePackage(userPackage.title);
+        setTogglePackage(userPackage._id);
       } else {
         //lấy gói đầu tiên
-        setTogglePackage(packages[0].title);
+        setTogglePackage(packages[0]._id);
       }
     }
   }, [userPackage, packages]);
@@ -76,33 +76,49 @@ const Step2 = () => {
         </div>
 
         {/* Table of package contents */}
-        <div className="plan_table_header">
+        {/* <div className="plan_table_header">
           <div className="plan_table_header_wrapper">
             {packages.map((pack, index) => (
               <div
                 className={
-                  togglePackage === pack.title
+                  togglePackage === pack._id
                     ? "plan_table_header_item plan_table_header_item_active"
                     : "plan_table_header_item"
                 }
                 onClick={() => handleActivePackage(pack)}
               >
                 <span className="plan_table_header_item_choice ">
-                  {pack.title}
+                  {pack._id}
                 </span>
               </div>
             ))}
           </div>
-        </div>
-
+        </div> */}
         <table className="plan_table_body">
           <tbody>
+            <tr>
+              <td className="heading_content"></td>
+              {packages.map((pack, index) => (
+                <td
+                  className={
+                    togglePackage === pack._id
+                      ? "plan_table_header_item active"
+                      : "plan_table_header_item"
+                  }
+                  onClick={() => handleActivePackage(pack)}
+                >
+                  <span className="plan_table_header_item_choice ">
+                    {pack.title}
+                  </span>
+                </td>
+              ))}
+            </tr>
             <tr>
               <td className="heading_content">Monthly price</td>
               {packages.map((pack, index) => (
                 <td
                   className={
-                    togglePackage === pack.title
+                    togglePackage === pack._id
                       ? "active_package_detail_content package_detail_content"
                       : "package_detail_content"
                   }
@@ -116,7 +132,7 @@ const Step2 = () => {
               {packages.map((pack, index) => (
                 <td
                   className={
-                    togglePackage === pack.title
+                    togglePackage === pack._id
                       ? "active_package_detail_content package_detail_content"
                       : "package_detail_content"
                   }
@@ -130,7 +146,7 @@ const Step2 = () => {
               {packages.map((pack, index) => (
                 <td
                   className={
-                    togglePackage === pack.title
+                    togglePackage === pack._id
                       ? "active_package_detail_content package_detail_content"
                       : "package_detail_content"
                   }
@@ -144,7 +160,7 @@ const Step2 = () => {
               {packages.map((pack, index) => (
                 <td
                   className={
-                    togglePackage === pack.title
+                    togglePackage === pack._id
                       ? "active_package_detail_content package_detail_content"
                       : "package_detail_content"
                   }

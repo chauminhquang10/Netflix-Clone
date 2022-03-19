@@ -34,11 +34,13 @@ const useStyles = makeStyles((theme) => ({
   },
   deleteButton: {
     position: "absolute",
-    right: "10px",
+    right: "0px",
+    top: "50%",
   },
   AddButton: {
     position: "absolute",
-    left: "10px",
+    top: "50%",
+    left: "0px",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -213,7 +215,7 @@ const MovieList = () => {
   return (
     <div className="admin-movies-list">
       <Paper className={classes.pageContent}>
-        <Toolbar>
+        <Toolbar className="Movie_List_Tool_Bar">
           <Link to="/newMovie">
             <AdminNormalButton
               text="Create"

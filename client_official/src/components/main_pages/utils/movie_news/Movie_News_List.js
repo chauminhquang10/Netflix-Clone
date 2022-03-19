@@ -9,6 +9,7 @@ const Movie_News_List = ({
   handleIsRead,
   handleDeleteSingleNotify,
   handleDeleteAll,
+  UserData,
 }) => {
   return (
     <div className="Movie_News_List">
@@ -30,6 +31,7 @@ const Movie_News_List = ({
             notify={item}
             handleIsRead={handleIsRead}
             handleDeleteSingleNotify={handleDeleteSingleNotify}
+            isRead={!item.seenUsers.includes(UserData._id)}
           />
         ))}
       </div>

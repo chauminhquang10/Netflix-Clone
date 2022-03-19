@@ -4,17 +4,17 @@ import { GlobalState } from "../../GlobalState";
 import { Menu, Clear, ContactSupportOutlined } from "@material-ui/icons";
 import "./Header.css";
 import { Link } from "react-router-dom";
-import { ArrowDropDown } from "@material-ui/icons";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
-
+import { Button, OutlineButton } from "../button/Button.jsx";
 import NotifyModal from "../main_pages/notify/NotifyModal";
 
 import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
 
 const Header = () => {
   const state = useContext(GlobalState);
+  const [isValidAccount] = state.usersAPI.isValidAccount;
   const [token] = state.token;
   const [search, setSearch] = state.moviesAPI.search;
   const [userData] = state.usersAPI.userData;
@@ -76,14 +76,20 @@ const Header = () => {
   const loggedRouter = () => {
     return (
       <>
-        <li style={{ listStyle: "none" }}>
-          <UserLink
-            userMail={userData.email}
-            userName={userData.name}
-            logout={logoutUser}
-            userAvatar={userData.avatar}
-          />
-        </li>
+        {isValidAccount ? (
+          <li style={{ listStyle: "none" }}>
+            <UserLink
+              userMail={userData.email}
+              userName={userData.name}
+              logout={logoutUser}
+              userAvatar={userData.avatar}
+            />
+          </li>
+        ) : (
+          <Link className="header_Link_normal" onClick={logoutUser} to="/">
+            <button className="login_btn">Log Out</button>
+          </Link>
+        )}
       </>
     );
   };
@@ -110,14 +116,14 @@ const Header = () => {
           </Link>
         </div>
         <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
-          {isLogged && (
+          {isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/movies">
                 Movies
               </Link>
             </li>
           )}
-          {isLogged && (
+          {isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/favorite">
                 Favorites
@@ -126,7 +132,7 @@ const Header = () => {
           )}
 
           {/* Thử nghiệm mua gói */}
-          {isLogged && (
+          {isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/packages">
                 Packages
@@ -135,21 +141,14 @@ const Header = () => {
           )}
 
           {/* Phần lịch sử mua gói */}
-          {isLogged && (
+          {isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/history">
                 History
               </Link>
             </li>
           )}
-          {button && (
-            <li className="header_li">
-              <Link className="header_Link" to="/">
-                Setting
-              </Link>
-            </li>
-          )}
-          {button && isLogged && (
+          {button && isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/">
                 My Account
@@ -165,14 +164,14 @@ const Header = () => {
           )}
           {button && !isLogged && (
             <li className="header_li">
-              <Link to="/login" className="header_Link" to="/">
+              <Link to="/login" className="header_Link_normal">
                 Login
               </Link>
             </li>
           )}
         </ul>
         <div style={{ display: "grid", justifyContent: "flex-end" }}>
-          {isLogged && (
+          {isValidAccount && (
             <div class={toggleSearch ? "search" : "search open"} id="searchBar">
               <input
                 type="text"
@@ -196,12 +195,8 @@ const Header = () => {
           )}
         </div>
         {/* Phần thông báo */}
-        {isLogged && (
+        {isValidAccount && (
           <li className="header_li" style={{ listStyle: "none" }}>
-            {/* <span className="header_Link">{notify.data.length}</span>
-              <span className="header_Link" onClick={handleClickNewNotifies}>
-                {notify.newNotifies.length}
-              </span> */}
             <NotifyModal></NotifyModal>
           </li>
         )}
@@ -211,7 +206,7 @@ const Header = () => {
             {isLogged ? (
               loggedRouter()
             ) : (
-              <Link className="header_Link" to="/login">
+              <Link className="header_Link_normal" to="/login">
                 <button className="login_btn">Sign in</button>
               </Link>
             )}

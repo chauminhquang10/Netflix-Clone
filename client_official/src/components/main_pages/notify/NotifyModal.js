@@ -88,6 +88,7 @@ const NotifyModal = () => {
         handleIsRead={handleIsRead}
         handleDeleteAll={handleDeleteAll}
         handleDeleteSingleNotify={handleDeleteSingleNotify}
+        UserData={userData}
       />
     </div>
   );
