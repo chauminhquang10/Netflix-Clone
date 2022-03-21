@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/pickers": "^3.3.10",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.0",
     "cookie-parser": "^1.4.5",

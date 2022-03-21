@@ -17,6 +17,8 @@ router.post("/reset", auth, userController.resetPassword);
 
 router.get("/infor", auth, userController.getUserInfo);
 
+router.get("/discountsInfo", auth, userController.getUserDiscountsInfo);
+
 router.get("/all_info", auth, authAdmin, userController.getAllUsersInfo);
 
 router.get("/logout", userController.logout);
@@ -33,6 +35,9 @@ router.patch("/buypackage", auth, userController.buyPackage);
 
 // xử lí lấy các gói đã mua
 router.get("/history", auth, userController.getHistory);
+
+// xử lí cancel coupon code
+router.patch("/cancelCode", auth, userController.cancelCoupon);
 
 //update user permissions with role admin
 router.patch(

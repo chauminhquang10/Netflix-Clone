@@ -30,7 +30,16 @@ const paymentController = {
       );
       if (!user) return res.status(400).json({ msg: "User does not exist" });
 
-      const { service_pack, paymentID, address, paymentMethod } = req.body;
+      // xóa danh sách mã giảm giá đã dùng
+      await Users.findOneAndUpdate(
+        { _id: user._id },
+        {
+          usedDiscounts: [],
+        }
+      );
+
+      const { service_pack, paymentID, address, paymentMethod, discountPrice } =
+        req.body;
       const { _id, name, email, avatar } = user;
 
       const newPayment = new Payments({
@@ -39,6 +48,7 @@ const paymentController = {
         email,
         avatar,
         paymentMethod,
+        discountPrice,
         address,
         service_pack,
         paymentID,

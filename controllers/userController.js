@@ -14,6 +14,8 @@ const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 
 const { CLIENT_URL } = process.env;
 
+let ObjectId = require("mongoose").Types.ObjectId;
+
 const userController = {
   register: async (req, res) => {
     try {
@@ -163,6 +165,15 @@ const userController = {
   getUserInfo: async (req, res) => {
     try {
       const user = await Users.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+      res.json(user);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getUserDiscountsInfo: async (req, res) => {
+    try {
+      const user = await Users.findById(req.user.id).select("usedDiscounts");
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
       res.json(user);
     } catch (error) {
@@ -340,6 +351,7 @@ const userController = {
     try {
       const user = await Users.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
       await Users.findOneAndUpdate(
         { _id: req.user.id },
         {
@@ -355,6 +367,7 @@ const userController = {
     try {
       const user = await Users.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
       await Users.findOneAndUpdate(
         { _id: req.user.id },
         {
@@ -362,6 +375,25 @@ const userController = {
         }
       );
       return res.json({ msg: "Save Account State!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  cancelCoupon: async (req, res) => {
+    try {
+      const { codeID } = req.body;
+
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          $pull: {
+            usedDiscounts: { _id: new ObjectId(codeID) },
+          },
+        },
+        { new: true }
+      );
+
+      res.json({ msg: "Cancel code successfully!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

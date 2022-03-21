@@ -47,20 +47,13 @@ const OrderDetail = () => {
       <br></br>
       <div>
         <h4>Package Name: {orderDetails.service_pack.title}</h4>
-        <h4>Package Price: {orderDetails.service_pack.price}</h4>
         <h4>
-          Started Time:{" "}
-          {moment(new Date(orderDetails.service_pack.startedTime)).format(
-            "MMMM Do YYYY"
-          )}
+          Package Price:{" "}
+          {orderDetails.service_pack.price - orderDetails.discountPrice}
         </h4>
+        <h4>Started Time: {orderDetails.service_pack.startedTime}</h4>
 
-        <h4>
-          Expire In:{" "}
-          {moment(new Date(orderDetails.service_pack.expireTime)).format(
-            "MMMM Do YYYY"
-          )}
-        </h4>
+        <h4>Expire In: {orderDetails.service_pack.expireTime}</h4>
       </div>
     </>
   );

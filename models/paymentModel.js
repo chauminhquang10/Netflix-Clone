@@ -27,12 +27,17 @@ const paymentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    discountPrice: {
+      type: Number,
+      default: 0,
+    },
     address: {
       type: Object,
       required: true,
     },
     service_pack: {
       type: Object,
+      default: {},
     },
     status: {
       type: Boolean,
