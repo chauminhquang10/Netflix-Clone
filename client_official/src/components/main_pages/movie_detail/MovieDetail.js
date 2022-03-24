@@ -19,6 +19,8 @@ import PopUp from "../utils/popup/PopUp";
 
 import Comments from "./Comments/Comments";
 
+import CommentDisplayRating from "./Comments/CommentDisplayRating";
+
 const MovieDetail = () => {
   const params = useParams();
   const state = useContext(GlobalState);
@@ -148,6 +150,12 @@ const MovieDetail = () => {
             <span className="genre__item">{movieGenre.name}</span>
           </div>
           <p className="overview">{movieDetail.desc}</p>
+
+          {/* Hiển thị số sao trung bình */}
+          <CommentDisplayRating
+            rating={movieDetail.rating}
+          ></CommentDisplayRating>
+
           <div className="cast">
             <div className="section__header">
               <h2>Casts</h2>

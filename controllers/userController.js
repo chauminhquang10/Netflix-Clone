@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-const sendEmail = require("./sendMail.js");
+const sendMail = require("./sendMail");
+
+const sendConfirmMail = require("./sendConfirmMail");
 
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
@@ -89,6 +91,37 @@ const userController = {
       await newUser.save();
 
       res.json({ msg: "Account has been activated!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  sendPaymentConfirmMail: async (req, res) => {
+    try {
+      const {
+        country_code,
+        paymentID,
+        service_pack,
+        beforeDiscount,
+        afterDiscount,
+      } = req.body;
+
+      const user = await Users.findById(req.user.id).select("name email");
+      if (!user) return res.status(400).json({ msg: "User does not exist!" });
+
+      let currentDate = new Date().toLocaleString();
+      const { name, email } = user;
+
+      sendConfirmMail(
+        email,
+        name,
+        country_code,
+        paymentID,
+        service_pack,
+        currentDate,
+        beforeDiscount,
+        afterDiscount
+      );
+      res.json({ msg: "Send confirm email about the payment successfully!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

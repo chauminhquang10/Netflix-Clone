@@ -225,6 +225,23 @@ const CheckOutStep = () => {
       }
     );
 
+    // gửi mail confirm đơn hàng
+    const { country_code } = address;
+
+    await axios.post(
+      "/user/confirmMail",
+      {
+        country_code,
+        paymentID,
+        service_pack: checkOutPackage,
+        beforeDiscount: checkOutPackage.price,
+        afterDiscount: total,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+
     setUserPackage({});
     updateUserPackage({});
     updateBuyPackage(checkOutPackage);
@@ -259,6 +276,21 @@ const CheckOutStep = () => {
           address: newAddress,
           paymentMethod: "stripe",
           discountPrice: reducePrice,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      // gửi mail confirm đơn hàng
+      await axios.post(
+        "/user/confirmMail",
+        {
+          country_code: address.country,
+          paymentID: payment.id,
+          service_pack: checkOutPackage,
+          beforeDiscount: checkOutPackage.price,
+          afterDiscount: total,
         },
         {
           headers: { Authorization: token },

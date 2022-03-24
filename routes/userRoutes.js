@@ -39,6 +39,9 @@ router.get("/history", auth, userController.getHistory);
 // xử lí cancel coupon code
 router.patch("/cancelCode", auth, userController.cancelCoupon);
 
+//send mail confirm đơn hàng
+router.post("/confirmMail", auth, userController.sendPaymentConfirmMail);
+
 //update user permissions with role admin
 router.patch(
   "/update_role/:id",

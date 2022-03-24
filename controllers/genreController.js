@@ -1,10 +1,14 @@
 const Genre = require("../models/genreModel");
 const Movies = require("../models/movieModel");
 
+const APIFeatures = require("./classes/APIFeatures.js");
+
 const genreController = {
   getGenres: async (req, res) => {
     try {
-      const genres = await Genre.find();
+      const features = new APIFeatures(Genre.find(), req.query).filtering();
+
+      const genres = await features.query;
       res.json(genres);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
