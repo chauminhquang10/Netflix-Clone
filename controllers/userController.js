@@ -18,6 +18,8 @@ const { CLIENT_URL } = process.env;
 
 let ObjectId = require("mongoose").Types.ObjectId;
 
+const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 const userController = {
   register: async (req, res) => {
     try {
@@ -445,11 +447,19 @@ const userController = {
       //tinh tong users theo tung thang trong nam
       const data = await Users.aggregate([
         {
-          $match: { role: 0 },
+          $addFields: {
+            month: {
+              $month: "$createdAt",
+            },
+            year: {
+              $year: "$createdAt",
+            },
+          },
         },
         {
-          $project: {
-            month: { $month: "$createdAt" },
+          $match: {
+            year: new Date().getFullYear(),
+            role: 0,
           },
         },
         {
@@ -461,6 +471,16 @@ const userController = {
           },
         },
       ]);
+
+      // đắp những tháng k có số liệu trong năm vào
+      const emptyMonthsArr = months.filter(
+        (month) => !data.some((item) => item._id == month)
+      );
+
+      for (let i = 0; i < emptyMonthsArr.length; i++) {
+        data.push({ _id: emptyMonthsArr[i], total: 0 });
+      }
+
       res.status(200).json(data);
     } catch (error) {
       return res.status(500).json({ msg: error.message });

@@ -1,0 +1,121 @@
+.listItem {
+  width: 225px;
+  height: 120px;
+  background: var(--main-color);
+  margin-right: 5px;
+  cursor: pointer;
+  color: white;
+  position: relative;
+}
+
+.listItem img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.listItem video {
+  width: 100%;
+  height: 140px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.listItem .Popup {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  top: -160px;
+  overflow: hidden;
+}
+
+.listItem:hover .Popup {
+  width: 325px;
+  height: 310px;
+  overflow: hidden;
+  position: absolute;
+  top: -85px;
+  left: -40px;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+  box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+  border-radius: 5px;
+  background-color: black;
+  z-index: 99;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.listItem:hover .Popup_img {
+  height: 140px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.listItem:hover .itemInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 5px;
+}
+
+.listItem:hover .itemInfo .icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.listItem:hover .itemInfo .icons .icon {
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 40px;
+}
+
+.listItem:hover .itemInfo .icons .icon:hover {
+  background-color: #f9f9ea;
+  color: #ff0000;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.listItem:hover .itemInfo .itemInfoTop {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: gray;
+}
+
+.listItem:hover .itemInfo .itemInfoTop .limit {
+  border: 1px solid gray;
+  padding: 1px 3px;
+  margin: 0px 10px;
+}
+
+.listItem:hover .itemInfo .desc {
+  font-size: 13px;
+  margin-bottom: 10px;
+  max-height: 63px;
+  overflow: hidden;
+}
+
+.listItem:hover .itemInfo .genre {
+  font-size: 14px;
+  color: lightgray;
+}
+/*# sourceMappingURL=MovieItem.css.map */

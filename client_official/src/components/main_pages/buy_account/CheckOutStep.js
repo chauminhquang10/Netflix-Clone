@@ -219,6 +219,7 @@ const CheckOutStep = () => {
         address,
         paymentMethod: "paypal",
         discountPrice: reducePrice,
+        discounts: userDiscounts,
       },
       {
         headers: { Authorization: token },
@@ -276,6 +277,7 @@ const CheckOutStep = () => {
           address: newAddress,
           paymentMethod: "stripe",
           discountPrice: reducePrice,
+          discounts: userDiscounts,
         },
         {
           headers: { Authorization: token },

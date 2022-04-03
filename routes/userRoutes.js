@@ -53,7 +53,7 @@ router.patch(
 //delete user with role admin
 router.delete("/delete/:id", auth, authAdmin, userController.deleteUser);
 
-// thống kê user theo tháng trong năm
+// thống kê user theo từng tháng trong năm
 router.get("/stats", auth, authAdmin, userController.getUserStats);
 
 // lấy user mới
