@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-const sendEmail = require("./sendMail.js");
+const sendMail = require("./sendMail");
+
+const sendConfirmMail = require("./sendConfirmMail");
 
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
@@ -13,6 +15,10 @@ const fetch = require("node-fetch");
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 
 const { CLIENT_URL } = process.env;
+
+let ObjectId = require("mongoose").Types.ObjectId;
+
+const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const userController = {
   register: async (req, res) => {
@@ -91,6 +97,37 @@ const userController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  sendPaymentConfirmMail: async (req, res) => {
+    try {
+      const {
+        country_code,
+        paymentID,
+        service_pack,
+        beforeDiscount,
+        afterDiscount,
+      } = req.body;
+
+      const user = await Users.findById(req.user.id).select("name email");
+      if (!user) return res.status(400).json({ msg: "User does not exist!" });
+
+      let currentDate = new Date().toLocaleString();
+      const { name, email } = user;
+
+      sendConfirmMail(
+        email,
+        name,
+        country_code,
+        paymentID,
+        service_pack,
+        currentDate,
+        beforeDiscount,
+        afterDiscount
+      );
+      res.json({ msg: "Send confirm email about the payment successfully!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -163,6 +200,15 @@ const userController = {
   getUserInfo: async (req, res) => {
     try {
       const user = await Users.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+      res.json(user);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  getUserDiscountsInfo: async (req, res) => {
+    try {
+      const user = await Users.findById(req.user.id).select("usedDiscounts");
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
       res.json(user);
     } catch (error) {
@@ -340,6 +386,7 @@ const userController = {
     try {
       const user = await Users.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
       await Users.findOneAndUpdate(
         { _id: req.user.id },
         {
@@ -355,6 +402,7 @@ const userController = {
     try {
       const user = await Users.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
       await Users.findOneAndUpdate(
         { _id: req.user.id },
         {
@@ -362,6 +410,25 @@ const userController = {
         }
       );
       return res.json({ msg: "Save Account State!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  cancelCoupon: async (req, res) => {
+    try {
+      const { codeID } = req.body;
+
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          $pull: {
+            usedDiscounts: { _id: new ObjectId(codeID) },
+          },
+        },
+        { new: true }
+      );
+
+      res.json({ msg: "Cancel code successfully!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -380,11 +447,19 @@ const userController = {
       //tinh tong users theo tung thang trong nam
       const data = await Users.aggregate([
         {
-          $match: { role: 0 },
+          $addFields: {
+            month: {
+              $month: "$createdAt",
+            },
+            year: {
+              $year: "$createdAt",
+            },
+          },
         },
         {
-          $project: {
-            month: { $month: "$createdAt" },
+          $match: {
+            year: new Date().getFullYear(),
+            role: 0,
           },
         },
         {
@@ -396,6 +471,16 @@ const userController = {
           },
         },
       ]);
+
+      // đắp những tháng k có số liệu trong năm vào
+      const emptyMonthsArr = months.filter(
+        (month) => !data.some((item) => item._id == month)
+      );
+
+      for (let i = 0; i < emptyMonthsArr.length; i++) {
+        data.push({ _id: emptyMonthsArr[i], total: 0 });
+      }
+
       res.status(200).json(data);
     } catch (error) {
       return res.status(500).json({ msg: error.message });

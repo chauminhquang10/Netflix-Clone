@@ -3,6 +3,8 @@ const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
 const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
 
+// const { ConfirmMail } = require("./templates/confirmTemplate.js");
+
 const {
   MAILING_SERVICE_CLIENT_ID,
   MAILING_SERVICE_CLIENT_SECRET,
@@ -17,7 +19,7 @@ const oauth2Client = new OAuth2(
   OAUTH_PLAYGROUND
 );
 
-// send mail
+// send mail to verify email
 const sendEmail = (to, url, txt) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,

@@ -10,6 +10,10 @@ import axios from "axios";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./SingleComment.scss";
 
+import CommentDisplayRating from "./CommentDisplayRating";
+
+import StarRating from "../CommentStarRating/StarRating";
+
 const { TextArea } = Input;
 
 const SingleComment = ({
@@ -17,6 +21,8 @@ const SingleComment = ({
   movieId,
   commentCallback,
   setCommentCallback,
+  moviesCallback,
+  setMoviesCallback,
 }) => {
   const state = useContext(GlobalState);
 
@@ -34,12 +40,19 @@ const SingleComment = ({
 
   const [content, setContent] = useState("");
 
+  //update đánh giá sao
+  const [updateRating, setUpdateRating] = useState(null);
+
   useEffect(() => {
     setContent(comment.content);
     if (comment.writer._id === user._id) {
       setShowEditOptions(true);
     }
   }, [user, comment]);
+
+  useEffect(() => {
+    if (comment) setUpdateRating(comment.star);
+  }, [comment]);
 
   const toggleReply = () => {
     setOpenReply(!openReply);
@@ -76,12 +89,13 @@ const SingleComment = ({
     try {
       await axios.put(
         `/api/editComment/${comment._id}`,
-        { content },
+        { content, star: updateRating },
         {
           headers: { Authorization: token },
         }
       );
       setCommentCallback(!commentCallback);
+      setMoviesCallback(!moviesCallback);
       setOpenEdit(!openEdit);
     } catch (error) {
       alert(error.response.data.msg);
@@ -95,6 +109,7 @@ const SingleComment = ({
         headers: { Authorization: token },
       });
       setCommentCallback(!commentCallback);
+      setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -166,6 +181,21 @@ const SingleComment = ({
           )}
         </div>
       </div>
+
+      {/*  hiển thị số sao của comment */}
+      {!comment.responseTo && (
+        <div>
+          {showEditOptions && openEdit ? (
+            <StarRating
+              rating={updateRating}
+              setRating={setUpdateRating}
+            ></StarRating>
+          ) : (
+            <CommentDisplayRating rating={comment.star} />
+          )}
+        </div>
+      )}
+
       {/* Comment Form */}
       {openReply && (
         <form style={{ display: "flex" }} onSubmit={onSubmit}>

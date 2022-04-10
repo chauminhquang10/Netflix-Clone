@@ -8,6 +8,8 @@ import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 import Featured from "../main/Feature/Feature";
 
+import SearchPage from "../main/search_page/SearchPage";
+
 const Movies = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;

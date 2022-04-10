@@ -1,0 +1,76 @@
+.Movie_News_Item_container {
+  width: 400px;
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1rem;
+  border: 0.5px ridge #343434;
+}
+
+.Movie_News_Item_container .Movie_News_Item_img {
+  width: 120px;
+  height: 70px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.Movie_News_Item_container .Movie_News_Item_info {
+  width: 280px;
+  height: 90px;
+  margin: 0 1rem 1rem 1rem;
+}
+
+.Movie_News_Item_container .Movie_News_Item_info .Movie_News_Item_info_title {
+  font-size: 16px;
+}
+
+.Movie_News_Item_container .Movie_News_Item_info .Movie_News_Item_info_time {
+  font-size: 12px;
+  color: #666060;
+}
+
+.Movie_News_Item_info_icon {
+  display: none;
+  color: white;
+  cursor: pointer;
+}
+
+.Movie_News_Item_container:hover {
+  background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.Movie_News_Item_container:hover .Movie_News_Item_info_icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: white;
+}
+
+.Movie_News_Item_container:hover .Movie_News_Item_info_icon :hover {
+  color: white;
+}
+
+.Movie_News_Item_Link {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-width: 200px;
+}
+
+.Movie_News_Item_Link :hover {
+  color: #e50914;
+}
+/*# sourceMappingURL=Movie_News_Item.css.map */

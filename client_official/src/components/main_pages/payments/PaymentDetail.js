@@ -44,8 +44,12 @@ function PaymentDetail() {
 
       <div>
         <h4>Package Name: {paymentDetail.service_pack.title}</h4>
-        <h4>Package Price: {paymentDetail.service_pack.price}</h4>
+        <h4>
+          Package Price:{" "}
+          {paymentDetail.service_pack.price - paymentDetail.discountPrice}
+        </h4>
         <h4>Started Time: {paymentDetail.service_pack.startedTime}</h4>
+
         <h4>Expire In: {paymentDetail.service_pack.expireTime}</h4>
       </div>
     </div>

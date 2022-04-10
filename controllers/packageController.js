@@ -74,6 +74,30 @@ const packageController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getPackagesStats: async (req, res) => {
+    try {
+      const allPackages = await Packages.find().select("title sold");
+
+      const totalSold = allPackages.reduce((prev, package) => {
+        return prev + package.sold;
+      }, 0);
+
+      // k cần 
+      // const packages = allPackages.map((package) => {
+      //   return {
+      //     ...package._doc.title,
+      //     percentage: (package.sold / totalSold) * 100,
+      //   };
+      // });
+
+      res.status(200).json({
+        allPackages,
+        totalSold,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // KHI ADMIN XÓA 1 GÓI THÌ XÓA CÁI USER_PACK (TRẠNG THÁI LƯU GÓI ĐÓ) Ở TẤT CẢ NGƯỜI DÙNG NÀO CÓ LƯU NÓ.

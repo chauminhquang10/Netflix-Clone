@@ -25,6 +25,8 @@ import AdminMovieList from "../Admin_resources/pages/productList/MovieList";
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
 
+import Discounts from "../Admin_resources/pages/discounts/Discounts";
+
 import LandingPage from "../LandingPage/LandingPage";
 import { GlobalState } from "../../GlobalState";
 
@@ -117,6 +119,12 @@ const Pages = () => {
                 path="/payments/:id"
                 component={isAdmin ? PaymentDetail : NotFound}
               />
+
+              <Route
+                path="/discounts"
+                exact
+                component={isAdmin ? Discounts : NotFound}
+              ></Route>
 
               <Route path="*" component={NotFound} />
             </Switch>

@@ -4,6 +4,7 @@ import UsersAPI from "./api/UsersAPI";
 import GenresAPI from "./api/GenresAPI";
 import ListsAPI from "./api/ListsAPI";
 import PackgesAPI from "./api/PackagesAPI";
+import DiscountsAPI from "./api/DiscountsAPI";
 import axios from "axios";
 
 export const GlobalState = createContext();
@@ -33,6 +34,7 @@ export const DataProvider = ({ children }) => {
     genresAPI: GenresAPI(),
     listsAPI: ListsAPI(),
     packagesAPI: PackgesAPI(),
+    discountsAPI: DiscountsAPI(),
   };
 
   return <GlobalState.Provider value={state}>{children}</GlobalState.Provider>;

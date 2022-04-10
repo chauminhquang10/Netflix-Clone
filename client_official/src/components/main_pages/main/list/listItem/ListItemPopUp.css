@@ -1,0 +1,95 @@
+.not_Hovered .Popup {
+  width: 225px;
+  height: 120px;
+  position: absolute;
+  top: 0px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.div_Hovered .Popup {
+  width: 325px;
+  height: 335px;
+  position: absolute;
+  top: -50px;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+  box-shadow: 0px 0px 15px 0px rgba(255, 255, 255, 0.07);
+  border-radius: 5px;
+  background-color: black;
+  z-index: 99;
+  overflow: hidden;
+  -webkit-transition-property: top, height, width;
+  transition-property: top, height, width;
+  -webkit-transition-duration: 0.5s, 0.5s, 0.5s;
+          transition-duration: 0.5s, 0.5s, 0.5s;
+}
+
+.div_Hovered .Popup_img {
+  height: 180px;
+  width: 100%;
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+
+.div_Hovered .itemInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 5px;
+}
+
+.div_Hovered .itemInfo .icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.div_Hovered .itemInfo .icons .icon {
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 40px;
+}
+
+.div_Hovered .itemInfo .icons .icon:hover {
+  background-color: #f9f9ea;
+  color: #ff0000;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.div_Hovered .itemInfo .itemInfoTop {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: gray;
+}
+
+.div_Hovered .itemInfo .itemInfoTop .limit {
+  border: 1px solid gray;
+  padding: 1px 3px;
+  margin: 0px 10px;
+}
+
+.div_Hovered .itemInfo .desc {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.div_Hovered .itemInfo .genre {
+  font-size: 14px;
+  color: lightgray;
+}
+/*# sourceMappingURL=ListItemPopUp.css.map */

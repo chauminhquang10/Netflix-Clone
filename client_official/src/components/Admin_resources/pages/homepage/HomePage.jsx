@@ -5,6 +5,20 @@ import FeaturedInfo from "../../Admin_components/featuredInfo/FeaturedInfo";
 import Chart from "../../Admin_components/chart/Chart";
 import WidgetLarge from "../../Admin_components/WidgetLarge/WidgetLarge";
 import WidgetSmall from "../../Admin_components/widgetSmall/WidgetSmall";
+
+import RevenueChart from "../../Admin_components/revenue_chart/RevenueChart";
+import FeaturedRevenue from "../../Admin_components/featured_revenue/FeaturedRevenue";
+
+import PackagePieChart from "../../Admin_components/pie_chart/PackagePieChart.js";
+
+import DiscountBarChart from "../../Admin_components/bar_chart/DiscountBarChart.js";
+
+import DiscountPriceChart from "../../Admin_components/composed_chart/DiscountPriceChart.js";
+
+import DiscountQuantityLineChart from "../../Admin_components/line_chart/DiscountQuantityLineChart.js";
+
+import TopUsersList from "../../Admin_components/top_users_table/TopUsersList.js";
+
 import { GlobalState } from "../../../../GlobalState";
 
 const HomePage = () => {
@@ -61,6 +75,23 @@ const HomePage = () => {
         grid={true}
         dataKey="New User"
       ></Chart>
+
+      <div className="admin-charts">
+        <FeaturedRevenue />
+        <RevenueChart />
+      </div>
+
+      {/* Tạm thời comment để chừa chỗ hiển thị , nhớ chuyển vài cái chart ra page khác, không để chung hết 1 chỗ như bây h */}
+      {/* <PackagePieChart />
+
+      <DiscountBarChart />
+
+      <DiscountPriceChart />
+
+      <DiscountQuantityLineChart /> */}
+
+      <TopUsersList />
+
       <div className="homeWidgets">
         <WidgetSmall></WidgetSmall>
         <WidgetLarge></WidgetLarge>

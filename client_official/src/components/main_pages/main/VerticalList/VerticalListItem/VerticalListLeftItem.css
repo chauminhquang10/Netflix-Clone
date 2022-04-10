@@ -1,0 +1,50 @@
+.VerticalListLeftItem_container .VerticalListLeftItem_img {
+  width: 100%;
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+
+.VerticalListLeftItem_container .VerticalListLeftItem_itemInfo {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1px;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.VerticalListLeftItem_container .VerticalListLeftItem_itemInfo .VerticalListLeftItem_icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.VerticalListLeftItem_container .VerticalListLeftItem_itemInfo .VerticalListLeftItem_icons .VerticalListLeftItem_icon {
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 40px;
+}
+
+.VerticalListLeftItem_container .VerticalListLeftItem_itemInfo .VerticalListLeftItem_icons .VerticalListLeftItem_icon:hover {
+  background-color: #f9f9ea;
+  color: #ff0000;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.VerticalListLeftItem_container:hover .VerticalListLeftItem_itemInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/*# sourceMappingURL=VerticalListLeftItem.css.map */

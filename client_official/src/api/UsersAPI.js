@@ -26,6 +26,11 @@ const UsersAPI = (token) => {
 
   const [adminHistory, setAdminHistory] = useState([]);
 
+  // danh sách discounts khách hàng đã dùng.
+  const [userDiscounts, setUserDiscounts] = useState([]);
+
+  const [discountCallback, setDiscountCallback] = useState(false);
+
   useEffect(() => {
     if (token) {
       const getUser = async () => {
@@ -43,7 +48,10 @@ const UsersAPI = (token) => {
           if (res.data?.buy_package) {
             setIsValidAccount(true);
 
-            if (new Date() <= new Date(res.data.buy_package.expireTime)) {
+            if (
+              new Date().toLocaleDateString() <=
+              new Date(res.data.buy_package.expireTime).toLocaleDateString()
+            ) {
               setIsNotExpireAccount(true);
             }
           }
@@ -55,6 +63,22 @@ const UsersAPI = (token) => {
       getUser();
     }
   }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      const getUserDiscounts = async () => {
+        try {
+          const res = await axios.get("/user/discountsInfo", {
+            headers: { Authorization: token },
+          });
+          setUserDiscounts(res.data.usedDiscounts);
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
+      };
+      getUserDiscounts();
+    }
+  }, [token, discountCallback]);
 
   useEffect(() => {
     if (isAdmin && token) {
@@ -151,8 +175,8 @@ const UsersAPI = (token) => {
 
     setUserPackage({
       ...pack,
-      startedTime: currentDate.toDateString(),
-      expireTime: expireDate.toDateString(),
+      startedTime: currentDate.toLocaleDateString(),
+      expireTime: expireDate.toLocaleDateString(),
     });
 
     await axios.patch(
@@ -160,8 +184,8 @@ const UsersAPI = (token) => {
       {
         service_pack: {
           ...pack,
-          startedTime: currentDate,
-          expireTime: expireDate,
+          startedTime: currentDate.toLocaleDateString(),
+          expireTime: expireDate.toLocaleDateString(),
         },
       },
       {
@@ -186,6 +210,8 @@ const UsersAPI = (token) => {
     userHistory: [userHistory, setUserHistory],
     adminHistory: [adminHistory, setAdminHistory],
     historyCallback: [historyCallback, setHistoryCallback],
+    userDiscounts: [userDiscounts, setUserDiscounts],
+    discountCallback: [discountCallback, setDiscountCallback],
   };
 };
 
