@@ -19,6 +19,7 @@ import AddIcon from "@material-ui/icons/Add";
 import GenresForm from "./GenresForm";
 import { TblPagination } from "../../Admin_resources/pages/userList/UserListUtils";
 import { GlobalState } from "../../../GlobalState";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -94,7 +95,7 @@ const AdminGenres = () => {
             },
           }
         );
-        alert(res.data.msg);
+        Swal.fire(res.data.msg, "", "success");
       } else {
         const res = await axios.post(
           "/api/genres",
@@ -105,7 +106,7 @@ const AdminGenres = () => {
             },
           }
         );
-        alert(res.data.msg);
+        Swal.fire(res.data.msg, "", "success");
       }
       setOnEdit(false);
       setGenre("");
@@ -123,17 +124,27 @@ const AdminGenres = () => {
   };
 
   const deleteGenre = async (id) => {
-    try {
-      const res = await axios.delete(`/api/genres/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      alert(res.data.msg);
-      setGenresCallback(!genresCallback);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      try {
+        const res = await axios.delete(`/api/genres/${id}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        Swal.fire(res.data.msg, "", "success");
+        setGenresCallback(!genresCallback);
+      } catch (error) {
+        alert(error.response.data.msg);
+      }
+    });
   };
 
   const handleChangePage = (event, newPage) => {

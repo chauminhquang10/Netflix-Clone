@@ -17,6 +17,9 @@ const SearchPage = () => {
     else setSearchGenres([]);
   }, [search]);
 
+  console.log({ searchGenres });
+  console.log({ search });
+
   return (
     <div>
       {searchGenres.map((genre) => (

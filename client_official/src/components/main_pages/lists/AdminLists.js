@@ -19,7 +19,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ListsForm from "./ListsForm";
 import { TblPagination } from "../../Admin_resources/pages/userList/UserListUtils";
 import { GlobalState } from "../../../GlobalState";
-
+import Swal from "sweetalert2";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -99,7 +99,7 @@ const AdminLists = () => {
             },
           }
         );
-        alert(res.data.msg);
+        Swal.fire(res.data.msg, "", "success");
       } else {
         const res = await axios.post(
           "/api/lists",
@@ -110,7 +110,7 @@ const AdminLists = () => {
             },
           }
         );
-        alert(res.data.msg);
+        Swal.fire(res.data.msg, "", "success");
       }
       setOnEdit(false);
       setList("");
@@ -118,7 +118,7 @@ const AdminLists = () => {
       setListsCallback(!listsCallback);
       setOpenPopup(false);
     } catch (error) {
-      alert(error.response.data.msg);
+      Swal.fire(error.response.data.msg, "", "error");
     }
   };
 
@@ -130,17 +130,29 @@ const AdminLists = () => {
   };
 
   const deleteList = async (id) => {
-    try {
-      const res = await axios.delete(`/api/lists/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      alert(res.data.msg);
-      setListsCallback(!listsCallback);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(`/api/lists/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          Swal.fire(res.data.msg, "", "success");
+          setListsCallback(!listsCallback);
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
+      }
+    });
   };
 
   const handleChangePage = (event, newPage) => {

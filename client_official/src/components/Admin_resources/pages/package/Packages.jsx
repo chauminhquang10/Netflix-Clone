@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GlobalState } from "../../../../GlobalState";
-import "./MovieList.css";
+import "./Packages.css";
 import axios from "axios";
 import {
   Table,
@@ -59,12 +59,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MovieList = () => {
+const Packages = () => {
   const state = useContext(GlobalState);
 
   const [token] = state.token;
   const [movies, setMovies] = state.moviesAPI.movies;
+  const [packages, setPackages] = state.packagesAPI.packages;
+
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [packagesCallback, setPackagesCallback] =
+    state.packagesAPI.packagesCallback;
 
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -87,20 +91,20 @@ const MovieList = () => {
       label: "Title",
     },
     {
-      id: "year",
-      label: "Year",
+      id: "price",
+      label: "Price",
     },
     {
-      id: "duration",
-      label: "Duration",
+      id: "video_quality",
+      label: "Video quality",
     },
     {
-      id: "limitAge",
-      label: "Limit Age",
+      id: "resolution",
+      label: "Resolution",
     },
     {
-      id: "TMDBid",
-      label: "The Movie DB id",
+      id: "sold",
+      label: "Sold",
     },
     {
       id: "actions",
@@ -110,13 +114,32 @@ const MovieList = () => {
   ];
 
   const handleCheck = (id) => {
-    movies.forEach((movie) => {
-      if (movie._id === id) movie.checked = !movie.checked;
+    packages.forEach((pack) => {
+      if (pack._id === id) pack.checked = !pack.checked;
     });
-    setMovies([...movies]);
+    setPackages([...packages]);
   };
 
-  const deleteMovie = async (id, public_id) => {
+  const deletePackage = async (id, public_id) => {
+    try {
+      const res = await axios.delete(`/api/packages/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      await res;
+      //Notify
+      const msg = {
+        id,
+        url: `/detail/${id}`,
+      };
+      setPackagesCallback(!packagesCallback);
+    } catch (error) {
+      Swal.fire(error.response.data.msg, "", "success");
+    }
+  };
+
+  const deleteAPackage = async (id, public_id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -127,53 +150,38 @@ const MovieList = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        try {
-          const deleteImg = axios.post(
-            "/api/delete",
-            { public_id },
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-          const res = await axios.delete(`/api/movies/${id}`, {
-            headers: {
-              Authorization: token,
-            },
-          });
-          await deleteImg;
-          await res;
-          Swal.fire(res.data.msg, "", "success");
-          //Notify
-          const msg = {
-            id,
-            url: `/detail/${id}`,
-          };
-
-          dispatch(removeNotify({ msg, socket, token }));
-
-          setMoviesCallback(!moviesCallback);
-        } catch (error) {
-          alert(error.response.data.msg);
-        }
+        await deletePackage(id);
+        Swal.fire("Deleted a package", "", "success");
       }
     });
   };
 
   const checkAll = () => {
-    movies.forEach((movie) => {
-      movie.checked = !isChecked;
+    packages.forEach((pack) => {
+      pack.checked = !isChecked;
     });
-    setMovies([...movies]);
+    setPackages([...packages]);
     setIsChecked(!isChecked);
   };
 
-  const deleteAll = () => {
-    movies.forEach((movie) => {
-      if (movie.checked) deleteMovie(movie._id, movie.img.public_id);
+  const deleteAll = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        packages.forEach((pack) => {
+          if (pack.checked) deletePackage(pack._id);
+        });
+        Swal.fire("Deleted all checked package", "", "success");
+        setIsChecked(false);
+      }
     });
-    setIsChecked(false);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -212,7 +220,7 @@ const MovieList = () => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(movies, getComparator(order, orderBy)).slice(
+    return stableSort(packages, getComparator(order, orderBy)).slice(
       page * rowsPerPage,
       (page + 1) * rowsPerPage
     );
@@ -224,18 +232,13 @@ const MovieList = () => {
     setOrderBy(id);
   };
 
+  console.log({ packages });
+
   return (
     <div className="admin-movies-list">
       <Paper className={classes.pageContent}>
         <Toolbar className="Movie_List_Tool_Bar">
-          <AdminNormalButton
-            text="Delete(s)"
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            className={classes.deleteButton}
-            onClick={deleteAll}
-          ></AdminNormalButton>
-          <Link to="/newMovie">
+          <Link to="/createpackage">
             <AdminNormalButton
               text="Create"
               variant="outlined"
@@ -243,6 +246,13 @@ const MovieList = () => {
               className={classes.AddButton}
             ></AdminNormalButton>
           </Link>
+          <AdminNormalButton
+            text="Delete(s)"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            className={classes.deleteButton}
+            onClick={deleteAll}
+          ></AdminNormalButton>
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>
@@ -280,36 +290,34 @@ const MovieList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {recordsAfterPagingAndSorting().map((movie, index) => (
+            {recordsAfterPagingAndSorting().map((pack, index) => (
               <TableRow key={index}>
                 <TableCell>
                   <Checkbox
                     color="primary"
-                    checked={movie.checked}
-                    onChange={() => handleCheck(movie._id)}
+                    checked={pack.checked}
+                    onChange={() => handleCheck(pack._id)}
                   />
                 </TableCell>
                 <TableCell>
-                  {movie.title.replace(/\w\S*/g, (w) =>
+                  {pack.title.replace(/\w\S*/g, (w) =>
                     w.replace(/^\w/, (c) => c.toUpperCase())
                   )}
                 </TableCell>
-                <TableCell>{movie.year}</TableCell>
-                <TableCell>{movie.duration}</TableCell>
-                <TableCell>{movie.limitAge}</TableCell>
-                <TableCell>{movie.TMDBid}</TableCell>
+                <TableCell>{pack.price}</TableCell>
+                <TableCell>{pack.video_quality}</TableCell>
+                <TableCell>{pack.resolution}</TableCell>
+                <TableCell>{pack.sold}</TableCell>
                 <TableCell>
                   <>
-                    <Link to={`/edit_movie/${movie._id}`}>
+                    <Link to={`/packagesdetail/${pack._id}`}>
                       <AdminActionButtons color="primary">
                         <EditOutlinedIcon fontSize="small" />
                       </AdminActionButtons>
                     </Link>
                     <AdminActionButtons
                       color="secondary"
-                      onClick={() =>
-                        deleteMovie(movie._id, movie.img.public_id)
-                      }
+                      onClick={() => deleteAPackage(pack._id)}
                     >
                       <CloseIcon fontSize="small" />
                     </AdminActionButtons>
@@ -320,7 +328,7 @@ const MovieList = () => {
           </TableBody>
         </Table>
         <TblPagination
-          records={movies}
+          records={packages}
           page={page}
           pages={pages}
           rowsPerPage={rowsPerPage}
@@ -332,4 +340,4 @@ const MovieList = () => {
   );
 };
 
-export default MovieList;
+export default Packages;

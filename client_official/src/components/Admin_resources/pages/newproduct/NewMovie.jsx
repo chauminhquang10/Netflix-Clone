@@ -5,7 +5,7 @@ import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import swal from "sweetalert";
 import { createNotify } from "../../../../redux/actions/notifyAction";
 
 import {
@@ -69,9 +69,9 @@ const NewMovie = () => {
           Authorization: token,
         },
       });
+
       setLoading(false);
       setImg(res.data);
-      console.log("Uploaded");
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -103,31 +103,30 @@ const NewMovie = () => {
       });
       setLoading(false);
       setImgSmall(res.data);
-      console.log("Uploaded 2");
     } catch (error) {
       alert(error.response.data.msg);
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      if (!isAdmin) return alert("You're not an admin");
-      setLoading(true);
-      await axios.post(
-        "/api/delete",
-        { public_id: img.public_id },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      setLoading(false);
-      setImg(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
+  // const handleDelete = async () => {
+  //   try {
+  //     if (!isAdmin) return alert("You're not an admin");
+  //     setLoading(true);
+  //     await axios.post(
+  //       "/api/delete",
+  //       { public_id: img.public_id },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     );
+  //     setLoading(false);
+  //     setImg(false);
+  //   } catch (error) {
+  //     alert(error.response.data.msg);
+  //   }
+  // };
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -149,7 +148,12 @@ const NewMovie = () => {
           },
         }
       );
-
+      swal({
+        title: "Info !",
+        text: res.data.msg,
+        icon: "success",
+        confirmButtonText: "Yes",
+      });
       //Notify
       const msg = {
         id: res.data.newMovie._id,

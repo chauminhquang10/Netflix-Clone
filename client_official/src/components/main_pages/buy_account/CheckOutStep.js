@@ -14,6 +14,8 @@ import StripeCheckout from "react-stripe-checkout";
 
 import moment from "moment";
 
+import PaidIcon from "@mui/icons-material/Paid";
+import Button from "@mui/material/Button";
 const CheckOutStep = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
@@ -247,7 +249,7 @@ const CheckOutStep = () => {
           cancel at any time to avoid future charges.
         </span>
         {checkOutPackage.title && (
-          <>
+          <div className="CheckOut_Container">
             <PayPalCheckOut
               total={checkOutPackage.price}
               tranSuccess={tranSuccess}
@@ -262,22 +264,16 @@ const CheckOutStep = () => {
               token={onToken}
               stripeKey="pk_test_51KaF2rLjv0wfcc1sJyQlomCRXjfcJoD9vZ8U1BInVIwR7hGiP9kQF3KXOqiSyMiq3x4CZApKHjOwdgDFoTrtu8GS00Q4LpDso9"
             >
-              <button
-                style={{
-                  border: "none",
-                  width: 120,
-                  borderRadius: 5,
-                  padding: "20px",
-                  backgroundColor: "black",
-                  color: "white",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                }}
+              <Button
+                className="Stripe_button"
+                variant="contained"
+                startIcon={<PaidIcon />}
               >
-                Pay Now
-              </button>
+                <div className="Stripe_button_d"> STRIP</div>
+                <p className="Stripe_button_p">Checkout</p>
+              </Button>
             </StripeCheckout>
-          </>
+          </div>
         )}
       </div>
     </div>

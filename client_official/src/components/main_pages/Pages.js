@@ -22,6 +22,8 @@ import HomePage from "../Admin_resources/pages/homepage/HomePage";
 import UserList from "../Admin_resources/pages/userList/UserList";
 import EditUser from "../Admin_resources/pages/edit_user/EditUser";
 import AdminMovieList from "../Admin_resources/pages/productList/MovieList";
+import Packages from "../Admin_resources/pages/package/Packages";
+import PackageDetail from "../Admin_resources/pages/package/packageDetail/PackageDetail";
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
 
@@ -35,13 +37,14 @@ import CheckOut from "./service_pack/checkout/CheckOut";
 import OrderHistory from "./service_pack/history/OrderHistory";
 import OrderDetail from "./service_pack/history/OrderDetail";
 
-import AdminPayments from "./payments/AdminPayments";
-import PaymentDetail from "./payments/PaymentDetail";
+import AdminPayments from "../Admin_resources/pages/payments/Payments";
+import PaymentDetail from "../Admin_resources/pages/payments/PaymentDetail";
 
 import Step1 from "./buy_account/Step1";
 import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
+import SearchPage from "./main/search_page/SearchPage";
 
 const Pages = () => {
   const state = useContext(GlobalState);
@@ -107,6 +110,19 @@ const Pages = () => {
               />
 
               {/* Packages */}
+
+              <Route
+                exact
+                path="/packages"
+                component={isAdmin ? Packages : NotFound}
+              ></Route>
+
+              {/* Payment */}
+              <Route
+                path="/packagesdetail/:id"
+                component={isAdmin ? PackageDetail : NotFound}
+              />
+
               <Route
                 path="/payments"
                 exact
@@ -116,6 +132,11 @@ const Pages = () => {
               <Route
                 path="/payments/:id"
                 component={isAdmin ? PaymentDetail : NotFound}
+              />
+
+              <Route
+                path="/createpackage"
+                component={isAdmin ? PackageDetail : NotFound}
               />
 
               <Route path="*" component={NotFound} />
@@ -183,9 +204,10 @@ const Pages = () => {
               />
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />
+
               <Route path="/checkout" component={CheckOut} />
               <Route
-                path="/watch/:TMDBid/:id"
+                path="/watch/:TMDBid/"
                 component={isLogged ? Watch : LandingPage}
               />
               <Route path="/login" component={isLogged ? NotFound : Login} />

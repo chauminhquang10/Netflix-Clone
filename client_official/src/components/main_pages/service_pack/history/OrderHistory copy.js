@@ -1,19 +1,19 @@
 import React, { useContext, useEffect } from "react";
-import { GlobalState } from "../../../GlobalState";
+import { GlobalState } from "../../../../GlobalState";
 import { Link } from "react-router-dom";
+import "./OrderHistory.css";
 
-import "./AdminPayments.css";
 import moment from "moment";
 
-const AdminPayments = () => {
+const OrderHistory = () => {
   const state = useContext(GlobalState);
-  const [adminHistory] = state.usersAPI.adminHistory;
+  const [userHistory] = state.usersAPI.userHistory;
 
   return (
-    <div className="history-page" style={{ flex: 4, color: "black" }}>
-      <h2>History</h2>
+    <div>
+      <h2> History</h2>
 
-      <h4>You have {adminHistory.length} ordered</h4>
+      <h4>You have {userHistory.length} ordered</h4>
 
       <table>
         <thead>
@@ -24,14 +24,14 @@ const AdminPayments = () => {
           </tr>
         </thead>
         <tbody>
-          {adminHistory.map((items) => (
+          {userHistory.map((items) => (
             <tr key={items._id}>
               <td>{items.paymentID}</td>
               <td>
                 {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
               </td>
               <td>
-                <Link to={`/payments/${items._id}`}>View</Link>
+                <Link to={`/history/${items._id}`}>View</Link>
               </td>
             </tr>
           ))}
@@ -41,4 +41,4 @@ const AdminPayments = () => {
   );
 };
 
-export default AdminPayments;
+export default OrderHistory;

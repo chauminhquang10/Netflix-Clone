@@ -2,10 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import {
-  showErrMessage,
-  showSuccessMessage,
-} from "../../../main_pages/utils/notifications/Notification";
 import "./EditUser.css";
 import {
   CalendarToday,
@@ -16,7 +12,7 @@ import {
   Publish,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 const EditUser = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -58,12 +54,15 @@ const EditUser = () => {
             },
           }
         );
+        await res;
+        Swal.fire(res.data.msg, "", "success");
         setSuccess(res.data.msg);
         setNumber(0);
         setCallback(!callback);
       }
     } catch (error) {
-      error.response.data.msg && setErr(error.response.data.msg);
+      error.response.data.msg &&
+        Swal.fire(error.response.data.msg, "", "error");
     }
   };
 
@@ -178,8 +177,6 @@ const EditUser = () => {
           </form>
         </div>
       </div>
-      {err && showErrMessage(err)}
-      {success && showSuccessMessage(success)}
     </div>
   );
 };

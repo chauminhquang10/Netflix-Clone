@@ -1,20 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "../main/MovieItem";
-import Filter from "./Filter";
 import Pagination from "./Pagination";
 import "./Movies.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
-import Featured from "../main/Feature/Feature";
 
 const Movies = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;
+  const [Choice, setChoice] = state.moviesAPI.search;
   const [token] = state.token;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
+  const [searchGenres, setSearchGenres] = useState([]);
+  const [search] = state.moviesAPI.search;
+
+  useEffect(() => {
+    const getSearchGenres = async () => {
+      const res = await axios.get(`/api/genres?name[regex]=${search}`);
+      setSearchGenres(res.data);
+    };
+    if (search) getSearchGenres();
+    else setSearchGenres([]);
+  }, [search]);
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
@@ -29,6 +39,7 @@ const Movies = () => {
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
   const [genre, setGenre] = state.moviesAPI.genre;
   const [genres] = state.genresAPI.genres;
+
   //Chuyển trang
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -51,6 +62,7 @@ const Movies = () => {
   const handleGenre = (e) => {
     setGenre(e.target.value);
   };
+
   return (
     <>
       <div className="movies_container">
@@ -71,31 +83,81 @@ const Movies = () => {
                 ))}
               </select>
             </div>
+            <div className="Sort_child">
+              <span>Option:</span>
+              <select name="genre" id="genre" onChange={handleGenre}>
+                <option value="">All</option>
+                {genres.map((genre) => (
+                  <option
+                    className="option"
+                    value={"genre=" + genre._id}
+                    key={genre._id}
+                  >
+                    {genre.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="Sort_child">
+              <span>Year:</span>
+              <select name="genre" id="genre" onChange={handleGenre}>
+                <option value="">All</option>
+                {genres.map((genre) => (
+                  <option
+                    className="option"
+                    value={"genre=" + genre._id}
+                    key={genre._id}
+                  >
+                    {genre.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
         <div className="related_titles_container">
           <div className="related_titles">Related Titles :</div>
           <div className="related_titles_content">
-            {currentMovies.map((movie, index) => {
-              if (index > currentMovies.length - 1 || index > 10) {
-                return;
-              } else if (index == currentMovies.length - 1 || index == 10) {
-                return (
+            {searchGenres.map((genre, index) => {
+              return (
+                search && (
                   <div className="related_titles_content_child_container">
                     <div className="related_titles_content_child">
-                      &nbsp; {movie.title}
-                    </div>
-                  </div>
-                );
-              } else {
-                return (
-                  <div className="related_titles_content_child_container">
-                    <div className="related_titles_content_child">
-                      &nbsp; {movie.title} &nbsp;
+                      &nbsp; {genre.name} &nbsp;
                     </div>
                     <p className="related_titles_content_child_p">|</p>
                   </div>
-                );
+                )
+              );
+            })}
+            {currentMovies.map((movie, index) => {
+              if (search) {
+                if (index > currentMovies.length - 1 || index > 10) {
+                  return;
+                } else if (index == currentMovies.length - 1 || index == 10) {
+                  return (
+                    <div className="related_titles_content_child_container">
+                      <div
+                        className="related_titles_content_child"
+                        onClick={() => setChoice(movie.title.toLowerCase())}
+                      >
+                        &nbsp; {movie.title}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="related_titles_content_child_container">
+                      <div
+                        className="related_titles_content_child"
+                        onClick={() => setChoice(movie.title.toLowerCase())}
+                      >
+                        &nbsp; {movie.title} &nbsp;
+                      </div>
+                      <p className="related_titles_content_child_p">|</p>
+                    </div>
+                  );
+                }
               }
             })}
           </div>

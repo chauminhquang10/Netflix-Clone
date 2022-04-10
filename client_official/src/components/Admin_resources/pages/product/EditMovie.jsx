@@ -8,7 +8,7 @@ import Chart from "../../Admin_components/chart/Chart";
 import { productData } from "../../Admin_components/dummyData";
 import { Publish } from "@material-ui/icons";
 import { FormControl, Select, MenuItem } from "@material-ui/core";
-
+import Swal from "sweetalert2";
 const initialState = {
   title: "",
   desc: "How to and tutorial videos of cool CSS effect, Web Design ideas,JavaScript libraries, Node.",
@@ -122,27 +122,27 @@ const EditMovie = () => {
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      if (!isAdmin) return alert("You're not an admin");
-      setLoading(true);
+  // const handleDelete = async () => {
+  //   try {
+  //     if (!isAdmin) return alert("You're not an admin");
+  //     setLoading(true);
 
-      await axios.post(
-        "/api/delete",
-        { public_id: img.public_id },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+  //     await axios.post(
+  //       "/api/delete",
+  //       { public_id: img.public_id },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     );
 
-      setLoading(false);
-      setImg(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
+  //     setLoading(false);
+  //     setImg(false);
+  //   } catch (error) {
+  //     alert(error.response.data.msg);
+  //   }
+  // };
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -155,7 +155,7 @@ const EditMovie = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!img) return alert("No image upload");
 
-      await axios.put(
+      const res = await axios.put(
         `/api/movies/${movie._id}`,
         { ...movie, img, imgSmall },
         {
@@ -164,6 +164,7 @@ const EditMovie = () => {
           },
         }
       );
+      Swal.fire(res.data.msg, "", "success");
       setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {

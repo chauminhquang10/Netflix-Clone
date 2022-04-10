@@ -17,7 +17,7 @@ import {
   Report,
   Payment,
 } from "@material-ui/icons";
-
+import InventoryIcon from "@mui/icons-material/Inventory";
 const SideBar = () => {
   return (
     <div className="sidebar">
@@ -72,6 +72,12 @@ const SideBar = () => {
               <li className="sidebarListItem">
                 <Payment className="sidebarIcon" />
                 Payments
+              </li>
+            </Link>
+            <Link to="/packages" className="link">
+              <li className="sidebarListItem">
+                <InventoryIcon className="sidebarIcon" />
+                Packages
               </li>
             </Link>
           </ul>

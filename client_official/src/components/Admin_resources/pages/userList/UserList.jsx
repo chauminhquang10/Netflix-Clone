@@ -8,7 +8,7 @@ import {
   TableRow,
   TableSortLabel,
 } from "@material-ui/core";
-
+import Swal from "sweetalert2";
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import {
@@ -95,19 +95,30 @@ const UserList = () => {
   ];
 
   const handleDelete = async (id) => {
-    try {
-      if (window.confirm("Are you sure about deleting this user?")) {
-        await axios.delete(`/user/delete/${id}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        setCallback(!callback);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(`/user/delete/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          await res;
+          Swal.fire(res.data.msg, "", "success");
+          setCallback(!callback);
+        } catch (error) {
+          error.response.data.msg && setErr(error.response.data.msg);
+        }
       }
-    } catch (error) {
-      error.response.data.msg && setErr(error.response.data.msg);
-    }
+    });
   };
 
   const handleChangePage = (event, newPage) => {

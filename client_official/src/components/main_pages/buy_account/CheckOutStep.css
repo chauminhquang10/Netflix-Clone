@@ -7,6 +7,32 @@
   color: #333;
 }
 
+.Stripe_button{
+  width: 350px;
+  height: 45px;
+
+}
+
+.Stripe_button_d{
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.Stripe_button_p{
+  text-transform: none;
+  padding: 0 0 0 .2rem;
+}
+
+.CheckOut_Container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem ;
+  padding: 2rem 0;
+}
+
 .checkout_step_wrapper {
   display: flex;
   flex-direction: column;
