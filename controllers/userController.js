@@ -1,11 +1,12 @@
 const Users = require("../models/userModel");
 const Payments = require("../models/paymentModel");
+const Movies = require("../models/movieModel");
 
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-const sendMail = require("./sendMail");
+const sendEmail = require("./sendMail");
 
 const sendConfirmMail = require("./sendConfirmMail");
 
@@ -492,6 +493,36 @@ const userController = {
       res.status(200).json(users);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
+    }
+  },
+  countUserLikes: async (req, res) => {
+    try {
+      const user = await Users.findById(req.user.id);
+      if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
+      // cập nhật danh sách thể loại với số lượt viewcount
+      await Users.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          likedGenres: req.body.likedGenres,
+        }
+      );
+
+      // cập nhật số lượt xem cho phim tương ứng.
+      const updateMovie = await Movies.findById(req.body.movieId);
+
+      const { views } = updateMovie;
+
+      await Movies.findOneAndUpdate(
+        { _id: req.body.movieId },
+        {
+          views: views + 1,
+        }
+      );
+
+      return res.json({ msg: "Count user like up!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
   },
 };

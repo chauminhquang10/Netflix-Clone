@@ -16,4 +16,9 @@ router
   .delete(auth, authAdmin, movieController.deleteMovie)
   .put(auth, authAdmin, movieController.updateMovie);
 
+//  like feature
+router.route("/movies/:id/like").patch(auth, movieController.likeMovie);
+
+router.route("/movies/:id/unlike").patch(auth, movieController.unLikeMovie);
+
 module.exports = router;

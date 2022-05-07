@@ -135,6 +135,50 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  likeMovie: async (req, res) => {
+    try {
+      const movie = await Movies.find({
+        _id: req.params.id,
+        likes: req.user.id,
+      });
+
+      if (movie.length > 0)
+        return res.status(400).json({ msg: "You liked this post." });
+
+      const like = await Movies.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { likes: req.user.id },
+        },
+        { new: true }
+      );
+
+      if (!like)
+        return res.status(400).json({ msg: "This post does not exist." });
+
+      res.json({ msg: "Liked Post!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  unLikeMovie: async (req, res) => {
+    try {
+      const like = await Movies.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { likes: req.user.id },
+        },
+        { new: true }
+      );
+
+      if (!like)
+        return res.status(400).json({ msg: "This post does not exist." });
+
+      res.json({ msg: "UnLiked Post!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = movieController;

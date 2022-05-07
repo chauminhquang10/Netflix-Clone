@@ -193,7 +193,7 @@ const Pages = () => {
               <Route path="/packages" component={ServicePackage} />
               <Route path="/checkout" component={CheckOut} />
               <Route
-                path="/watch/:TMDBid/:id"
+                path="/watch/:TMDBid/:genreId/:movieId"
                 component={isLogged ? Watch : LandingPage}
               />
               <Route path="/login" component={isLogged ? NotFound : Login} />

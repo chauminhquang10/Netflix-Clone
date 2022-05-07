@@ -31,6 +31,9 @@ const UsersAPI = (token) => {
 
   const [discountCallback, setDiscountCallback] = useState(false);
 
+  // danh sách các thể loại kèm lượt thích (dùng cho model)
+  const [likedGenres, setLikedGenres] = useState([]);
+
   useEffect(() => {
     if (token) {
       const getUser = async () => {
@@ -43,14 +46,15 @@ const UsersAPI = (token) => {
           setIsLogged(true);
           setWatchList(res.data.favoriteList);
           setUserData(res.data);
+          setLikedGenres(res.data.likedGenres);
           res.data?.service_pack && setUserPackage(res.data.service_pack);
 
           if (res.data?.buy_package) {
             setIsValidAccount(true);
 
             if (
-              new Date().toLocaleDateString() <=
-              new Date(res.data.buy_package.expireTime).toLocaleDateString()
+              new Date().toDateString() <=
+              new Date(res.data.buy_package.expireTime).toDateString()
             ) {
               setIsNotExpireAccount(true);
             }
@@ -194,6 +198,45 @@ const UsersAPI = (token) => {
     );
   };
 
+  const finishCountdown = async (genreName, movieId) => {
+    const check = likedGenres.every((item) => {
+      return item.genreName !== genreName;
+    });
+
+    if (check) {
+      setLikedGenres([...likedGenres, { genreName, viewCount: 1 }]);
+
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres, { genreName, viewCount: 1 }],
+          movieId,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    } else {
+      likedGenres.forEach((item) => {
+        if (item.genreName === genreName) {
+          item.viewCount += 1;
+        }
+      });
+
+      setLikedGenres([...likedGenres]);
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres,
+          movieId,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+  };
+
   return {
     isLogged: [isLogged, setIsLogged],
     isAdmin: [isAdmin, setIsAdmin],
@@ -212,6 +255,8 @@ const UsersAPI = (token) => {
     historyCallback: [historyCallback, setHistoryCallback],
     userDiscounts: [userDiscounts, setUserDiscounts],
     discountCallback: [discountCallback, setDiscountCallback],
+    likedGenres: [likedGenres, setLikedGenres],
+    finishCountdown: finishCountdown,
   };
 };
 

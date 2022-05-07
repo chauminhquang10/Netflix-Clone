@@ -21,9 +21,13 @@ import Comments from "./Comments/Comments";
 
 import CommentDisplayRating from "./Comments/CommentDisplayRating";
 
+import LikeButton from "./LikeButton";
+
 const MovieDetail = () => {
   const params = useParams();
   const state = useContext(GlobalState);
+  const [token] = state.token;
+  const [userData] = state.usersAPI.userData;
   const [movies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
   const [movieDetail, setMovieDetail] = useState([]);
@@ -46,8 +50,13 @@ const MovieDetail = () => {
 
   const [isNotExpireAccount, setIsNotExpireAccount] =
     state.usersAPI.isNotExpireAccount;
+
   //trigger Popup
   const [popupTrigger, setPopupTrigger] = useState(false);
+
+  // like featured
+  const [isLike, setIsLike] = useState(false);
+  const [loadLike, setLoadLike] = useState(false);
 
   useEffect(() => {
     const getDetailMovie = async () => {
@@ -102,9 +111,54 @@ const MovieDetail = () => {
     if (movieDetail.length !== 0) getAllComments();
   }, [movieDetail, commentCallback]);
 
+  // Likes
+  useEffect(() => {
+    if (movieDetail.length !== 0) {
+      if (movieDetail.likes.find((like) => like === userData._id)) {
+        setIsLike(true);
+      } else {
+        setIsLike(false);
+      }
+    }
+  }, [movieDetail.likes, userData._id]);
+
   const handlePlayMovie = () => {
     if (!isNotExpireAccount) {
       setPopupTrigger(true);
+    }
+  };
+
+  const handleLike = async () => {
+    try {
+      if (loadLike) return;
+      setIsLike(true);
+      setLoadLike(true);
+
+      await axios.patch(`/api/movies/${movieDetail._id}/like`, null, {
+        headers: { Authorization: token },
+      });
+
+      setMoviesCallback(!moviesCallback);
+      setLoadLike(false);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const handleUnLike = async () => {
+    try {
+      if (loadLike) return;
+      setIsLike(false);
+      setLoadLike(true);
+
+      await axios.patch(`/api/movies/${movieDetail._id}/unlike`, null, {
+        headers: { Authorization: token },
+      });
+
+      setMoviesCallback(!moviesCallback);
+      setLoadLike(false);
+    } catch (error) {
+      alert(error.response.data.msg);
     }
   };
 
@@ -156,6 +210,14 @@ const MovieDetail = () => {
             rating={movieDetail.rating}
           ></CommentDisplayRating>
 
+          {/* Like Featured */}
+          <LikeButton
+            isLike={isLike}
+            handleLike={handleLike}
+            handleUnLike={handleUnLike}
+          />
+          <h6>{movieDetail.likes.length} likes</h6>
+
           <div className="cast">
             <div className="section__header">
               <h2>Casts</h2>
@@ -167,7 +229,7 @@ const MovieDetail = () => {
                 {isNotExpireAccount ? (
                   <Link
                     className="detail_link"
-                    to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
+                    to={`/watch/${movieDetail.TMDBid}/${movieGenre._id}/${movieDetail._id}`}
                   >
                     <button className="play">
                       <PlayArrow />
