@@ -17,6 +17,8 @@ router.post("/reset", auth, userController.resetPassword);
 
 router.get("/infor", auth, userController.getUserInfo);
 
+router.get("/discountsInfo", auth, userController.getUserDiscountsInfo);
+
 router.get("/all_info", auth, authAdmin, userController.getAllUsersInfo);
 
 router.get("/logout", userController.logout);
@@ -34,6 +36,12 @@ router.patch("/buypackage", auth, userController.buyPackage);
 // xử lí lấy các gói đã mua
 router.get("/history", auth, userController.getHistory);
 
+// xử lí cancel coupon code
+router.patch("/cancelCode", auth, userController.cancelCoupon);
+
+//send mail confirm đơn hàng
+router.post("/confirmMail", auth, userController.sendPaymentConfirmMail);
+
 //update user permissions with role admin
 router.patch(
   "/update_role/:id",
@@ -45,7 +53,7 @@ router.patch(
 //delete user with role admin
 router.delete("/delete/:id", auth, authAdmin, userController.deleteUser);
 
-// thống kê user theo tháng trong năm
+// thống kê user theo từng tháng trong năm
 router.get("/stats", auth, authAdmin, userController.getUserStats);
 
 // lấy user mới

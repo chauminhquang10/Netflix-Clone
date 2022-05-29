@@ -6,6 +6,8 @@ import "./Movies.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 
+import SearchPage from "../main/search_page/SearchPage";
+
 const Movies = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;

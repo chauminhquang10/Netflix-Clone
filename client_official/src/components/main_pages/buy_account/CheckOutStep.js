@@ -16,6 +16,9 @@ import moment from "moment";
 
 import PaidIcon from "@mui/icons-material/Paid";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 const CheckOutStep = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
@@ -34,6 +37,30 @@ const CheckOutStep = () => {
 
   const history = useHistory();
 
+  // phần khuyến mãi
+  // danh sách mã user đã dùng (lấy từ db)
+  const [userDiscounts, setUserDiscounts] = state.usersAPI.userDiscounts;
+  //callback cập nhật lại danh sách mã
+  const [discountCallback, setDiscountCallback] =
+    state.usersAPI.discountCallback;
+  //  thành tiền
+  const [total, setTotal] = useState(0);
+  // tiền giảm giá
+  const [reducePrice, setReducePrice] = useState(0);
+
+  // biến lưu tổng phần trăm giảm giá để check vượt quá 100% không ?
+  const [checkTotalPercents, setCheckTotalPercents] = useState(0);
+
+  // biến lưu mã giảm giá trong thẻ input
+  const [discountInput, setDiscountInput] = useState("");
+
+  //biến hiển thị trạng thái của mã giảm giá
+  const [discountError, setDiscountError] = useState(false);
+  const [discountErrorText, setDiscountErrorText] = useState("");
+
+  //biến loading nút
+  const [loading, setLoading] = useState(false);
+
   // get stripe token
   const onToken = (token) => {
     setStripeToken(token);
@@ -48,24 +75,61 @@ const CheckOutStep = () => {
       ) {
         setCheckOutPackage(userPackage);
       } else {
-        let currentDate = moment().format("MMMM Do YYYY");
-        let expireDate = moment().add(30, "days").format("MMMM Do YYYY");
+        let currentDate = new Date();
+        let expireDate = new Date(currentDate);
+        expireDate.setDate(expireDate.getDate() + 30);
         //lấy gói đầu tiên
         setCheckOutPackage({
           ...packages[0],
-          startedTime: currentDate,
-          expireTime: expireDate,
+          startedTime: currentDate.toLocaleDateString(),
+          expireTime: expireDate.toLocaleDateString(),
         });
       }
     }
   }, [userPackage, packages]);
+
+  // xử lí phần khuyến mãi
+  useEffect(() => {
+    const checkTotal = (packagePrice) => {
+      if (userDiscounts.length !== 0) {
+        const totalDiscountPercents = userDiscounts.reduce((prev, item) => {
+          return prev + item.discountValue;
+        }, 0);
+        const discountPrice = (
+          (packagePrice * totalDiscountPercents) /
+          100
+        ).toFixed(0);
+        const finalPrice = packagePrice - discountPrice;
+
+        setCheckTotalPercents(totalDiscountPercents);
+        setReducePrice(discountPrice);
+        setTotal(finalPrice);
+      } else {
+        setCheckTotalPercents(0);
+        setReducePrice(0);
+        setTotal(packagePrice);
+      }
+    };
+
+    if (packages.length !== 0) {
+      // ktra gói khách hàng chọn có bị admin xóa k ?
+      if (
+        userPackage.title &&
+        packages.some((pack) => pack.title === userPackage.title)
+      ) {
+        checkTotal(userPackage.price);
+      } else {
+        checkTotal(packages[0].price);
+      }
+    }
+  }, [userDiscounts, packages, userPackage]);
 
   useEffect(() => {
     const callStripeAPI = async () => {
       try {
         const res = await axios.post("/api/stripe_payment", {
           tokenId: stripeToken.id,
-          amount: checkOutPackage.price * 100,
+          amount: total * 100,
         });
 
         stripeTranSucess(res.data);
@@ -75,6 +139,51 @@ const CheckOutStep = () => {
     };
     stripeToken && callStripeAPI();
   }, [stripeToken, history]);
+
+  // xử lí nhập mã
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "/api/verifyDiscount",
+        { name: discountInput, checkTotalPercents },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setLoading(false);
+      if (res.data.msg === "success") {
+        setDiscountCallback(!discountCallback);
+        setDiscountError(false);
+        setDiscountErrorText("");
+      }
+    } catch (error) {
+      setDiscountError(true);
+      setLoading(false);
+      setDiscountErrorText(error.response.data.msg);
+    }
+  };
+
+  // xử lí hủy mã
+  const handleCancelCode = async (id) => {
+    try {
+      await axios.patch(
+        "/user/cancelCode",
+        { codeID: id },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setDiscountCallback(!discountCallback);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
 
   const updateUserPackage = async (userPackage) => {
     await axios.patch(
@@ -110,6 +219,25 @@ const CheckOutStep = () => {
         paymentID,
         address,
         paymentMethod: "paypal",
+        discountPrice: reducePrice,
+        discounts: userDiscounts,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+
+    // gửi mail confirm đơn hàng
+    const { country_code } = address;
+
+    await axios.post(
+      "/user/confirmMail",
+      {
+        country_code,
+        paymentID,
+        service_pack: checkOutPackage,
+        beforeDiscount: checkOutPackage.price,
+        afterDiscount: total,
       },
       {
         headers: { Authorization: token },
@@ -149,6 +277,23 @@ const CheckOutStep = () => {
           paymentID: payment.id,
           address: newAddress,
           paymentMethod: "stripe",
+          discountPrice: reducePrice,
+          discounts: userDiscounts,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      // gửi mail confirm đơn hàng
+      await axios.post(
+        "/user/confirmMail",
+        {
+          country_code: address.country,
+          paymentID: payment.id,
+          service_pack: checkOutPackage,
+          beforeDiscount: checkOutPackage.price,
+          afterDiscount: total,
         },
         {
           headers: { Authorization: token },
@@ -248,10 +393,45 @@ const CheckOutStep = () => {
           260,000&nbsp;₫/month) to your payment method until you cancel. You may
           cancel at any time to avoid future charges.
         </span>
+
+        {/* Coupon Code */}
+        <div style={{ margin: "40px 0px" }}>
+          <TextField
+            label="Coupon Code"
+            id="outlined-size-normal"
+            value={discountInput}
+            onChange={(e) => setDiscountInput(e.target.value)}
+            error={discountError}
+            helperText={discountErrorText}
+          />
+          <LoadingButton
+            loadingIndicator="Loading..."
+            variant="outlined"
+            onClick={handleVerifyCode}
+            loading={loading}
+          >
+            Verify
+          </LoadingButton>
+          {`Giảm giá is : ${reducePrice}`}
+          {`Total is : ${total}`}
+          {userDiscounts.map((item) => (
+            <div>
+              <h1>{item.name}</h1>
+              <h4>{`${item.discountValue}%`}</h4>
+              <Button
+                variant="outlined"
+                onClick={() => handleCancelCode(item._id)}
+              >
+                Cancel
+              </Button>
+            </div>
+          ))}
+        </div>
+
         {checkOutPackage.title && (
           <div className="CheckOut_Container">
             <PayPalCheckOut
-              total={checkOutPackage.price}
+              total={total}
               tranSuccess={tranSuccess}
             ></PayPalCheckOut>
             <StripeCheckout
@@ -259,8 +439,8 @@ const CheckOutStep = () => {
               image="https://t3.ftcdn.net/jpg/02/80/09/58/360_F_280095865_QBy7eRsxjFhiB4dhFnuUq0Uz0HC5An7Q.jpg"
               billingAddress
               shippingAddress
-              description={`Your total is $${checkOutPackage.price}`}
-              amount={checkOutPackage.price * 100}
+              description={`Your total is $${total}`}
+              amount={total * 100}
               token={onToken}
               stripeKey="pk_test_51KaF2rLjv0wfcc1sJyQlomCRXjfcJoD9vZ8U1BInVIwR7hGiP9kQF3KXOqiSyMiq3x4CZApKHjOwdgDFoTrtu8GS00Q4LpDso9"
             >

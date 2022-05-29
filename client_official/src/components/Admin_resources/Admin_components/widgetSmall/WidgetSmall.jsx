@@ -4,6 +4,8 @@ import "./WidgetSmall.css";
 import axios from "axios";
 import { Visibility } from "@material-ui/icons";
 
+import { Link } from "react-router-dom";
+
 const WidgetSmall = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
@@ -44,10 +46,12 @@ const WidgetSmall = () => {
                 )}
               </span>
             </div>
-            <button className="widgetSmallButton">
-              <Visibility className="widgetSmallIcon"></Visibility>
-              Display
-            </button>
+            <Link to={`/edit_user/${user._id}`}>
+              <button className="widgetSmallButton">
+                <Visibility className="widgetSmallIcon"></Visibility>
+                Display
+              </button>
+            </Link>
           </li>
         ))}
       </ul>

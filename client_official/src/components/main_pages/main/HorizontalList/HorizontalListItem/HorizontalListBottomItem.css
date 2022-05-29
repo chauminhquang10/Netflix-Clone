@@ -1,0 +1,95 @@
+.HorizontalListBottomItem_container .HorizontalListBottomItem_img {
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(black), to(rgba(0, 0, 0, 0)));
+  -webkit-mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
+          mask-image: -webkit-gradient(linear, left top, left bottom, from(black), to(rgba(0, 0, 0, 0)));
+          mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
+  height: 510px;
+  width: 900px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.HorizontalListBottomItem_container .HorizontalListBottomItem_itemInfo {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1px;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.HorizontalListBottomItem_container .HorizontalListBottomItem_itemInfo .HorizontalListBottomItem_icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.HorizontalListBottomItem_container .HorizontalListBottomItem_itemInfo .HorizontalListBottomItem_icons .HorizontalListBottomItem_icon {
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  font-size: 40px;
+}
+
+.HorizontalListBottomItem_container .HorizontalListBottomItem_itemInfo .HorizontalListBottomItem_icons .HorizontalListBottomItem_icon:hover {
+  background-color: #f9f9ea;
+  color: #ff0000;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.HorizontalListBottomItem_container:hover .HorizontalListBottomItem_itemInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.HorizontalListBottomItem_itemInfoTop {
+  position: absolute;
+  bottom: 23%;
+  left: 3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9f9ea;
+}
+
+.HorizontalListBottomItem_itemInfoTop .HorizontalListBottomItem_limit {
+  border: 1px solid #f9f9ea;
+  padding: 1px 3px;
+  margin: 0px 10px;
+}
+
+.HorizontalListBottomItem_desc {
+  width: 800px;
+  height: 100px;
+  position: absolute;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin: 1rem 1rem 1rem 0;
+  bottom: 2%;
+  overflow: hidden;
+  left: 3rem;
+  font-size: 13px;
+}
+
+.HorizontalListBottomItem_genre {
+  font-size: 14px;
+  color: lightgray;
+}
+/*# sourceMappingURL=HorizontalListBottomItem.css.map */

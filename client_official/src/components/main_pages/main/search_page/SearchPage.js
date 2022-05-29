@@ -13,8 +13,10 @@ const SearchPage = () => {
       const res = await axios.get(`/api/genres?name[regex]=${search}`);
       setSearchGenres(res.data);
     };
-    if (search) getSearchGenres();
-    else setSearchGenres([]);
+    // if (search) getSearchGenres();
+    // else setSearchGenres([]);
+
+    getSearchGenres();
   }, [search]);
 
   console.log({ searchGenres });

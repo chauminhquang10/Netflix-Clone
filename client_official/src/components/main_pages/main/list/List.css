@@ -1,0 +1,21 @@
+.list {
+  margin-top: 10px;
+  margin-left: 3vw;
+  position: relative;
+}
+
+.list .list_header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10fr 1fr;
+      grid-template-columns: 10fr 1fr;
+  margin-bottom: 10px;
+}
+
+.list .listTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+/*# sourceMappingURL=List.css.map */

@@ -9,6 +9,8 @@ import { Button, Input } from "antd";
 import SingleComment from "./SingleComment";
 import ReplyComment from "./ReplyComment";
 
+import StarRating from "../CommentStarRating/StarRating";
+
 const { TextArea } = Input;
 
 const Comments = ({
@@ -26,6 +28,11 @@ const Comments = ({
   const [token] = state.token;
 
   const [user] = state.usersAPI.userData;
+
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+
+  // phần đánh giá sao
+  const [rating, setRating] = useState(null);
 
   useEffect(() => {
     if (commentList) {
@@ -47,14 +54,21 @@ const Comments = ({
       content: commentContent,
       writer: user,
       movieId: movieId,
+      star: rating,
     };
 
     try {
-      await axios.post("/api/saveComment", commentDetail, {
-        headers: { Authorization: token },
-      });
-      setCommentContent("");
-      setCommentCallback(!commentCallback);
+      if (rating !== null) {
+        await axios.post("/api/saveComment", commentDetail, {
+          headers: { Authorization: token },
+        });
+        setCommentContent("");
+        setCommentCallback(!commentCallback);
+        setMoviesCallback(!moviesCallback);
+        setRating(null);
+      } else {
+        alert("Please choose a value of star!");
+      }
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -84,6 +98,8 @@ const Comments = ({
                   movieId={movieId}
                   commentCallback={commentCallback}
                   setCommentCallback={setCommentCallback}
+                  moviesCallback={moviesCallback}
+                  setMoviesCallback={setMoviesCallback}
                 ></SingleComment>
                 <ReplyComment
                   commentList={commentList}
@@ -99,6 +115,9 @@ const Comments = ({
       {/* Comment Form */}
       <br></br>
       <h5>Your comment</h5>
+
+      <StarRating rating={rating} setRating={setRating}></StarRating>
+
       <form style={{ display: "flex" }} onSubmit={onSubmit}>
         <TextArea
           style={{ width: "100%", borderRadius: "5px" }}

@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    usedDiscounts: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,

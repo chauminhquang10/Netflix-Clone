@@ -1,0 +1,82 @@
+.HorizontalList_Container {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 17fr 51fr;
+      grid-template-rows: 17fr 51fr;
+      grid-template-areas: "one" "two";
+  /* "one two two two two"; */
+  width: 900px;
+  /* margin: 10px 10px 0 3em; */
+  height: 680px;
+  overflow: hidden;
+}
+
+.HorizontalList_Container_Left {
+  /* position: absolute; */
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: one;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.HorizontalList_Container_Right {
+  position: absolute;
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: two;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+}
+
+.Normal_img {
+  list-style: "none";
+  height: "170px";
+  width: "400px";
+  -o-object-fit: "cover";
+     object-fit: "cover";
+}
+
+.Normal_img:active {
+  list-style: "none";
+  height: "170px";
+  width: "400px";
+  -o-object-fit: "cover";
+     object-fit: "cover";
+  border: #e50914 solid 1px;
+  border-radius: 5px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  top: 1rem;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 95%;
+  width: 2rem;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+/*# sourceMappingURL=HorizontalList.css.map */

@@ -16,6 +16,7 @@ import {
   WorkOutline,
   Report,
   Payment,
+  LocalOffer,
 } from "@material-ui/icons";
 import InventoryIcon from "@mui/icons-material/Inventory";
 const SideBar = () => {
@@ -78,6 +79,12 @@ const SideBar = () => {
               <li className="sidebarListItem">
                 <InventoryIcon className="sidebarIcon" />
                 Packages
+              </li>
+            </Link>
+            <Link to="/discounts" className="link">
+              <li className="sidebarListItem">
+                <LocalOffer className="sidebarIcon" />
+                Discounts
               </li>
             </Link>
           </ul>

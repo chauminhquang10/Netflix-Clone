@@ -5,6 +5,9 @@ const authAdmin = require("../middlewares/AuthAdmin");
 
 router.get("/discounts", discountController.getDiscounts);
 
+// verify coupon code
+router.post("/verifyDiscount", auth, discountController.verifyDiscount);
+
 router.post("/discount", auth, authAdmin, discountController.createDiscount);
 
 router.delete(

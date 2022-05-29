@@ -6,7 +6,7 @@ import "./StarRating.css";
 const StarRating = ({ rating, setRating }) => {
   const [hover, setHover] = useState(null);
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       {[...Array(5)].map((star, index) => {
         const ratingValue = index + 1;
         return (
