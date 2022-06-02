@@ -49,9 +49,8 @@ const useStyles = makeStyles((theme) => ({
 const AdminGenres = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [genres] = state.genresAPI.genres;
+  const [genres, setGenres] = state.genresAPI.genres;
 
-  const [genresCallback, setGenresCallback] = state.genresAPI.genresCallback;
   //update genre
   const [genre, setGenre] = useState("");
   const [onEdit, setOnEdit] = useState(false);
@@ -85,7 +84,7 @@ const AdminGenres = () => {
     e.preventDefault();
     try {
       if (onEdit) {
-        const res = await axios.put(
+        await axios.put(
           `/api/genres/${id}`,
           { name: genre },
           {
@@ -94,7 +93,12 @@ const AdminGenres = () => {
             },
           }
         );
-        alert(res.data.msg);
+
+        const newGenres = genres.map((item) =>
+          item._id === id ? { ...item, name: genre } : item
+        );
+
+        setGenres([...newGenres]);
       } else {
         const res = await axios.post(
           "/api/genres",
@@ -105,11 +109,11 @@ const AdminGenres = () => {
             },
           }
         );
-        alert(res.data.msg);
+
+        res.data?.createdGenre && setGenres([...genres, res.data.createdGenre]);
       }
       setOnEdit(false);
       setGenre("");
-      setGenresCallback(!genresCallback);
       setOpenPopup(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -124,13 +128,14 @@ const AdminGenres = () => {
 
   const deleteGenre = async (id) => {
     try {
-      const res = await axios.delete(`/api/genres/${id}`, {
+      await axios.delete(`/api/genres/${id}`, {
         headers: {
           Authorization: token,
         },
       });
-      alert(res.data.msg);
-      setGenresCallback(!genresCallback);
+      const newGenres = genres.filter((item) => item._id !== id);
+
+      setGenres([...newGenres]);
     } catch (error) {
       alert(error.response.data.msg);
     }

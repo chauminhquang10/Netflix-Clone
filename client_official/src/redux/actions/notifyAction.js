@@ -43,10 +43,13 @@ export const removeNotify =
     try {
       const res = await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, token);
 
-      socket.emit("removeNotify", {
-        ...msg,
-        recipients: res.data.notify.recipients,
-      });
+      // đề phòng trường hợp tồn tại phim nhưng chưa có thông báo của phim này.
+      if (res.data.notify) {
+        socket.emit("removeNotify", {
+          ...msg,
+          recipients: res.data.notify.recipients,
+        });
+      }
     } catch (error) {
       alert(error.response.data.msg);
     }

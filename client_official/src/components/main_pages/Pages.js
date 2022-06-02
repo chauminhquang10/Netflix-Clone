@@ -45,6 +45,8 @@ import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 
+import RankingMovies from "./main/Ranking/RankingMovies";
+
 const Pages = () => {
   const state = useContext(GlobalState);
   const [isLogged] = state.usersAPI.isLogged;
@@ -193,7 +195,7 @@ const Pages = () => {
               <Route path="/packages" component={ServicePackage} />
               <Route path="/checkout" component={CheckOut} />
               <Route
-                path="/watch/:TMDBid/:genreId/:movieId"
+                path="/watch/:TMDBid/:movieId"
                 component={isLogged ? Watch : LandingPage}
               />
               <Route path="/login" component={isLogged ? NotFound : Login} />

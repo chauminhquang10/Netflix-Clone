@@ -26,10 +26,7 @@ const actorSchema = new mongoose.Schema(
     biography: {
       type: String,
     },
-    knownFor: {
-      type: Array,
-      default: [],
-    },
+    knownFor: [{ type: mongoose.Types.ObjectId, ref: "Movie" }],
     tmdbID: {
       type: String,
     },

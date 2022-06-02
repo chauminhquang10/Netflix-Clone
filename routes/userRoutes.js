@@ -66,6 +66,8 @@ router.post("/facebook_login", userController.facebookLogin);
 // Cập nhật thể loại kèm lượt thích của user (dùng cho model)
 router.patch("/countLikes", auth, userController.countUserLikes);
 
+router.patch("/updateViews", auth, userController.updateMovieAndGenresView);
+
 module.exports = router;
 
 // const router = require("express").Router();

@@ -21,4 +21,22 @@ router.route("/movies/:id/like").patch(auth, movieController.likeMovie);
 
 router.route("/movies/:id/unlike").patch(auth, movieController.unLikeMovie);
 
+// dislike feature
+router.route("/movies/:id/dislike").patch(auth, movieController.dislikeMovie);
+
+router
+  .route("/movies/:id/unDislike")
+  .patch(auth, movieController.unDislikeMovie);
+
+// Thống kê những movie với top views (tổng lượt views cao nhất).
+router.get(
+  "/topMoviesStats",
+  auth,
+  authAdmin,
+  movieController.getTopMoviesStats
+);
+
+// Thống kê những top movies với điểm (score) cao nhất để làm bxh bên user.
+router.get("/topMoviesRanking", movieController.getRankingMovies);
+
 module.exports = router;

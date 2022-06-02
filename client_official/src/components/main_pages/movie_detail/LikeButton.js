@@ -1,14 +1,14 @@
 import React from "react";
-import FavoriteOutlinedIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorder";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 const LikeButton = ({ isLike, handleLike, handleUnLike }) => {
   return (
     <>
       {isLike ? (
-        <FavoriteOutlinedIcon onClick={handleUnLike} fontSize="large" />
+        <ThumbUpAltIcon onClick={handleUnLike} fontSize="large" />
       ) : (
-        <FavoriteBorderOutlinedIcon onClick={handleLike} fontSize="large" />
+        <ThumbUpOffAltIcon onClick={handleLike} fontSize="large" />
       )}
     </>
   );

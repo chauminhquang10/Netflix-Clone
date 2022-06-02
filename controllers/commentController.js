@@ -1,8 +1,6 @@
 const Comments = require("../models/commentModel");
 const Movies = require("../models/movieModel");
 
-let ObjectId = require("mongoose").Types.ObjectId;
-
 const commentController = {
   createComment: async (req, res) => {
     try {

@@ -12,6 +12,8 @@ export const GlobalState = createContext();
 export const DataProvider = ({ children }) => {
   const [token, setToken] = useState(false);
 
+  const [topRanking, setTopRanking] = useState([]);
+
   const refreshToken = async () => {
     const res = await axios.get("/user/refresh_token");
     setToken(res.data.accesstoken);
@@ -22,13 +24,29 @@ export const DataProvider = ({ children }) => {
     }, 10 * 60 * 1000);
   };
 
+  const refreshNewRankingMovies = async () => {
+    const res = await axios.get("/api/topMoviesRanking");
+
+    setTopRanking(res.data.topScoreMovies);
+
+    // auto refresh ranking movies
+    setTimeout(() => {
+      refreshNewRankingMovies();
+    }, 1 * 60 * 1000);
+  };
+
   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
     if (firstLogin) refreshToken();
   }, []);
 
+  useEffect(() => {
+    refreshNewRankingMovies();
+  }, []);
+
   const state = {
     token: [token, setToken],
+    topRanking: [topRanking, setTopRanking],
     moviesAPI: MoviesAPI(),
     usersAPI: UsersAPI(token),
     genresAPI: GenresAPI(),

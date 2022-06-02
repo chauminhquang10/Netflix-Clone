@@ -198,43 +198,70 @@ const UsersAPI = (token) => {
     );
   };
 
-  const finishCountdown = async (genreName, movieId) => {
-    const check = likedGenres.every((item) => {
-      return item.genreName !== genreName;
-    });
+  const finishCountdown = async (movieId, movieGenres) => {
+    // giao của 2 mảng
+    const intersectionResult = likedGenres.filter((item1) =>
+      movieGenres.some((item2) => item1.name === item2.name)
+    );
 
-    if (check) {
-      setLikedGenres([...likedGenres, { genreName, viewCount: 1 }]);
+    // trừ của 2 mảng
+    const subtractResult = movieGenres.filter(
+      (item1) => !likedGenres.some((item2) => item1.name === item2.name)
+    );
 
-      await axios.patch(
-        "/user/countLikes",
-        {
-          likedGenres: [...likedGenres, { genreName, viewCount: 1 }],
-          movieId,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
-    } else {
-      likedGenres.forEach((item) => {
-        if (item.genreName === genreName) {
-          item.viewCount += 1;
-        }
+    if (intersectionResult.length > 0) {
+      intersectionResult.filter((item) => {
+        return plusOneToExistGenre(item.name, likedGenres);
       });
-
       setLikedGenres([...likedGenres]);
+
       await axios.patch(
         "/user/countLikes",
         {
-          likedGenres,
-          movieId,
+          likedGenres: [...likedGenres],
         },
         {
           headers: { Authorization: token },
         }
       );
     }
+
+    if (subtractResult.length > 0) {
+      const finalResult = subtractResult.map((item) => ({
+        name: item.name,
+        viewCount: 1,
+      }));
+      setLikedGenres([...likedGenres, ...finalResult]);
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres, ...finalResult],
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+
+    //cập nhật lượt view cho các thể loại và phim
+    await axios.patch(
+      "/user/updateViews",
+      {
+        movieId,
+        movieGenres,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+  };
+
+  const plusOneToExistGenre = (itemName, likedGenres) => {
+    likedGenres.forEach((item) => {
+      if (item.name === itemName) {
+        item.viewCount += 1;
+      }
+    });
   };
 
   return {

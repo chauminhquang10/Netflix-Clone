@@ -1,26 +1,32 @@
 import { ArrowBackOutlined } from "@material-ui/icons";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Watch.scss";
 import { useParams } from "react-router-dom";
 
+import axios from "axios";
 import CountTimer from "./CountTimer";
-import { GlobalState } from "../../../GlobalState";
 
 const Watch = () => {
   const params = useParams();
-  const state = useContext(GlobalState);
-  const [genres] = state.genresAPI.genres;
 
-  //hiển thị thể loại của sản phẩm
-  const [movieGenre, setMovieGenre] = useState([]);
+  //chứa mảng các thể loại của phim
+  const [movieGenres, setMovieGenres] = useState([]);
 
   useEffect(() => {
-    genres.forEach((genre) => {
-      if (genre._id === params.genreId) {
-        setMovieGenre(genre);
+    const getDetailMovie = async () => {
+      if (params.movieId) {
+        try {
+          const res = await axios.get(`/api/movies/${params.movieId}`);
+          if (res.data.movie !== null) {
+            setMovieGenres(res.data.movie.allGenres);
+          }
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
       }
-    });
-  }, [genres, params]);
+    };
+    getDetailMovie();
+  }, [params.movieId]);
 
   return (
     <>
@@ -37,7 +43,7 @@ const Watch = () => {
           allowfullscreen="true"
         ></iframe>
       </div>
-      <CountTimer genreName={movieGenre.name} movieId={params.movieId} />
+      <CountTimer movieId={params.movieId} movieGenres={movieGenres} />
     </>
   );
 };

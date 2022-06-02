@@ -2,6 +2,8 @@ const Users = require("../models/userModel");
 const Payments = require("../models/paymentModel");
 const Movies = require("../models/movieModel");
 
+const Genre = require("../models/genreModel");
+
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
@@ -17,7 +19,7 @@ const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 
 const { CLIENT_URL } = process.env;
 
-let ObjectId = require("mongoose").Types.ObjectId;
+const { ObjectId } = require("mongodb");
 
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -508,23 +510,45 @@ const userController = {
         }
       );
 
-      // cập nhật số lượt xem cho phim tương ứng.
-      const updateMovie = await Movies.findById(req.body.movieId);
-
-      const { views } = updateMovie;
-
-      await Movies.findOneAndUpdate(
-        { _id: req.body.movieId },
-        {
-          views: views + 1,
-        }
-      );
-
       return res.json({ msg: "Count user like up!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+  updateMovieAndGenresView: async (req, res) => {
+    try {
+      // cập nhật số lượt xem cho phim tương ứng.
+      const updateMovie = await Movies.findById(req.body.movieId);
+
+      await Movies.findOneAndUpdate(
+        { _id: req.body.movieId },
+        {
+          views: updateMovie.views + 1,
+        }
+      );
+
+      // cập nhật số lượt xem cho các thể loại tương ứng.
+      const { movieGenres } = req.body;
+      movieGenres.filter((item) => {
+        return updateGenreView(item._id);
+      });
+
+      return res.json({ msg: "Update views successfully!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+};
+
+const updateGenreView = async (genreId) => {
+  const updateGenre = await Genre.findById(genreId);
+
+  await Genre.findOneAndUpdate(
+    { _id: updateGenre._id },
+    {
+      views: updateGenre.views + 1,
+    }
+  );
 };
 
 const createActivationToken = (payload) => {

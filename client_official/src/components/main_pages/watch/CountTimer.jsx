@@ -3,7 +3,7 @@ import { GlobalState } from "../../../GlobalState";
 
 import Countdown from "react-countdown";
 
-const CountTimer = ({ genreName, movieId }) => {
+const CountTimer = ({ movieId, movieGenres }) => {
   const state = useContext(GlobalState);
 
   const finishCountdown = state.usersAPI.finishCountdown;
@@ -17,7 +17,7 @@ const CountTimer = ({ genreName, movieId }) => {
       date={Date.now() + 10000}
       intervalDelay={0}
       precision={3}
-      onComplete={() => finishCountdown(genreName, movieId)}
+      onComplete={() => finishCountdown(movieId, movieGenres)}
       renderer={renderer}
     />
   );

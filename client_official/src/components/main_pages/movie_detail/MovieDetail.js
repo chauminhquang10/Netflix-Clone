@@ -23,19 +23,23 @@ import CommentDisplayRating from "./Comments/CommentDisplayRating";
 
 import LikeButton from "./LikeButton";
 
+import DislikeButton from "./DislikeButton";
+
 const MovieDetail = () => {
   const params = useParams();
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [userData] = state.usersAPI.userData;
   const [movies] = state.moviesAPI.movies;
-  const [genres] = state.genresAPI.genres;
   const [movieDetail, setMovieDetail] = useState([]);
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
 
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+
+  // likedGenres (danh sách thể loại yêu thích của người dùng cho model)
+  const [likedGenres, setLikedGenres] = state.usersAPI.likedGenres;
 
   //comments khách hàng
   const [commentList, setCommentList] = useState([]);
@@ -44,9 +48,6 @@ const MovieDetail = () => {
 
   //biến ktra xem movie detail này đã có trong watchList hay chưa?
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
-
-  //hiển thị thể loại của sản phẩm
-  const [movieGenre, setMovieGenre] = useState([]);
 
   const [isNotExpireAccount, setIsNotExpireAccount] =
     state.usersAPI.isNotExpireAccount;
@@ -57,6 +58,10 @@ const MovieDetail = () => {
   // like featured
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
+
+  // dislike featured
+  const [isDislike, setIsDislike] = useState(false);
+  const [loadDislike, setLoadDislike] = useState(false);
 
   useEffect(() => {
     const getDetailMovie = async () => {
@@ -81,16 +86,6 @@ const MovieDetail = () => {
     };
     getDetailMovie();
   }, [params.id, movies]);
-
-  useEffect(() => {
-    if (movieDetail.length !== 0) {
-      genres.forEach((genre) => {
-        if (genre._id === movieDetail.genre) {
-          setMovieGenre(genre);
-        }
-      });
-    }
-  }, [movieDetail, genres]);
 
   useEffect(() => {
     if (movieDetail.length !== 0) {
@@ -122,6 +117,17 @@ const MovieDetail = () => {
     }
   }, [movieDetail.likes, userData._id]);
 
+  // Dislikes
+  useEffect(() => {
+    if (movieDetail.length !== 0) {
+      if (movieDetail.dislikes.find((dislike) => dislike === userData._id)) {
+        setIsDislike(true);
+      } else {
+        setIsDislike(false);
+      }
+    }
+  }, [movieDetail.dislikes, userData._id]);
+
   const handlePlayMovie = () => {
     if (!isNotExpireAccount) {
       setPopupTrigger(true);
@@ -137,6 +143,11 @@ const MovieDetail = () => {
       await axios.patch(`/api/movies/${movieDetail._id}/like`, null, {
         headers: { Authorization: token },
       });
+
+      // xử lí tăng lượt viewcount cho thể loại thích
+      const { allGenres } = movieDetail;
+      const isUpViewCount = true;
+      handleUpdateViewCount(allGenres, isUpViewCount);
 
       setMoviesCallback(!moviesCallback);
       setLoadLike(false);
@@ -155,11 +166,136 @@ const MovieDetail = () => {
         headers: { Authorization: token },
       });
 
+      // xử lí giảm lượt viewcount cho thể loại thích
+      const { allGenres } = movieDetail;
+      const isUpViewCount = false;
+      handleUpdateViewCount(allGenres, isUpViewCount);
+
       setMoviesCallback(!moviesCallback);
       setLoadLike(false);
     } catch (error) {
       alert(error.response.data.msg);
     }
+  };
+
+  const handleDislike = async () => {
+    try {
+      if (loadDislike) return;
+      setIsDislike(true);
+      setLoadDislike(true);
+
+      await axios.patch(`/api/movies/${movieDetail._id}/dislike`, null, {
+        headers: { Authorization: token },
+      });
+
+      // xử lí giảm lượt viewcount cho thể loại thích
+      const { allGenres } = movieDetail;
+      const isUpViewCount = false;
+      handleUpdateViewCount(allGenres, isUpViewCount);
+
+      setMoviesCallback(!moviesCallback);
+      setLoadDislike(false);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const handleUnDislike = async () => {
+    try {
+      if (loadDislike) return;
+      setIsDislike(false);
+      setLoadDislike(true);
+
+      await axios.patch(`/api/movies/${movieDetail._id}/unDislike`, null, {
+        headers: { Authorization: token },
+      });
+
+      // xử lí tăng lượt viewcount cho thể loại thích
+      const { allGenres } = movieDetail;
+      const isUpViewCount = true;
+      handleUpdateViewCount(allGenres, isUpViewCount);
+
+      setMoviesCallback(!moviesCallback);
+      setLoadDislike(false);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const handleUpdateViewCount = async (allGenres, isUpViewCount) => {
+    // giao của 2 mảng
+    const intersectionResult = likedGenres.filter((item1) =>
+      allGenres.some((item2) => item1.name === item2.name)
+    );
+
+    // trừ của 2 mảng
+    const subtractResult = allGenres.filter(
+      (item1) => !likedGenres.some((item2) => item1.name === item2.name)
+    );
+
+    if (intersectionResult.length > 0) {
+      if (isUpViewCount) {
+        intersectionResult.filter((item) => {
+          return plusTenToExistGenre(item.name, likedGenres);
+        });
+      } else {
+        intersectionResult.filter((item) => {
+          return minusTenToExistGenre(item.name, likedGenres);
+        });
+      }
+      setLikedGenres([...likedGenres]);
+
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres],
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+
+    if (subtractResult.length > 0) {
+      let finalResult;
+      if (isUpViewCount) {
+        finalResult = subtractResult.map((item) => ({
+          name: item.name,
+          viewCount: 10,
+        }));
+      } else {
+        finalResult = subtractResult.map((item) => ({
+          name: item.name,
+          viewCount: -10,
+        }));
+      }
+      setLikedGenres([...likedGenres, ...finalResult]);
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres, ...finalResult],
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+  };
+
+  const plusTenToExistGenre = (itemName, likedGenres) => {
+    likedGenres.forEach((item) => {
+      if (item.name === itemName) {
+        item.viewCount += 10;
+      }
+    });
+  };
+
+  const minusTenToExistGenre = (itemName, likedGenres) => {
+    likedGenres.forEach((item) => {
+      if (item.name === itemName) {
+        item.viewCount -= 10;
+      }
+    });
   };
 
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
@@ -201,7 +337,11 @@ const MovieDetail = () => {
         <div className="movie-content__info">
           <h1 className="title">{movieDetail.title}</h1>
           <div className="genre">
-            <span className="genre__item">{movieGenre.name}</span>
+            {movieDetail?.allGenres.map((item, index) => (
+              <span className="genre__item" key={index}>
+                {item.name}
+              </span>
+            ))}
           </div>
           <p className="overview">{movieDetail.desc}</p>
 
@@ -218,6 +358,14 @@ const MovieDetail = () => {
           />
           <h6>{movieDetail.likes.length} likes</h6>
 
+          {/* Dislike Featured */}
+          <DislikeButton
+            isDislike={isDislike}
+            handleDislike={handleDislike}
+            handleUnDislike={handleUnDislike}
+          />
+          <h6>{movieDetail.dislikes.length} dislikes</h6>
+
           <div className="cast">
             <div className="section__header">
               <h2>Casts</h2>
@@ -229,7 +377,7 @@ const MovieDetail = () => {
                 {isNotExpireAccount ? (
                   <Link
                     className="detail_link"
-                    to={`/watch/${movieDetail.TMDBid}/${movieGenre._id}/${movieDetail._id}`}
+                    to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
                   >
                     <button className="play">
                       <PlayArrow />
