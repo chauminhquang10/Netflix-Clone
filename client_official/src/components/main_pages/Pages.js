@@ -15,7 +15,7 @@ import ActivationEmail from "./auth/ActivationEmail";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import UserProfile from "./profile/UserProfile";
-import Watch from "./watch/Watch";
+// import Watch from "./watch/Watch";
 
 import SideBar from "../Admin_resources/Admin_components/sidebar/SideBar";
 import HomePage from "../Admin_resources/pages/homepage/HomePage";
@@ -27,6 +27,7 @@ import PackageDetail from "../Admin_resources/pages/package/packageDetail/Packag
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
 
+import People from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
 
 import LandingPage from "../LandingPage/LandingPage";
@@ -210,14 +211,19 @@ const Pages = () => {
                 path="/favorite"
                 component={isLogged ? Favorite : LandingPage}
               />
+              <Route
+                path="/people"
+                component={isLogged ? People : LandingPage}
+              />
+
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />
 
               <Route path="/checkout" component={CheckOut} />
-              <Route
+              {/* <Route
                 path="/watch/:TMDBid/"
                 component={isLogged ? Watch : LandingPage}
-              />
+              /> */}
               <Route path="/login" component={isLogged ? NotFound : Login} />
               <Route
                 path="/register"
