@@ -15,7 +15,7 @@ import ActivationEmail from "./auth/ActivationEmail";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import UserProfile from "./profile/UserProfile";
-// import Watch from "./watch/Watch";
+import Watch from "./watch/Watch";
 
 import SideBar from "../Admin_resources/Admin_components/sidebar/SideBar";
 import HomePage from "../Admin_resources/pages/homepage/HomePage";
@@ -217,8 +217,7 @@ const Pages = () => {
               <Route
                 path="/watch/:TMDBid/:movieId"
                 component={isLogged ? Watch : LandingPage}
-              />{" "}
-              */}
+              />
               <Route path="/login" component={isLogged ? NotFound : Login} />
               <Route
                 path="/register"
