@@ -63,29 +63,33 @@ const MovieDetail = () => {
   const [isDislike, setIsDislike] = useState(false);
   const [loadDislike, setLoadDislike] = useState(false);
 
+  // TỔNG SỐ LIKE
+  const [likesNumber, setLikesNumber] = useState(0);
+  // TỔNG SỐ DISLIKE
+  const [dislikesNumber, setDislikesNumber] = useState(0);
+
   useEffect(() => {
     const getDetailMovie = async () => {
       if (params.id) {
-        if (movies.every((movie) => movie._id !== params.id)) {
-          try {
-            const res = await axios.get(`/api/movies/${params.id}`);
-            if (res.data.movie !== null) {
-              setMovieDetail(res.data.movie);
-              // reload để cập nhật phim mới vào danh sách phim
+        try {
+          const res = await axios.get(`/api/movies/${params.id}`);
+          if (res.data.movie !== null) {
+            setMovieDetail(res.data.movie);
+
+            setLikesNumber(res.data.movie.likes.length);
+            setDislikesNumber(res.data.movie.dislikes.length);
+
+            // reload để cập nhật phim mới vào danh sách phim
+            if (movies.every((movie) => movie._id !== params.id))
               setMoviesCallback(!moviesCallback);
-            }
-          } catch (error) {
-            alert(error.response.data.msg);
           }
-        } else {
-          movies.forEach((movie) => {
-            if (movie._id === params.id) setMovieDetail(movie);
-          });
+        } catch (error) {
+          alert(error.response.data.msg);
         }
       }
     };
     getDetailMovie();
-  }, [params.id, movies]);
+  }, [params.id]);
 
   useEffect(() => {
     if (movieDetail.length !== 0) {
@@ -106,7 +110,7 @@ const MovieDetail = () => {
     if (movieDetail.length !== 0) getAllComments();
   }, [movieDetail, commentCallback]);
 
-  // Likes
+  //  Likes
   useEffect(() => {
     if (movieDetail.length !== 0) {
       if (movieDetail.likes.find((like) => like === userData._id)) {
@@ -117,7 +121,7 @@ const MovieDetail = () => {
     }
   }, [movieDetail.likes, userData._id]);
 
-  // Dislikes
+  //  Dislikes
   useEffect(() => {
     if (movieDetail.length !== 0) {
       if (movieDetail.dislikes.find((dislike) => dislike === userData._id)) {
@@ -137,19 +141,26 @@ const MovieDetail = () => {
   const handleLike = async () => {
     try {
       if (loadLike) return;
-      setIsLike(true);
       setLoadLike(true);
 
       await axios.patch(`/api/movies/${movieDetail._id}/like`, null, {
         headers: { Authorization: token },
       });
 
+      setIsLike(true);
+      setLikesNumber((prev) => prev + 1);
+
+      // nếu nút dislike đã được nhấn (người dùng đã dislike trước đó)
+      if (isDislike) {
+        setIsDislike(false);
+        setDislikesNumber((prev) => prev - 1);
+      }
+
       // xử lí tăng lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = true;
       handleUpdateViewCount(allGenres, isUpViewCount);
 
-      setMoviesCallback(!moviesCallback);
       setLoadLike(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -159,19 +170,20 @@ const MovieDetail = () => {
   const handleUnLike = async () => {
     try {
       if (loadLike) return;
-      setIsLike(false);
       setLoadLike(true);
 
       await axios.patch(`/api/movies/${movieDetail._id}/unlike`, null, {
         headers: { Authorization: token },
       });
 
+      setIsLike(false);
+      setLikesNumber((prev) => prev - 1);
+
       // xử lí giảm lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = false;
       handleUpdateViewCount(allGenres, isUpViewCount);
 
-      setMoviesCallback(!moviesCallback);
       setLoadLike(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -181,19 +193,26 @@ const MovieDetail = () => {
   const handleDislike = async () => {
     try {
       if (loadDislike) return;
-      setIsDislike(true);
       setLoadDislike(true);
 
       await axios.patch(`/api/movies/${movieDetail._id}/dislike`, null, {
         headers: { Authorization: token },
       });
 
+      setIsDislike(true);
+      setDislikesNumber((prev) => prev + 1);
+
+      // nếu nút like đã được nhấn (người dùng đã dislike trước đó)
+      if (isLike) {
+        setIsLike(false);
+        setLikesNumber((prev) => prev - 1);
+      }
+
       // xử lí giảm lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = false;
       handleUpdateViewCount(allGenres, isUpViewCount);
 
-      setMoviesCallback(!moviesCallback);
       setLoadDislike(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -203,19 +222,20 @@ const MovieDetail = () => {
   const handleUnDislike = async () => {
     try {
       if (loadDislike) return;
-      setIsDislike(false);
       setLoadDislike(true);
 
       await axios.patch(`/api/movies/${movieDetail._id}/unDislike`, null, {
         headers: { Authorization: token },
       });
 
+      setIsDislike(false);
+      setDislikesNumber((prev) => prev - 1);
+
       // xử lí tăng lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = true;
       handleUpdateViewCount(allGenres, isUpViewCount);
 
-      setMoviesCallback(!moviesCallback);
       setLoadDislike(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -356,7 +376,8 @@ const MovieDetail = () => {
             handleLike={handleLike}
             handleUnLike={handleUnLike}
           />
-          <h6>{movieDetail.likes.length} likes</h6>
+
+          <h6>{likesNumber} likes</h6>
 
           {/* Dislike Featured */}
           <DislikeButton
@@ -364,7 +385,8 @@ const MovieDetail = () => {
             handleDislike={handleDislike}
             handleUnDislike={handleUnDislike}
           />
-          <h6>{movieDetail.dislikes.length} dislikes</h6>
+
+          <h6>{dislikesNumber} dislikes</h6>
 
           <div className="cast">
             <div className="section__header">

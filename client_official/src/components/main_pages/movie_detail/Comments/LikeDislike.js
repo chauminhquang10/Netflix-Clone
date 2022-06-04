@@ -18,6 +18,9 @@ const LikeDislike = ({ comment, user, token }) => {
 
   const [dislikeAction, setDislikeAction] = useState(null);
 
+  const [loadLike, setLoadLike] = useState(false);
+  const [loadDislike, setLoadDislike] = useState(false);
+
   let variables = {
     userId: user._id,
     commentId: comment._id,
@@ -56,6 +59,8 @@ const LikeDislike = ({ comment, user, token }) => {
   }, [comment._id]);
 
   const onLike = async () => {
+    if (loadLike) return;
+    setLoadLike(true);
     if (likeAction === null) {
       try {
         await axios.post("/api/upLike", variables, {
@@ -83,9 +88,12 @@ const LikeDislike = ({ comment, user, token }) => {
         alert(error.response.data.msg);
       }
     }
+    setLoadLike(false);
   };
 
   const onDislike = async () => {
+    if (loadDislike) return;
+    setLoadDislike(true);
     if (dislikeAction !== null) {
       try {
         await axios.post("/api/unDislike", variables, {
@@ -113,6 +121,7 @@ const LikeDislike = ({ comment, user, token }) => {
         alert(error.response.data.msg);
       }
     }
+    setLoadDislike(false);
   };
 
   return (

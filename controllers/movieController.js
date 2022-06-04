@@ -225,10 +225,19 @@ const movieController = {
       if (movie.length > 0)
         return res.status(400).json({ msg: "You liked this movie." });
 
-      const like = await Movies.findOneAndUpdate(
+      await Movies.findOneAndUpdate(
         { _id: req.params.id },
         {
           $push: { likes: req.user.id },
+        },
+        { new: true }
+      );
+
+      // trường hợp mà người dùng đã dislike comment trước đó thì:
+      const like = await Movies.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { dislikes: req.user.id },
         },
         { new: true }
       );
@@ -248,6 +257,14 @@ const movieController = {
           { _id: req.params.id },
           {
             score: parseFloat(movieScore),
+          }
+        );
+      } else {
+        // trả score về 0
+        await Movies.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            score: 0,
           }
         );
       }
@@ -275,13 +292,21 @@ const movieController = {
       if (likes.length > 0 || dislikes.length > 0) {
         const movieScore = scoreCalculating(like);
 
-        console.log(movieScore);
+        console.log("asdasdadad", movieScore);
 
         // có được score rồi thì update score của phim
         await Movies.findOneAndUpdate(
           { _id: req.params.id },
           {
             score: parseFloat(movieScore),
+          }
+        );
+      } else {
+        // trả score về 0
+        await Movies.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            score: 0,
           }
         );
       }
@@ -301,10 +326,19 @@ const movieController = {
       if (movie.length > 0)
         return res.status(400).json({ msg: "You disliked this movie." });
 
-      const dislike = await Movies.findOneAndUpdate(
+      await Movies.findOneAndUpdate(
         { _id: req.params.id },
         {
           $push: { dislikes: req.user.id },
+        },
+        { new: true }
+      );
+
+      // trường hợp mà người dùng đã like comment trước đó thì:
+      const dislike = await Movies.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { likes: req.user.id },
         },
         { new: true }
       );
@@ -317,13 +351,21 @@ const movieController = {
       if (likes.length > 0 || dislikes.length > 0) {
         const movieScore = scoreCalculating(dislike);
 
-        console.log(movieScore);
+        console.log("test", movieScore);
 
         // có được score rồi thì update score của phim
         await Movies.findOneAndUpdate(
           { _id: req.params.id },
           {
             score: parseFloat(movieScore),
+          }
+        );
+      } else {
+        // trả score về 0
+        await Movies.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            score: 0,
           }
         );
       }
@@ -358,6 +400,14 @@ const movieController = {
           { _id: req.params.id },
           {
             score: parseFloat(movieScore),
+          }
+        );
+      } else {
+        // trả score về 0
+        await Movies.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            score: 0,
           }
         );
       }
