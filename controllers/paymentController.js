@@ -119,8 +119,8 @@ const paymentController = {
 
       const filterPayments = allPayments.filter((payment) => {
         return (
-          new Date().toLocaleDateString() ==
-          new Date(payment.createdAt).toLocaleDateString()
+          new Date().toDateString() ==
+          new Date(payment.createdAt).toDateString()
         );
       });
 

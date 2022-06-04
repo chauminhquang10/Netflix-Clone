@@ -31,6 +31,9 @@ const UsersAPI = (token) => {
 
   const [discountCallback, setDiscountCallback] = useState(false);
 
+  // danh sách các thể loại kèm lượt thích (dùng cho model)
+  const [likedGenres, setLikedGenres] = useState([]);
+
   useEffect(() => {
     if (token) {
       const getUser = async () => {
@@ -43,14 +46,15 @@ const UsersAPI = (token) => {
           setIsLogged(true);
           setWatchList(res.data.favoriteList);
           setUserData(res.data);
+          setLikedGenres(res.data.likedGenres);
           res.data?.service_pack && setUserPackage(res.data.service_pack);
 
           if (res.data?.buy_package) {
             setIsValidAccount(true);
 
             if (
-              new Date().toLocaleDateString() <=
-              new Date(res.data.buy_package.expireTime).toLocaleDateString()
+              new Date().toDateString() <=
+              new Date(res.data.buy_package.expireTime).toDateString()
             ) {
               setIsNotExpireAccount(true);
             }
@@ -194,6 +198,72 @@ const UsersAPI = (token) => {
     );
   };
 
+  const finishCountdown = async (movieId, movieGenres) => {
+    // giao của 2 mảng
+    const intersectionResult = likedGenres.filter((item1) =>
+      movieGenres.some((item2) => item1.name === item2.name)
+    );
+
+    // trừ của 2 mảng
+    const subtractResult = movieGenres.filter(
+      (item1) => !likedGenres.some((item2) => item1.name === item2.name)
+    );
+
+    if (intersectionResult.length > 0) {
+      intersectionResult.filter((item) => {
+        return plusOneToExistGenre(item.name, likedGenres);
+      });
+      setLikedGenres([...likedGenres]);
+
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres],
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+
+    if (subtractResult.length > 0) {
+      const finalResult = subtractResult.map((item) => ({
+        name: item.name,
+        viewCount: 1,
+      }));
+      setLikedGenres([...likedGenres, ...finalResult]);
+      await axios.patch(
+        "/user/countLikes",
+        {
+          likedGenres: [...likedGenres, ...finalResult],
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+
+    //cập nhật lượt view cho các thể loại và phim
+    await axios.patch(
+      "/user/updateViews",
+      {
+        movieId,
+        movieGenres,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+  };
+
+  const plusOneToExistGenre = (itemName, likedGenres) => {
+    likedGenres.forEach((item) => {
+      if (item.name === itemName) {
+        item.viewCount += 1;
+      }
+    });
+  };
+
   return {
     isLogged: [isLogged, setIsLogged],
     isAdmin: [isAdmin, setIsAdmin],
@@ -212,6 +282,8 @@ const UsersAPI = (token) => {
     historyCallback: [historyCallback, setHistoryCallback],
     userDiscounts: [userDiscounts, setUserDiscounts],
     discountCallback: [discountCallback, setDiscountCallback],
+    likedGenres: [likedGenres, setLikedGenres],
+    finishCountdown: finishCountdown,
   };
 };
 

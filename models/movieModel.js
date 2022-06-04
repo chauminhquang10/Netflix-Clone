@@ -42,6 +42,8 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    allGenres: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
+    listId: { type: mongoose.Types.ObjectId, ref: "Genre" },
     checked: {
       type: Boolean,
       default: false,
@@ -54,6 +56,16 @@ const MovieSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    score: {
+      type: Number,
+      default: 0,
+    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+    actorsBelongTo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Actors" }],
+    directorsBelongTo: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Directors" },
+    ],
   },
   {
     timestamps: true,

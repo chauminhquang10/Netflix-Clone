@@ -49,6 +49,8 @@ import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 import SearchPage from "./main/search_page/SearchPage";
 
+import RankingMovies from "./main/Ranking/RankingMovies";
+
 const Pages = () => {
   const state = useContext(GlobalState);
   const [isLogged] = state.usersAPI.isLogged;
@@ -161,11 +163,9 @@ const Pages = () => {
                   <LandingPage />
                 )}
               </Route>
-
               <Route exact path="/browse">
                 {isLogged && isValidAccount ? <Main /> : <Redirect to="/" />}
               </Route>
-
               <Route exact path="/step_1">
                 {isLogged && !isNotExpireAccount ? (
                   <Step1 />
@@ -173,7 +173,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/step_2">
                 {isLogged && !isNotExpireAccount ? (
                   <Step2 />
@@ -181,7 +180,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/step_3">
                 {isLogged && !isNotExpireAccount ? (
                   <Step3 />
@@ -189,7 +187,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/checkout_step">
                 {isLogged && !isNotExpireAccount ? (
                   <CheckOutStep />
@@ -197,7 +194,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route
                 path="/movies"
                 exact
@@ -215,15 +211,14 @@ const Pages = () => {
                 path="/people"
                 component={isLogged ? People : LandingPage}
               />
-
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />
-
               <Route path="/checkout" component={CheckOut} />
-              {/* <Route
-                path="/watch/:TMDBid/"
+              <Route
+                path="/watch/:TMDBid/:movieId"
                 component={isLogged ? Watch : LandingPage}
-              /> */}
+              />{" "}
+              */}
               <Route path="/login" component={isLogged ? NotFound : Login} />
               <Route
                 path="/register"

@@ -3,8 +3,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const DiscountsStatus = ({ expireTime }) => {
-  let currentDate = new Date().toLocaleDateString();
-  let discountExpireTime = new Date(expireTime).toLocaleDateString();
+  let currentDate = new Date().toDateString();
+  let discountExpireTime = new Date(expireTime).toDateString();
 
   const validStatus = () => {
     return (

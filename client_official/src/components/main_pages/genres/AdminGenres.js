@@ -50,9 +50,8 @@ const useStyles = makeStyles((theme) => ({
 const AdminGenres = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [genres] = state.genresAPI.genres;
+  const [genres, setGenres] = state.genresAPI.genres;
 
-  const [genresCallback, setGenresCallback] = state.genresAPI.genresCallback;
   //update genre
   const [genre, setGenre] = useState("");
   const [onEdit, setOnEdit] = useState(false);
@@ -86,7 +85,7 @@ const AdminGenres = () => {
     e.preventDefault();
     try {
       if (onEdit) {
-        const res = await axios.put(
+        await axios.put(
           `/api/genres/${id}`,
           { name: genre },
           {
@@ -95,7 +94,12 @@ const AdminGenres = () => {
             },
           }
         );
-        Swal.fire(res.data.msg, "", "success");
+
+        const newGenres = genres.map((item) =>
+          item._id === id ? { ...item, name: genre } : item
+        );
+
+        setGenres([...newGenres]);
       } else {
         const res = await axios.post(
           "/api/genres",
@@ -106,11 +110,11 @@ const AdminGenres = () => {
             },
           }
         );
-        Swal.fire(res.data.msg, "", "success");
+
+        res.data?.createdGenre && setGenres([...genres, res.data.createdGenre]);
       }
       setOnEdit(false);
       setGenre("");
-      setGenresCallback(!genresCallback);
       setOpenPopup(false);
     } catch (error) {
       alert(error.response.data.msg);
@@ -124,27 +128,18 @@ const AdminGenres = () => {
   };
 
   const deleteGenre = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      try {
-        const res = await axios.delete(`/api/genres/${id}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        Swal.fire(res.data.msg, "", "success");
-        setGenresCallback(!genresCallback);
-      } catch (error) {
-        alert(error.response.data.msg);
-      }
-    });
+    try {
+      await axios.delete(`/api/genres/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      const newGenres = genres.filter((item) => item._id !== id);
+
+      setGenres([...newGenres]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
   };
 
   const handleChangePage = (event, newPage) => {

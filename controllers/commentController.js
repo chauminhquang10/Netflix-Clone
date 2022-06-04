@@ -1,19 +1,17 @@
 const Comments = require("../models/commentModel");
 const Movies = require("../models/movieModel");
 
-let ObjectId = require("mongoose").Types.ObjectId;
-
 const commentController = {
   createComment: async (req, res) => {
     try {
-      const { content, writer, movieId, responseTo, star } = req.body;
+      const { content, movieId, responseTo, star } = req.body;
 
       const newComment = new Comments({
         content,
-        writer,
+        writer: req.user.id,
         movieId,
         responseTo,
-        star,
+        star: star,
       });
 
       const comments = await Comments.find({ movieId });
@@ -67,7 +65,9 @@ const commentController = {
 
   getAllComments: async (req, res) => {
     try {
-      const comments = await Comments.find({ movieId: req.params.id });
+      const comments = await Comments.find({ movieId: req.params.id }).populate(
+        "writer"
+      );
       res.json({
         length: comments.length,
         comments: comments,
