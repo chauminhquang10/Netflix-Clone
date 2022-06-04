@@ -13,4 +13,12 @@ router
   .delete(auth, authAdmin, genreController.deleteGenre)
   .put(auth, authAdmin, genreController.updateGenre);
 
+// Thống kê những top genres (tổng lượt views cao nhất).
+router.get(
+  "/topGenresStats",
+  auth,
+  authAdmin,
+  genreController.getTopGenresStats
+);
+
 module.exports = router;

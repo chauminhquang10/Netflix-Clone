@@ -6,7 +6,8 @@ const commentSchema = new mongoose.Schema(
       ref: "Movie",
     },
     writer: {
-      type: Object,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
     },
     content: {
       type: String,

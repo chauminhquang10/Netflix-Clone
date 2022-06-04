@@ -19,8 +19,7 @@ const discountController = {
         return res.status(400).json({ msg: "This coupon doesn't exist!" });
 
       if (
-        new Date().toLocaleDateString() >
-        new Date(discount.expireTime).toLocaleDateString()
+        new Date().toDateString() > new Date(discount.expireTime).toDateString()
       ) {
         return res.status(400).json({ msg: "This coupon is expired!" });
       }

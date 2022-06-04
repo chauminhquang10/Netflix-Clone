@@ -82,14 +82,6 @@ const packageController = {
         return prev + package.sold;
       }, 0);
 
-      // k cần 
-      // const packages = allPackages.map((package) => {
-      //   return {
-      //     ...package._doc.title,
-      //     percentage: (package.sold / totalSold) * 100,
-      //   };
-      // });
-
       res.status(200).json({
         allPackages,
         totalSold,

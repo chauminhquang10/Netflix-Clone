@@ -67,7 +67,7 @@ const SingleComment = ({
 
     const commentDetail = {
       content: replyComment,
-      writer: user,
+      star: 0,
       movieId: movieId,
       responseTo: comment._id,
     };

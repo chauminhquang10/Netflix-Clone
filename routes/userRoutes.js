@@ -63,7 +63,10 @@ router.get("/newUsers", auth, authAdmin, userController.getNewUsers);
 router.post("/google_login", userController.googleLogin);
 router.post("/facebook_login", userController.facebookLogin);
 
-// Thống kê users
+// Cập nhật thể loại kèm lượt thích của user (dùng cho model)
+router.patch("/countLikes", auth, userController.countUserLikes);
+
+router.patch("/updateViews", auth, userController.updateMovieAndGenresView);
 
 module.exports = router;
 

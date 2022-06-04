@@ -36,6 +36,7 @@ const NotifyController = {
         id: req.params.id,
         url: req.query.url,
       });
+
       return res.json({ notify });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

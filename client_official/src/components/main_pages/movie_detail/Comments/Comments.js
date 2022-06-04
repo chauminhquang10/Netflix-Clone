@@ -27,8 +27,6 @@ const Comments = ({
   const state = useContext(GlobalState);
   const [token] = state.token;
 
-  const [user] = state.usersAPI.userData;
-
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   // phần đánh giá sao
@@ -52,7 +50,6 @@ const Comments = ({
 
     const commentDetail = {
       content: commentContent,
-      writer: user,
       movieId: movieId,
       star: rating,
     };

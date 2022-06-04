@@ -3,7 +3,21 @@ class APIfeatures {
     this.query = query;
     this.queryString = queryString;
   }
-  filtering() {
+  moviesFiltering() {
+    const queryObj = { ...this.queryString };
+
+    const excludedFields = ["page", "sort", "limit", "genre"];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(
+      /\b(gte|gt|lt|lte|regex)\b/g,
+      (match) => "$" + match
+    );
+    this.query.find(JSON.parse(queryStr));
+    return this;
+  }
+  genresFiltering() {
     const queryObj = { ...this.queryString };
 
     const excludedFields = ["page", "sort", "limit"];

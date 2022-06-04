@@ -27,6 +27,7 @@ import PackageDetail from "../Admin_resources/pages/package/packageDetail/Packag
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
 
+import People from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
 
 import LandingPage from "../LandingPage/LandingPage";
@@ -47,6 +48,8 @@ import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 import SearchPage from "./main/search_page/SearchPage";
+
+import RankingMovies from "./main/Ranking/RankingMovies";
 
 const Pages = () => {
   const state = useContext(GlobalState);
@@ -160,11 +163,9 @@ const Pages = () => {
                   <LandingPage />
                 )}
               </Route>
-
               <Route exact path="/browse">
                 {isLogged && isValidAccount ? <Main /> : <Redirect to="/" />}
               </Route>
-
               <Route exact path="/step_1">
                 {isLogged && !isNotExpireAccount ? (
                   <Step1 />
@@ -172,7 +173,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/step_2">
                 {isLogged && !isNotExpireAccount ? (
                   <Step2 />
@@ -180,7 +180,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/step_3">
                 {isLogged && !isNotExpireAccount ? (
                   <Step3 />
@@ -188,7 +187,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route exact path="/checkout_step">
                 {isLogged && !isNotExpireAccount ? (
                   <CheckOutStep />
@@ -196,7 +194,6 @@ const Pages = () => {
                   <Redirect to="/" />
                 )}
               </Route>
-
               <Route
                 path="/movies"
                 exact
@@ -210,12 +207,15 @@ const Pages = () => {
                 path="/favorite"
                 component={isLogged ? Favorite : LandingPage}
               />
+              <Route
+                path="/people"
+                component={isLogged ? People : LandingPage}
+              />
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />
-
               <Route path="/checkout" component={CheckOut} />
               <Route
-                path="/watch/:TMDBid/"
+                path="/watch/:TMDBid/:movieId"
                 component={isLogged ? Watch : LandingPage}
               />
               <Route path="/login" component={isLogged ? NotFound : Login} />
