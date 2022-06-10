@@ -41,7 +41,7 @@
 
 .HorizontalListLeftItem_container .HorizontalListLeftItem_itemInfo .HorizontalListLeftItem_icons .HorizontalListLeftItem_icon:hover {
   background-color: #f9f9ea;
-  color: #ff0000;
+  color: #2596be;
   -webkit-transition: 0.5s all;
   transition: 0.5s all;
 }

@@ -166,7 +166,7 @@ const Login = () => {
       }}
     >
       <Container>
-        <Title>Sign In</Title>
+        <Title>SIGN IN</Title>
         {err && showErrMessage(err)}
         {success && showSuccessMessage(success)}
         <Base onSubmit={loginSubmit}>
@@ -187,7 +187,7 @@ const Login = () => {
             value={password}
             onChange={onChangeInput}
           />
-          <Submit type="submit">Sign In</Submit>
+          <Submit type="submit">SIGN IN</Submit>
         </Base>
 
         <div className="hr">Or Login With</div>

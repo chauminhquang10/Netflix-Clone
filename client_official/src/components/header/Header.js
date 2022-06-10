@@ -9,7 +9,7 @@ import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
 import { Button, OutlineButton } from "../button/Button.jsx";
 import NotifyModal from "../main_pages/notify/NotifyModal";
-
+import logo from "../../images/logo-t-rex.jpg";
 import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
 
 const Header = () => {
@@ -38,7 +38,7 @@ const Header = () => {
       ) {
         headerRef.current.style.backgroundColor = "black";
       } else {
-        headerRef.current.style.backgroundColor = "transparent";
+        headerRef.current.style.backgroundColor = "#100a0857";
       }
       if (
         document.body.scrollTop > 1300 ||
@@ -108,11 +108,7 @@ const Header = () => {
       <header className="Mainheader" ref={headerRef}>
         <div className="logo">
           <Link to="/">
-            <img
-              className="logoImg"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-              alt="logo"
-            ></img>
+            <img className="logoImg" src={logo} alt="logo"></img>
           </Link>
         </div>
         <ul className={toggleMenu ? "header_ul" : "header_ul active"}>
@@ -200,14 +196,13 @@ const Header = () => {
             <NotifyModal></NotifyModal>
           </li>
         )}
-
         {!button && (
           <div className="header_lastItem">
             {isLogged ? (
               loggedRouter()
             ) : (
               <Link className="header_Link_normal" to="/login">
-                <button className="login_btn">Sign in</button>
+                <button className="login_btn">SIGN IN</button>
               </Link>
             )}
           </div>

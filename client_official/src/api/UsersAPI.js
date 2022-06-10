@@ -52,12 +52,12 @@ const UsersAPI = (token) => {
           if (res.data?.buy_package) {
             setIsValidAccount(true);
 
-            if (
-              new Date().toDateString() <=
-              new Date(res.data.buy_package.expireTime).toDateString()
-            ) {
-              setIsNotExpireAccount(true);
-            }
+            // if (
+            //   new Date().toDateString() <=
+            //   new Date(res.data.buy_package.expireTime).toDateString()
+            // ) {
+            setIsNotExpireAccount(true);
+            // }
           }
           res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
         } catch (error) {

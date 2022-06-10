@@ -37,7 +37,7 @@
       word-wrap: break-word;
       overflow: hidden;
       line-height: 23px;
-      //background-color: #e50914;
+      //background-color: #2596be;
     }
     .Movie_News_Item_info_time {
       width: 100%;
@@ -57,7 +57,7 @@
     color: white;
     justify-content: center;
     cursor: pointer;
-    //background-color: #e50914;
+    //background-color: #2596be;
   }
   .Movie_News_Item_info_icon::before {
     display: none;
@@ -123,10 +123,10 @@
 }
 .Movie_News_Item_info_icon_drop_list_option {
   color: black;
-  //background-color: #e50914;
+  //background-color: #2596be;
 }
 .Movie_News_Item_info_icon_drop_list_option:hover {
-  color: #e50914;
+  color: #2596be;
 }
 .Movie_News_Item_info_icon:hover {
   .Movie_News_Item_info_icon_drop_list {
