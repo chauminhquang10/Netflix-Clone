@@ -68,20 +68,19 @@ const CheckOutStep = () => {
   useEffect(() => {
     if (packages.length !== 0) {
       // ktra gói khách hàng chọn có bị admin xóa k ?
-      if (
-        userPackage.title &&
-        packages.some((pack) => pack.title === userPackage.title)
-      ) {
-        setCheckOutPackage(userPackage);
+      if (Object.keys(userPackage).length !== 0) {
+        if (packages.some((pack) => pack._id === userPackage.packId._id)) {
+          setCheckOutPackage(userPackage);
+        }
       } else {
-        let currentDate = new Date();
-        let expireDate = new Date(currentDate);
-        expireDate.setDate(expireDate.getDate() + 30);
+        let currentDate = moment().format("YYYY-MM-DD");
+        let expireDate = moment().add(30, "days").format("YYYY-MM-DD");
+
         //lấy gói đầu tiên
         setCheckOutPackage({
-          ...packages[0],
-          startedTime: currentDate.toLocaleDateString(),
-          expireTime: expireDate.toLocaleDateString(),
+          packId: { ...packages[0] },
+          startedTime: currentDate,
+          expireTime: expireDate,
         });
       }
     }
@@ -112,13 +111,12 @@ const CheckOutStep = () => {
 
     if (packages.length !== 0) {
       // ktra gói khách hàng chọn có bị admin xóa k ?
-      if (
-        userPackage.title &&
-        packages.some((pack) => pack.title === userPackage.title)
-      ) {
-        checkTotal(userPackage.price);
-      } else {
-        checkTotal(packages[0].price);
+      if (Object.keys(userPackage).length !== 0) {
+        if (packages.some((pack) => pack._id === userPackage.packId._id)) {
+          checkTotal(userPackage.packId.price);
+        } else {
+          checkTotal(packages[0].price);
+        }
       }
     }
   }, [userDiscounts, packages, userPackage]);
@@ -200,7 +198,11 @@ const CheckOutStep = () => {
     await axios.patch(
       "/user/buypackage",
       {
-        buy_package: userBuyPackage,
+        buy_package: {
+          packId: userBuyPackage.packId._id,
+          startedTime: userBuyPackage.startedTime,
+          expireTime: userBuyPackage.expireTime,
+        },
       },
       {
         headers: { Authorization: token },
@@ -235,7 +237,7 @@ const CheckOutStep = () => {
         country_code,
         paymentID,
         service_pack: checkOutPackage,
-        beforeDiscount: checkOutPackage.price,
+        beforeDiscount: checkOutPackage.packId.price,
         afterDiscount: total,
       },
       {
@@ -291,7 +293,7 @@ const CheckOutStep = () => {
           country_code: address.country,
           paymentID: payment.id,
           service_pack: checkOutPackage,
-          beforeDiscount: checkOutPackage.price,
+          beforeDiscount: checkOutPackage.packId.price,
           afterDiscount: total,
         },
         {
@@ -338,16 +340,16 @@ const CheckOutStep = () => {
             src="https://assets.nflxext.com/ffe/siteui/acquisition/payment/svg/amex-v2.svg"
           ></img>
         </div>
-        {checkOutPackage.title ? (
+        {checkOutPackage?.packId ? (
           <Link to="/step_2">
             <button type="button" className="checkout_step_btn">
               <div className="checkout_step_btn_left_content">
                 <span className="checkout_step_btn_left_content_title">
-                  {checkOutPackage.price}
+                  {checkOutPackage.packId.price}
                   &nbsp;₫/month
                 </span>
                 <span className="checkout_step_btn_left_content_description">
-                  {checkOutPackage.title}
+                  {checkOutPackage.packId.title}
                 </span>
               </div>
               <button type="button" className="checkout_step_btn_right_content">
@@ -427,7 +429,7 @@ const CheckOutStep = () => {
           ))}
         </div>
 
-        {checkOutPackage.title && (
+        {checkOutPackage?.packId && (
           <>
             <PayPalCheckOut
               total={total}

@@ -29,12 +29,11 @@ const Step2 = () => {
 
   useEffect(() => {
     if (packages.length !== 0) {
-      // ktra gói khách hàng chọn có bị admin xóa k ?
-      if (
-        userPackage.title &&
-        packages.some((pack) => pack._id === userPackage._id)
-      ) {
-        setTogglePackage(userPackage._id);
+      if (Object.keys(userPackage).length !== 0) {
+        // ktra gói khách hàng chọn có bị admin xóa k ?
+        if (packages.some((pack) => pack._id === userPackage.packId._id)) {
+          setTogglePackage(userPackage.packId._id);
+        }
       } else {
         //lấy gói đầu tiên
         setTogglePackage(packages[0]._id);

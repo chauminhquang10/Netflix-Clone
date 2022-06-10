@@ -1,6 +1,8 @@
 const Discount = require("../models/discountModel");
 const Users = require("../models/userModel");
 
+const moment = require("moment");
+
 const discountController = {
   getDiscounts: async (req, res) => {
     try {
@@ -18,9 +20,12 @@ const discountController = {
       if (!discount)
         return res.status(400).json({ msg: "This coupon doesn't exist!" });
 
-      if (
-        new Date().toDateString() > new Date(discount.expireTime).toDateString()
-      ) {
+      let currentDate = moment().format("YYYY-MM-DD");
+      let discountExpireTime = moment(discount.expireTime).format("YYYY-MM-DD");
+
+      let checkDate = moment(currentDate).isAfter(discountExpireTime);
+
+      if (checkDate) {
         return res.status(400).json({ msg: "This coupon is expired!" });
       }
 

@@ -4,6 +4,8 @@ import { Grid, makeStyles } from "@material-ui/core";
 
 import swal from "sweetalert";
 
+import moment from "moment";
+
 import { GlobalState } from "../../../../GlobalState";
 import axios from "axios";
 
@@ -93,12 +95,13 @@ const DiscountsForm = ({
       const { name, discountValue, expireTime } = values;
       if (onEdit) {
         try {
+          let castDate = moment(expireTime).format("YYYY-MM-DD");
           await axios.put(
             `/api/discount/${updateDiscount._id}`,
             {
               name,
               discountValue,
-              expireTime: expireTime.toLocaleDateString(),
+              expireTime: castDate,
               id: updateDiscount._id,
             },
             {
@@ -120,12 +123,13 @@ const DiscountsForm = ({
         }
       } else {
         try {
+          let castDate = moment(expireTime).format("YYYY-MM-DD");
           await axios.post(
             "/api/discount",
             {
               name,
               discountValue,
-              expireTime: expireTime.toLocaleDateString(),
+              expireTime: castDate,
             },
             {
               headers: { Authorization: token },

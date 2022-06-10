@@ -28,17 +28,22 @@ const userSchema = new mongoose.Schema(
         "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1623416080/avatar/p9npi01sh5awfdsh1yum.jpg",
     },
     service_pack: {
-      type: Object,
-      default: {},
+      startedTime: { type: String },
+      expireTime: { type: String },
+      packId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Packs",
+      },
     },
     buy_package: {
-      type: Object,
-      default: {},
+      startedTime: { type: String },
+      expireTime: { type: String },
+      packId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Packs",
+      },
     },
-    favoriteList: {
-      type: Array,
-      default: [],
-    },
+    favoriteList: [{ type: mongoose.Types.ObjectId, ref: "Movie" }],
     usedDiscounts: {
       type: Array,
       default: [],

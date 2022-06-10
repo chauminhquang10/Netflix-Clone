@@ -4,19 +4,28 @@ const Users = require("../models/userModel");
 const NotifyController = {
   createNotify: async (req, res) => {
     try {
-      const { id, url, text, content, image } = req.body;
+      const { id, url, text, content, image, allGenres } = req.body;
 
-      const allClientUsers = await Users.find({ role: 0 }).select("_id");
+      let finalResults = [];
 
-      let allUserIds = allClientUsers.map((user) => {
-        return user._id;
+      // thay vì gửi cho tất cả những user thì chỉ gửi cho những user có top 3 genre yêu thích trong allGenres:
+      const allUsers = await Users.find({ role: 0 });
+
+      allUsers.filter((user) => {
+        return checkUserQualified(user, allGenres, finalResults);
       });
+
+      //const allClientUsers = await Users.find({ role: 0 }).select("_id");
+
+      // let allUserIds = allClientUsers.map((user) => {
+      //   return user._id;
+      // });
 
       const notify = new Notifies({
         id,
         url,
-        recipients: allUserIds,
-        newToUsers: allUserIds,
+        recipients: finalResults,
+        newToUsers: finalResults,
         text,
         content,
         image,
@@ -150,6 +159,17 @@ const deleteSingleNewNotify = async (notifyId, userId) => {
     },
     { new: true }
   );
+};
+
+const checkUserQualified = (userItem, allGenres, finalResults) => {
+  if (userItem.likedGenres.length > 0) {
+    const intersectionResult = userItem.likedGenres.filter((item1) =>
+      allGenres.some((item2) => item1.id === item2)
+    );
+    if (intersectionResult.length > 0) {
+      finalResults.push(userItem._id);
+    }
+  }
 };
 
 module.exports = NotifyController;

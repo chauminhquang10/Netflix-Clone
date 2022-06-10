@@ -44,9 +44,11 @@ const SingleComment = ({
   const [updateRating, setUpdateRating] = useState(null);
 
   useEffect(() => {
-    setContent(comment.content);
-    if (comment.writer._id === user._id) {
-      setShowEditOptions(true);
+    if (comment) {
+      setContent(comment.content);
+      if (comment.writer._id === user._id) {
+        setShowEditOptions(true);
+      }
     }
   }, [user, comment]);
 
