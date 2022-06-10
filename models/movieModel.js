@@ -42,7 +42,7 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    allGenres: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
+    allGenres: [{ type: mongoose.Types.ObjectId, ref: "Genre" }],
     listId: { type: mongoose.Types.ObjectId, ref: "Genre" },
     checked: {
       type: Boolean,

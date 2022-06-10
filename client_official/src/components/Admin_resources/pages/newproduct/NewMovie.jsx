@@ -154,6 +154,9 @@ const NewMovie = () => {
         icon: "success",
         confirmButtonText: "Yes",
       });
+
+      // (lúc này thông báo nó phải nhận thêm cái mảng thể loại của phim để truyền xuống backend)
+      // (để so sánh với mảng top 3 thể loại yêu thích của user)
       //Notify
       const msg = {
         id: res.data.newMovie._id,
@@ -161,6 +164,8 @@ const NewMovie = () => {
         url: `/detail/${res.data.newMovie._id}`,
         content: movie.title,
         image: imgSmall.url,
+        // phần thêm để tích hợp model machine learning
+        allGenres: res.data.newMovie.allGenres,
       };
 
       dispatch(createNotify({ msg, socket, token, userData }));

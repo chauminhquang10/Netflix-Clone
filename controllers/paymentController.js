@@ -49,7 +49,7 @@ const paymentController = {
             _id: "$month",
             total: {
               $sum: {
-                $subtract: ["$service_pack.price", "$discountPrice"],
+                $subtract: ["$service_pack.packId.price", "$discountPrice"],
               },
             },
           },
@@ -91,7 +91,7 @@ const paymentController = {
             // _id: { $dateToString: { format: "%m/%d/%Y", date: "$createdAt" } },
             total: {
               $sum: {
-                $subtract: ["$service_pack.price", "$discountPrice"],
+                $subtract: ["$service_pack.packId.price", "$discountPrice"],
               },
             },
           },
@@ -125,7 +125,9 @@ const paymentController = {
       });
 
       const totalRevenueToday = filterPayments.reduce((prev, payment) => {
-        return prev + (payment.service_pack.price - payment.discountPrice);
+        return (
+          prev + (payment.service_pack.packId.price - payment.discountPrice)
+        );
       }, 0);
 
       res.status(200).json(totalRevenueToday);
@@ -279,7 +281,7 @@ const paymentController = {
             totalPayments: { $sum: 1 },
             totalSpending: {
               $sum: {
-                $subtract: ["$service_pack.price", "$discountPrice"],
+                $subtract: ["$service_pack.packId.price", "$discountPrice"],
               },
             },
           },
@@ -328,7 +330,7 @@ const paymentController = {
         paymentID,
       });
 
-      soldUpdate(service_pack._id, service_pack.sold);
+      soldUpdate(service_pack.packId._id, service_pack.packId.sold);
 
       await newPayment.save();
       res.json({ msg: "Payment Success" });

@@ -1,5 +1,7 @@
 const Movies = require("../models/movieModel");
 const Lists = require("../models/listModel");
+const Actors = require("../models/actorModel");
+const Directors = require("../models/directorModel");
 
 const APIFeatures = require("./classes/APIFeatures.js");
 
@@ -35,14 +37,6 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  // getAllMovies: async (req, res) => {
-  //   try {
-  //     const movies = await Movies.find();
-  //     res.status(200).json(movies);
-  //   } catch (error) {
-  //     return res.status(500).json({ msg: error.message });
-  //   }
-  // },
 
   //get a movie
   getOneMovie: async (req, res) => {
@@ -71,6 +65,8 @@ const movieController = {
         duration,
         genre,
         allGenres,
+        actors,
+        directors,
         TMDBid,
       } = req.body;
       // if (!img ||   !trailer || !video)
@@ -94,9 +90,20 @@ const movieController = {
         duration,
         genre,
         allGenres,
+        actorsBelongTo: actors,
+        directorsBelongTo: directors,
         TMDBid,
       });
-      await newMovie.save();
+      const createdMovie = await newMovie.save();
+
+      // lưu id phim này vào mảng knownFor cho các diễn viên, đạo diễn.
+      // actors.filter((actorId) => {
+      //   return addKnownForActor(actorId, createdMovie._id);
+      // });
+
+      // directors.filter((directorId) => {
+      //   return addKnownForDirector(directorId, createdMovie._id);
+      // });
 
       res.json({
         msg: "Created a new movie!",
@@ -167,6 +174,27 @@ const movieController = {
           });
       }
 
+      // Xóa id phim này ra khỏi mảng knownFor của các diễn viên, đạo diễn trước khi xóa phim.
+      const actorsContainMovie = await Actors.find({
+        knownFor: req.params.id,
+      });
+
+      if (actorsContainMovie.length > 0) {
+        actorsContainMovie.filter((actor) => {
+          return removeKnownForActor(actor._id, movieId);
+        });
+      }
+
+      const directorsContainMovie = await Directors.find({
+        knownFor: req.params.id,
+      });
+
+      if (directorsContainMovie.length > 0) {
+        directorsContainMovie.filter((director) => {
+          return removeKnownForDirector(director._id, movieId);
+        });
+      }
+
       await Movies.findByIdAndDelete(req.params.id);
       res.json({ msg: "Deleted a movie!" });
     } catch (error) {
@@ -187,12 +215,29 @@ const movieController = {
         duration,
         genre,
         allGenres,
+        actors,
+        directors,
         TMDBid,
       } = req.body;
+
       // if (!img  || !trailer || !video)
       //nữa thêm cái comment này vào lại
       if (!img)
         return res.status(400).json({ msg: "No images or video uploaded!" });
+
+      // Xóa id bộ phim này ra khỏi mảng knownFor cho các diễn viên cũ, thêm vào cho các diễn viên mới.
+      // tìm ra trừ của hai mảng.
+      // mảng cũ trừ mảng mới (những thằng cần xóa movieId ra khỏi knownFor)
+      // mảng mới trừ mảng cũ (những thằng cần thêm movieId vào knownFor)
+      const oldMovie = await Movies.findById(req.params.id);
+      const { actorsBelongTo: oldActors, directorsBelongTo: oldDirectors } =
+        oldMovie;
+
+      handleKnownForActor(oldActors, actors, req.params.id);
+
+      handleKnownForDirector(oldDirectors, directors, req.params.id);
+
+      // sau đó mới cập nhật phim
       await Movies.findOneAndUpdate(
         { _id: req.params.id },
         {
@@ -207,9 +252,12 @@ const movieController = {
           duration,
           genre,
           allGenres,
+          actorsBelongTo: actors,
+          directorsBelongTo: directors,
           TMDBid,
         }
       );
+
       res.json({ msg: "Updated a movie!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -468,6 +516,95 @@ const scoreCalculating = (movieData) => {
   const scoreValue = log10(n) + (sign * seconds) / 45000;
 
   return scoreValue;
+};
+
+// Hàm xử lí update mảng KnownFor cho actor khi update phim
+const handleKnownForActor = (oldActors, actors, movieId) => {
+  // mảng cũ trừ mảng mới
+  const subtractOldActors = oldActors.filter(
+    (item1) => !actors.some((item2) => ObjectId(item1).toString() === item2)
+  );
+
+  //  mảng mới trừ mảng cũ
+  const subtractNewActors = actors.filter(
+    (item1) => !oldActors.some((item2) => item1 === ObjectId(item2).toString())
+  );
+
+  subtractOldActors.filter((actorId) => {
+    return removeKnownForActor(actorId, movieId);
+  });
+
+  subtractNewActors.filter((actorId) => {
+    return addKnownForActor(actorId, movieId);
+  });
+};
+
+// Hàm xử lí update mảng KnownFor cho director khi update phim
+const handleKnownForDirector = (oldDirectors, directors, movieId) => {
+  // mảng cũ trừ mảng mới
+  const subtractOldDirectors = oldDirectors.filter(
+    (item1) => !directors.some((item2) => ObjectId(item1).toString() === item2)
+  );
+
+  //  mảng mới trừ mảng cũ
+  const subtractNewDirectors = directors.filter(
+    (item1) =>
+      !oldDirectors.some((item2) => item1 === ObjectId(item2).toString())
+  );
+
+  subtractOldDirectors.filter((directorId) => {
+    return removeKnownForDirector(directorId, movieId);
+  });
+
+  subtractNewDirectors.filter((directorId) => {
+    return addKnownForDirector(directorId, movieId);
+  });
+};
+
+// Hàm xử lí delete movieId khỏi mảng KnownFor khi delete phim
+
+// thêm id phim vào mảng Knownfor cho actor
+const addKnownForActor = async (actorId, movieId) => {
+  await Actors.findOneAndUpdate(
+    { _id: actorId },
+    {
+      $push: { knownFor: movieId },
+    },
+    { new: true }
+  );
+};
+
+// xóa id phim ra khỏi mảng Knownfor cho actor
+const removeKnownForActor = async (actorId, movieId) => {
+  await Actors.findOneAndUpdate(
+    { _id: actorId },
+    {
+      $pull: { knownFor: movieId },
+    },
+    { new: true }
+  );
+};
+
+// thêm id phim vào mảng Knownfor cho director
+const addKnownForDirector = async (directorId, movieId) => {
+  await Directors.findOneAndUpdate(
+    { _id: directorId },
+    {
+      $push: { knownFor: movieId },
+    },
+    { new: true }
+  );
+};
+
+// xóa id phim ra khỏi mảng Knownfor cho director
+const removeKnownForDirector = async (directorId, movieId) => {
+  await Directors.findOneAndUpdate(
+    { _id: directorId },
+    {
+      $pull: { knownFor: movieId },
+    },
+    { new: true }
+  );
 };
 
 module.exports = movieController;

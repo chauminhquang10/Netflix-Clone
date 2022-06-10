@@ -43,10 +43,11 @@ function PaymentDetail() {
       </table>
 
       <div>
-        <h4>Package Name: {paymentDetail.service_pack.title}</h4>
+        <h4>Package Name: {paymentDetail.service_pack.packId.title}</h4>
         <h4>
           Package Price:{" "}
-          {paymentDetail.service_pack.price - paymentDetail.discountPrice}
+          {paymentDetail.service_pack.packId.price -
+            paymentDetail.discountPrice}
         </h4>
         <h4>Started Time: {paymentDetail.service_pack.startedTime}</h4>
 

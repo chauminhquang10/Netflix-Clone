@@ -43,7 +43,7 @@ const ConfirmMail = (
     <li>Name: ${name}</li>
     <li>Address: ${country_code}</li>
     <li>Email: ${email}</li>
-    <li>Package: ${service_pack.title}</li>
+    <li>Package: ${service_pack.packId.title}</li>
     <li>Amount:  ${beforeDiscount}$</li>
     <li>Official Amount: ${afterDiscount}$</li>
   </ul>

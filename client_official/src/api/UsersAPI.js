@@ -52,12 +52,18 @@ const UsersAPI = (token) => {
           if (res.data?.buy_package) {
             setIsValidAccount(true);
 
-            // if (
-            //   new Date().toDateString() <=
-            //   new Date(res.data.buy_package.expireTime).toDateString()
-            // ) {
-            setIsNotExpireAccount(true);
-            // }
+            let currentDate = moment().format("YYYY-MM-DD");
+
+            let expireDate = moment(res.data.buy_package.expireTime).format(
+              "YYYY-MM-DD"
+            );
+
+            let checkDate = moment(currentDate).isBefore(expireDate);
+            let checkSameDate = moment(currentDate).isSame(expireDate);
+
+            if (checkDate || checkSameDate) {
+              setIsNotExpireAccount(true);
+            }
           }
           res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
         } catch (error) {
@@ -144,7 +150,7 @@ const UsersAPI = (token) => {
 
       await axios.patch(
         "/user/addwatchlist",
-        { watchlist: [...watchList, { ...movie }] },
+        { movieId: movie._id },
         {
           headers: {
             Authorization: token,
@@ -162,8 +168,8 @@ const UsersAPI = (token) => {
     });
     setWatchList([...watchList]);
     await axios.patch(
-      "/user/addwatchlist",
-      { watchlist: watchList },
+      "/user/removewatchlist",
+      { movieId: id },
       {
         headers: {
           Authorization: token,
@@ -173,23 +179,22 @@ const UsersAPI = (token) => {
   };
 
   const addUserPackageService = async (pack) => {
-    let currentDate = new Date();
-    let expireDate = new Date(currentDate);
-    expireDate.setDate(expireDate.getDate() + 30);
+    let currentDate = moment().format("YYYY-MM-DD");
+    let expireDate = moment().add(30, "days").format("YYYY-MM-DD");
 
     setUserPackage({
-      ...pack,
-      startedTime: currentDate.toLocaleDateString(),
-      expireTime: expireDate.toLocaleDateString(),
+      packId: { ...pack },
+      startedTime: currentDate,
+      expireTime: expireDate,
     });
 
     await axios.patch(
       "/user/addpackage",
       {
         service_pack: {
-          ...pack,
-          startedTime: currentDate.toLocaleDateString(),
-          expireTime: expireDate.toLocaleDateString(),
+          packId: pack._id,
+          startedTime: currentDate,
+          expireTime: expireDate,
         },
       },
       {
@@ -201,17 +206,17 @@ const UsersAPI = (token) => {
   const finishCountdown = async (movieId, movieGenres) => {
     // giao của 2 mảng
     const intersectionResult = likedGenres.filter((item1) =>
-      movieGenres.some((item2) => item1.name === item2.name)
+      movieGenres.some((item2) => item1.id === item2._id)
     );
 
     // trừ của 2 mảng
     const subtractResult = movieGenres.filter(
-      (item1) => !likedGenres.some((item2) => item1.name === item2.name)
+      (item1) => !likedGenres.some((item2) => item1._id === item2.id)
     );
 
     if (intersectionResult.length > 0) {
       intersectionResult.filter((item) => {
-        return plusOneToExistGenre(item.name, likedGenres);
+        return plusOneToExistGenre(item.id, likedGenres);
       });
       setLikedGenres([...likedGenres]);
 
@@ -228,7 +233,7 @@ const UsersAPI = (token) => {
 
     if (subtractResult.length > 0) {
       const finalResult = subtractResult.map((item) => ({
-        name: item.name,
+        id: item._id,
         viewCount: 1,
       }));
       setLikedGenres([...likedGenres, ...finalResult]);
@@ -256,9 +261,9 @@ const UsersAPI = (token) => {
     );
   };
 
-  const plusOneToExistGenre = (itemName, likedGenres) => {
+  const plusOneToExistGenre = (itemId, likedGenres) => {
     likedGenres.forEach((item) => {
-      if (item.name === itemName) {
+      if (item.id === itemId) {
         item.viewCount += 1;
       }
     });

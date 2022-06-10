@@ -150,16 +150,20 @@ const MovieDetail = () => {
       setIsLike(true);
       setLikesNumber((prev) => prev + 1);
 
+      // xử lí reset điểm khi toggle like/dislike
+      let isResetScore = false;
+
       // nếu nút dislike đã được nhấn (người dùng đã dislike trước đó)
       if (isDislike) {
         setIsDislike(false);
         setDislikesNumber((prev) => prev - 1);
+        isResetScore = true;
       }
 
       // xử lí tăng lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = true;
-      handleUpdateViewCount(allGenres, isUpViewCount);
+      handleUpdateViewCount(allGenres, isUpViewCount, isResetScore);
 
       setLoadLike(false);
     } catch (error) {
@@ -179,10 +183,12 @@ const MovieDetail = () => {
       setIsLike(false);
       setLikesNumber((prev) => prev - 1);
 
+      let isResetScore = false;
+
       // xử lí giảm lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = false;
-      handleUpdateViewCount(allGenres, isUpViewCount);
+      handleUpdateViewCount(allGenres, isUpViewCount, isResetScore);
 
       setLoadLike(false);
     } catch (error) {
@@ -202,16 +208,24 @@ const MovieDetail = () => {
       setIsDislike(true);
       setDislikesNumber((prev) => prev + 1);
 
+      // biến cờ để chỉnh lại điểm viewcount khi toggle like/dislike.
+      // thay vì -10 thì nó trừ 20.
+      // vì từ trạng thái like sang dislike
+      // (ví dụ : là từ +10 thành -10)
+      // không phải 10 thành 0
+      let isResetScore = false;
+
       // nếu nút like đã được nhấn (người dùng đã dislike trước đó)
       if (isLike) {
         setIsLike(false);
         setLikesNumber((prev) => prev - 1);
+        isResetScore = true;
       }
 
       // xử lí giảm lượt viewcount cho thể loại thích
       const { allGenres } = movieDetail;
       const isUpViewCount = false;
-      handleUpdateViewCount(allGenres, isUpViewCount);
+      handleUpdateViewCount(allGenres, isUpViewCount, isResetScore);
 
       setLoadDislike(false);
     } catch (error) {
@@ -231,10 +245,13 @@ const MovieDetail = () => {
       setIsDislike(false);
       setDislikesNumber((prev) => prev - 1);
 
+      let isResetScore = false;
+
       // xử lí tăng lượt viewcount cho thể loại thích
+
       const { allGenres } = movieDetail;
       const isUpViewCount = true;
-      handleUpdateViewCount(allGenres, isUpViewCount);
+      handleUpdateViewCount(allGenres, isUpViewCount, isResetScore);
 
       setLoadDislike(false);
     } catch (error) {
@@ -242,25 +259,29 @@ const MovieDetail = () => {
     }
   };
 
-  const handleUpdateViewCount = async (allGenres, isUpViewCount) => {
+  const handleUpdateViewCount = async (
+    allGenres,
+    isUpViewCount,
+    isResetScore
+  ) => {
     // giao của 2 mảng
     const intersectionResult = likedGenres.filter((item1) =>
-      allGenres.some((item2) => item1.name === item2.name)
+      allGenres.some((item2) => item1.id === item2._id)
     );
 
     // trừ của 2 mảng
     const subtractResult = allGenres.filter(
-      (item1) => !likedGenres.some((item2) => item1.name === item2.name)
+      (item1) => !likedGenres.some((item2) => item1._id === item2.id)
     );
 
     if (intersectionResult.length > 0) {
       if (isUpViewCount) {
         intersectionResult.filter((item) => {
-          return plusTenToExistGenre(item.name, likedGenres);
+          return plusTenToExistGenre(item.id, likedGenres, isResetScore);
         });
       } else {
         intersectionResult.filter((item) => {
-          return minusTenToExistGenre(item.name, likedGenres);
+          return minusTenToExistGenre(item.id, likedGenres, isResetScore);
         });
       }
       setLikedGenres([...likedGenres]);
@@ -280,12 +301,12 @@ const MovieDetail = () => {
       let finalResult;
       if (isUpViewCount) {
         finalResult = subtractResult.map((item) => ({
-          name: item.name,
+          id: item._id,
           viewCount: 10,
         }));
       } else {
         finalResult = subtractResult.map((item) => ({
-          name: item.name,
+          id: item._id,
           viewCount: -10,
         }));
       }
@@ -302,18 +323,24 @@ const MovieDetail = () => {
     }
   };
 
-  const plusTenToExistGenre = (itemName, likedGenres) => {
+  const plusTenToExistGenre = (itemId, likedGenres, isResetScore) => {
     likedGenres.forEach((item) => {
-      if (item.name === itemName) {
-        item.viewCount += 10;
+      if (item.id === itemId) {
+        if (isResetScore) item.viewCount += 20;
+        else {
+          item.viewCount += 10;
+        }
       }
     });
   };
 
-  const minusTenToExistGenre = (itemName, likedGenres) => {
+  const minusTenToExistGenre = (itemId, likedGenres, isResetScore) => {
     likedGenres.forEach((item) => {
-      if (item.name === itemName) {
-        item.viewCount -= 10;
+      if (item.id === itemId) {
+        if (isResetScore) item.viewCount -= 20;
+        else {
+          item.viewCount -= 10;
+        }
       }
     });
   };
