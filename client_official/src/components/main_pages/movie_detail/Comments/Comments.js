@@ -85,7 +85,7 @@ const Comments = ({
       <hr />
 
       {/* Comment List */}
-      {commentList &&
+      {commentList.length > 0 &&
         commentList.map(
           (comment, index) =>
             !comment.responseTo && (

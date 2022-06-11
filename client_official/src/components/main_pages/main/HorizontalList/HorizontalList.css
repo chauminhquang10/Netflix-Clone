@@ -6,7 +6,8 @@
       grid-template-columns: 1fr;
   -ms-grid-rows: 17fr 51fr;
       grid-template-rows: 17fr 51fr;
-      grid-template-areas: "one" "two";
+      grid-template-areas: "one"
+ "two";
   /* "one two two two two"; */
   width: 900px;
   /* margin: 10px 10px 0 3em; */
@@ -56,7 +57,7 @@
   height: "170px";
   width: "400px";
   -o-object-fit: "cover";
-     object-fit: "cover";
+     objec#2596be"cover";
   border: #e50914 solid 1px;
   border-radius: 5px;
 }

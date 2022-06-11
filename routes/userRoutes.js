@@ -27,6 +27,8 @@ router.patch("/update", auth, userController.updateUserInfo);
 
 router.patch("/addwatchlist", auth, userController.addWatchList);
 
+router.patch("/removewatchlist", auth, userController.removeWatchList);
+
 // xử lí trạng thái gói đã chọn của người dùng
 router.patch("/addpackage", auth, userController.addPackage);
 

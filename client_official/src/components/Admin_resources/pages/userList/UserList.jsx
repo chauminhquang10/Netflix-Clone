@@ -1,22 +1,27 @@
 import React, { useState, useContext } from "react";
 import "./UserList.css";
 import {
+  InputAdornment,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
+  Toolbar,
+  Paper,
 } from "@material-ui/core";
+import Input from "../components/Controls/Input";
+import { Search } from "@material-ui/icons";
 import Swal from "sweetalert2";
-import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import {
   showErrMessage,
   showSuccessMessage,
 } from "../../../main_pages/utils/notifications/Notification";
 import { Check, Clear } from "@material-ui/icons";
-
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -24,7 +29,7 @@ import AdminActionButtons from "../../Admin_components/admin_button/AdminActionB
 
 import { Link } from "react-router-dom";
 
-import { TblPagination } from "./UserListUtils";
+import { TblPagination } from "../components/Controls/Utils";
 
 import { GlobalState } from "../../../../GlobalState";
 
@@ -32,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
+  },
+  toolsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    width: "100%",
+    gap: "20px",
+    padding: "0px",
+  },
+  searchInput: {
+    width: "100%",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -53,8 +69,6 @@ const useStyles = makeStyles((theme) => ({
 const UserList = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [allUsers] = state.usersAPI.allUsers;
-  const [callback, setCallback] = state.usersAPI.callback;
 
   const [userData] = state.usersAPI.userData;
 
@@ -68,6 +82,25 @@ const UserList = () => {
 
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [allUsers, setAllusers] = state.usersAPI.allUsers;
+  const [callback, setCallback] = state.usersAPI.callback;
+  const [filterFunc, setFilterFunc] = useState({
+    func: (allUsers) => {
+      return allUsers;
+    },
+  });
+  const handleSearch = (event) => {
+    let target = event.target;
+    setFilterFunc({
+      func: (allUsers) => {
+        if (target.value === "") return allUsers;
+        else
+          return allUsers.filter((user) =>
+            user.name.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
 
   const headCells = [
     {
@@ -130,7 +163,7 @@ const UserList = () => {
     setPage(0);
   };
 
-  function stableSort(array, comparator) {
+  function tableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -157,10 +190,10 @@ const UserList = () => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(allUsers, getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      (page + 1) * rowsPerPage
-    );
+    return tableSort(
+      filterFunc.func(allUsers),
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
   const handleSort = (id) => {
@@ -172,11 +205,29 @@ const UserList = () => {
   return (
     <>
       <div>{err && showErrMessage(err)}</div>
-
       <div className="userlist">
         <Paper className={classes.pageContent}>
+          <Toolbar className={classes.toolsContainer}>
+            <Input
+              onChange={handleSearch}
+              label="Search"
+              className={classes.searchInput}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search></Search>
+                  </InputAdornment>
+                ),
+              }}
+            ></Input>
+          </Toolbar>
           <Table className={classes.table}>
             <TableHead>
+              <TableRow>
+                <TableCell style={{ color: "white" }} colSpan={7}>
+                  Users Table
+                </TableCell>
+              </TableRow>
               <TableRow>
                 {headCells.map((item) => (
                   <TableCell

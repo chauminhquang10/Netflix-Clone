@@ -4,14 +4,16 @@ import { Grid, makeStyles } from "@material-ui/core";
 
 import swal from "sweetalert";
 
+import moment from "moment";
+
 import { GlobalState } from "../../../../GlobalState";
 import axios from "axios";
 
-import Input from "./Controls/Input";
+import Input from "../components/Controls/Input";
 
-import DatePicker from "./Controls/DatePicker";
+import DatePicker from "../components/Controls/DatePicker";
 
-import DiscountButton from "./Controls/DiscountButton";
+import DiscountButton from "../components/Controls/DiscountButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,12 +95,13 @@ const DiscountsForm = ({
       const { name, discountValue, expireTime } = values;
       if (onEdit) {
         try {
+          let castDate = moment(expireTime).format("YYYY-MM-DD");
           await axios.put(
             `/api/discount/${updateDiscount._id}`,
             {
               name,
               discountValue,
-              expireTime: expireTime.toLocaleDateString(),
+              expireTime: castDate,
               id: updateDiscount._id,
             },
             {
@@ -120,12 +123,13 @@ const DiscountsForm = ({
         }
       } else {
         try {
+          let castDate = moment(expireTime).format("YYYY-MM-DD");
           await axios.post(
             "/api/discount",
             {
               name,
               discountValue,
-              expireTime: expireTime.toLocaleDateString(),
+              expireTime: castDate,
             },
             {
               headers: { Authorization: token },

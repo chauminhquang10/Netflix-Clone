@@ -40,23 +40,24 @@ const WidgetLarge = () => {
             <th className="widgetLargeTh">Amount</th>
             <th className="widgetLargeTh">Status</th>
           </tr>
-          {paymentsList.map((payment) => (
-            <tr className="widgetLargeTr">
-              <td className="widgetLargeUser">
-                <img className="widgetLargeImg" src={payment.avatar}></img>
-                <span className="widgetLargeName">{payment.name}</span>
-              </td>
-              <td className="widgetLargeDate">
-                {moment(new Date(payment.createdAt)).format("MMMM Do YYYY")}
-              </td>
-              <td className="widgetLargeAmount">
-                {payment.service_pack.price}
-              </td>
-              <td className="widgetLargeStatus">
-                <Button type="Approved"></Button>
-              </td>
-            </tr>
-          ))}
+          {paymentsList.length > 0 &&
+            paymentsList.map((payment) => (
+              <tr className="widgetLargeTr">
+                <td className="widgetLargeUser">
+                  <img className="widgetLargeImg" src={payment.avatar}></img>
+                  <span className="widgetLargeName">{payment.name}</span>
+                </td>
+                <td className="widgetLargeDate">
+                  {moment(new Date(payment.createdAt)).format("MMMM Do YYYY")}
+                </td>
+                <td className="widgetLargeAmount">
+                  {payment.service_pack?.packId?.price}
+                </td>
+                <td className="widgetLargeStatus">
+                  <Button type="Approved"></Button>
+                </td>
+              </tr>
+            ))}
 
           {/* <tr className="widgetLargeTr">
             <td className="widgetLargeUser">

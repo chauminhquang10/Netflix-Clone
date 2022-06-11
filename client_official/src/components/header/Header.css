@@ -16,9 +16,12 @@
 }
 
 .logo {
-  height: 20px;
-  width: 119px;
+  height: 60px;
+  width: 60px;
   position: relative;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
   left: 33px;
 }
 
@@ -59,7 +62,7 @@
   width: 100px;
   font-family: "Radiant EF Text Demi Bold";
   font-size: 20px;
-  background-color: #e50914;
+  background-color: #100a0857;
   color: white;
   opacity: 0.8;
   border-radius: 5px;
@@ -74,15 +77,16 @@
 .header_Link {
   position: relative;
   color: white;
+  font-weight: 500;
 }
 
 .header_Link.active {
-  color: #e50914;
+  color: #2596be;
 }
 
 .header_Link:hover {
   text-decoration: none;
-  color: #e50914;
+  color: #2596be;
 }
 
 .header_Link_normal {
@@ -92,13 +96,13 @@
 
 .header_Link_normal:hover {
   text-decoration: none;
-  color: #e50914;
+  color: #2596be;
 }
 
 .header_Link:after {
   content: "";
   position: absolute;
-  background-color: #e50914;
+  background-color: #2596be;
   height: 3px;
   width: 0;
   left: 0;

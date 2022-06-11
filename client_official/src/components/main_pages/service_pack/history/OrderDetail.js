@@ -46,10 +46,10 @@ const OrderDetail = () => {
       </table>
       <br></br>
       <div>
-        <h4>Package Name: {orderDetails.service_pack.title}</h4>
+        <h4>Package Name: {orderDetails.service_pack.packId.title}</h4>
         <h4>
           Package Price:{" "}
-          {orderDetails.service_pack.price - orderDetails.discountPrice}
+          {orderDetails.service_pack.packId.price - orderDetails.discountPrice}
         </h4>
         <h4>Started Time: {orderDetails.service_pack.startedTime}</h4>
 

@@ -28,9 +28,10 @@
 
 .movieAddButton {
   width: fit-content;
+  /* justify-content: space-between; */
 }
 
-.admin-movies-list {
+.admin-list-container {
   flex: 4;
 }
 

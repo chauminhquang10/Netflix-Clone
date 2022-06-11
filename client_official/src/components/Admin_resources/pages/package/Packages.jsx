@@ -3,17 +3,21 @@ import { GlobalState } from "../../../../GlobalState";
 import "./Packages.css";
 import axios from "axios";
 import {
+  InputAdornment,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
-  makeStyles,
   Paper,
 } from "@material-ui/core";
-import { TblPagination } from "../userList/UserListUtils";
+import Input from "../components/Controls/Input";
+import { Search } from "@material-ui/icons";
+import { TblPagination } from "../components/Controls/Utils";
 import PuffLoader from "react-spinners/PuffLoader";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
@@ -32,15 +36,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
-  deleteButton: {
-    position: "absolute",
-    left: "0px",
-    top: "50%",
+  toolsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    width: "100%",
+    gap: "20px",
+    padding: "0px",
   },
-  AddButton: {
-    position: "absolute",
-    top: "50%",
-    right: "0px",
+  searchInput: {
+    width: "100%",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -63,10 +68,8 @@ const Packages = () => {
   const state = useContext(GlobalState);
 
   const [token] = state.token;
-  const [movies, setMovies] = state.moviesAPI.movies;
   const [packages, setPackages] = state.packagesAPI.packages;
 
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [packagesCallback, setPackagesCallback] =
     state.packagesAPI.packagesCallback;
 
@@ -84,7 +87,23 @@ const Packages = () => {
 
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
-
+  const [filterFunc, setFilterFunc] = useState({
+    func: (packages) => {
+      return packages;
+    },
+  });
+  const handleSearch = (event) => {
+    let target = event.target;
+    setFilterFunc({
+      func: (packages) => {
+        if (target.value === "") return packages;
+        else
+          return packages.filter((pack) =>
+            pack.title.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
   const headCells = [
     {
       id: "title",
@@ -151,7 +170,7 @@ const Packages = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deletePackage(id);
-        Swal.fire("Deleted a package", "", "success");
+        Swal.fire("Deleted a pack", "", "success");
       }
     });
   };
@@ -178,7 +197,7 @@ const Packages = () => {
         packages.forEach((pack) => {
           if (pack.checked) deletePackage(pack._id);
         });
-        Swal.fire("Deleted all checked package", "", "success");
+        Swal.fire("Deleted all checked pack", "", "success");
         setIsChecked(false);
       }
     });
@@ -193,7 +212,7 @@ const Packages = () => {
     setPage(0);
   };
 
-  function stableSort(array, comparator) {
+  function tableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -220,10 +239,10 @@ const Packages = () => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(packages, getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      (page + 1) * rowsPerPage
-    );
+    return tableSort(
+      filterFunc.func(packages),
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
   const handleSort = (id) => {
@@ -235,9 +254,28 @@ const Packages = () => {
   console.log({ packages });
 
   return (
-    <div className="admin-movies-list">
+    <div className="admin-list-container">
       <Paper className={classes.pageContent}>
-        <Toolbar className="Movie_List_Tool_Bar">
+        <Toolbar className={classes.toolsContainer}>
+          <AdminNormalButton
+            text="Delete(s)"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            className={classes.deleteButton}
+            onClick={deleteAll}
+          ></AdminNormalButton>
+          <Input
+            onChange={handleSearch}
+            label="Search Discounts"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search></Search>
+                </InputAdornment>
+              ),
+            }}
+          ></Input>
           <Link to="/createpackage">
             <AdminNormalButton
               text="Create"
@@ -246,22 +284,18 @@ const Packages = () => {
               className={classes.AddButton}
             ></AdminNormalButton>
           </Link>
-          <AdminNormalButton
-            text="Delete(s)"
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            className={classes.deleteButton}
-            onClick={deleteAll}
-          ></AdminNormalButton>
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell style={{ color: "white" }} colSpan={7}>
+                Packages Table
+              </TableCell>
+            </TableRow>
+            <TableRow>
               <TableCell>
                 <Checkbox
                   color="primary"
-                  // indeterminate={numSelected > 0 && numSelected < rowCount}
-                  // checked={rowCount > 0 && numSelected === rowCount}
                   onChange={checkAll}
                   checked={isChecked}
                   inputProps={{
