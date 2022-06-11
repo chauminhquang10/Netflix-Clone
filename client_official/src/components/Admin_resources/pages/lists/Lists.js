@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { GlobalState } from "../../../GlobalState";
+import { GlobalState } from "../../../../GlobalState";
 
 import "./Lists.css";
 import axios from "axios";

@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import AdminInput from "../../Admin_resources/Admin_components/admin_input/AdminInput";
-import AdminNormalButton from "../../Admin_resources/Admin_components/admin_button/AdminNormalButton";
+import AdminInput from "../../Admin_components/admin_input/AdminInput";
+import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

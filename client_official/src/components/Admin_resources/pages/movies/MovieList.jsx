@@ -3,17 +3,21 @@ import { GlobalState } from "../../../../GlobalState";
 import "./MovieList.css";
 import axios from "axios";
 import {
+  InputAdornment,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
-  makeStyles,
   Paper,
 } from "@material-ui/core";
-import { TblPagination } from "../userList/UserListUtils";
+import Input from "../components/Controls/Input";
+import { Search } from "@material-ui/icons";
+import { TblPagination } from "../components/Controls/Utils";
 import PuffLoader from "react-spinners/PuffLoader";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
@@ -32,15 +36,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
-  deleteButton: {
-    position: "absolute",
-    left: "0px",
-    top: "50%",
+  toolsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    width: "100%",
+    gap: "20px",
+    padding: "0px",
   },
-  AddButton: {
-    position: "absolute",
-    top: "50%",
-    right: "0px",
+  searchInput: {
+    width: "100%",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -80,6 +85,24 @@ const MovieList = () => {
 
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
+
+  const [filterFunc, setFilterFunc] = useState({
+    func: (movies) => {
+      return movies;
+    },
+  });
+  const handleSearch = (event) => {
+    let target = event.target;
+    setFilterFunc({
+      func: (movies) => {
+        if (target.value === "") return movies;
+        else
+          return movies.filter((movie) =>
+            movie.title.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
 
   const headCells = [
     {
@@ -185,7 +208,7 @@ const MovieList = () => {
     setPage(0);
   };
 
-  function stableSort(array, comparator) {
+  function tableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -212,10 +235,10 @@ const MovieList = () => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(movies, getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      (page + 1) * rowsPerPage
-    );
+    return tableSort(
+      filterFunc.func(movies),
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
   const handleSort = (id) => {
@@ -225,9 +248,9 @@ const MovieList = () => {
   };
 
   return (
-    <div className="admin-movies-list">
+    <div className="admin-lists">
       <Paper className={classes.pageContent}>
-        <Toolbar className="Movie_List_Tool_Bar">
+        <Toolbar className={classes.toolsContainer}>
           <AdminNormalButton
             text="Delete(s)"
             variant="outlined"
@@ -235,6 +258,18 @@ const MovieList = () => {
             className={classes.deleteButton}
             onClick={deleteAll}
           ></AdminNormalButton>
+          <Input
+            onChange={handleSearch}
+            label="Search Discounts"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search></Search>
+                </InputAdornment>
+              ),
+            }}
+          ></Input>
           <Link to="/newMovie">
             <AdminNormalButton
               text="Create"
@@ -246,6 +281,11 @@ const MovieList = () => {
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>
+            <TableRow>
+              <TableCell style={{ color: "white" }} colSpan={7}>
+                Movies Table
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>
                 <Checkbox

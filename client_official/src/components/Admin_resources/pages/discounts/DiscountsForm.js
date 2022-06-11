@@ -9,11 +9,11 @@ import moment from "moment";
 import { GlobalState } from "../../../../GlobalState";
 import axios from "axios";
 
-import Input from "./Controls/Input";
+import Input from "../components/Controls/Input";
 
-import DatePicker from "./Controls/DatePicker";
+import DatePicker from "../components/Controls/DatePicker";
 
-import DiscountButton from "./Controls/DiscountButton";
+import DiscountButton from "../components/Controls/DiscountButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {

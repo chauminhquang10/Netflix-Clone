@@ -390,12 +390,11 @@ const CheckOutStep = () => {
           >
             Privacy Statement
           </a>
-          , and that you are over 18. Netflix will automatically continue your
+          , and that you are over 18. Rex will automatically continue your
           membership and charge the membership fee (currently
           260,000&nbsp;₫/month) to your payment method until you cancel. You may
           cancel at any time to avoid future charges.
         </span>
-
         {/* Coupon Code */}
         <div style={{ margin: "40px 0px" }}>
           <TextField

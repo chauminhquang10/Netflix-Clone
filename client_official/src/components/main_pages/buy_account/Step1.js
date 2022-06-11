@@ -37,7 +37,7 @@ const Step1 = () => {
                   fontSize: "28px",
                 }}
               />
-              <p> Everything on Netflix for one low price.</p>
+              <p> Everything on Rex for one low price.</p>
             </li>
             <li className="checkmark_group_item">
               <CheckIcon style={{ color: "red", fontSize: "28px" }} />

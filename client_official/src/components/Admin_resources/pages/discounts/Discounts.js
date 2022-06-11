@@ -15,16 +15,16 @@ import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useState, useEffect, useContext } from "react";
 
-import Input from "./Controls/Input";
+import Input from "../components/Controls/Input";
 
 import DiscountsForm from "./DiscountsForm";
 
-import DiscountButton from "./Controls/DiscountButton";
+import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 
-import PopUp from "./Controls/PopUp";
-import ActionButton from "./Controls/ActionButton";
-import Notification from "./Controls/Notification";
-import ConfirmDialog from "./Controls/ConfirmDialog";
+import PopUp from "../components/Controls/PopUp";
+import ActionButton from "../components/Controls/ActionButton";
+import Notification from "../components/Controls/Notification";
+import ConfirmDialog from "../components/Controls/ConfirmDialog";
 
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
@@ -149,7 +149,7 @@ const Discounts = () => {
         if (target.value === "") return discounts;
         else
           return discounts.filter((discount) =>
-            discount.name.toLowerCase().includes(target.value)
+            discount.name.toLowerCase().includes(target.value.toLowerCase())
           );
       },
     });
@@ -194,11 +194,26 @@ const Discounts = () => {
   };
 
   const useStyles = makeStyles((theme) => ({
+    pageContent: {
+      margin: theme.spacing(5),
+      padding: theme.spacing(3),
+    },
+    toolsContainer: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignContent: "center",
+      width: "100%",
+      gap: "20px",
+      padding: "0px",
+    },
+    searchInput: {
+      width: "100%",
+    },
     table: {
       marginTop: theme.spacing(3),
       "& thead th": {
         fontWeight: "600",
-        color: theme.palette.primary.main,
+        color: "white",
         backgroundColor: theme.palette.primary.light,
       },
       "& tbody td": {
@@ -209,18 +224,6 @@ const Discounts = () => {
         cursor: "pointer",
       },
     },
-    searchInput: {
-      width: "75%",
-    },
-    pageContent: {
-      margin: theme.spacing(5),
-      padding: theme.spacing(3),
-    },
-    newButton: {
-      position: "absolute",
-      right: "10px",
-      padding: "20px 20px",
-    },
   }));
 
   const classes = useStyles();
@@ -229,7 +232,14 @@ const Discounts = () => {
     <div style={{ flex: 4, padding: "20px" }}>
       {/* Discounts List */}
       <Paper className={classes.pageContent}>
-        <Toolbar>
+        <Toolbar className={classes.toolsContainer}>
+          {/* <AdminNormalButton
+            text="Delete(s)"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            className={classes.deleteButton}
+            onClick={deleteAll}
+          ></AdminNormalButton> */}
           <Input
             onChange={handleSearch}
             label="Search Discounts"
@@ -242,19 +252,17 @@ const Discounts = () => {
               ),
             }}
           ></Input>
-          <DiscountButton
-            text="Add New"
+          <AdminNormalButton
+            text="Create"
             variant="outlined"
-            startIcon={<AddIcon></AddIcon>}
-            className={classes.newButton}
+            startIcon={<AddIcon />}
             onClick={() => {
               setOpenPopUp(true);
               setUpdateDiscount(null);
               setOnEdit(false);
             }}
-          ></DiscountButton>
+          ></AdminNormalButton>
         </Toolbar>
-
         <Table className={classes.table}>
           <TableHead>
             <TableRow>

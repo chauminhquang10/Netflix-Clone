@@ -10,7 +10,7 @@ const OfficialFooter = () => {
           <div className="footer-row">
             <div className="col-4 ">
               <div className="footer-content">
-                <h2>Netflix Clone</h2>
+                <h2>REX</h2>
                 <p style={{ marginTop: "20px" }}>
                   Meet the Ipsums is a handy resource to have around whenever
                   you need some filler text. Here are other useful resources in

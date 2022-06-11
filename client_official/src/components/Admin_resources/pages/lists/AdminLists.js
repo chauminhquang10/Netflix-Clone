@@ -1,33 +1,47 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./AdminLists.css";
 import {
+  InputAdornment,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
+  Toolbar,
+  Paper,
 } from "@material-ui/core";
-import { Paper, makeStyles, Toolbar } from "@material-ui/core";
+import Input from "../components/Controls/Input";
+import { Search } from "@material-ui/icons";
 import axios from "axios";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
-import AdminActionButtons from "../../Admin_resources/Admin_components/admin_button/AdminActionButtons";
-import AdminNormalButton from "../../Admin_resources/Admin_components/admin_button/AdminNormalButton";
-import PopUp from "../../Admin_resources/Admin_components/popup/ListsPopUp";
+import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
+import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
+import PopUp from "../../Admin_components/popup/ListsPopUp";
 import AddIcon from "@material-ui/icons/Add";
 import ListsForm from "./ListsForm";
-import { TblPagination } from "../../Admin_resources/pages/userList/UserListUtils";
-import { GlobalState } from "../../../GlobalState";
+import { TblPagination } from "../components/Controls/Utils";
+import { GlobalState } from "../../../../GlobalState";
 import Swal from "sweetalert2";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
-  newButton: {
-    position: "absolute",
-    right: "10px",
+  toolsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    width: "100%",
+    gap: "20px",
+    padding: "0px",
+  },
+  searchInput: {
+    width: "100%",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -66,7 +80,25 @@ const AdminLists = () => {
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [order, setOrder] = useState();
+  const [orderBy, setOrderBy] = useState();
+  const [filterFunc, setFilterFunc] = useState({
+    func: (lists) => {
+      return lists;
+    },
+  });
+  const handleSearch = (event) => {
+    let target = event.target;
+    setFilterFunc({
+      func: (lists) => {
+        if (target.value === "") return lists;
+        else
+          return lists.filter((list) =>
+            list.title.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
   const headCells = [
     {
       id: "id",
@@ -164,12 +196,70 @@ const AdminLists = () => {
     setPage(0);
   };
 
+  function tableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
+  function getComparator(order, orderBy) {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+  const recordsAfterPagingAndSorting = () => {
+    return tableSort(
+      filterFunc.func(lists),
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+  };
+
+  const handleSort = (id) => {
+    const isAsc = orderBy === id && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(id);
+  };
+
   return (
     <div className="admin-lists">
       <Paper className={classes.pageContent}>
-        <Toolbar>
+        <Toolbar className={classes.toolsContainer}>
+          {/* <AdminNormalButton
+            text="Delete(s)"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            className={classes.deleteButton}
+            onClick={deleteAll}
+          ></AdminNormalButton> */}
+          <Input
+            onChange={handleSearch}
+            label="Search Discounts"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search></Search>
+                </InputAdornment>
+              ),
+            }}
+          ></Input>
           <AdminNormalButton
-            text="Add New"
+            text="Create"
             variant="outlined"
             startIcon={<AddIcon />}
             className={classes.newButton}
@@ -181,13 +271,18 @@ const AdminLists = () => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell style={{ color: "white" }} colSpan={7}>
+                Lists Table
+              </TableCell>
+            </TableRow>
+            <TableRow>
               {headCells.map((item) => (
                 <TableCell key={item.id}>{item.label}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {lists.map((list, index) => (
+            {recordsAfterPagingAndSorting().map((list, index) => (
               <TableRow key={index}>
                 <TableCell>{list._id}</TableCell>
                 <TableCell>

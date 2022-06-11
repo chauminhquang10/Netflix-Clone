@@ -3,25 +3,42 @@ import { GlobalState } from "../../../../GlobalState";
 import "./AdminPayments.css";
 import axios from "axios";
 import {
+  InputAdornment,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
-  makeStyles,
   Paper,
 } from "@material-ui/core";
-import { TblPagination } from "../userList/UserListUtils";
+import Input from "../components/Controls/Input";
+import { Search } from "@material-ui/icons";
+import { TblPagination } from "../components/Controls/Utils";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
+  },
+  toolsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    width: "100%",
+    gap: "20px",
+    padding: "0px",
+  },
+  searchInput: {
+    width: "100%",
   },
   table: {
     marginTop: theme.spacing(3),
@@ -52,7 +69,23 @@ const AdminPayments = () => {
 
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
-
+  const [filterFunc, setFilterFunc] = useState({
+    func: (adminHistory) => {
+      return adminHistory;
+    },
+  });
+  const handleSearch = (event) => {
+    let target = event.target;
+    setFilterFunc({
+      func: (adminHistory) => {
+        if (target.value === "") return adminHistory;
+        else
+          return adminHistory.filter((payment) =>
+            payment.paymentID.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
   const headCells = [
     {
       id: "ID",
@@ -78,7 +111,7 @@ const AdminPayments = () => {
     setPage(0);
   };
 
-  function stableSort(array, comparator) {
+  function tableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -105,10 +138,10 @@ const AdminPayments = () => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(adminHistory, getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      (page + 1) * rowsPerPage
-    );
+    return tableSort(
+      filterFunc.func(adminHistory),
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
   const handleSort = (id) => {
@@ -118,10 +151,37 @@ const AdminPayments = () => {
   };
 
   return (
-    <div className="admin-movies-list">
+    <div className="admin-list-container">
       <Paper className={classes.pageContent}>
+        <Toolbar className={classes.toolsContainer}>
+          <Input
+            onChange={handleSearch}
+            label="Search"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search></Search>
+                </InputAdornment>
+              ),
+            }}
+          ></Input>
+          {/* <AdminNormalButton
+            text="Create"
+            variant="outlined"
+            startIcon={<AddIcon />}
+            onClick={() => {
+              setOpenPopup(true);
+            }}
+          ></AdminNormalButton> */}
+        </Toolbar>
         <Table className={classes.table}>
           <TableHead>
+            <TableRow>
+              <TableCell style={{ color: "white" }} colSpan={7}>
+                Payments Table
+              </TableCell>
+            </TableRow>
             <TableRow>
               {headCells.map((item) => (
                 <TableCell

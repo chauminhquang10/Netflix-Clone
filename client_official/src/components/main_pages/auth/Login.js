@@ -209,7 +209,7 @@ const Login = () => {
         </div>
 
         <Text>
-          New to Netflix? <RouteLink to="/register">Sign up now.</RouteLink>
+          New to Rex? <RouteLink to="/register">Sign up now.</RouteLink>
         </Text>
         <Text>
           Forgot Password?
