@@ -9,9 +9,16 @@ const NotifyController = {
       let finalResults = [];
 
       // thay vì gửi cho tất cả những user thì chỉ gửi cho những user có top 3 genre yêu thích trong allGenres:
+      // chọn ra những thằng k phải admin trước
       const allUsers = await Users.find({ role: 0 });
 
-      allUsers.filter((user) => {
+      // sau đó duyệt qua từng user và xếp theo top 3 lượt viewCount cao nhất
+      const sortedUsers = allUsers.map((user) => {
+        return sortTop3LikedGenresPerUser(user);
+      });
+
+      // cuối cùng chọn ra những user sẽ được gửi thông báo
+      sortedUsers.filter((user) => {
         return checkUserQualified(user, allGenres, finalResults);
       });
 
@@ -170,6 +177,15 @@ const checkUserQualified = (userItem, allGenres, finalResults) => {
       finalResults.push(userItem._id);
     }
   }
+};
+
+const sortTop3LikedGenresPerUser = (user) => {
+  top3Views = user.likedGenres
+    .sort(function (a, b) {
+      return b.viewCount - a.viewCount;
+    })
+    .slice(0, 3);
+  user.likedGenres = top3Views;
 };
 
 module.exports = NotifyController;

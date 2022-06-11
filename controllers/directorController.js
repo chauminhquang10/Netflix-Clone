@@ -37,7 +37,7 @@ const directorController = {
   },
   deleteDirector: async (req, res) => {
     try {
-      // xóa những phim có diễn viên này tham gia trước.
+      // xóa những phim có đạo diễn này tham gia trước.
       const deleteDirectorMovies = await Movies.find({
         directorsBelongTo: req.params.id,
       });
