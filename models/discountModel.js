@@ -16,6 +16,10 @@ const discountSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

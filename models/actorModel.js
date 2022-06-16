@@ -30,6 +30,10 @@ const actorSchema = new mongoose.Schema(
     tmdbID: {
       type: String,
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
