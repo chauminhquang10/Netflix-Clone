@@ -91,6 +91,7 @@ const movieController = {
         year,
         limitAge,
         duration,
+        original_country,
         allGenres,
         TMDBid,
         actorsBelongTo,
@@ -117,6 +118,7 @@ const movieController = {
         allGenres,
         TMDBid,
         actorsBelongTo,
+        original_country,
         directorsBelongTo,
       });
       const createdMovie = await newMovie.save();

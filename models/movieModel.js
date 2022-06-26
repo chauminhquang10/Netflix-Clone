@@ -18,7 +18,7 @@ const MovieSchema = new mongoose.Schema(
       type: String,
     },
 
-    product_nation: {
+    original_country: {
       type: String,
     },
 
