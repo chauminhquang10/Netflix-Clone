@@ -137,20 +137,60 @@ const MovieList = () => {
       if (movie._id === id) movie.checked = !movie.checked;
     });
     setMovies([...movies]);
+    // movies.forEach((movie) => {
+    //   if (movie.checked) console.log(`checked Here ${movie._id}`);
+    // });
   };
 
-  const deleteMovie = async (id, public_id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
+  const deleteMovie = async (id, public_id, isMulti) => {
+    if (!isMulti) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed || isMulti) {
+          try {
+            if (public_id) {
+              const deleteImg = axios.post(
+                "/api/delete",
+                { public_id },
+                {
+                  headers: {
+                    Authorization: token,
+                  },
+                }
+              );
+              await deleteImg;
+            }
+            const res = await axios.delete(`/api/movies/${id}`, {
+              headers: {
+                Authorization: token,
+              },
+            });
+            await res;
+            Swal.fire(res.data.msg, "", "success");
+            //Notify
+            const msg = {
+              id,
+              url: `/detail/${id}`,
+            };
+
+            dispatch(removeNotify({ msg, socket, token }));
+
+            setMoviesCallback(!moviesCallback);
+          } catch (error) {
+            alert(error.response.data.msg);
+          }
+        }
+      });
+    } else {
+      try {
+        if (public_id) {
           const deleteImg = axios.post(
             "/api/delete",
             { public_id },
@@ -160,28 +200,24 @@ const MovieList = () => {
               },
             }
           );
-          const res = await axios.delete(`/api/movies/${id}`, {
-            headers: {
-              Authorization: token,
-            },
-          });
           await deleteImg;
-          await res;
-          Swal.fire(res.data.msg, "", "success");
-          //Notify
-          const msg = {
-            id,
-            url: `/detail/${id}`,
-          };
-
-          dispatch(removeNotify({ msg, socket, token }));
-
-          setMoviesCallback(!moviesCallback);
-        } catch (error) {
-          alert(error.response.data.msg);
         }
+        const res = await axios.delete(`/api/movies/${id}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        await res;
+        const msg = {
+          id,
+          url: `/detail/${id}`,
+        };
+        dispatch(removeNotify({ msg, socket, token }));
+        setMoviesCallback(!moviesCallback);
+      } catch (error) {
+        alert(error.response.data.msg);
       }
-    });
+    }
   };
 
   const checkAll = () => {
@@ -193,10 +229,26 @@ const MovieList = () => {
   };
 
   const deleteAll = () => {
-    movies.forEach((movie) => {
-      if (movie.checked) deleteMovie(movie._id, movie.img.public_id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        movies.forEach(async (movie) => {
+          if (movie.checked) {
+            console.log(`checked Here ${movie._id}`);
+            await deleteMovie(movie._id, movie.img.public_id, true);
+          }
+        });
+      }
     });
-    setIsChecked(false);
+    Swal.fire("Movies Deleted", "", "success");
+    // setIsChecked(false);
   };
 
   const handleChangePage = (event, newPage) => {

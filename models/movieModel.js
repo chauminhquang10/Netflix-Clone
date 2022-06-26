@@ -8,42 +8,53 @@ const MovieSchema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
+
     desc: {
       type: String,
       required: true,
     },
+
     TMDBid: {
       type: String,
     },
+
+    product_nation: {
+      type: String,
+    },
+
     img: {
       type: Object,
       required: true,
     },
+
     imgSmall: {
       type: Object,
       required: true,
     },
+
     trailer: {
       type: Object,
     },
+
     year: {
       type: Number,
       required: true,
     },
+
     limitAge: {
       type: Number,
       required: true,
     },
+
     duration: {
       type: Number,
       required: true,
     },
-    genre: {
-      type: String,
-      required: true,
-    },
+
     allGenres: [{ type: mongoose.Types.ObjectId, ref: "Genre" }],
-    listId: { type: mongoose.Types.ObjectId, ref: "Genre" },
+
+    listId: { type: mongoose.Types.ObjectId, ref: "List" },
+
     checked: {
       type: Boolean,
       default: false,

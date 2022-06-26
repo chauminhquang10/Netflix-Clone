@@ -118,7 +118,7 @@ const AdminActors = () => {
       label: "Gender",
     },
     {
-      id: "placeOfBirth",
+      id: "place_of_birth",
       label: "Place Of Birth",
     },
     {
@@ -331,7 +331,7 @@ const AdminActors = () => {
                     w.replace(/^\w/, (c) => c.toUpperCase())
                   )}
                 </TableCell>
-                <TableCell>{actor.placeOfBirth}</TableCell>
+                <TableCell>{actor.place_of_birth}</TableCell>
                 <TableCell>{actor.birthday}</TableCell>
                 <TableCell>
                   <AdminActionButtons

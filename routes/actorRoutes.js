@@ -13,4 +13,8 @@ router
   .delete(auth, authAdmin, actorController.deleteActor)
   .put(auth, authAdmin, actorController.updateActor);
 
+router.route("/loadactors").post(actorController.loadActor);
+router
+  .route("/updateactors")
+  .post(auth, authAdmin, actorController.updateActors);
 module.exports = router;

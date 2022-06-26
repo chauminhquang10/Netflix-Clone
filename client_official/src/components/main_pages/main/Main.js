@@ -20,7 +20,7 @@ const Movies = () => {
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
   const [listTrigger, setListTrigger] = useState(true);
-
+  const [topRanking] = state.topRanking;
   const [isNotExpireAccount, setIsNotExpireAccount] =
     state.usersAPI.isNotExpireAccount;
 
@@ -71,6 +71,12 @@ const Movies = () => {
           Loki and his Chitauri army in New York City."
       />
       <div className="main_page">
+        <Listitem
+          movies={topRanking}
+          title="Top Movies Trending"
+          getTrigger={getTrigger}
+          ToggleTrigger={ToggleTrigger}
+        ></Listitem>
         {lists.map((list, index) => {
           switch (index) {
             case 2:

@@ -2,6 +2,8 @@ const Directors = require("../models/directorModel");
 
 const Movies = require("../models/movieModel");
 
+const fs = require(`fs`);
+
 const directorController = {
   getDirectors: async (req, res) => {
     try {
@@ -14,8 +16,15 @@ const directorController = {
   //only admin can create , update , delete director
   createDirector: async (req, res) => {
     try {
-      const { name, image, gender, placeOfBirth, birthday, biography, tmdbID } =
-        req.body;
+      const {
+        name,
+        image,
+        gender,
+        place_of_birth,
+        birthday,
+        biography,
+        tmdbID,
+      } = req.body;
       const director = await Directors.findOne({ name: name.toLowerCase() });
       if (director)
         return res.status(400).json({ msg: "This director already exist!" });
@@ -24,7 +33,7 @@ const directorController = {
         name: name.toLowerCase(),
         image,
         gender,
-        placeOfBirth,
+        place_of_birth,
         birthday,
         biography,
         tmdbID,
@@ -35,6 +44,21 @@ const directorController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  loadDirector: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./NewDirector.json");
+
+      let director = JSON.parse(rawdata);
+
+      await Directors.insertMany(director);
+
+      res.json({ msg: "Created a new director" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   deleteDirector: async (req, res) => {
     try {
       // xóa những phim có đạo diễn này tham gia trước.
@@ -52,17 +76,53 @@ const directorController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  updateDirectors: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./DirectorTest.json");
+
+      let directors = JSON.parse(rawdata);
+
+      directors.forEach(async (director) => {
+        const a = await Directors.updateOne(
+          { tmdbID: director["tmdbID"] },
+          { knownFor: director["knownFor"] }
+        );
+      });
+
+      res.json({ msg: "Directors Updated" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  deleteDirectors: async (req, res) => {
+    try {
+      const a = await Directors.deleteMany({ knownFor: [] });
+      res.json({ msg: "Directors Deleted" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   updateDirector: async (req, res) => {
     try {
-      const { name, image, gender, placeOfBirth, birthday, biography, tmdbID } =
-        req.body;
+      const {
+        name,
+        image,
+        gender,
+        place_of_birth,
+        birthday,
+        biography,
+        tmdbID,
+      } = req.body;
       await Directors.findOneAndUpdate(
         { _id: req.params.id },
         {
           name: name.toLowerCase(),
           image,
           gender,
-          placeOfBirth,
+          place_of_birth,
           birthday,
           biography,
           tmdbID,

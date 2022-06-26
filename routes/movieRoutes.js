@@ -4,17 +4,17 @@ const auth = require("../middlewares/Auth");
 const authAdmin = require("../middlewares/AuthAdmin");
 
 router
+  .route("/movies/:id")
+  .get(movieController.getOneMovie)
+  .delete(auth, authAdmin, movieController.deleteMovie)
+  .put(auth, authAdmin, movieController.updateMovie);
+
+router
   .route("/movies")
   .get(movieController.getMovies)
   .post(auth, authAdmin, movieController.createMovie);
 
 // router.route("/allMovies").get(movieController.getAllMovies);
-
-router
-  .route("/movies/:id")
-  .get(movieController.getOneMovie)
-  .delete(auth, authAdmin, movieController.deleteMovie)
-  .put(auth, authAdmin, movieController.updateMovie);
 
 //  like feature
 router.route("/movies/:id/like").patch(auth, movieController.likeMovie);
@@ -35,6 +35,10 @@ router.get(
   authAdmin,
   movieController.getTopMoviesStats
 );
+
+router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
+
+router.route("/fetchGenres").post(movieController.fetchGenres);
 
 // Thống kê những top movies với điểm (score) cao nhất để làm bxh bên user.
 router.get("/topMoviesRanking", movieController.getRankingMovies);

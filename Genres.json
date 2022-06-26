@@ -1,0 +1,42 @@
+[
+    {
+      "name": "adventure",
+      "views": 6
+    },
+    {
+      "name": "animation",
+      "views": 6
+    },
+    {
+      "name": "comedy",
+      "views": 6
+    },
+    {
+      "name": "crime",
+      "views": 6
+    },
+    {
+      "name": "documentary",
+      "views": 6
+    },
+    {
+      "name": "drama",
+      "views": 6
+    },
+    {
+      "name": "family",
+      "views": 6
+    },
+    {
+      "name": "fantasy",
+      "views": 6
+    },
+    {
+      "name": "history",
+      "views": 6
+    },
+    {
+      "name": "horror",
+      "views": 6
+    }
+  ]

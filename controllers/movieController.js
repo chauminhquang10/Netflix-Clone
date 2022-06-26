@@ -6,7 +6,9 @@ const Directors = require("../models/directorModel");
 const APIFeatures = require("./classes/APIFeatures.js");
 
 const { ObjectId } = require("mongodb");
+const fetch = require("node-fetch");
 
+const fs = require(`fs`);
 const movieController = {
   getMovies: async (req, res) => {
     try {
@@ -41,11 +43,39 @@ const movieController = {
   //get a movie
   getOneMovie: async (req, res) => {
     try {
-      const movie = await Movies.findById(req.params.id).populate(
-        "allGenres",
-        "name"
-      );
+      const movie = await Movies.findById(req.params.id)
+        .populate("allGenres", "name")
+        .populate("actorsBelongTo");
       return res.status(200).json({ movie });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  fetchGenres: async (req, res) => {
+    try {
+      const { desc } = req.body;
+      if (desc) {
+        Genres = await fetch("https://rivero-d2v-api.herokuapp.com/predict", {
+          method: "POST",
+          body: JSON.stringify({
+            overview: desc,
+          }),
+          headers: { "Content-Type": "application/json" },
+          crossDomain: true,
+        })
+          .then((data) => data.json())
+          .then((data) => {
+            if (data.genres)
+              try {
+                return data.genres?.replace(/[^A-Za-z,]/g, "").split(",");
+              } catch (error) {
+                console.log(error);
+              }
+          });
+        res.json({
+          msg: Genres,
+        });
+      }
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -57,25 +87,22 @@ const movieController = {
         desc,
         img,
         imgSmall,
-        imgTitle,
         trailer,
-        video,
         year,
         limitAge,
         duration,
-        genre,
         allGenres,
-        actors,
-        directors,
         TMDBid,
+        actorsBelongTo,
+        directorsBelongTo,
       } = req.body;
-      // if (!img ||   !trailer || !video)
-      //nữa thêm cái comment này vào lại
-      if (!img)
-        return res.status(400).json({ msg: "No images or video uploaded!" });
+      if (!img || !imgSmall)
+        return res
+          .status(400)
+          .json({ msg: "Backdrop and poster image cannot be empty" });
+      if (!trailer)
+        return res.status(400).json({ msg: "Trailer link cannot be empty" });
       const movie = await Movies.findOne({ title: title.toLowerCase() });
-      if (!imgSmall)
-        return res.status(400).json({ msg: "No imgSmall uploaded!" });
       if (movie)
         return res.status(400).json({ msg: "This movie already exist!" });
       const newMovie = new Movies({
@@ -84,15 +111,13 @@ const movieController = {
         img,
         imgSmall,
         trailer,
-        video,
         year,
         limitAge,
         duration,
-        genre,
         allGenres,
-        actorsBelongTo: actors,
-        directorsBelongTo: directors,
         TMDBid,
+        actorsBelongTo,
+        directorsBelongTo,
       });
       const createdMovie = await newMovie.save();
 
@@ -111,6 +136,21 @@ const movieController = {
           ...newMovie._doc,
           user: req.user,
         },
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  loadmovies: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./Movies.json");
+
+      let movies = JSON.parse(rawdata);
+
+      Movies.insertMany(movies);
+
+      res.json({
+        msg: "Created a new movie!",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -178,7 +218,7 @@ const movieController = {
       const actorsContainMovie = await Actors.find({
         knownFor: req.params.id,
       });
-
+      let movieId = req.params.id;
       if (actorsContainMovie.length > 0) {
         actorsContainMovie.filter((actor) => {
           return removeKnownForActor(actor._id, movieId);
@@ -196,7 +236,7 @@ const movieController = {
       }
 
       await Movies.findByIdAndDelete(req.params.id);
-      res.json({ msg: "Deleted a movie!" });
+      res.json({ msg: "Movie Deleted !" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -209,22 +249,21 @@ const movieController = {
         img,
         imgSmall,
         trailer,
-        video,
         year,
         limitAge,
         duration,
-        genre,
         allGenres,
         actors,
         directors,
         TMDBid,
       } = req.body;
 
-      // if (!img  || !trailer || !video)
-      //nữa thêm cái comment này vào lại
-      if (!img)
-        return res.status(400).json({ msg: "No images or video uploaded!" });
-
+      if (!img || !imgSmall)
+        return res
+          .status(400)
+          .json({ msg: "Backdrop and poster image cannot be empty" });
+      if (!trailer)
+        return res.status(400).json({ msg: "Trailer link cannot be empty" });
       // Xóa id bộ phim này ra khỏi mảng knownFor cho các diễn viên cũ, thêm vào cho các diễn viên mới.
       // tìm ra trừ của hai mảng.
       // mảng cũ trừ mảng mới (những thằng cần xóa movieId ra khỏi knownFor)
@@ -246,11 +285,10 @@ const movieController = {
           img,
           imgSmall,
           trailer,
-          video,
           year,
+          product_nation,
           limitAge,
           duration,
-          genre,
           allGenres,
           actorsBelongTo: actors,
           directorsBelongTo: directors,
@@ -340,8 +378,6 @@ const movieController = {
       if (likes.length > 0 || dislikes.length > 0) {
         const movieScore = scoreCalculating(like);
 
-        console.log("asdasdadad", movieScore);
-
         // có được score rồi thì update score của phim
         await Movies.findOneAndUpdate(
           { _id: req.params.id },
@@ -399,8 +435,6 @@ const movieController = {
       if (likes.length > 0 || dislikes.length > 0) {
         const movieScore = scoreCalculating(dislike);
 
-        console.log("test", movieScore);
-
         // có được score rồi thì update score của phim
         await Movies.findOneAndUpdate(
           { _id: req.params.id },
@@ -440,8 +474,6 @@ const movieController = {
 
       if (likes.length > 0 || dislikes.length > 0) {
         const movieScore = scoreCalculating(dislike);
-
-        console.log(movieScore);
 
         // có được score rồi thì update score của phim
         await Movies.findOneAndUpdate(

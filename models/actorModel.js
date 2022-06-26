@@ -11,13 +11,13 @@ const actorSchema = new mongoose.Schema(
     image: {
       type: String,
       default:
-        "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1623416080/avatar/p9npi01sh5awfdsh1yum.jpg",
+        "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg",
     },
     gender: {
       type: String,
       required: true,
     },
-    placeOfBirth: {
+    place_of_birth: {
       type: String,
     },
     birthday: {

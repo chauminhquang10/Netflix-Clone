@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import "./NewMovie.css";
-import PuffLoader from "react-spinners/PuffLoader";
+import "./NewMovie.scss";
+import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import { useHistory, useParams } from "react-router-dom";
@@ -22,28 +22,52 @@ const initialState = {
   year: 0,
   limitAge: 0,
   duration: 0,
-  genre: "",
+  allGenres: [],
+  actorsBelongTo: [],
+  directorsBelongTo: [],
   trailer: "",
   TMDBid: "",
 };
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, devices, theme) {
+  return {
+    fontWeight:
+      devices.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const NewMovie = () => {
   const [movie, setMovie] = useState(initialState);
 
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const [userData] = state.usersAPI.userData;
   const [genres] = state.genresAPI.genres;
+  const [actors] = state.actorsAPI.actors;
+  const [directors] = state.directorsAPI.directors;
   const [img, setImg] = useState(false);
   const [imgSmall, setImgSmall] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const theme = useTheme();
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -71,7 +95,7 @@ const NewMovie = () => {
       });
 
       setLoading(false);
-      setImg(res.data);
+      setImg(res.data.url);
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -102,35 +126,70 @@ const NewMovie = () => {
         },
       });
       setLoading(false);
-      setImgSmall(res.data);
+      setImgSmall(res.data.url);
     } catch (error) {
       alert(error.response.data.msg);
     }
   };
 
-  // const handleDelete = async () => {
-  //   try {
-  //     if (!isAdmin) return alert("You're not an admin");
-  //     setLoading(true);
-  //     await axios.post(
-  //       "/api/delete",
-  //       { public_id: img.public_id },
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     );
-  //     setLoading(false);
-  //     setImg(false);
-  //   } catch (error) {
-  //     alert(error.response.data.msg);
-  //   }
-  // };
-
-  const handleChangeInput = (e) => {
+  const handleChangeInput = async (e) => {
     const { name, value } = e.target;
     setMovie({ ...movie, [name]: value });
+  };
+
+  async function FetchGenres(desc) {
+    try {
+      const genres = [];
+      const res = await axios.post(
+        "/api/fetchGenres",
+        { desc },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      res.data.msg.forEach((genre) => {
+        genres.push(genre.toLowerCase());
+      });
+      return genres;
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  }
+  //hello
+  const handleFetchData = async (e, id) => {
+    e.preventDefault();
+    try {
+      await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=ce69864d6bf2d8c310737e66f4e7a4f3&append_to_response=videos`
+      )
+        .then((data) => data.json())
+        .then(async (data) => {
+          setImg(`https://image.tmdb.org/t/p/original/${data.backdrop_path}`);
+          setImgSmall(
+            `https://image.tmdb.org/t/p/original/${data.poster_path}`
+          );
+          const Genres = await FetchGenres(data.overview);
+          setMovie({
+            title: data.original_title,
+            desc: data.overview,
+            year: data.release_date.split("-")[0],
+            limitAge: 0,
+            TMDBid: data.id,
+            allGenres: Genres,
+            duration: data.runtime,
+            actorsBelongTo: movie.actorsBelongTo,
+            directorsBelongTo: movie.directorsBelongTo,
+            trailer: `https://www.youtube.com/watch?v=${
+              data.videos.results[data.videos.results.length - 1]["key"]
+            }`,
+          });
+        });
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(movie);
   };
 
   const handleSubmit = async (e) => {
@@ -139,9 +198,41 @@ const NewMovie = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!img) return alert("No image upload");
 
+      let tempGenres = [];
+      for (let i = 0; i < movie.allGenres.length; i++) {
+        let rs = genres.find(
+          (el) => el.name.toLowerCase() == movie.allGenres[i].toLowerCase()
+        );
+        if (rs) tempGenres.push(rs._id);
+      }
+
+      let tempActors = [];
+      for (let i = 0; i < movie.actorsBelongTo.length; i++) {
+        let rs = actors.find(
+          (el) => el.name.toLowerCase() == movie.actorsBelongTo[i].toLowerCase()
+        );
+        if (rs) tempActors.push(rs._id);
+      }
+
+      let tempDirectors = [];
+      for (let i = 0; i < movie.directorsBelongTo.length; i++) {
+        let rs = directors.find(
+          (el) =>
+            el.name.toLowerCase() == movie.directorsBelongTo[i].toLowerCase()
+        );
+        tempDirectors.push(rs._id);
+      }
+
       const res = await axios.post(
         "/api/movies",
-        { ...movie, img, imgSmall },
+        {
+          ...movie,
+          img,
+          imgSmall,
+          allGenres: tempGenres,
+          actorsBelongTo: tempActors,
+          directorsBelongTo: tempDirectors,
+        },
         {
           headers: {
             Authorization: token,
@@ -157,13 +248,14 @@ const NewMovie = () => {
 
       // (lúc này thông báo nó phải nhận thêm cái mảng thể loại của phim để truyền xuống backend)
       // (để so sánh với mảng top 3 thể loại yêu thích của user)
-      //Notify
+      // Notify
+
       const msg = {
         id: res.data.newMovie._id,
         text: res.data.newMovie.desc,
         url: `/detail/${res.data.newMovie._id}`,
         content: movie.title,
-        image: imgSmall.url,
+        image: imgSmall,
         // phần thêm để tích hợp model machine learning
         allGenres: res.data.newMovie.allGenres,
       };
@@ -178,14 +270,14 @@ const NewMovie = () => {
   };
 
   return (
-    <form className="addMovieForm" onSubmit={handleSubmit}>
+    <form className="addMovieForm">
       <div className="newMovie">
         <div className="child_container">
           <div class="file-upload">
             <label className="Addmovie-label">BackDrop</label>
             {img ? (
               <div class="file-upload-content">
-                <img class="file-upload-image" src={img.url} alt="your image" />
+                <img class="file-upload-image" src={img} alt="your image" />
                 <div class="image-title-wrap">
                   <button
                     type="button"
@@ -218,7 +310,7 @@ const NewMovie = () => {
               <div class="file-upload-content">
                 <img
                   class="file-upload-image"
-                  src={imgSmall.url}
+                  src={imgSmall}
                   alt="your image"
                 />
                 <div class="image-title-wrap">
@@ -294,23 +386,6 @@ const NewMovie = () => {
             ></input>
           </div>
           <div className="addMovieItem">
-            <label htmlFor="genres">Genres:</label>
-            <select
-              name="genre"
-              value={movie.genre}
-              onChange={handleChangeInput}
-            >
-              <option value="">Please select a genre</option>
-              {genres.map((genre) => (
-                <option value={genre._id} key={genre._id}>
-                  {genre.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="child_container">
-          <div className="addMovieItem">
             <label htmlFor="duration">Duration</label>
             <input
               type="number"
@@ -332,6 +407,8 @@ const NewMovie = () => {
               onChange={handleChangeInput}
             ></input>
           </div>
+        </div>
+        <div className="child_container">
           <div className="addMovieItem">
             <label htmlFor="desc">Description</label>
             <textarea
@@ -344,7 +421,91 @@ const NewMovie = () => {
               onChange={handleChangeInput}
             ></textarea>
           </div>
-          <button className="addMovieButton">Create</button>
+          <div className="addMovieItem hideLegend">
+            <label htmlFor="duration">Genres</label>
+            <Select
+              name="allGenres"
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              multiple
+              value={movie.allGenres}
+              input={<OutlinedInput label="Genres" />}
+              MenuProps={MenuProps}
+              onChange={handleChangeInput}
+            >
+              {genres.map((genre) => (
+                <MenuItem
+                  key={genre._id}
+                  value={genre.name.toLowerCase()}
+                  style={getStyles(genre, movie.allGenres, theme)}
+                >
+                  {genre.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div className="addMovieItem hideLegend">
+            <label htmlFor="duration">Actors</label>
+            <Select
+              name="actorsBelongTo"
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              multiple
+              value={movie.actorsBelongTo}
+              input={<OutlinedInput label="Actors" />}
+              MenuProps={MenuProps}
+              onChange={handleChangeInput}
+            >
+              {actors.map((actor) => (
+                <MenuItem
+                  key={actor._id}
+                  value={actor.name.toLowerCase()}
+                  style={getStyles(actor, movie.actorsBelongTo, theme)}
+                >
+                  {actor.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div className="addMovieItem hideLegend">
+            <label htmlFor="duration">Directors</label>
+            <Select
+              name="directorsBelongTo"
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              multiple
+              value={movie.directorsBelongTo}
+              input={<OutlinedInput label="Directors" />}
+              MenuProps={MenuProps}
+              onChange={handleChangeInput}
+            >
+              {directors.map((director) => (
+                <MenuItem
+                  key={director._id}
+                  value={director.name.toLowerCase()}
+                  style={getStyles(director, movie.directorsBelongTo, theme)}
+                >
+                  {director.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="addMovieButton"
+          >
+            Create
+          </button>
+          <button
+            type="submit"
+            onClick={(e) => {
+              handleFetchData(e, movie.TMDBid);
+            }}
+            className="addMovieButton"
+          >
+            Fetch Data
+          </button>
         </div>
       </div>
     </form>

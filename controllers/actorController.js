@@ -2,6 +2,8 @@ const Actors = require("../models/actorModel");
 
 const Movies = require("../models/movieModel");
 
+const fs = require(`fs`);
+
 const actorController = {
   getActors: async (req, res) => {
     try {
@@ -14,8 +16,15 @@ const actorController = {
   //only admin can create , update , delete actor
   createActor: async (req, res) => {
     try {
-      const { name, image, gender, placeOfBirth, birthday, biography, tmdbID } =
-        req.body;
+      const {
+        name,
+        image,
+        gender,
+        place_of_birth,
+        birthday,
+        biography,
+        tmdbID,
+      } = req.body;
       const actor = await Actors.findOne({ name: name.toLowerCase() });
       if (actor)
         return res.status(400).json({ msg: "This actor already exist!" });
@@ -24,13 +33,44 @@ const actorController = {
         name: name.toLowerCase(),
         image,
         gender,
-        placeOfBirth,
+        place_of_birth,
         birthday,
         biography,
         tmdbID,
       });
       await newActor.save();
       res.json({ msg: "Created a new actor" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  loadActor: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./NewActor.json");
+
+      let actors = JSON.parse(rawdata);
+
+      await Actors.insertMany(actors);
+
+      res.json({ msg: "Created a new actor" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  updateActors: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./ActorTest.json");
+
+      let actors = JSON.parse(rawdata);
+
+      actors.forEach(async (actor) => {
+        const a = await Actors.updateOne(
+          { tmdbID: actor["tmdbID"] },
+          { knownFor: actor["knownFor"] }
+        );
+      });
+
+      res.json({ msg: "Actors Updated" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -52,17 +92,34 @@ const actorController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  deleteActors: async (req, res) => {
+    try {
+      const a = await Actors.deleteMany({ knownFor: [] });
+      res.json({ msg: "Actors Deleted" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   updateActor: async (req, res) => {
     try {
-      const { name, image, gender, placeOfBirth, birthday, biography, tmdbID } =
-        req.body;
+      const {
+        name,
+        image,
+        gender,
+        place_of_birth,
+        birthday,
+        biography,
+        tmdbID,
+      } = req.body;
       await Actors.findOneAndUpdate(
         { _id: req.params.id },
         {
           name: name.toLowerCase(),
           image,
           gender,
-          placeOfBirth,
+          place_of_birth,
           birthday,
           biography,
           tmdbID,

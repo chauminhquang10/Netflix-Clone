@@ -17,7 +17,7 @@ const directorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    placeOfBirth: {
+    place_of_birth: {
       type: String,
     },
     birthday: {

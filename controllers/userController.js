@@ -280,12 +280,12 @@ const userController = {
       const { tokenId } = req.body;
       const verify = await client.verifyIdToken({
         idToken: tokenId,
-        audience: process.env.MAILING_SERVICE_CLIENT_ID,
+        audience: "" + process.env.MAILING_SERVICE_CLIENT_ID,
       });
 
       const { email_verified, email, name, picture } = verify.payload;
 
-      const password = email + process.env.GOOGLE_SECRET;
+      const password = email + "" + process.env.GOOGLE_SECRET;
       const passwordHash = await bcrypt.hash(password, 12);
 
       if (!email_verified)

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CastList = () => {
+const CastList = ({ actors }) => {
   const [casts, setCasts] = useState([
     {
       name: "Brad Dourif",
@@ -25,11 +25,11 @@ const CastList = () => {
   ]);
   return (
     <div className="casts">
-      {casts.map((cast, index) => (
+      {actors.map((cast, index) => (
         <div key={index} className="casts__item">
           <div
             className="casts__item__img"
-            style={{ backgroundImage: `url(${cast.img})` }}
+            style={{ backgroundImage: `url(${cast.image})` }}
           ></div>
           <p className="casts__item__name">{cast.name}</p>
         </div>
