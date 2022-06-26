@@ -21,4 +21,6 @@ router.get(
   genreController.getTopGenresStats
 );
 
+router.route("/loadgenres").post(genreController.loadgenres);
+
 module.exports = router;

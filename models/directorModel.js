@@ -17,7 +17,7 @@ const directorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    placeOfBirth: {
+    place_of_birth: {
       type: String,
     },
     birthday: {
@@ -29,6 +29,10 @@ const directorSchema = new mongoose.Schema(
     knownFor: [{ type: mongoose.Types.ObjectId, ref: "Movie" }],
     tmdbID: {
       type: String,
+    },
+    checked: {
+      type: Boolean,
+      default: false,
     },
   },
   {

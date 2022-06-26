@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect } from "react";
 import MoviesAPI from "./api/MoviesAPI";
 import UsersAPI from "./api/UsersAPI";
 import GenresAPI from "./api/GenresAPI";
+import ActorsAPI from "./api/ActorsAPI";
+import DirectorsAPI from "./api/DirectorsAPI";
 import ListsAPI from "./api/ListsAPI";
 import PackgesAPI from "./api/PackagesAPI";
 import DiscountsAPI from "./api/DiscountsAPI";
@@ -50,6 +52,8 @@ export const DataProvider = ({ children }) => {
     moviesAPI: MoviesAPI(),
     usersAPI: UsersAPI(token),
     genresAPI: GenresAPI(),
+    actorsAPI: ActorsAPI(),
+    directorsAPI: DirectorsAPI(),
     listsAPI: ListsAPI(),
     packagesAPI: PackgesAPI(),
     discountsAPI: DiscountsAPI(),

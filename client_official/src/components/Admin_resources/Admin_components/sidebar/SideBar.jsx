@@ -1,7 +1,6 @@
 import React from "react";
 import "./SideBar.css";
 import { Link } from "react-router-dom";
-
 import {
   LineStyle,
   Timeline,
@@ -18,6 +17,8 @@ import {
   Payment,
   LocalOffer,
 } from "@material-ui/icons";
+import GroupsIcon from "@mui/icons-material/Groups";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import InventoryIcon from "@mui/icons-material/Inventory";
 const SideBar = () => {
   return (
@@ -73,6 +74,18 @@ const SideBar = () => {
               <li className="sidebarListItem">
                 <Payment className="sidebarIcon" />
                 Payments
+              </li>
+            </Link>
+            <Link to="/actors" className="link">
+              <li className="sidebarListItem">
+                <GroupsIcon className="sidebarIcon" />
+                Actors
+              </li>
+            </Link>
+            <Link to="/directors" className="link">
+              <li className="sidebarListItem">
+                <AccessibilityIcon className="sidebarIcon" />
+                Directors
               </li>
             </Link>
             <Link to="/packages" className="link">

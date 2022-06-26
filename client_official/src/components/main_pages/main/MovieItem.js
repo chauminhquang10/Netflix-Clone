@@ -62,18 +62,20 @@ const ListItem = ({ index, movie }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img src={movie.img.url} alt="list-item-img"></img>
+        <img
+          src={movie.img.replace("original", "w300")}
+          alt="list-item-img"
+        ></img>
         <>
           <div className="Popup" ref={PopupRef}>
             <img
               className="Popup_img"
-              src={movie.img.url}
+              src={movie.img.replace("original", "w300")}
               alt="list-item-img"
             ></img>
             <div className="itemInfo">
               <div className="icons">
                 <PlayArrow className="icon"></PlayArrow>
-
                 <Link
                   to="#!"
                   onClick={() => {

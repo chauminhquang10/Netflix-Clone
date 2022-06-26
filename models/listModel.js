@@ -12,6 +12,10 @@ const ListSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

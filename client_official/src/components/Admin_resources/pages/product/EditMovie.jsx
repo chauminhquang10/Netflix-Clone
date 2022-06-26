@@ -84,7 +84,7 @@ const EditMovie = () => {
         },
       });
       setLoading(false);
-      setImg(res.data);
+      setImg(res.data.url);
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -115,7 +115,7 @@ const EditMovie = () => {
         },
       });
       setLoading(false);
-      setImgSmall(res.data);
+      setImgSmall(res.data.url);
       console.log("Uploaded 2");
     } catch (error) {
       alert(error.response.data.msg);
@@ -191,11 +191,7 @@ const EditMovie = () => {
               <label className="Addmovie-label">BackDrop</label>
               {img ? (
                 <div class="file-upload-content">
-                  <img
-                    class="file-upload-image"
-                    src={img.url}
-                    alt="your image"
-                  />
+                  <img class="file-upload-image" src={img} alt="your image" />
                   <div class="image-title-wrap">
                     <button
                       type="button"
@@ -228,7 +224,7 @@ const EditMovie = () => {
                 <div class="file-upload-content">
                   <img
                     class="file-upload-image"
-                    src={imgSmall.url}
+                    src={imgSmall}
                     alt="your image"
                   />
                   <div class="image-title-wrap">

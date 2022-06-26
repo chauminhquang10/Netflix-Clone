@@ -123,6 +123,7 @@ const MovieDetail = () => {
 
   //  Dislikes
   useEffect(() => {
+    console.log(likedGenres);
     if (movieDetail.length !== 0) {
       if (movieDetail.dislikes.find((dislike) => dislike === userData._id)) {
         setIsDislike(true);
@@ -365,7 +366,7 @@ const MovieDetail = () => {
       <div
         className="banner"
         style={{
-          backgroundImage: `url(${movieDetail.img.url})`,
+          backgroundImage: `url(${movieDetail.img})`,
         }}
       ></div>
       <div className="mb-3 movie-content container">
@@ -373,11 +374,7 @@ const MovieDetail = () => {
           <div
             className="movie-content__poster__img"
             style={{
-              backgroundImage: `url(${
-                movieDetail.imgSmall
-                  ? movieDetail.imgSmall.url
-                  : movieDetail.img.url
-              })`,
+              backgroundImage: `url(${movieDetail.imgSmall})`,
             }}
           ></div>
         </div>
@@ -391,39 +388,36 @@ const MovieDetail = () => {
             ))}
           </div>
           <p className="overview">{movieDetail.desc}</p>
-
           {/* Hiển thị số sao trung bình */}
           <CommentDisplayRating
             rating={movieDetail.rating}
           ></CommentDisplayRating>
-
           {/* Like Featured */}
           <LikeButton
             isLike={isLike}
             handleLike={handleLike}
             handleUnLike={handleUnLike}
           />
-
           <h6>{likesNumber} likes</h6>
-
           {/* Dislike Featured */}
           <DislikeButton
             isDislike={isDislike}
             handleDislike={handleDislike}
             handleUnDislike={handleUnDislike}
           />
-
           <h6>{dislikesNumber} dislikes</h6>
 
           <div className="cast">
             <div className="section__header">
               <h2>Casts</h2>
             </div>
-            <CastList />
+            {movieDetail?.actorsBelongTo && (
+              <CastList actors={movieDetail.actorsBelongTo} />
+            )}
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                {isNotExpireAccount ? (
+                {!isNotExpireAccount ? (
                   <Link
                     className="detail_link"
                     to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}

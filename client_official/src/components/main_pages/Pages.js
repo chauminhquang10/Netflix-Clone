@@ -9,6 +9,8 @@ import Register from "./auth/Register";
 import NotFound from "./utils/notfound/NotFound";
 import MovieDetail from "./movie_detail/MovieDetail";
 import AdminGenres from "../Admin_resources/pages/genres/AdminGenres";
+import AdminDirectors from "../Admin_resources/pages/directors/AdminDirectors";
+import AdminActor from "../Admin_resources/pages/actors/AdminActors";
 import AdminLists from "../Admin_resources/pages/lists/AdminLists";
 import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
@@ -25,7 +27,7 @@ import AdminMovieList from "../Admin_resources/pages/movies/MovieList";
 import Packages from "../Admin_resources/pages/package/Packages";
 import PackageDetail from "../Admin_resources/pages/package/packageDetail/PackageDetail";
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
-import NewMovie from "../Admin_resources/pages/newproduct/NewMovie";
+import NewMovie from "../Admin_resources/pages/createMovie/NewMovie";
 
 import People from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
@@ -148,6 +150,18 @@ const Pages = () => {
                 path="/discounts"
                 exact
                 component={isAdmin ? Discounts : NotFound}
+              ></Route>
+
+              <Route
+                path="/actors"
+                exact
+                component={isAdmin ? AdminActor : NotFound}
+              ></Route>
+
+              <Route
+                path="/directors"
+                exact
+                component={isAdmin ? AdminDirectors : NotFound}
               ></Route>
 
               <Route path="*" component={NotFound} />

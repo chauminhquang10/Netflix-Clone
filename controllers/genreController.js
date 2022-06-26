@@ -2,6 +2,7 @@ const Genre = require("../models/genreModel");
 const Movies = require("../models/movieModel");
 
 const APIFeatures = require("./classes/APIFeatures.js");
+const fs = require(`fs`);
 
 const genreController = {
   getGenres: async (req, res) => {
@@ -28,6 +29,19 @@ const genreController = {
       const newGenre = new Genre({ name: name.toLowerCase() });
       const createdGenre = await newGenre.save();
       return res.json({ createdGenre });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  loadgenres: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./Genres.json");
+
+      let genres = JSON.parse(rawdata);
+
+      await Genre.insertMany(genres);
+
+      res.json({ msg: "Loaded a new genres" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
