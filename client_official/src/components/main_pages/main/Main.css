@@ -1,5 +1,6 @@
 .main_page {
   position: relative;
+  gap: 40px;
   top: -110px;
 }
 

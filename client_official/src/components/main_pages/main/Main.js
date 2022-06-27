@@ -73,7 +73,7 @@ const Movies = () => {
       <div className="main_page">
         <Listitem
           movies={topRanking}
-          title="Top Movies Trending"
+          title="Top Trending"
           getTrigger={getTrigger}
           ToggleTrigger={ToggleTrigger}
         ></Listitem>

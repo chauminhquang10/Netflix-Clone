@@ -50,11 +50,13 @@ const HorizontalListBottomItem = ({ movie }) => {
 
   return (
     <div className="HorizontalListBottomItem_container">
-      <img
-        className="HorizontalListBottomItem_img"
-        src={movie.img.url}
-        alt="list-item-img"
-      ></img>
+      <Link to={`/detail/${movie._id}`}>
+        <img
+          className="HorizontalListBottomItem_img"
+          src={movie.img}
+          alt="list-item-img"
+        ></img>
+      </Link>
       <div className="HorizontalListBottomItem_itemInfoTop">
         <span
           style={{

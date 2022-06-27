@@ -27,6 +27,7 @@ import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
 import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -281,11 +282,13 @@ const AdminActors = () => {
               ),
             }}
           ></Input>
-          <AdminNormalButton
-            text="Create"
-            variant="outlined"
-            startIcon={<AddIcon />}
-          ></AdminNormalButton>
+          <Link to="/NewActor">
+            <AdminNormalButton
+              text="Create"
+              variant="outlined"
+              startIcon={<AddIcon />}
+            ></AdminNormalButton>
+          </Link>
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>

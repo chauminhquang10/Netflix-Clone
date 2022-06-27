@@ -257,7 +257,7 @@ const CheckOutStep = () => {
     setIsNotExpireAccount(true);
 
     // chuyển trang
-    history.push("/browse");
+    history.push("/survey");
   };
 
   const stripeTranSucess = async (payment) => {
@@ -313,7 +313,7 @@ const CheckOutStep = () => {
       setIsNotExpireAccount(true);
 
       // chuyển trang
-      history.push("/browse");
+      history.push("/survey");
     }
   };
 

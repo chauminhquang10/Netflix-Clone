@@ -12,6 +12,12 @@
 //   transition-duration: 0.5s, 0.5s, 0.5s;
 // }
 
+// Link{
+//   &:hover{
+//     color: white;
+//   }
+// }
+
 .HorizontalListBottomItem_container {
   .HorizontalListBottomItem_img {
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
