@@ -11,6 +11,8 @@ import MovieDetail from "./movie_detail/MovieDetail";
 import AdminGenres from "../Admin_resources/pages/genres/AdminGenres";
 import AdminDirectors from "../Admin_resources/pages/directors/AdminDirectors";
 import AdminActor from "../Admin_resources/pages/actors/AdminActors";
+import NewActor from "../Admin_resources/pages/actors/NewActor";
+import NewDirector from "../Admin_resources/pages/directors/NewDirector";
 import AdminLists from "../Admin_resources/pages/lists/AdminLists";
 import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
@@ -50,7 +52,7 @@ import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 import SearchPage from "./main/search_page/SearchPage";
-
+import Survery from "./survery/Survery";
 import RankingMovies from "./main/Ranking/RankingMovies";
 
 const Pages = () => {
@@ -97,6 +99,16 @@ const Pages = () => {
               <Route
                 path="/newMovie"
                 component={isAdmin ? NewMovie : NotFound}
+              />
+
+              <Route
+                path="/NewActor"
+                component={isAdmin ? NewActor : NotFound}
+              />
+
+              <Route
+                path="/NewDirector"
+                component={isAdmin ? NewDirector : NotFound}
               />
 
               <Route
@@ -212,6 +224,11 @@ const Pages = () => {
                 path="/movies"
                 exact
                 component={isLogged ? Movies : LandingPage}
+              />
+              <Route
+                path="/survey"
+                exact
+                component={isLogged ? Survery : LandingPage}
               />
               <Route
                 path="/detail/:id"

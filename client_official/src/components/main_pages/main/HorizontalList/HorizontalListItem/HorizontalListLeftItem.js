@@ -52,7 +52,7 @@ const HorizontalListLeftItem = ({ movie }) => {
     <div className="HorizontalListLeftItem_container">
       <img
         className="HorizontalListLeftItem_img"
-        src={movie.img.url}
+        src={movie.img.replace("original", "w300")}
         alt="list-item-img"
       ></img>
       <div className="HorizontalListLeftItem_itemInfo">

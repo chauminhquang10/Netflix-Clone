@@ -1,5 +1,8 @@
 .action {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 .action .profile {
@@ -17,8 +20,6 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  left: 30%;
-  margin-top: 2%;
 }
 .propup_Img {
   position: absolute;
@@ -40,9 +41,13 @@
 
 .userlink_menu {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   top: -1000px;
   left: -128px;
-  padding: 15px 10px;
+  padding: 15px 10px 5px 10px;
   background-color: white;
   border-radius: 15px;
   width: 200px;
@@ -50,6 +55,9 @@
   z-index: 999;
   align-items: center;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.userlink_menu > ul{
+  margin: 0px;
 }
 .userlink_menu.active {
   top: 80px;
@@ -110,10 +118,10 @@
   width: 100%;
 }
 .endline_terms {
-  position: absolute;
-  bottom: 4px;
   align-items: center;
-  left: 30px;
+  display: flex;
+  justify-content: center;
+  margin: 0px;
 }
 .li-Link {
   text-align: center;

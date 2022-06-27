@@ -247,7 +247,7 @@ const MovieList = () => {
         });
       }
     });
-    Swal.fire("Movies Deleted", "", "success");
+    // Swal.fire("Movies Deleted", "", "success");
     // setIsChecked(false);
   };
 

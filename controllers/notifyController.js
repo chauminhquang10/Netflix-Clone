@@ -17,12 +17,12 @@ const NotifyController = {
         return sortTop3LikedGenresPerUser(user);
       });
 
-      // cuối cùng chọn ra những user sẽ được gửi thông báo
+      // // cuối cùng chọn ra những user sẽ được gửi thông báo
       sortedUsers.filter((user) => {
         return checkUserQualified(user, allGenres, finalResults);
       });
 
-      //const allClientUsers = await Users.find({ role: 0 }).select("_id");
+      // const allClientUsers = await Users.find({ role: 0 }).select("_id");
 
       // let allUserIds = allClientUsers.map((user) => {
       //   return user._id;
@@ -180,12 +180,12 @@ const checkUserQualified = (userItem, allGenres, finalResults) => {
 };
 
 const sortTop3LikedGenresPerUser = (user) => {
-  top3Views = user.likedGenres
-    .sort(function (a, b) {
-      return b.viewCount - a.viewCount;
-    })
-    .slice(0, 3);
+  user.likedGenres.sort(function (a, b) {
+    return b.viewCount - a.viewCount;
+  });
+  const top3Views = user.likedGenres.slice(0, 3);
   user.likedGenres = top3Views;
+  return user;
 };
 
 module.exports = NotifyController;

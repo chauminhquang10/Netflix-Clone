@@ -417,7 +417,7 @@ const MovieDetail = () => {
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                {!isNotExpireAccount ? (
+                {isNotExpireAccount ? (
                   <Link
                     className="detail_link"
                     to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}

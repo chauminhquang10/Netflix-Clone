@@ -1,0 +1,40 @@
+.survery-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 1920px;
+    min-height: 700px;
+    padding: 100px 0px;
+    .survery-content{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 50px;
+        // display: grid;
+        // grid-template-columns: repeat(auto-fit, minmax(210px, max-content));
+        // grid-gap: 16px;
+        // justify-content: center;
+        // padding: initial;
+        .item-container{
+            list-style-type: none;
+            border: 1px solid gray;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            gap: 15px;
+            .item-image{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                object-fit: fill;
+            }
+        }
+        .item-container.active{
+            border: 1px white solid;
+        }
+    }
+}

@@ -8,12 +8,17 @@ const Lists = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [lists, setLists] = state.listsAPI.lists;
+  const [genres] = state.genresAPI.genres;
   const [list, setList] = useState("");
   const [genre, setGenre] = useState("");
   const [listsCallback, setListsCallback] = state.listsAPI.listsCallback;
   //update list
   const [onEdit, setOnEdit] = useState(false);
   const [id, setId] = useState("");
+
+  const handleChange = (event) => {
+    setGenre(event.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,6 +92,20 @@ const Lists = () => {
             }}
             required
           ></input>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Age"
+              onChange={handleChange}
+            >
+              {genres.map((genre) => {
+                return <MenuItem value={genre._id}>{genre.name}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
           <input
             type="text"
             name="genre"
