@@ -63,22 +63,9 @@ const Person = {
   info: {
     Known_For: "Acting",
     Acting: "66",
-    Known_Credits: "Male",
     Gender: "Male",
     Birthday: "965-11-22 (56 years old)",
     Place_of_Birth: "Copenhagen, Denmark",
-    Also_Known_As: [
-      "Mads Dittmann Mikkelsen",
-      "Mads Dittman Mikkelsen",
-      "Mads D. Mikkelsen",
-      "マッツ・ミケルセン",
-      "Мадс Миккельсен",
-      "مادس ميكلسن",
-      "麦斯·米科尔森",
-      "매즈 미켈슨",
-      "Мадс Міккельсен",
-      "Μαντς Μίκελσεν",
-    ],
   },
 };
 const People = () => {
@@ -102,10 +89,6 @@ const People = () => {
                 <div className="info-text">{Person.info.Known_For}</div>
               </div>
               <div className="info-item">
-                <div className="info-title">Known Credits</div>
-                <div className="info-text">{Person.info.Known_Credits}</div>
-              </div>
-              <div className="info-item">
                 <div className="info-title">Gender</div>
                 <div className="info-text">{Person.info.Gender}</div>
               </div>
@@ -116,14 +99,6 @@ const People = () => {
               <div className="info-item">
                 <div className="info-title">Place of Birth</div>
                 <div className="info-text">{Person.info.Place_of_Birth}</div>
-              </div>
-              <div className="info-item">
-                <div className="info-title">Also Known As</div>
-                <div className="info-text">
-                  {Person.info.Also_Known_As.map((text) => {
-                    return <div>{text}</div>;
-                  })}
-                </div>
               </div>
             </div>
           </div>

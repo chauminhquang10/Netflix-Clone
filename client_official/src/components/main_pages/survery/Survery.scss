@@ -2,21 +2,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     max-width: 1920px;
     min-height: 700px;
     padding: 100px 0px;
     .survery-content{
-        width: 100%;
+        width: 700px;
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         padding: 50px;
-        // display: grid;
-        // grid-template-columns: repeat(auto-fit, minmax(210px, max-content));
-        // grid-gap: 16px;
-        // justify-content: center;
-        // padding: initial;
         .item-container{
             list-style-type: none;
             border: 1px solid gray;
@@ -26,6 +21,10 @@
             justify-content: center;
             overflow: hidden;
             gap: 15px;
+            border-radius: 16px;
+            &:hover{
+                cursor: pointer;
+            }
             .item-image{
                 width: 20px;
                 height: 20px;
@@ -34,7 +33,20 @@
             }
         }
         .item-container.active{
-            border: 1px white solid;
+            border: 1px black solid;
+            background-color:white;
+            color: black;
+        }
+    }
+    .button-group{
+        .survey-button{
+            background-color: #007bff;
+            padding: 5px 10px;
+            color: white;
+            border-radius: 16px;
+            &:disabled{
+                background-color: gray;
+            }
         }
     }
 }

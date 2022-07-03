@@ -51,6 +51,7 @@ const Survery = () => {
   };
   return (
     <div className="survery-container">
+      <div>Select Atleast 3 Genres You Like Most</div>
       <div className="survery-content">
         {genres.map((item) => {
           let checkItem = activeGenres.find(
@@ -81,7 +82,8 @@ const Survery = () => {
       </div>
       <div className="button-group">
         <button
-          disabled={activeGenres.length > 0 ? false : true}
+          className="survey-button"
+          disabled={activeGenres.length >= 3 ? false : true}
           onClick={(e) => handleSubmit(e)}
         >
           Submit
