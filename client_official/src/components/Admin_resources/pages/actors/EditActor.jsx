@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
-import "./NewActor.scss";
+import React, { useState, useContext, useEffect } from "react";
+import "./EditActor.scss";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
-import { createNotify } from "../../../../redux/actions/notifyAction";
-
+import { Link, useHistory, useParams } from "react-router-dom";
 import {
   FormControl,
   InputLabel,
@@ -15,10 +12,12 @@ import {
   MenuItem,
   OutlinedInput,
 } from "@material-ui/core";
+import Swal from "sweetalert2";
 
 const Gender = ["Not specified", "Female", "Male"];
 
 const initialState = {
+  _id: "",
   name: "",
   image: "",
   gender: "",
@@ -54,9 +53,10 @@ const ActorDetail = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [actors, setActors] = state.actorsAPI.actors;
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -151,30 +151,32 @@ const ActorDetail = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!imgSmall) return alert("No image upload");
 
-      const res = await axios.post(
-        "/api/actors",
-        {
-          ...actor,
-          imgSmall,
-        },
+      const res = await axios.put(
+        `/api/actors/${actor._id}`,
+        { ...actor, imgSmall },
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      swal({
-        title: "Info !",
-        text: res.data.msg,
-        icon: "success",
-        confirmButtonText: "Yes",
-      });
-
+      Swal.fire(res.data.msg, "", "success");
       setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }
   };
+
+  useEffect(() => {
+    if (param.id) {
+      actors.forEach((actor) => {
+        if (actor._id === param.id) {
+          setActor(actor);
+          setImgSmall(actor.image);
+        }
+      });
+    }
+  }, [param.id, actors]);
 
   return (
     <form className="addMovieForm">
@@ -291,7 +293,7 @@ const ActorDetail = () => {
               onClick={handleSubmit}
               className="addMovieButton"
             >
-              Create
+              Update
             </button>
             <button
               type="submit"

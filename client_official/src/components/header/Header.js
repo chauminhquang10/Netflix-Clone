@@ -135,7 +135,6 @@ const Header = () => {
               </Link>
             </li>
           )}
-
           {/* Phần lịch sử mua gói */}
           {isValidAccount && (
             <li className="header_li">

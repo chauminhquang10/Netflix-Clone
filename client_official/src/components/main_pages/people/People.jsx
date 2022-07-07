@@ -1,81 +1,49 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./style.scss";
+import { GlobalState } from "../../../GlobalState";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 const Person = {
-  Name: "Mads Mikkelsen",
-  Biography: [
-    `Mads Dittmann Mikkelsen (born 22 November 1965) is a Danish actor. Originally a gymnast and dancer, he rose to fame in Denmark as an actor for his roles such as Tonny in the first two films of the Pusher film trilogy (1996, 2004), Detective Sergeant Allan Fischer in the television series Rejseholdet (2000–2004), Niels in Open Hearts (2002), Svend in The Green Butchers (2003), Ivan in Adam's Apples (2005) and Jacob Petersen in After the Wedding (2006).`,
-    `Mikkelsen achieved worldwide recognition for playing the main antagonist Le Chiffre in the twenty-first James Bond film, Casino Royale (2006). His other roles include Igor Stravinsky in Coco Chanel & Igor Stravinsky (2008), Johann Friedrich Struensee in A Royal Affair (2012), his Cannes Film Festival Best Actor Award-winning performance as Lucas in the Danish film The Hunt (2012), Dr. Hannibal Lecter in the television series Hannibal (2013–2015), Kaecilius in Marvel's Doctor Strange (2016), Galen Erso in Lucasfilm's Rogue One (2016), Cliff Unger in Hideo Kojima's video game Death Stranding (2019), and his BAFTA-nominated role as Martin in Another Round (2020).`,
-    `A. O. Scott of The New York Times remarked that in the Hollywood scene, Mikkelsen has "become a reliable character actor with an intriguing mug" but stated that on the domestic front "he is something else: a star, an axiom, a face of the resurgent Danish cinema"`,
-  ],
-  Known_for: [
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-    {
-      title: "Trang Đại Phu",
-      img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/uGBVj3bEbCoZbDjjl9wTxcygko1.jpg",
-      id: "1",
-    },
-  ],
-  info: {
-    Known_For: "Acting",
-    Acting: "66",
-    Gender: "Male",
-    Birthday: "965-11-22 (56 years old)",
-    Place_of_Birth: "Copenhagen, Denmark",
-  },
+  name: "",
+  image: "",
+  gender: "",
+  place_of_birth: "",
+  birthday: "",
+  biography: "",
+  tmdbID: "",
+  knownFor: [],
 };
 const People = () => {
+  const state = useContext(GlobalState);
+  const params = useParams();
+  const [actor, setActor] = useState(Person);
+  const [actors, setActors] = state.actorsAPI.actors;
+
+  useEffect(() => {
+    const getDetailActor = async () => {
+      if (params.id) {
+        try {
+          const res = await axios.get(`/api/actors/${params.id}`);
+          if (res !== null) {
+            setActor(res.data.actor);
+            console.log(res.data.actor);
+          }
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
+      }
+    };
+    getDetailActor();
+  }, [params.id]);
+
   return (
     <>
       <section className="section-people-page">
         <div className="people-page-container">
           <div className="left-column-container">
             <div className="left-column-img">
-              <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ntwPvV4GKGGHO3I7LcHMwhXfsw9.jpg"></img>
+              <img src={actor.image}></img>
             </div>
             <div className="left-column-media">
               <div className="media-item">FB</div>
@@ -86,42 +54,45 @@ const People = () => {
               <div className="column-title">Personal info</div>
               <div className="info-item">
                 <div className="info-title">Know For</div>
-                <div className="info-text">{Person.info.Known_For}</div>
+                {/* <div className="info-text">{actor.knownFor}</div> */}
               </div>
               <div className="info-item">
                 <div className="info-title">Gender</div>
-                <div className="info-text">{Person.info.Gender}</div>
+                <div className="info-text">{actor.gender}</div>
               </div>
               <div className="info-item">
                 <div className="info-title">Birthday</div>
-                <div className="info-text">{Person.info.Birthday}</div>
+                <div className="info-text">{actor.birthday}</div>
               </div>
               <div className="info-item">
                 <div className="info-title">Place of Birth</div>
-                <div className="info-text">{Person.info.Place_of_Birth}</div>
+                <div className="info-text">{actor.place_of_birth}</div>
               </div>
             </div>
           </div>
           <div className="right-column-container">
-            <div className="right-column-title">{Person.Name}</div>
+            <div className="right-column-title">{actor.name}</div>
             <div className="right-column-bio">
               <div className="bio-title">Biography</div>
               <div className="bio-content">
-                {Person.Biography.map((item) => {
-                  return <p>{item}</p>;
-                })}
+                {actor.biography.replace(
+                  "From Wikipedia, the free encyclopedia",
+                  ""
+                )}
               </div>
             </div>
             <div className="know-for">
               <div className="item-container">
-                {Person.Known_for.map((item) => {
+                {actor.knownFor.map((item) => {
                   return (
-                    <div className="know-for-item">
-                      <div className="item-img">
-                        <img src={item.img}></img>
+                    <Link to={`/detail/${item._id}`}>
+                      <div className="know-for-item">
+                        <div className="item-img">
+                          <img src={item.imgSmall}></img>
+                        </div>
+                        <div className="item-title">{item.title}</div>
                       </div>
-                      <div className="item-title">{item.title}</div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>

@@ -1,0 +1,86 @@
+.newCom_container{
+    width: 100%;
+    min-height: 700px;
+    background-color: white;
+    padding: 5rem;
+    display: grid;
+}
+.newCom_results_container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    color: black;
+    column-gap: 1rem;
+}
+.newCom_container_img{
+    width: 200px;
+    height: 350px;
+    object-fit: cover;
+}
+.section-history{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .section-history-container{
+        width: 100%;
+        max-width: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 20px;
+        gap: 40px;
+        .title{
+            font-size: 4em;
+        }
+        .content-container{
+            height: calc(50vh - 70px);
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 60px;
+            .left-content{
+                height: 100%;
+                min-width: fit-content;
+            }
+            .right-content{
+                border-left: 8px solid #2596be;
+                height: 100%;
+                padding: 0px 60px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                overflow-y: scroll;
+                .right-content-title{
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    align-items: center;
+                }
+                .content{
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    align-items: center;
+                    .button{
+                        color: #2596be;
+                    }
+                    Link{
+                        transition: all 1s;
+                        &:hover{
+                            cursor: pointer;
+                            filter: brightness(1.5);
+                            transition: all 1s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

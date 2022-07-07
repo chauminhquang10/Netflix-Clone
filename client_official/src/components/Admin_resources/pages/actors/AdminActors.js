@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./AdminActors.css";
+import "./AdminActors.scss";
 import {
   InputAdornment,
   makeStyles,
@@ -337,15 +337,17 @@ const AdminActors = () => {
                 <TableCell>{actor.place_of_birth}</TableCell>
                 <TableCell>{actor.birthday}</TableCell>
                 <TableCell>
-                  <AdminActionButtons
-                    color="primary"
-                    onClick={() => {
-                      editActor(actor._id, actor.name);
-                      setOpenPopup(true);
-                    }}
-                  >
-                    <EditOutlinedIcon fontSize="small" />
-                  </AdminActionButtons>
+                  <Link to={`/edit_actor/${actor._id}`}>
+                    <AdminActionButtons
+                      color="primary"
+                      onClick={() => {
+                        editActor(actor._id, actor.name);
+                        setOpenPopup(true);
+                      }}
+                    >
+                      <EditOutlinedIcon fontSize="small" />
+                    </AdminActionButtons>
+                  </Link>
 
                   <AdminActionButtons
                     color="secondary"

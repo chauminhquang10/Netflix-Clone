@@ -387,7 +387,6 @@ const MovieDetail = () => {
               </span>
             ))}
           </div>
-          {/* //helo */}
           <p className="overview">{movieDetail.desc}</p>
           {/* Hiển thị số sao trung bình */}
           <CommentDisplayRating
