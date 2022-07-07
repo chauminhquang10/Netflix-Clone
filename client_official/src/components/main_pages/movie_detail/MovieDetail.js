@@ -479,6 +479,22 @@ const MovieDetail = () => {
         <LikeAndShare dataHref={currentURL} />
         <Comment width={"100%"} dataHref={currentURL} />
       </div> */}
+      {movieDetail && (
+        <div className="trailer-container">
+          <iframe
+            width="971"
+            height="546"
+            src={movieDetail.trailer.replace(
+              "https://www.youtube.com/watch?v=",
+              "https://www.youtube.com/embed/"
+            )}
+            title="SP Hana Theme Song(JP) : Weaving Wind Knot (CV: Hayami Saori) | Onmyoji | SP Kachou Fuugetsu"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      )}
 
       <Comments
         movieId={movieDetail._id}
