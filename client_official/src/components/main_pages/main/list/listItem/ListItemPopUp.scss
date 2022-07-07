@@ -70,8 +70,15 @@
     }
 
     .desc {
+      padding-bottom: 10px;
       font-size: 13px;
-      margin-bottom: 10px;
+      display: block;/* or inline-block */
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      overflow: hidden;
+      max-height: 3.9em;
+      line-height: 1.3em;
+
     }
 
     .genre {
