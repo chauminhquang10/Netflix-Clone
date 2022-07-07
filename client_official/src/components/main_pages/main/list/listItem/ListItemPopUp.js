@@ -74,7 +74,7 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
             <Link to={`/detail/${movie._id}`}>
               <img
                 className="Popup_img"
-                src={movie.img}
+                src={movie.img.replace("original", "w300")}
                 alt="list-item-img"
               ></img>
             </Link>

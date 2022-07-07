@@ -11,7 +11,10 @@ const OrderHistory = () => {
   const [ID, setID] = useState("");
   return (
     <div className="section-history">
-      <div className="section-history-container">
+      <div
+        className="section-history-container"
+        onClick={() => ID && setID("")}
+      >
         <div className="title">History</div>
         <div className="content-container">
           <div className="left-content">Payment List</div>
@@ -27,17 +30,24 @@ const OrderHistory = () => {
                 <div>
                   {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
                 </div>
-                <Link onClick={() => setID(items._id)}>
-                  <div className="button">View</div>
-                </Link>
+                <div onClick={() => setID(items._id)} className="button">
+                  View
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-      <div className="popup-container">
-        <PaymentDetail id={ID} setId={setID} />
-      </div>
+      {ID && (
+        <div className="popup-container">
+          <PaymentDetail id={ID} setId={setID} />
+          <div className="payment-frame">
+            <div className="close" onClick={() => ID && setID("")}>
+              X
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

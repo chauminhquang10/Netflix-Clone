@@ -41,6 +41,7 @@ const PaymentDetail = ({ id, setId }) => {
     <Paper className={classes.pageContent}>
       {userHistory.map((item) => {
         if (item._id === id) {
+          console.log(item);
           return <Review paymentDetail={item} />;
         }
       })}
