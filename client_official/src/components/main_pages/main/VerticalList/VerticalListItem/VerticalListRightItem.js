@@ -52,7 +52,7 @@ const VerticalListRightItem = ({ movie }) => {
     <div className="VerticalListRightItem_container">
       <img
         className="VerticalListRightItem_img"
-        src={movie.img.url}
+        src={movie.img.replace("original", "w300")}
         alt="list-item-img"
       ></img>
       <div className="VerticalListRightItem_itemInfoTop">

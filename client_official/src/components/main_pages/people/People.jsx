@@ -88,7 +88,9 @@ const People = () => {
                     <Link to={`/detail/${item._id}`}>
                       <div className="know-for-item">
                         <div className="item-img">
-                          <img src={item.imgSmall}></img>
+                          <img
+                            src={item.imgSmall.replace("original", "w300")}
+                          ></img>
                         </div>
                         <div className="item-title">{item.title}</div>
                       </div>

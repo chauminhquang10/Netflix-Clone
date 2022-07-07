@@ -18,7 +18,10 @@ const ListItem = ({ SetMovie, movie, MoveOut }) => {
         }
         ref={inputRef}
       >
-        <img src={movie.img} alt="list-item-img"></img>
+        <img
+          src={movie.img.replace("original", "w300")}
+          alt="list-item-img"
+        ></img>
       </div>
     </Link>
   );

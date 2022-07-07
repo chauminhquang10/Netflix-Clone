@@ -45,25 +45,37 @@ export default function Review({ paymentDetail }) {
         Order summary
       </Typography>
       <List disablePadding>
-        <ListItem key={paymentDetail.service_pack.title} sx={{ py: 1, px: 0 }}>
+        <ListItem
+          key={paymentDetail.service_pack.packId.title}
+          sx={{ py: 1, px: 0 }}
+        >
           <ListItemText primary={"Package Name"} />
           <Typography variant="body2">
-            {paymentDetail.service_pack.title}
+            {paymentDetail.service_pack.packId.title}
           </Typography>
         </ListItem>
-        <ListItem key={paymentDetail.service_pack.title} sx={{ py: 1, px: 0 }}>
+        <ListItem
+          key={paymentDetail.service_pack.packId.title}
+          sx={{ py: 1, px: 0 }}
+        >
           <ListItemText primary={"Package Price"} />
           <Typography variant="body2">
-            ${paymentDetail.service_pack.price}
+            ${paymentDetail.service_pack.packId.price}
           </Typography>
         </ListItem>
-        <ListItem key={paymentDetail.service_pack.title} sx={{ py: 1, px: 0 }}>
+        <ListItem
+          key={paymentDetail.service_pack.packId.title}
+          sx={{ py: 1, px: 0 }}
+        >
           <ListItemText primary={"Started At"} />
           <Typography variant="body2">
             {paymentDetail.service_pack.startedTime}
           </Typography>
         </ListItem>
-        <ListItem key={paymentDetail.service_pack.title} sx={{ py: 1, px: 0 }}>
+        <ListItem
+          key={paymentDetail.service_pack.packId.title}
+          sx={{ py: 1, px: 0 }}
+        >
           <ListItemText primary={"Expired At"} />
           <Typography variant="body2">
             {paymentDetail.service_pack.expireTime}
@@ -72,7 +84,7 @@ export default function Review({ paymentDetail }) {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            ${paymentDetail.service_pack.price}
+            ${paymentDetail.service_pack.packId.price}
           </Typography>
         </ListItem>
       </List>
@@ -81,9 +93,7 @@ export default function Review({ paymentDetail }) {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             User Info
           </Typography>
-          <Typography gutterBottom>
-            Name: {paymentDetail.address.recipient_name}
-          </Typography>
+          <Typography gutterBottom>Name: {paymentDetail.name}</Typography>
           <Typography gutterBottom>
             Address:{" "}
             {paymentDetail.address.line1 + " - " + paymentDetail.address.city}
