@@ -14,7 +14,7 @@ const Step1 = () => {
         <div className="step1_top_content">
           <FontAwesomeIcon
             icon={faCheckCircle}
-            style={{ color: "red", fontSize: "45px" }}
+            style={{ color: "#2596be", fontSize: "45px" }}
             className="step1_logo"
           />
 
@@ -27,20 +27,20 @@ const Step1 = () => {
         <div className="step1_bottom_content">
           <ul className="checkmark_group">
             <li className="checkmark_group_item">
-              <CheckIcon style={{ color: "red", fontSize: "28px" }} />
+              <CheckIcon style={{ color: "#2596be", fontSize: "28px" }} />
               <p>No commitments, cancel anytime.</p>
             </li>
             <li className="checkmark_group_item">
               <CheckIcon
                 style={{
-                  color: "red",
+                  color: "#2596be",
                   fontSize: "28px",
                 }}
               />
               <p> Everything on Rex for one low price.</p>
             </li>
             <li className="checkmark_group_item">
-              <CheckIcon style={{ color: "red", fontSize: "28px" }} />
+              <CheckIcon style={{ color: "#2596be", fontSize: "28px" }} />
               <p>No ads and no extra fees. Ever.</p>
             </li>
           </ul>

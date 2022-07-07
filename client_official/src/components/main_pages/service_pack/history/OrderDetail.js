@@ -1,62 +1,51 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { GlobalState } from "../../../../GlobalState";
-import moment from "moment";
+import Review from "../../../Admin_resources/pages/payments/Review";
+import { makeStyles, Paper } from "@material-ui/core";
 
-const OrderDetail = () => {
+import { GlobalState } from "../../../../GlobalState";
+
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3),
+    minWidth: "1054px",
+  },
+  table: {
+    marginTop: theme.spacing(3),
+    "& thead th": {
+      fontWeight: "600",
+      color: "white",
+      backgroundColor: theme.palette.primary.light,
+    },
+    "& tbody td": {
+      fontWeight: "300",
+    },
+    "& tbody tr:hover": {
+      backgroundColor: "#fffbf2",
+      cursor: "pointer",
+    },
+  },
+}));
+
+const PaymentDetail = ({ id, setId }) => {
+  const classes = useStyles();
   const state = useContext(GlobalState);
   const [userHistory] = state.usersAPI.userHistory;
   const [orderDetails, setOrderDetails] = useState([]);
-
   const params = useParams();
 
-  useEffect(() => {
-    if (params.id) {
-      userHistory.forEach((item) => {
-        if (item._id === params.id) {
-          setOrderDetails(item);
-        }
-      });
-    }
-  }, [params.id, userHistory]);
-
-  if (orderDetails.length === 0) return null;
+  if (!id) return null;
 
   return (
-    <>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Postal Code</th>
-            <th>Country Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{orderDetails.address.recipient_name}</td>
-            <td>
-              {orderDetails.address.line1 + " - " + orderDetails.address.city}
-            </td>
-            <td>{orderDetails.address.postal_code}</td>
-            <td>{orderDetails.address.country_code}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br></br>
-      <div>
-        <h4>Package Name: {orderDetails.service_pack.packId.title}</h4>
-        <h4>
-          Package Price:{" "}
-          {orderDetails.service_pack.packId.price - orderDetails.discountPrice}
-        </h4>
-        <h4>Started Time: {orderDetails.service_pack.startedTime}</h4>
-
-        <h4>Expire In: {orderDetails.service_pack.expireTime}</h4>
-      </div>
-    </>
+    <Paper className={classes.pageContent}>
+      {userHistory.map((item) => {
+        if (item._id === id) {
+          return <Review paymentDetail={item} />;
+        }
+      })}
+    </Paper>
   );
 };
 
-export default OrderDetail;
+export default PaymentDetail;

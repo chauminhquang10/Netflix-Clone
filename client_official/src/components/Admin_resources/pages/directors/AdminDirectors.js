@@ -336,16 +336,17 @@ const AdminDirectors = () => {
                 <TableCell>{director.place_of_birth}</TableCell>
                 <TableCell>{director.birthday}</TableCell>
                 <TableCell>
-                  <AdminActionButtons
-                    color="primary"
-                    onClick={() => {
-                      editDirector(director._id, director.name);
-                      setOpenPopup(true);
-                    }}
-                  >
-                    <EditOutlinedIcon fontSize="small" />
-                  </AdminActionButtons>
-
+                  <Link to={`/edit_director/${director._id}`}>
+                    <AdminActionButtons
+                      color="primary"
+                      onClick={() => {
+                        editDirector(director._id, director.name);
+                        setOpenPopup(true);
+                      }}
+                    >
+                      <EditOutlinedIcon fontSize="small" />
+                    </AdminActionButtons>
+                  </Link>
                   <AdminActionButtons
                     color="secondary"
                     onClick={() => deleteDirector(director._id)}

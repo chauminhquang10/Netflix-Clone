@@ -41,20 +41,6 @@ const LandingPage = () => {
 
   return (
     <>
-      {/* <section className="landing-header-container">
-        <header className="landing-header">
-          <div className="brand-container">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-              alt="logo"
-              className="landing-header-logo"
-            ></img>
-          </div>
-          <Link to="/login" className="landing-sign-in-btn">
-            Sign In
-          </Link>
-        </header>
-      </section> */}
       <div style={{ top: "-70px", position: "relative" }}>
         <section className="landing-banner">
           <img
@@ -99,7 +85,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section className="landing-page-cards">
+        {/* <section className="landing-page-cards">
           <div className="landing-page-card-text">
             <h1 className="landing-page-card-title">Enjoy on your TV</h1>
             <h2 className="landing-page-card-subtitle">
@@ -156,9 +142,9 @@ const LandingPage = () => {
               Blu-ray players, and more.
             </h2>
           </div>
-        </section>
+        </section> */}
 
-        <section className="landing-page-cards">
+        {/* <section className="landing-page-cards">
           <div className="landing-page-card-text">
             <h1 className="landing-page-card-title">Watch everywhere.</h1>
             <h2 className="landing-page-card-subtitle">
@@ -188,7 +174,7 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section
           className="landing-page-cards"
@@ -224,7 +210,7 @@ const LandingPage = () => {
                 className="landing-list-item-title"
                 onClick={() => handleShowAnswer(1)}
               >
-                <span>What is Netflix Clone?</span>
+                <span>What is Rex?</span>
                 {showAnswer === 1 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
@@ -238,9 +224,9 @@ const LandingPage = () => {
                     : "landing-list-item-text-disappear"
                 }
               >
-                Netflix Clone is a streaming service that offers a wide variety
-                of award-winning TV shows, movies, anime, documentaries, and
-                more on thousands of internet-connected devices.
+                Rex is a streaming service that offers a wide variety of
+                award-winning TV shows, movies, anime, documentaries, and more
+                on thousands of internet-connected devices.
                 <br></br>
                 <br></br>
                 You can watch as much as you want, whenever you want without a
@@ -255,7 +241,7 @@ const LandingPage = () => {
                 className="landing-list-item-title"
                 onClick={() => handleShowAnswer(2)}
               >
-                <span>How much does Netflix Clone cost?</span>
+                <span>How much does Rex cost?</span>
                 {showAnswer === 2 ? (
                   <RemoveIcon fontSize="large" />
                 ) : (
@@ -269,10 +255,10 @@ const LandingPage = () => {
                     : "landing-list-item-text-disappear"
                 }
               >
-                Watch Netflix Clone on your smartphone, tablet, Smart TV,
-                laptop, or streaming device, all for one fixed monthly fee.
-                Plans range from 7.99 USD to 11.99 USD a month. No extra costs,
-                no contracts.
+                Watch Rex on your smartphone, tablet, Smart TV, laptop, or
+                streaming device, all for one fixed monthly fee. Plans range
+                from 7.99 USD to 11.99 USD a month. No extra costs, no
+                contracts.
               </p>
             </div>
 
@@ -296,15 +282,14 @@ const LandingPage = () => {
                 }
               >
                 Watch anywhere, anytime, on an unlimited number of devices. Sign
-                in with your Netflix Clone account to watch instantly on the web
-                at netflixclone.com from your personal computer or on any
-                internet-connected devices.
+                in with your Rex account to watch instantly on the web at
+                Rex.com from your personal computer or on any internet-connected
+                devices.
                 <br></br>
                 <br></br>
                 You can also download your favorite shows with the iOS, Android,
                 or Windows 10 app. Use downloads to watch while you're on the go
-                and without an internet connection. Take Netflix Clone with you
-                anywhere.
+                and without an internet connection. Take Rex with you anywhere.
               </p>
             </div>
 
@@ -327,7 +312,7 @@ const LandingPage = () => {
                     : "landing-list-item-text-disappear"
                 }
               >
-                Netflix Clone is flexible. There are no pesky contracts and no
+                Rex is flexible. There are no pesky contracts and no
                 commitments. You can easily cancel your account online in two
                 clicks. There are no cancellation fees - start or stop your
                 account anytime.
@@ -386,8 +371,8 @@ const LandingPage = () => {
               <div className="tab-1-content-inner">
                 <div>
                   <p className="text-large">
-                    If you decide Netflix isn't for you - no problem. No
-                    commitment. Cancel online anytime.
+                    If you decide Rex isn't for you - no problem. No commitment.
+                    Cancel online anytime.
                   </p>
                   <a href="#" className="landing-btn landing-btn-large">
                     Watch Free For 30 days
@@ -463,7 +448,7 @@ const LandingPage = () => {
             >
               <div className="text-center">
                 <p className="text-large">
-                  Choose one plan and watch everything on Netflix
+                  Choose one plan and watch everything on Rex
                 </p>
                 <a href="#" className="landing-btn landing-btn-large">
                   Watch Free For 30 days

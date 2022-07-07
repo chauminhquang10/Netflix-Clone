@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
-import "./NewActor.scss";
+import React, { useState, useContext, useEffect } from "react";
+import "./EditDirector.scss";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
-import { createNotify } from "../../../../redux/actions/notifyAction";
-
+import { Link, useHistory, useParams } from "react-router-dom";
 import {
   FormControl,
   InputLabel,
@@ -15,10 +12,12 @@ import {
   MenuItem,
   OutlinedInput,
 } from "@material-ui/core";
+import Swal from "sweetalert2";
 
 const Gender = ["Not specified", "Female", "Male"];
 
 const initialState = {
+  _id: "",
   name: "",
   image: "",
   gender: "",
@@ -48,15 +47,16 @@ function getStyles(name, devices, theme) {
   };
 }
 
-const ActorDetail = () => {
-  const [actor, setActor] = useState(initialState);
+const DirectorDetail = () => {
+  const [director, setDirector] = useState(initialState);
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
+  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [directors, setDirectors] = state.directorsAPI.directors;
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ const ActorDetail = () => {
 
   const handleChangeInput = async (e) => {
     const { name, value } = e.target;
-    setActor({ ...actor, [name]: value });
+    setDirector({ ...director, [name]: value });
   };
 
   const handleFetchData = async (e, id) => {
@@ -130,7 +130,7 @@ const ActorDetail = () => {
           setImgSmall(
             `https://image.tmdb.org/t/p/original/${data.profile_path}`
           );
-          setActor({
+          setDirector({
             name: data.name,
             gender: Gender[data.gender],
             place_of_birth: data.place_of_birth,
@@ -142,7 +142,7 @@ const ActorDetail = () => {
     } catch (err) {
       console.error(err);
     }
-    console.log(actor);
+    console.log(director);
   };
 
   const handleSubmit = async (e) => {
@@ -151,30 +151,32 @@ const ActorDetail = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!imgSmall) return alert("No image upload");
 
-      const res = await axios.post(
-        "/api/actors",
-        {
-          ...actor,
-          imgSmall,
-        },
+      const res = await axios.put(
+        `/api/directors/${director._id}`,
+        { ...director, imgSmall },
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      swal({
-        title: "Info !",
-        text: res.data.msg,
-        icon: "success",
-        confirmButtonText: "Yes",
-      });
-
+      Swal.fire(res.data.msg, "", "success");
       setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }
   };
+
+  useEffect(() => {
+    if (param.id) {
+      directors.forEach((director) => {
+        if (director._id === param.id) {
+          setDirector(director);
+          setImgSmall(director.image);
+        }
+      });
+    }
+  }, [param.id, directors]);
 
   return (
     <form className="addMovieForm">
@@ -224,7 +226,7 @@ const ActorDetail = () => {
               name="birthday"
               id="birthday"
               required
-              value={actor.birthday}
+              value={director.birthday}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -235,7 +237,7 @@ const ActorDetail = () => {
               name="biography"
               id="biography"
               required
-              value={actor.biography}
+              value={director.biography}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -246,7 +248,7 @@ const ActorDetail = () => {
               name="place_of_birth"
               id="place_of_birth"
               required
-              value={actor.place_of_birth}
+              value={director.place_of_birth}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -259,7 +261,7 @@ const ActorDetail = () => {
               name="name"
               id="name"
               required
-              value={actor.name}
+              value={director.name}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -270,7 +272,7 @@ const ActorDetail = () => {
               name="gender"
               id="gender"
               required
-              value={actor.gender}
+              value={director.gender}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -281,7 +283,7 @@ const ActorDetail = () => {
               name="tmdbID"
               id="tmdbID"
               required
-              value={actor.tmdbID}
+              value={director.tmdbID}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -291,12 +293,12 @@ const ActorDetail = () => {
               onClick={handleSubmit}
               className="addMovieButton"
             >
-              Create
+              Update
             </button>
             <button
               type="submit"
               onClick={(e) => {
-                handleFetchData(e, actor.tmdbID);
+                handleFetchData(e, director.tmdbID);
               }}
               className="addMovieButton"
             >
@@ -309,4 +311,4 @@ const ActorDetail = () => {
   );
 };
 
-export default ActorDetail;
+export default DirectorDetail;

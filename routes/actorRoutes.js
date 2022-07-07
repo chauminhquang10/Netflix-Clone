@@ -10,6 +10,7 @@ router
 
 router
   .route("/actors/:id")
+  .get(actorController.getOneActor)
   .delete(auth, authAdmin, actorController.deleteActor)
   .put(auth, authAdmin, actorController.updateActor);
 

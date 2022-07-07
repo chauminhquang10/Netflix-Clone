@@ -48,7 +48,7 @@ function getStyles(name, devices, theme) {
   };
 }
 
-const NewMovie = () => {
+const DirectorDetail = () => {
   const [movie, setMovie] = useState(initialState);
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
@@ -309,4 +309,4 @@ const NewMovie = () => {
   );
 };
 
-export default NewMovie;
+export default DirectorDetail;

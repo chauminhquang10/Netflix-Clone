@@ -23,12 +23,12 @@ const MovieSchema = new mongoose.Schema(
     },
 
     img: {
-      type: Object,
+      type: String,
       required: true,
     },
 
     imgSmall: {
-      type: Object,
+      type: String,
       required: true,
     },
 

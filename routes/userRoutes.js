@@ -70,6 +70,9 @@ router.patch("/countLikes", auth, userController.countUserLikes);
 
 router.patch("/updateViews", auth, userController.updateMovieAndGenresView);
 
+// gợi ý dành cho bạn
+router.get("/recommendMovies", auth, userController.getRecommendMovies);
+
 module.exports = router;
 
 // const router = require("express").Router();

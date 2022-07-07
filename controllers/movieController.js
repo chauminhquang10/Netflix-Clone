@@ -254,10 +254,11 @@ const movieController = {
         year,
         limitAge,
         duration,
+        original_country,
         allGenres,
-        actors,
-        directors,
         TMDBid,
+        actorsBelongTo,
+        directorsBelongTo,
       } = req.body;
 
       if (!img || !imgSmall)
@@ -274,9 +275,9 @@ const movieController = {
       const { actorsBelongTo: oldActors, directorsBelongTo: oldDirectors } =
         oldMovie;
 
-      handleKnownForActor(oldActors, actors, req.params.id);
+      handleKnownForActor(oldActors, actorsBelongTo, req.params.id);
 
-      handleKnownForDirector(oldDirectors, directors, req.params.id);
+      handleKnownForDirector(oldDirectors, directorsBelongTo, req.params.id);
 
       // sau đó mới cập nhật phim
       await Movies.findOneAndUpdate(
@@ -288,13 +289,13 @@ const movieController = {
           imgSmall,
           trailer,
           year,
-          product_nation,
           limitAge,
           duration,
+          original_country,
           allGenres,
-          actorsBelongTo: actors,
-          directorsBelongTo: directors,
           TMDBid,
+          actorsBelongTo,
+          directorsBelongTo,
         }
       );
 

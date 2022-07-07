@@ -127,7 +127,7 @@ const OfficialFooter = () => {
           </div>
         </div>
       </footer>
-      <div className="copyright">Netflix Clone &copy; 2021 </div>
+      <div className="copyright">Rex &copy; 2022 </div>
     </>
   );
 };

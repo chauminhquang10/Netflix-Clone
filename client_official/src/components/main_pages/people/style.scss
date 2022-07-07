@@ -112,11 +112,13 @@
                     font-weight: 600;
                 }
                 .bio-content{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    max-height: 300px;
+                    max-width: 1000px;
+                    display: block;/* or inline-block */
+                    text-overflow: ellipsis;
+                    word-wrap: break-word;
                     overflow: hidden;
+                    max-height: 18em;
+                    line-height: 1.8em;
                 }
             }
             .know-for{
@@ -127,6 +129,7 @@
                     height: 100%;
                     display: flex;
                     gap: 10px;
+                    padding: 5px 0px;
                     .know-for-item{
                         display: flex;
                         flex-direction: column;
@@ -137,6 +140,10 @@
                         object-fit: cover;
                         padding-bottom: 10px;
                         gap: 10px;
+                        border: 1px solid black;
+                        border-radius: 5px;
+                        width: 130px;
+                        height: 100%;
                         .item-img{
                             width: 130px;
                             height: 190px;
@@ -150,10 +157,17 @@
                             align-items: center;
                             justify-content: center;
                             text-align: center;
+                            text-transform: capitalize;
+                            height: 100%;
                         }
                     }
                 }
             }
         }
     }
+}
+
+a:hover {
+    text-decoration: none;
+    color: unset;
 }

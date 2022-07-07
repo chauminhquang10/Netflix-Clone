@@ -154,7 +154,7 @@ let handleGetStarted = (sender_psid) => {
       let username = await getUserName(sender_psid);
 
       let response1 = {
-        text: `Xin chào! Chào mừng ${username} đến với Netflix Clone`,
+        text: `Xin chào! Chào mừng ${username} đến với Rex`,
       };
 
       //cái carousel template sau câu chào mừng
