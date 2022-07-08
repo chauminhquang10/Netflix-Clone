@@ -358,7 +358,7 @@ const MovieDetail = () => {
     <>
       <div className="movie_detail_popup_container">
         <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
-          <h1>My Popup</h1>
+          <h1>Notification !!</h1>
           <p>This is the notification that your account is expired</p>
         </PopUp>
       </div>
@@ -383,7 +383,7 @@ const MovieDetail = () => {
           <div className="genre">
             {movieDetail?.allGenres.map((item, index) => (
               <span className="genre__item" key={index}>
-                {item.name}
+                {item?.name}
               </span>
             ))}
           </div>
@@ -417,7 +417,7 @@ const MovieDetail = () => {
 
             <div className="movie_detail_buttons">
               <div className="buttons">
-                {!isNotExpireAccount ? (
+                {isNotExpireAccount ? (
                   <Link
                     className="detail_link"
                     to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}

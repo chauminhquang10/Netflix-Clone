@@ -7,18 +7,48 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import Chart from "../../Admin_components/chart/Chart";
 import { productData } from "../../Admin_components/dummyData";
 import { Publish } from "@material-ui/icons";
-import { FormControl, Select, MenuItem } from "@material-ui/core";
+import { useTheme } from "@mui/material/styles";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  OutlinedInput,
+} from "@material-ui/core";
 import Swal from "sweetalert2";
+
 const initialState = {
   title: "",
-  desc: "How to and tutorial videos of cool CSS effect, Web Design ideas,JavaScript libraries, Node.",
+  desc: "Movie decscription",
   year: 0,
   limitAge: 0,
-  duration: 120,
-  genre: "",
-  TMDBid: "",
+  duration: 0,
+  allGenres: [],
+  actorsBelongTo: [],
+  directorsBelongTo: [],
   trailer: "",
+  TMDBid: "",
 };
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, devices, theme) {
+  return {
+    fontWeight:
+      devices.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const EditMovie = () => {
   const state = useContext(GlobalState);
@@ -27,15 +57,20 @@ const EditMovie = () => {
   const [movie, setMovie] = useState(initialState);
   const [movies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
+  const [actors] = state.actorsAPI.actors;
+  const [directors] = state.directorsAPI.directors;
   const [img, setImg] = useState(false);
   const [imgSmall, setImgSmall] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
-
+  const theme = useTheme();
   //hiển thị thể loại của phim
   const [movieGenre, setMovieGenre] = useState([]);
+  var Genres = [];
+  var Actors = [];
+  var Directors = [];
 
   useEffect(() => {
     if (param.id) {
@@ -50,14 +85,42 @@ const EditMovie = () => {
   }, [param.id, movies]);
 
   useEffect(() => {
-    if (movie) {
-      genres.forEach((genre) => {
-        if (genre._id === movie.genre) {
-          setMovieGenre(genre);
-        }
-      });
+    if (movie.allGenres.length > 0) {
+      for (let i = 0; i < movie.allGenres.length; i++) {
+        if (movie.allGenres[i].name) Genres.push(movie.allGenres[i].name);
+      }
+      if (Genres.length > 0) setMovie({ ...movie, ["allGenres"]: Genres });
     }
   }, [movie, genres]);
+
+  useEffect(() => {
+    if (movie.actorsBelongTo.length > 0) {
+      for (let i = 0; i < movie.actorsBelongTo.length; i++) {
+        for (let j = 0; j < actors.length; j++) {
+          if (actors[j]._id == movie.actorsBelongTo[i]) {
+            Actors.push(actors[j].name.toLowerCase());
+            break;
+          }
+        }
+      }
+      if (Actors.length > 0) setMovie({ ...movie, ["actorsBelongTo"]: Actors });
+    }
+  }, [movie, actors]);
+
+  useEffect(() => {
+    if (movie.directorsBelongTo.length > 0) {
+      for (let i = 0; i < movie.directorsBelongTo.length; i++) {
+        for (let j = 0; j < directors.length; j++) {
+          if (directors[j]._id == movie.directorsBelongTo[i]) {
+            Directors.push(directors[j].name.toLowerCase());
+            break;
+          }
+        }
+      }
+      if (Directors.length > 0)
+        setMovie({ ...movie, ["directorsBelongTo"]: Directors });
+    }
+  }, [movie, directors]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -122,28 +185,6 @@ const EditMovie = () => {
     }
   };
 
-  // const handleDelete = async () => {
-  //   try {
-  //     if (!isAdmin) return alert("You're not an admin");
-  //     setLoading(true);
-
-  //     await axios.post(
-  //       "/api/delete",
-  //       { public_id: img.public_id },
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     );
-
-  //     setLoading(false);
-  //     setImg(false);
-  //   } catch (error) {
-  //     alert(error.response.data.msg);
-  //   }
-  // };
-
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setMovie({ ...movie, [name]: value });
@@ -155,9 +196,43 @@ const EditMovie = () => {
       if (!isAdmin) return alert("You're not an admin");
       if (!img) return alert("No image upload");
 
+      let tempGenres = [];
+      for (let i = 0; i < movie.allGenres.length; i++) {
+        let rs = genres.find(
+          (el) => el.name.toLowerCase() == movie.allGenres[i].toLowerCase()
+        );
+        if (rs) tempGenres.push(rs._id);
+      }
+
+      console.log(movie, "Movie = ");
+
+      let tempActors = [];
+      for (let i = 0; i < movie.actorsBelongTo.length; i++) {
+        let rs = actors.find(
+          (el) => el.name.toLowerCase() == movie.actorsBelongTo[i].toLowerCase()
+        );
+        if (rs) tempActors.push(rs._id);
+      }
+
+      let tempDirectors = [];
+      for (let i = 0; i < movie.directorsBelongTo.length; i++) {
+        let rs = directors.find(
+          (el) =>
+            el.name.toLowerCase() == movie.directorsBelongTo[i].toLowerCase()
+        );
+        tempDirectors.push(rs._id);
+      }
+
       const res = await axios.put(
         `/api/movies/${movie._id}`,
-        { ...movie, img, imgSmall },
+        {
+          ...movie,
+          img,
+          imgSmall,
+          allGenres: tempGenres,
+          actorsBelongTo: tempActors,
+          directorsBelongTo: tempDirectors,
+        },
         {
           headers: {
             Authorization: token,
@@ -300,19 +375,16 @@ const EditMovie = () => {
               ></input>
             </div>
             <div className="addMovieItem">
-              <label htmlFor="genres">Genres:</label>
-              <select
-                name="genre"
-                value={movie.genre}
+              <label htmlFor="desc">Description</label>
+              <textarea
+                type="text"
+                name="desc"
+                id="desc"
+                required
+                value={movie.desc}
+                rows={5}
                 onChange={handleChangeInput}
-              >
-                <option value="">Please select a genre</option>
-                {genres.map((genre) => (
-                  <option value={genre._id} key={genre._id}>
-                    {genre.name}
-                  </option>
-                ))}
-              </select>
+              ></textarea>
             </div>
           </div>
           <div className="child_container">
@@ -338,18 +410,76 @@ const EditMovie = () => {
                 onChange={handleChangeInput}
               ></input>
             </div>
-            <div className="addMovieItem">
-              <label htmlFor="desc">Description</label>
-              <textarea
-                type="text"
-                name="desc"
-                id="desc"
-                required
-                value={movie.desc}
-                rows={5}
+            <div className="addMovieItem hideLegend">
+              <label htmlFor="duration">Genres</label>
+              <Select
+                name="allGenres"
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                multiple
+                value={movie.allGenres}
+                input={<OutlinedInput label="Genres" />}
+                MenuProps={MenuProps}
                 onChange={handleChangeInput}
-              ></textarea>
+              >
+                {genres.map((genre) => (
+                  <MenuItem
+                    key={genre._id}
+                    value={genre.name.toLowerCase()}
+                    style={getStyles(genre, movie.allGenres, theme)}
+                  >
+                    {genre.name}
+                  </MenuItem>
+                ))}
+              </Select>
             </div>
+            <div className="addMovieItem hideLegend">
+              <label htmlFor="duration">Actors</label>
+              <Select
+                name="actorsBelongTo"
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                multiple
+                value={movie.actorsBelongTo}
+                input={<OutlinedInput label="Actors" />}
+                MenuProps={MenuProps}
+                onChange={handleChangeInput}
+              >
+                {actors.map((actor) => (
+                  <MenuItem
+                    key={actor._id}
+                    value={actor.name.toLowerCase()}
+                    style={getStyles(actor, movie.actorsBelongTo, theme)}
+                  >
+                    {actor.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            <div className="addMovieItem hideLegend">
+              <label htmlFor="duration">Directors</label>
+              <Select
+                name="directorsBelongTo"
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                multiple
+                value={movie.directorsBelongTo}
+                input={<OutlinedInput label="Directors" />}
+                MenuProps={MenuProps}
+                onChange={handleChangeInput}
+              >
+                {directors.map((director) => (
+                  <MenuItem
+                    key={director._id}
+                    value={director.name.toLowerCase()}
+                    style={getStyles(director, movie.directorsBelongTo, theme)}
+                  >
+                    {director.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+
             <button className="addMovieButton">Update</button>
           </div>
         </div>

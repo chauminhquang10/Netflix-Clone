@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./AdminActors.css";
+import "./AdminActors.scss";
 import {
   InputAdornment,
   makeStyles,
@@ -27,6 +27,7 @@ import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
 import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -281,11 +282,13 @@ const AdminActors = () => {
               ),
             }}
           ></Input>
-          <AdminNormalButton
-            text="Create"
-            variant="outlined"
-            startIcon={<AddIcon />}
-          ></AdminNormalButton>
+          <Link to="/NewActor">
+            <AdminNormalButton
+              text="Create"
+              variant="outlined"
+              startIcon={<AddIcon />}
+            ></AdminNormalButton>
+          </Link>
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>
@@ -334,15 +337,17 @@ const AdminActors = () => {
                 <TableCell>{actor.place_of_birth}</TableCell>
                 <TableCell>{actor.birthday}</TableCell>
                 <TableCell>
-                  <AdminActionButtons
-                    color="primary"
-                    onClick={() => {
-                      editActor(actor._id, actor.name);
-                      setOpenPopup(true);
-                    }}
-                  >
-                    <EditOutlinedIcon fontSize="small" />
-                  </AdminActionButtons>
+                  <Link to={`/edit_actor/${actor._id}`}>
+                    <AdminActionButtons
+                      color="primary"
+                      onClick={() => {
+                        editActor(actor._id, actor.name);
+                        setOpenPopup(true);
+                      }}
+                    >
+                      <EditOutlinedIcon fontSize="small" />
+                    </AdminActionButtons>
+                  </Link>
 
                   <AdminActionButtons
                     color="secondary"

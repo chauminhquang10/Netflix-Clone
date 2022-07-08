@@ -257,7 +257,7 @@ const CheckOutStep = () => {
     setIsNotExpireAccount(true);
 
     // chuyển trang
-    history.push("/browse");
+    history.push("/survey");
   };
 
   const stripeTranSucess = async (payment) => {
@@ -313,7 +313,7 @@ const CheckOutStep = () => {
       setIsNotExpireAccount(true);
 
       // chuyển trang
-      history.push("/browse");
+      history.push("/survey");
     }
   };
 
@@ -396,7 +396,7 @@ const CheckOutStep = () => {
           cancel at any time to avoid future charges.
         </span>
         {/* Coupon Code */}
-        <div style={{ margin: "40px 0px" }}>
+        {/* <div style={{ margin: "40px 0px" }}>
           <TextField
             label="Coupon Code"
             id="outlined-size-normal"
@@ -427,9 +427,9 @@ const CheckOutStep = () => {
               </Button>
             </div>
           ))}
-        </div>
+        </div> */}
         {checkOutPackage?.packId && (
-          <div>
+          <div className="payment-group">
             <PayPalCheckOut
               total={total}
               tranSuccess={tranSuccess}

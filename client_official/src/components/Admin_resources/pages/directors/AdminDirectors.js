@@ -27,6 +27,7 @@ import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
 import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -88,8 +89,6 @@ const AdminDirectors = () => {
       return directors;
     },
   });
-
-  // useEffect(() => {}, []);
 
   const handleSearch = (event) => {
     let target = event.target;
@@ -282,11 +281,13 @@ const AdminDirectors = () => {
               ),
             }}
           ></Input>
-          <AdminNormalButton
-            text="Create"
-            variant="outlined"
-            startIcon={<AddIcon />}
-          ></AdminNormalButton>
+          <Link to="/NewDirector">
+            <AdminNormalButton
+              text="Create"
+              variant="outlined"
+              startIcon={<AddIcon />}
+            ></AdminNormalButton>
+          </Link>
         </Toolbar>
         <Table className={classes.table}>
           <TableHead>
@@ -335,16 +336,17 @@ const AdminDirectors = () => {
                 <TableCell>{director.place_of_birth}</TableCell>
                 <TableCell>{director.birthday}</TableCell>
                 <TableCell>
-                  <AdminActionButtons
-                    color="primary"
-                    onClick={() => {
-                      editDirector(director._id, director.name);
-                      setOpenPopup(true);
-                    }}
-                  >
-                    <EditOutlinedIcon fontSize="small" />
-                  </AdminActionButtons>
-
+                  <Link to={`/edit_director/${director._id}`}>
+                    <AdminActionButtons
+                      color="primary"
+                      onClick={() => {
+                        editDirector(director._id, director.name);
+                        setOpenPopup(true);
+                      }}
+                    >
+                      <EditOutlinedIcon fontSize="small" />
+                    </AdminActionButtons>
+                  </Link>
                   <AdminActionButtons
                     color="secondary"
                     onClick={() => deleteDirector(director._id)}

@@ -280,12 +280,12 @@ const userController = {
       const { tokenId } = req.body;
       const verify = await client.verifyIdToken({
         idToken: tokenId,
-        audience: "" + process.env.MAILING_SERVICE_CLIENT_ID,
+        audience: process.env.MAILING_SERVICE_CLIENT_ID,
       });
 
       const { email_verified, email, name, picture } = verify.payload;
 
-      const password = email + "" + process.env.GOOGLE_SECRET;
+      const password = email + process.env.GOOGLE_SECRET;
       const passwordHash = await bcrypt.hash(password, 12);
 
       if (!email_verified)
@@ -526,7 +526,6 @@ const userController = {
     try {
       const user = await Users.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
-
       // cập nhật danh sách thể loại với số lượt viewcount
       await Users.findOneAndUpdate(
         { _id: req.user.id },
@@ -534,7 +533,6 @@ const userController = {
           likedGenres: req.body.likedGenres,
         }
       );
-
       return res.json({ msg: "Count user like up!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -563,6 +561,10 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
   getRecommendMovies: async (req, res) => {
     try {
       let user = await Users.findById(req.user.id).select("-password");
@@ -596,6 +598,18 @@ const userController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+<<<<<<< HEAD
+=======
+};
+
+const checkMovieQualified = (movie, user, finalResults) => {
+  const intersectionResult = user.likedGenres.filter((item1) =>
+    movie.allGenres.some((item2) => item1.id == item2)
+  );
+  if (intersectionResult.length > 0) {
+    finalResults.push(movie);
+  }
+>>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
 };
 
 const updateGenreView = async (genreId) => {

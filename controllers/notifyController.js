@@ -17,12 +17,12 @@ const NotifyController = {
         return sortTop3LikedGenresPerUser(user);
       });
 
-      // cuối cùng chọn ra những user sẽ được gửi thông báo
+      // // cuối cùng chọn ra những user sẽ được gửi thông báo
       sortedUsers.filter((user) => {
         return checkUserQualified(user, allGenres, finalResults);
       });
 
-      //const allClientUsers = await Users.find({ role: 0 }).select("_id");
+      // const allClientUsers = await Users.find({ role: 0 }).select("_id");
 
       // let allUserIds = allClientUsers.map((user) => {
       //   return user._id;
@@ -184,7 +184,11 @@ const sortTop3LikedGenresPerUser = (user) => {
     return b.viewCount - a.viewCount;
   });
   const top3Views = user.likedGenres.slice(0, 3);
+<<<<<<< HEAD
   user = top3Views;
+=======
+  user.likedGenres = top3Views;
+>>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
   return user;
 };
 

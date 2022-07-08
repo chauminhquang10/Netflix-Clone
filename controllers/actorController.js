@@ -13,6 +13,16 @@ const actorController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  getOneActor: async (req, res) => {
+    try {
+      const actor = await Actors.findById(req.params.id).populate("knownFor");
+      return res.status(200).json({ actor });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   //only admin can create , update , delete actor
   createActor: async (req, res) => {
     try {
@@ -75,6 +85,7 @@ const actorController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
   deleteActor: async (req, res) => {
     try {
       // xóa những phim có diễn viên này tham gia trước.

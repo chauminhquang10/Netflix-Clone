@@ -53,7 +53,7 @@ export default function Featured({
             {genres.map((genre) => (
               <option
                 className="option"
-                value={"genre=" + genre._id}
+                value={"allGenres=" + genre._id}
                 key={genre._id}
               >
                 {genre.name}

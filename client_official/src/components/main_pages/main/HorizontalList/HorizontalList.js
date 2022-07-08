@@ -56,7 +56,7 @@ export default function HorizontalList({ title, movies }) {
           >
             {movies.map((movie, index) => (
               <SwiperSlide
-                style={{ listStyle: "none" }}
+                style={{ listStyle: "none", height: "155px" }}
                 key={`slide-${index}`}
                 tag="li"
               >

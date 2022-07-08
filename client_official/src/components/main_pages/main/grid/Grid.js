@@ -25,7 +25,7 @@ const Grid = ({ movies, title, index }) => {
             case 1:
               return (
                 <div className={"Grid_1"}>
-                  <GridItem movie={movie}></GridItem>
+                  <GridItem movie={movie} isBig={true}></GridItem>
                   <div className="Grid_item_title_large">{movie.title}</div>
                   <div>
                     <img

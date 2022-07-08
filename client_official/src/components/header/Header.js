@@ -128,14 +128,13 @@ const Header = () => {
           )}
 
           {/* Thử nghiệm mua gói */}
-          {isValidAccount && (
+          {/* {isValidAccount && (
             <li className="header_li">
               <Link className="header_Link" to="/packages">
                 Packages
               </Link>
             </li>
-          )}
-
+          )} */}
           {/* Phần lịch sử mua gói */}
           {isValidAccount && (
             <li className="header_li">

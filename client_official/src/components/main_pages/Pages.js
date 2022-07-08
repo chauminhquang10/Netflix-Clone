@@ -11,6 +11,10 @@ import MovieDetail from "./movie_detail/MovieDetail";
 import AdminGenres from "../Admin_resources/pages/genres/AdminGenres";
 import AdminDirectors from "../Admin_resources/pages/directors/AdminDirectors";
 import AdminActor from "../Admin_resources/pages/actors/AdminActors";
+import NewActor from "../Admin_resources/pages/actors/NewActor";
+import EditActor from "../Admin_resources/pages/actors/EditActor";
+import NewDirector from "../Admin_resources/pages/directors/NewDirector";
+import EditDirector from "../Admin_resources/pages/directors/EditDirector";
 import AdminLists from "../Admin_resources/pages/lists/AdminLists";
 import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
@@ -29,7 +33,7 @@ import PackageDetail from "../Admin_resources/pages/package/packageDetail/Packag
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/createMovie/NewMovie";
 
-import People from "./people/People";
+import Person from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
 
 import LandingPage from "../LandingPage/LandingPage";
@@ -50,7 +54,7 @@ import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 import SearchPage from "./main/search_page/SearchPage";
-
+import Survery from "./survery/Survery";
 import RankingMovies from "./main/Ranking/RankingMovies";
 
 const Pages = () => {
@@ -97,6 +101,26 @@ const Pages = () => {
               <Route
                 path="/newMovie"
                 component={isAdmin ? NewMovie : NotFound}
+              />
+
+              <Route
+                path="/NewActor"
+                component={isAdmin ? NewActor : NotFound}
+              />
+
+              <Route
+                path="/edit_actor/:id"
+                component={isAdmin ? EditActor : NotFound}
+              />
+
+              <Route
+                path="/NewDirector"
+                component={isAdmin ? NewDirector : NotFound}
+              />
+
+              <Route
+                path="/edit_director/:id"
+                component={isAdmin ? EditDirector : NotFound}
               />
 
               <Route
@@ -214,6 +238,11 @@ const Pages = () => {
                 component={isLogged ? Movies : LandingPage}
               />
               <Route
+                path="/survey"
+                exact
+                component={isLogged ? Survery : LandingPage}
+              />
+              <Route
                 path="/detail/:id"
                 component={isLogged ? MovieDetail : LandingPage}
               />
@@ -222,8 +251,8 @@ const Pages = () => {
                 component={isLogged ? Favorite : LandingPage}
               />
               <Route
-                path="/people"
-                component={isLogged ? People : LandingPage}
+                path="/person/:id"
+                component={isLogged ? Person : LandingPage}
               />
               {/* Thử nghiệm mua gói */}
               <Route path="/packages" component={ServicePackage} />

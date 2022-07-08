@@ -121,7 +121,7 @@
   max-height: 87px;
   width: 80%;
   height: 80%;
-  box-shadow: 0px 0px 5px red;
+  box-shadow: 0px 0px 5px #2596be;
   background: #2596be;
   position: absolute;
   display: flex;
@@ -142,7 +142,7 @@
   content: "";
   display: block;
   border: 10px solid transparent;
-  border-top-color: #e60000;
+  border-top-color: #2596be;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -191,6 +191,6 @@ td {
 }
 
 .active_package_detail_content {
-  color: #e60000;
+  color: #2596be;
   opacity: 1;
 }
