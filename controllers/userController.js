@@ -563,6 +563,39 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getRecommendMovies: async (req, res) => {
+    try {
+      let user = await Users.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User doesn't exist!" });
+
+      let finalResults = [];
+
+      let responseData = [];
+
+      if (user.likedGenres.length > 0) {
+        user.likedGenres.sort(function (a, b) {
+          return b.viewCount - a.viewCount;
+        });
+
+        const top3Views = user.likedGenres.slice(0, 3);
+
+        user.likedGenres = top3Views;
+
+        // Lấy ra tất cả phim mới nhất
+        const newestMovies = await Movies.find().sort({ createdAt: -1 });
+
+        newestMovies.filter((movie) => {
+          return checkMovieQualified(movie, user, finalResults);
+        });
+
+        responseData = finalResults.slice(0, 10);
+      }
+
+      res.status(200).json({ responseData });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 const updateGenreView = async (genreId) => {
@@ -574,6 +607,15 @@ const updateGenreView = async (genreId) => {
       views: updateGenre.views + 1,
     }
   );
+};
+
+const checkMovieQualified = (movie, user, finalResults) => {
+  const intersectionResult = user.likedGenres.filter((item1) =>
+    movie.allGenres.some((item2) => item1.id == item2)
+  );
+  if (intersectionResult.length > 0) {
+    finalResults.push(movie);
+  }
 };
 
 const createActivationToken = (payload) => {

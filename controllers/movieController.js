@@ -124,13 +124,13 @@ const movieController = {
       const createdMovie = await newMovie.save();
 
       // lưu id phim này vào mảng knownFor cho các diễn viên, đạo diễn.
-      // actors.filter((actorId) => {
-      //   return addKnownForActor(actorId, createdMovie._id);
-      // });
+      actorsBelongTo.filter((actorId) => {
+        return addKnownForActor(actorId, createdMovie._id);
+      });
 
-      // directors.filter((directorId) => {
-      //   return addKnownForDirector(directorId, createdMovie._id);
-      // });
+      directorsBelongTo.filter((directorId) => {
+        return addKnownForDirector(directorId, createdMovie._id);
+      });
 
       res.json({
         msg: "Created a new movie!",
@@ -220,10 +220,10 @@ const movieController = {
       const actorsContainMovie = await Actors.find({
         knownFor: req.params.id,
       });
-      let movieId = req.params.id;
+
       if (actorsContainMovie.length > 0) {
         actorsContainMovie.filter((actor) => {
-          return removeKnownForActor(actor._id, movieId);
+          return removeKnownForActor(actor._id, req.params.id);
         });
       }
 
@@ -233,7 +233,7 @@ const movieController = {
 
       if (directorsContainMovie.length > 0) {
         directorsContainMovie.filter((director) => {
-          return removeKnownForDirector(director._id, movieId);
+          return removeKnownForDirector(director._id, req.params.id);
         });
       }
 
