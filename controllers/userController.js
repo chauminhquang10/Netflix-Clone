@@ -594,8 +594,6 @@ const userController = {
       return res.status(500).json({ msg: error.message });
     }
   },
-<<<<<<< HEAD
-=======
 };
 
 const checkMovieQualified = (movie, user, finalResults) => {
@@ -605,7 +603,6 @@ const checkMovieQualified = (movie, user, finalResults) => {
   if (intersectionResult.length > 0) {
     finalResults.push(movie);
   }
->>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
 };
 
 const updateGenreView = async (genreId) => {
