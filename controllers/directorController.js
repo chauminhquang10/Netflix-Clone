@@ -45,6 +45,15 @@ const directorController = {
     }
   },
 
+  getOneDirector: async (req, res) => {
+    try {
+      const director = await Directors.findById(req.params.id).populate("knownFor");
+      return res.status(200).json({ director });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   loadDirector: async (req, res) => {
     try {
       let rawdata = fs.readFileSync("./NewDirector.json");

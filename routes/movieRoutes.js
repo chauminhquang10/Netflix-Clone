@@ -12,7 +12,8 @@ router
 router
   .route("/movies")
   .get(movieController.getMovies)
-  .post(auth, authAdmin, movieController.createMovie);
+  .post(auth, authAdmin, movieController.createMovie)
+  .delete(auth, authAdmin, movieController.deleteMovies);
 
 // router.route("/allMovies").get(movieController.getAllMovies);
 
@@ -36,7 +37,7 @@ router.get(
   movieController.getTopMoviesStats
 );
 
-router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
+router.route("/loadmovies").post(movieController.loadmovies);
 
 router.route("/fetchGenres").post(movieController.fetchGenres);
 

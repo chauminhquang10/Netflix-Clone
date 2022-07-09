@@ -45,7 +45,8 @@ const movieController = {
     try {
       const movie = await Movies.findById(req.params.id)
         .populate("allGenres", "name")
-        .populate("actorsBelongTo");
+        .populate("actorsBelongTo")
+        .populate("directorsBelongTo");
       return res.status(200).json({ movie });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -96,6 +97,9 @@ const movieController = {
         TMDBid,
         actorsBelongTo,
         directorsBelongTo,
+        imdbId,
+        imdb_rating,
+        original_languageoriginal_language,
       } = req.body;
       if (!img || !imgSmall)
         return res
@@ -120,6 +124,9 @@ const movieController = {
         actorsBelongTo,
         original_country,
         directorsBelongTo,
+        imdbId,
+        imdb_rating,
+        original_language,
       });
       const createdMovie = await newMovie.save();
 
@@ -158,6 +165,100 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  deleteMovies: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./dupList.json");
+
+      let movies = JSON.parse(rawdata);
+
+      for (let i = 0; i < movies.length; i++) {
+        console.log(`deleting ${movies[i]}`);
+        // xóa phim này ra khỏi list chứa nó trước khi xóa phim.
+        const listContainMovie = await Lists.find({
+          items: { $elemMatch: { _id: ObjectId(movies[i]) } },
+        });
+
+        // nếu có list chứa nó thì
+        if (listContainMovie.length > 0) {
+          const { items, genre } = listContainMovie[0];
+
+          await Lists.findOneAndUpdate(
+            { _id: listContainMovie[0]._id },
+            {
+              $pull: { items: { _id: ObjectId(movies[i]) } },
+            },
+            { new: true }
+          );
+
+          let allItemsId = items.map((item) => {
+            return item._id;
+          });
+
+          const addNewMovie = await Movies.aggregate([
+            {
+              $match: {
+                $and: [
+                  {
+                    allGenres: {
+                      $in: [ObjectId(genre)],
+                    },
+                    listId: null,
+                  },
+                  {
+                    _id: {
+                      $nin: allItemsId,
+                    },
+                  },
+                ],
+              },
+            },
+            { $sample: { size: 1 } },
+          ]);
+
+          if (addNewMovie.length > 0) {
+            await Lists.findOneAndUpdate(
+              { _id: listContainMovie[0]._id },
+              {
+                $push: { items: addNewMovie[0] },
+              },
+              { new: true }
+            );
+          } else
+            return res.status(400).json({
+              msg: "Can't delete this movie because of not having enough movie to fit in the list",
+            });
+        }
+
+        // Xóa id phim này ra khỏi mảng knownFor của các diễn viên, đạo diễn trước khi xóa phim.
+        const actorsContainMovie = await Actors.find({
+          knownFor: movies[i],
+        });
+
+        if (actorsContainMovie.length > 0) {
+          actorsContainMovie.filter((actor) => {
+            return removeKnownForActor(actor._id, movies[i]);
+          });
+        }
+
+        const directorsContainMovie = await Directors.find({
+          knownFor: movies[i],
+        });
+
+        if (directorsContainMovie.length > 0) {
+          directorsContainMovie.filter((director) => {
+            return removeKnownForDirector(director._id, movies[i]);
+          });
+        }
+
+        await Movies.findByIdAndDelete(movies[i]);
+      }
+      res.json({ msg: "Movies Deleted !" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   deleteMovie: async (req, res) => {
     try {
       // xóa phim này ra khỏi list chứa nó trước khi xóa phim.
@@ -259,6 +360,9 @@ const movieController = {
         TMDBid,
         actorsBelongTo,
         directorsBelongTo,
+        imdbId,
+        imdb_rating,
+        original_language,
       } = req.body;
 
       if (!img || !imgSmall)
@@ -296,6 +400,9 @@ const movieController = {
           TMDBid,
           actorsBelongTo,
           directorsBelongTo,
+          imdbId,
+          imdb_rating,
+          original_language,
         }
       );
 

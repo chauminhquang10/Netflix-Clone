@@ -17,6 +17,17 @@ const MovieSchema = new mongoose.Schema(
     TMDBid: {
       type: String,
     },
+    original_language: {
+      type: String,
+    },
+    imdbId: {
+      type: String,
+    },
+
+    imdb_rating: {
+      type: String,
+      default: 0,
+    },
 
     original_country: {
       type: String,
