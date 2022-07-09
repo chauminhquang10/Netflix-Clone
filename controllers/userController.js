@@ -561,10 +561,6 @@ const userController = {
       return res.status(500).json({ msg: err.message });
     }
   },
-<<<<<<< HEAD
-=======
-
->>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
   getRecommendMovies: async (req, res) => {
     try {
       let user = await Users.findById(req.user.id).select("-password");

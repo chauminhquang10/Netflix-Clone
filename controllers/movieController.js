@@ -518,6 +518,30 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getSimilarMovies: async (req, res) => {
+    try {
+      const { genreID } = req.body;
+
+      // const similarMovies = await Movies.aggregate([
+      //   {
+      //     $match: {
+      //       allGenres: {
+      //         $in: [ObjectId(genreID)],
+      //       },
+      //     },
+      //   },
+      //   { $sample: { size: 10 } },
+      // ]);
+
+      const similarMovies = await Movies.find({ allGenres: genreID })
+        .sort({ score: -1 })
+        .limit(10);
+
+      res.status(200).json(similarMovies);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // hàm tính logarit cơ số 10
