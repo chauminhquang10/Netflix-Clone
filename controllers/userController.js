@@ -616,15 +616,6 @@ const updateGenreView = async (genreId) => {
   );
 };
 
-const checkMovieQualified = (movie, user, finalResults) => {
-  const intersectionResult = user.likedGenres.filter((item1) =>
-    movie.allGenres.some((item2) => item1.id == item2)
-  );
-  if (intersectionResult.length > 0) {
-    finalResults.push(movie);
-  }
-};
-
 const createActivationToken = (payload) => {
   return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
     expiresIn: "5m",

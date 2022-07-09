@@ -184,11 +184,7 @@ const sortTop3LikedGenresPerUser = (user) => {
     return b.viewCount - a.viewCount;
   });
   const top3Views = user.likedGenres.slice(0, 3);
-<<<<<<< HEAD
-  user = top3Views;
-=======
   user.likedGenres = top3Views;
->>>>>>> 1bf43291d830e2ab7d8d0bca10b67b5cc23ebc63
   return user;
 };
 
