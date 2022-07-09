@@ -14,7 +14,7 @@ const Movies = () => {
   const [Choice, setChoice] = state.moviesAPI.search;
   const [token] = state.token;
   const [isAdmin] = state.usersAPI.isAdmin;
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
   const [searchGenres, setSearchGenres] = useState([]);
   const [search] = state.moviesAPI.search;

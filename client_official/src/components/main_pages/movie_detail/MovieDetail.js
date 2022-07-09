@@ -71,6 +71,9 @@ const MovieDetail = () => {
   // DANH SÁCH PHIM CÙNG THỂ LOẠI
   const [similarMovies, setSimilarMovies] = useState([]);
 
+  // callback dành riêng cho movie detail
+  const [movieDetailCallback, setMovieDetailCallback] = useState(false);
+
   useEffect(() => {
     const getDetailMovie = async () => {
       if (params.id) {
@@ -108,7 +111,7 @@ const MovieDetail = () => {
     };
 
     getDetailMovie();
-  }, [params.id]);
+  }, [params.id, movieDetailCallback]);
 
   useEffect(() => {
     if (movieDetail.length !== 0) {
@@ -494,6 +497,8 @@ const MovieDetail = () => {
         setCommentList={setCommentList}
         commentCallback={commentCallback}
         setCommentCallback={setCommentCallback}
+        movieDetailCallback={movieDetailCallback}
+        setMovieDetailCallback={setMovieDetailCallback}
       ></Comments>
     </>
   );
