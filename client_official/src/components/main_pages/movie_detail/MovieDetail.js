@@ -68,6 +68,9 @@ const MovieDetail = () => {
   // TỔNG SỐ DISLIKE
   const [dislikesNumber, setDislikesNumber] = useState(0);
 
+  // DANH SÁCH PHIM CÙNG THỂ LOẠI
+  const [similarMovies, setSimilarMovies] = useState([]);
+
   useEffect(() => {
     const getDetailMovie = async () => {
       if (params.id) {
@@ -79,6 +82,8 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
+            await getSimilarMovies(res.data.movie?.allGenres._id);
+
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
               setMoviesCallback(!moviesCallback);
@@ -88,6 +93,20 @@ const MovieDetail = () => {
         }
       }
     };
+
+    const getSimilarMovies = async (genreId) => {
+      if (genreId) {
+        try {
+          const res = await axios.get(`/api/similarMovies/${genreId}`);
+          if (res.data.similarMovies.length > 0) {
+            setSimilarMovies(res.data.similarMovies);
+          }
+        } catch (error) {
+          alert(error.response.data.msg);
+        }
+      }
+    };
+
     getDetailMovie();
   }, [params.id]);
 
@@ -349,11 +368,6 @@ const MovieDetail = () => {
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
 
-  let currentURL =
-    +process.env.REACT_APP_IS_LOCALHOST === 1
-      ? "https://netflix-chat-bot.herokuapp.com/"
-      : window.location.href;
-
   return (
     <>
       <div className="movie_detail_popup_container">
@@ -472,12 +486,6 @@ const MovieDetail = () => {
           </div>
           <MovieList movies={movies} movieDetail={movieDetail}></MovieList>
         </div>
-      </div> */}
-
-      {/* Facebook Plugins  */}
-      {/* <div className="Comment_container">
-        <LikeAndShare dataHref={currentURL} />
-        <Comment width={"100%"} dataHref={currentURL} />
       </div> */}
 
       <Comments

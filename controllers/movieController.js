@@ -45,7 +45,8 @@ const movieController = {
     try {
       const movie = await Movies.findById(req.params.id)
         .populate("allGenres", "name")
-        .populate("actorsBelongTo");
+        .populate("actorsBelongTo")
+        .populate("directorsBelongTo");
       return res.status(200).json({ movie });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -520,24 +521,13 @@ const movieController = {
   },
   getSimilarMovies: async (req, res) => {
     try {
-      const { genreID } = req.body;
-
-      // const similarMovies = await Movies.aggregate([
-      //   {
-      //     $match: {
-      //       allGenres: {
-      //         $in: [ObjectId(genreID)],
-      //       },
-      //     },
-      //   },
-      //   { $sample: { size: 10 } },
-      // ]);
+      const { genreID } = req.params;
 
       const similarMovies = await Movies.find({ allGenres: genreID })
-        .sort({ score: -1 })
+        .sort({ createdAt: -1 })
         .limit(10);
 
-      res.status(200).json(similarMovies);
+      res.status(200).json({ similarMovies });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
