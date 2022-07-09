@@ -161,6 +161,11 @@ const DirectorDetail = () => {
         }
       );
       Swal.fire(res.data.msg, "", "success");
+      const newDirectors = directors.map((item) =>
+        item._id === director._id ? { ...director, imgSmall } : item
+      );
+      setDirectors([...newDirectors]);
+
       // setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);

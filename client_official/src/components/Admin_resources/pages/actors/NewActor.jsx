@@ -55,6 +55,7 @@ const ActorDetail = () => {
   const [token] = state.token;
   const param = useParams();
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [actors, setActors] = state.actorsAPI.actors;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
 
@@ -171,6 +172,7 @@ const ActorDetail = () => {
       });
 
       //  setMoviesCallback(!moviesCallback);
+      res.data?.createdActor && setActors([...actors, res.data.createdActor]);
     } catch (error) {
       alert(error.response.data.msg);
     }

@@ -55,6 +55,7 @@ const DirectorDetail = () => {
   const [token] = state.token;
   const param = useParams();
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [directors, setDirectors] = state.directorsAPI.directors;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
 
@@ -171,6 +172,8 @@ const DirectorDetail = () => {
       });
 
       //  setMoviesCallback(!moviesCallback);
+      res.data?.createdDirector &&
+        setDirectors([...directors, res.data.createdDirector]);
     } catch (error) {
       alert(error.response.data.msg);
     }

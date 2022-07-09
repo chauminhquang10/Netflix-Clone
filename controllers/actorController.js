@@ -48,8 +48,8 @@ const actorController = {
         biography,
         tmdbID,
       });
-      await newActor.save();
-      res.json({ msg: "Created a new actor" });
+      const createdActor = await newActor.save();
+      res.json({ msg: "Created a new actor", createdActor });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
