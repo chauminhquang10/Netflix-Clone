@@ -38,8 +38,8 @@ const directorController = {
         biography,
         tmdbID,
       });
-      await newDirector.save();
-      res.json({ msg: "Created a new director" });
+      const createdDirector = await newDirector.save();
+      res.json({ msg: "Created a new director", createdDirector });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

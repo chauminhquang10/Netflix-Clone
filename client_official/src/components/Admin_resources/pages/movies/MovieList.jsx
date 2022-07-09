@@ -172,7 +172,7 @@ const MovieList = () => {
                 Authorization: token,
               },
             });
-            await res;
+            // await res;
             Swal.fire(res.data.msg, "", "success");
             //Notify
             const msg = {
@@ -210,7 +210,7 @@ const MovieList = () => {
             Authorization: token,
           },
         });
-        await res;
+        // await res;
         const msg = {
           id,
           url: `/detail/${id}`,
@@ -253,7 +253,6 @@ const MovieList = () => {
             await deleteMovie(movie._id, movie.img.public_id, true);
           }
         });
-        setMovies([]);
       }
     });
     // Swal.fire("Movies Deleted", "", "success");
