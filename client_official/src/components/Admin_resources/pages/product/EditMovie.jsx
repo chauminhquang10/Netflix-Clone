@@ -204,8 +204,6 @@ const EditMovie = () => {
         if (rs) tempGenres.push(rs._id);
       }
 
-      console.log(movie, "Movie = ");
-
       let tempActors = [];
       for (let i = 0; i < movie.actorsBelongTo.length; i++) {
         let rs = actors.find(

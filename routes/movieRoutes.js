@@ -37,7 +37,7 @@ router.get(
   movieController.getTopMoviesStats
 );
 
-router.route("/loadmovies").post(movieController.loadmovies);
+router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
 
 router.route("/fetchGenres").post(movieController.fetchGenres);
 

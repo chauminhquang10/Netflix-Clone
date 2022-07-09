@@ -99,7 +99,7 @@ const movieController = {
         directorsBelongTo,
         imdbId,
         imdb_rating,
-        original_languageoriginal_language,
+        original_language,
       } = req.body;
       if (!img || !imgSmall)
         return res

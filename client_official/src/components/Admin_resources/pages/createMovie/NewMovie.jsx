@@ -27,6 +27,10 @@ const initialState = {
   directorsBelongTo: [],
   trailer: "",
   TMDBid: "",
+  original_language: "",
+  imdbId: "",
+  imdb_rating: 0,
+  original_country: "",
 };
 
 const ITEM_HEIGHT = 48;

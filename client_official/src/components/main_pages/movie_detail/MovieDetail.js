@@ -374,7 +374,7 @@ const MovieDetail = () => {
   return (
     <>
       <div className="movie_detail_popup_container">
-        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
+        <PopUp trigger={true} setTrigger={setPopupTrigger}>
           <h1>Notification !!</h1>
           <p>This is the notification that your account is expired</p>
         </PopUp>

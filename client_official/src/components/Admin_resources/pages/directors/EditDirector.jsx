@@ -57,7 +57,7 @@ const DirectorDetail = () => {
   const [imgSmall, setImgSmall] = useState("");
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [directors, setDirectors] = state.directorsAPI.directors;
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -161,6 +161,7 @@ const DirectorDetail = () => {
         }
       );
       Swal.fire(res.data.msg, "", "success");
+      history.push("/directors");
       // setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);

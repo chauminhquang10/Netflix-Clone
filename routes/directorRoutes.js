@@ -14,7 +14,9 @@ router
   .delete(auth, authAdmin, directorController.deleteDirector)
   .put(auth, authAdmin, directorController.updateDirector);
 
-router.route("/loaddirectors").post(directorController.loadDirector);
+router
+  .route("/loaddirectors")
+  .post(auth, authAdmin, directorController.loadDirector);
 
 router.route("/updatedirectors").post(directorController.updateDirectors);
 module.exports = router;
