@@ -69,7 +69,7 @@ const MovieList = () => {
 
   const [token] = state.token;
   const [movies, setMovies] = state.moviesAPI.movies;
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -182,7 +182,10 @@ const MovieList = () => {
 
             dispatch(removeNotify({ msg, socket, token }));
 
-            setMoviesCallback(!moviesCallback);
+            const newMovies = movies.filter((item) => item._id !== id);
+
+            setMovies([...newMovies]);
+            //setMoviesCallback(!moviesCallback);
           } catch (error) {
             alert(error.response.data.msg);
           }
@@ -213,7 +216,12 @@ const MovieList = () => {
           url: `/detail/${id}`,
         };
         dispatch(removeNotify({ msg, socket, token }));
-        setMoviesCallback(!moviesCallback);
+
+        const newMovies = movies.filter((item) => item._id !== id);
+
+        setMovies([...newMovies]);
+
+        // setMoviesCallback(!moviesCallback);
       } catch (error) {
         alert(error.response.data.msg);
       }
@@ -245,6 +253,7 @@ const MovieList = () => {
             await deleteMovie(movie._id, movie.img.public_id, true);
           }
         });
+        setMovies([]);
       }
     });
     // Swal.fire("Movies Deleted", "", "success");

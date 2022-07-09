@@ -625,6 +625,19 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  getSimilarMovies: async (req, res) => {
+    try {
+      const { genreID } = req.params;
+
+      const similarMovies = await Movies.find({ allGenres: genreID })
+        .sort({ createdAt: -1 })
+        .limit(10);
+
+      res.status(200).json({ similarMovies });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // hàm tính logarit cơ số 10

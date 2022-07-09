@@ -44,4 +44,7 @@ router.route("/fetchGenres").post(movieController.fetchGenres);
 // Thống kê những top movies với điểm (score) cao nhất để làm bxh bên user.
 router.get("/topMoviesRanking", movieController.getRankingMovies);
 
+// lấy những phim cùng thể loại
+router.route("/similarMovies/:genreID").get(movieController.getSimilarMovies);
+
 module.exports = router;

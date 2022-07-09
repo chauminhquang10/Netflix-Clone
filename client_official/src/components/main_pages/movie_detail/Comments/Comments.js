@@ -19,6 +19,8 @@ const Comments = ({
   setCommentList,
   commentCallback,
   setCommentCallback,
+  movieDetailCallback,
+  setMovieDetailCallback,
 }) => {
   const [commentContent, setCommentContent] = useState("");
 
@@ -27,7 +29,7 @@ const Comments = ({
   const state = useContext(GlobalState);
   const [token] = state.token;
 
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   // phần đánh giá sao
   const [rating, setRating] = useState(null);
@@ -61,7 +63,8 @@ const Comments = ({
         });
         setCommentContent("");
         setCommentCallback(!commentCallback);
-        setMoviesCallback(!moviesCallback);
+        //setMoviesCallback(!moviesCallback);
+        setMovieDetailCallback(!movieDetailCallback);
         setRating(null);
       } else {
         alert("Please choose a value of star!");
@@ -95,8 +98,11 @@ const Comments = ({
                   movieId={movieId}
                   commentCallback={commentCallback}
                   setCommentCallback={setCommentCallback}
-                  moviesCallback={moviesCallback}
-                  setMoviesCallback={setMoviesCallback}
+                  // moviesCallback={moviesCallback}
+                  // setMoviesCallback={setMoviesCallback}
+
+                  movieDetailCallback={movieDetailCallback}
+                  setMovieDetailCallback={setMovieDetailCallback}
                 ></SingleComment>
                 <ReplyComment
                   commentList={commentList}

@@ -55,7 +55,7 @@ const EditMovie = () => {
   const [token] = state.token;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [movie, setMovie] = useState(initialState);
-  const [movies] = state.moviesAPI.movies;
+  const [movies, setMovies] = state.moviesAPI.movies;
   const [genres] = state.genresAPI.genres;
   const [actors] = state.actorsAPI.actors;
   const [directors] = state.directorsAPI.directors;
@@ -64,7 +64,7 @@ const EditMovie = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const theme = useTheme();
   //hiển thị thể loại của phim
   const [movieGenre, setMovieGenre] = useState([]);
@@ -240,7 +240,23 @@ const EditMovie = () => {
         }
       );
       Swal.fire(res.data.msg, "", "success");
-      setMoviesCallback(!moviesCallback);
+
+      const newMovies = movies.map((item) =>
+        item._id === movie._id
+          ? {
+              ...movie,
+              img,
+              imgSmall,
+              allGenres: tempGenres,
+              actorsBelongTo: tempActors,
+              directorsBelongTo: tempDirectors,
+            }
+          : item
+      );
+
+      setMovies([...newMovies]);
+
+      //setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {
       alert(error.response.data.msg);

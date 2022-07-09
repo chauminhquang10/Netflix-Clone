@@ -54,7 +54,7 @@ const DirectorDetail = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
 
@@ -170,7 +170,7 @@ const DirectorDetail = () => {
         confirmButtonText: "Yes",
       });
 
-      setMoviesCallback(!moviesCallback);
+      //  setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }
