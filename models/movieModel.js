@@ -30,7 +30,7 @@ const MovieSchema = new mongoose.Schema(
     },
 
     original_country: {
-      type: String,
+      type: Array,
     },
 
     img: {

@@ -411,6 +411,29 @@ const movieController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  updateMovies: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./MoviesForUpdate.json");
+
+      let movies = JSON.parse(rawdata);
+
+      await movies.forEach(async (movie, index) => {
+        let view = 0;
+        if (movie["imdb_rating"]) view = movie["imdb_rating"] * 10;
+        console.log(
+          `updating ${movie["_id"]} at ${index} / ${movies.length} with ${movie.original_country}`
+        );
+        const a = await Movies.updateOne(
+          { _id: movie["_id"] },
+          { original_country: movie.original_country }
+        );
+      });
+
+      res.json({ msg: "movies Updated" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
   likeMovie: async (req, res) => {
     try {
       const movie = await Movies.find({

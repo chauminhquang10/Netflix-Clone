@@ -91,7 +91,7 @@ const Movies = () => {
   }
 
   return (
-    <>
+    <div className="Movies-container">
       <Featured
         type="movies"
         bigImg="https://images3.alphacoders.com/948/thumb-1920-948864.jpg"
@@ -125,7 +125,7 @@ const Movies = () => {
           <PuffLoader color={"#36D7B7"} loading={true} size={60} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
