@@ -86,15 +86,14 @@ const MovieDetail = () => {
             setDislikesNumber(res.data.movie.dislikes.length);
 
             // lọc lại giá trị các genres id thành mảng truyền xuống backend
-            let allGenreIDs;
+            let allGenreIDs = [];
 
             if (res.data.movie?.allGenres) {
               allGenreIDs = res.data.movie.allGenres.map(
                 (genreItem) => genreItem._id
               );
+              await getSimilarMovies(allGenreIDs);
             }
-
-            await getSimilarMovies(allGenreIDs);
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
