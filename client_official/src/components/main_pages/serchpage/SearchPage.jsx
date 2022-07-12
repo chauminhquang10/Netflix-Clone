@@ -2,13 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "../main/MovieItem";
 import Pagination from "./Pagination";
-import "./Movies.css";
+import "./SearchPage.scss";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 
-import SearchPage from "../main/search_page/SearchPage";
-
-const Movies = () => {
+const SearchPage = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;
   const [Choice, setChoice] = state.moviesAPI.search;
@@ -77,7 +75,7 @@ const Movies = () => {
                 {genres.map((genre) => (
                   <option
                     className="option"
-                    value={"genre=" + genre._id}
+                    value={"allGenres=" + genre._id}
                     key={genre._id}
                   >
                     {genre.name}
@@ -102,17 +100,23 @@ const Movies = () => {
             </div>
             <div className="Sort_child">
               <span>Year:</span>
-              <select name="genre" id="genre" onChange={handleGenre}>
+              <select
+                name="genre"
+                id="genre"
+                // onChange={handleGenre}
+              >
                 <option value="">All</option>
-                {genres.map((genre) => (
-                  <option
-                    className="option"
-                    value={"genre=" + genre._id}
-                    key={genre._id}
-                  >
-                    {genre.name}
-                  </option>
-                ))}
+                {Array(12)
+                  .fill(2010)
+                  .map((year, index) => (
+                    <option
+                      className="option"
+                      value={year + index}
+                      key={year + index}
+                    >
+                      {year + index}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
@@ -166,23 +170,15 @@ const Movies = () => {
         </div>
         <div className="movies">
           {currentMovies.map((movie) => {
-            return (
-              <MovieItem
-                key={movie._id}
-                movie={movie}
-                isAdmin={isAdmin}
-              ></MovieItem>
-            );
+            return <MovieItem key={movie._id} movie={movie}></MovieItem>;
           })}
         </div>
         <div className="Pagination">
-          <div className="Pagination1">
-            <Pagination
-              moviesPerPage={moviesPerPage}
-              totalMovies={movies.length}
-              paginate={paginate}
-            ></Pagination>
-          </div>
+          <Pagination
+            moviesPerPage={moviesPerPage}
+            totalMovies={movies.length}
+            paginate={paginate}
+          ></Pagination>
         </div>
         {movies.length === 0 && (
           <div className="loading">
@@ -194,4 +190,4 @@ const Movies = () => {
   );
 };
 
-export default Movies;
+export default SearchPage;

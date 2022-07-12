@@ -87,7 +87,7 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
-            await getSimilarMovies(res.data.movie?.allGenres._id);
+            await getSimilarMovies(res.data.movie?.allGenres[0]._id);
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -106,7 +106,6 @@ const MovieDetail = () => {
           if (res.data.similarMovies.length > 0) {
             setSimilarMovies(res.data.similarMovies);
           }
-          console.log(similarMovies);
         } catch (error) {
           alert(error.response.data.msg);
         }
@@ -148,7 +147,6 @@ const MovieDetail = () => {
 
   //  Dislikes
   useEffect(() => {
-    console.log(likedGenres);
     if (movieDetail.length !== 0) {
       if (movieDetail.dislikes.find((dislike) => dislike === userData._id)) {
         setIsDislike(true);

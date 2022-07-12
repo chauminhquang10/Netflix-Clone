@@ -13,7 +13,10 @@ const movieController = {
   getMovies: async (req, res) => {
     try {
       const features = new APIFeatures(
-        Movies.find().populate("allGenres", "name"),
+        Movies.find()
+          .populate("allGenres", "name")
+          .populate("year")
+          .populate("original_country"),
         req.query
       )
         .moviesFiltering()
@@ -22,6 +25,13 @@ const movieController = {
       const movies = await features.query;
 
       let temp = [];
+
+      if (req.query.genre) {
+        for (let i = 0; i < movies.length; i++) {
+          if (movies[i].allGenres.includes(ObjectId(req.query.genre)))
+            temp.push(movies[i]);
+        }
+      }
 
       if (req.query.genre) {
         for (let i = 0; i < movies.length; i++) {
@@ -421,11 +431,11 @@ const movieController = {
         let view = 0;
         if (movie["imdb_rating"]) view = movie["imdb_rating"] * 10;
         console.log(
-          `updating ${movie["_id"]} at ${index} / ${movies.length} with ${movie.original_country}`
+          `updating ${movie["_id"]} at ${index} / ${movies.length} with ${movie.trailer}`
         );
         const a = await Movies.updateOne(
           { _id: movie["_id"] },
-          { original_country: movie.original_country }
+          { trailer: movie.trailer }
         );
       });
 

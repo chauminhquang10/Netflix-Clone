@@ -3,20 +3,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import "./Pages.css";
 import Main from "./main/Main";
 import Movies from "./movies/Movies";
+import SearchPage from "../main_pages/serchpage/SearchPage";
 import Favorite from "./favorite/Favorite";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import NotFound from "./utils/notfound/NotFound";
-import MovieDetail from "./movie_detail/MovieDetail";
-import AdminGenres from "../Admin_resources/pages/genres/AdminGenres";
-import AdminDirectors from "../Admin_resources/pages/directors/AdminDirectors";
-import AdminActor from "../Admin_resources/pages/actors/AdminActors";
-import NewActor from "../Admin_resources/pages/actors/NewActor";
-import EditActor from "../Admin_resources/pages/actors/EditActor";
-import NewDirector from "../Admin_resources/pages/directors/NewDirector";
-import EditDirector from "../Admin_resources/pages/directors/EditDirector";
-import AdminLists from "../Admin_resources/pages/lists/AdminLists";
-import CreateMovie from "./create_movie/CreateMovie";
 import ActivationEmail from "./auth/ActivationEmail";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
@@ -32,7 +23,16 @@ import Packages from "../Admin_resources/pages/package/Packages";
 import PackageDetail from "../Admin_resources/pages/package/packageDetail/PackageDetail";
 import EditMovie from "../Admin_resources/pages/product/EditMovie";
 import NewMovie from "../Admin_resources/pages/createMovie/NewMovie";
-
+import MovieDetail from "./movie_detail/MovieDetail";
+import AdminGenres from "../Admin_resources/pages/genres/AdminGenres";
+import AdminDirectors from "../Admin_resources/pages/directors/AdminDirectors";
+import AdminActor from "../Admin_resources/pages/actors/AdminActors";
+import NewActor from "../Admin_resources/pages/actors/NewActor";
+import EditActor from "../Admin_resources/pages/actors/EditActor";
+import NewDirector from "../Admin_resources/pages/directors/NewDirector";
+import EditDirector from "../Admin_resources/pages/directors/EditDirector";
+import AdminLists from "../Admin_resources/pages/lists/AdminLists";
+import CreateMovie from "./create_movie/CreateMovie";
 import Person from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
 
@@ -53,7 +53,6 @@ import Step1 from "./buy_account/Step1";
 import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
-import SearchPage from "./main/search_page/SearchPage";
 import Survery from "./survery/Survery";
 import RankingMovies from "./main/Ranking/RankingMovies";
 
@@ -236,6 +235,12 @@ const Pages = () => {
                 path="/movies"
                 exact
                 component={isLogged ? Movies : LandingPage}
+              />
+              {/* hello */}
+              <Route
+                path="/search"
+                exact
+                component={isLogged ? SearchPage : LandingPage}
               />
               <Route
                 path="/survey"
