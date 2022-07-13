@@ -70,8 +70,8 @@ const Packages = () => {
   const [token] = state.token;
   const [packages, setPackages] = state.packagesAPI.packages;
 
-  const [packagesCallback, setPackagesCallback] =
-    state.packagesAPI.packagesCallback;
+  //const [packagesCallback, setPackagesCallback] =
+  //state.packagesAPI.packagesCallback;
 
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
