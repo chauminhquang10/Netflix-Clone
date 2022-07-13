@@ -51,7 +51,7 @@ const listController = {
         return updateListIdForMovies(movieItem, saveList._id);
       });
 
-      res.json({ msg: "Created a new list" });
+      res.json({ msg: "Created a new list", createdList: saveList });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

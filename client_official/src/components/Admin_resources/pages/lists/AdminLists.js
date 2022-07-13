@@ -63,9 +63,9 @@ const useStyles = makeStyles((theme) => ({
 const AdminLists = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [lists] = state.listsAPI.lists;
+  const [lists, setLists] = state.listsAPI.lists;
 
-  const [listsCallback, setListsCallback] = state.listsAPI.listsCallback;
+  //const [listsCallback, setListsCallback] = state.listsAPI.listsCallback;
   //update list
   const [list, setList] = useState("");
   const [genre, setGenre] = useState("");
@@ -131,6 +131,13 @@ const AdminLists = () => {
             },
           }
         );
+
+        const newLists = lists.map((item) =>
+          item._id === id ? { ...item, title: list, genre: genre } : item
+        );
+
+        setLists([...newLists]);
+
         Swal.fire(res.data.msg, "", "success");
       } else {
         const res = await axios.post(
@@ -142,12 +149,14 @@ const AdminLists = () => {
             },
           }
         );
+        res.data?.createdList && setLists([...lists, res.data.createdList]);
+
         Swal.fire(res.data.msg, "", "success");
       }
       setOnEdit(false);
       setList("");
       setGenre("");
-      setListsCallback(!listsCallback);
+      //setListsCallback(!listsCallback);
       setOpenPopup(false);
     } catch (error) {
       Swal.fire(error.response.data.msg, "", "error");
@@ -178,8 +187,12 @@ const AdminLists = () => {
               Authorization: token,
             },
           });
+
+          const newLists = lists.filter((item) => item._id !== id);
+          setLists([...newLists]);
+
           Swal.fire(res.data.msg, "", "success");
-          setListsCallback(!listsCallback);
+          //setListsCallback(!listsCallback);
         } catch (error) {
           alert(error.response.data.msg);
         }

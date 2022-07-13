@@ -37,8 +37,10 @@ const DiscountsForm = ({
   setUpdateDiscount,
   notify,
   setNotify,
-  callback,
-  setCallback,
+  //callback,
+  //setCallback,
+  discounts,
+  setDiscounts,
   onEdit,
   setOnEdit,
 }) => {
@@ -102,12 +104,20 @@ const DiscountsForm = ({
               name,
               discountValue,
               expireTime: castDate,
-              id: updateDiscount._id,
+              //id: updateDiscount._id,
             },
             {
               headers: { Authorization: token },
             }
           );
+          const newDiscounts = discounts.map((item) =>
+            item._id === updateDiscount._id
+              ? { ...item, name, discountValue, expireTime: castDate }
+              : item
+          );
+
+          setDiscounts([...newDiscounts]);
+
           setNotify({
             isOpen: true,
             message: onEdit ? "Updated Successfully" : "Created Successfully",
@@ -124,7 +134,7 @@ const DiscountsForm = ({
       } else {
         try {
           let castDate = moment(expireTime).format("YYYY-MM-DD");
-          await axios.post(
+          const res = await axios.post(
             "/api/discount",
             {
               name,
@@ -135,6 +145,10 @@ const DiscountsForm = ({
               headers: { Authorization: token },
             }
           );
+
+          res.data?.createdDiscount &&
+            setDiscounts([...discounts, res.data.createdDiscount]);
+
           setNotify({
             isOpen: true,
             message: onEdit ? "Updated Successfully" : "Created Successfully",
@@ -154,7 +168,7 @@ const DiscountsForm = ({
       setUpdateDiscount(null);
       resetForm();
       setOpenPopUp(false);
-      setCallback(!callback);
+      //setCallback(!callback);
     }
   };
 
