@@ -13,10 +13,7 @@ const movieController = {
   getMovies: async (req, res) => {
     try {
       const features = new APIFeatures(
-        Movies.find()
-          .populate("allGenres", "name")
-          .populate("year")
-          .populate("original_country"),
+        Movies.find().populate("allGenres", "name"),
         req.query
       )
         .moviesFiltering()
@@ -26,17 +23,32 @@ const movieController = {
 
       let temp = [];
 
-      if (req.query.genre) {
-        for (let i = 0; i < movies.length; i++) {
-          if (movies[i].allGenres.includes(ObjectId(req.query.genre)))
-            temp.push(movies[i]);
+      let tempMovies = movies;
+
+      // if (req.query.year) {
+      //   for (let i = 0; i < tempMovies.length; i++) {
+      //     if (Number(tempMovies[i].year) == Number(req.query.year))
+      //       temp.push(tempMovies[i]);
+      //   }
+      //   tempMovies = temp;
+      //   temp = [];
+      // }
+
+      if (req.query.original_country) {
+        for (let i = 0; i < tempMovies.length; i++) {
+          if (
+            tempMovies[i].original_country.includes(req.query.original_country)
+          )
+            temp.push(tempMovies[i]);
         }
+        tempMovies = temp;
+        temp = [];
       }
 
       if (req.query.genre) {
-        for (let i = 0; i < movies.length; i++) {
-          if (movies[i].allGenres.includes(ObjectId(req.query.genre)))
-            temp.push(movies[i]);
+        for (let i = 0; i < tempMovies.length; i++) {
+          if (tempMovies[i].allGenres.includes(ObjectId(req.query.genre)))
+            temp.push(tempMovies[i]);
         }
       }
 
@@ -46,6 +58,7 @@ const movieController = {
         movies: temp.length > 0 ? temp : movies,
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ msg: error.message });
     }
   },

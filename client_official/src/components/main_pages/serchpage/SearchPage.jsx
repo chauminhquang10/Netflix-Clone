@@ -16,6 +16,7 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [searchGenres, setSearchGenres] = useState([]);
   const [search] = state.moviesAPI.search;
+  const nationCodes = ["us", "jp", "uk"];
 
   useEffect(() => {
     const getSearchGenres = async () => {
@@ -38,6 +39,8 @@ const SearchPage = () => {
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
   const [genre, setGenre] = state.moviesAPI.genre;
+  const [year, setYear] = state.moviesAPI.year;
+  const [original_country, setCountry] = state.moviesAPI.original_country;
   const [genres] = state.genresAPI.genres;
 
   //Chuyển trang
@@ -62,131 +65,142 @@ const SearchPage = () => {
   const handleGenre = (e) => {
     setGenre(e.target.value);
   };
+  const handleYear = (e) => {
+    setYear(e.target.value);
+  };
+  const handleCountry = (e) => {
+    setCountry(e.target.value);
+  };
 
   return (
-    <>
-      <div className="movies_container">
-        <div>
-          <div className="Sort_container">
-            <div className="Sort_child">
-              <span>Genre:</span>
-              <select name="genre" id="genre" onChange={handleGenre}>
-                <option value="">All</option>
-                {genres.map((genre) => (
-                  <option
-                    className="option"
-                    value={"allGenres=" + genre._id}
-                    key={genre._id}
-                  >
-                    {genre.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="Sort_child">
-              <span>Option:</span>
-              <select name="genre" id="genre" onChange={handleGenre}>
-                <option value="">All</option>
-                {genres.map((genre) => (
-                  <option
-                    className="option"
-                    value={"genre=" + genre._id}
-                    key={genre._id}
-                  >
-                    {genre.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="Sort_child">
-              <span>Year:</span>
-              <select
-                name="genre"
-                id="genre"
-                // onChange={handleGenre}
+    <div className="movies_container">
+      <div className="Sort_container">
+        <div className="Sort_child">
+          <select
+            className="selection-container"
+            name="genre"
+            id="genre"
+            onChange={handleGenre}
+          >
+            <option value="">Genre</option>
+            {genres.map((genre) => (
+              <option
+                className="option"
+                value={"allGenres=" + genre._id}
+                key={genre._id}
               >
-                <option value="">All</option>
-                {Array(12)
-                  .fill(2010)
-                  .map((year, index) => (
-                    <option
-                      className="option"
-                      value={year + index}
-                      key={year + index}
-                    >
-                      {year + index}
-                    </option>
-                  ))}
-              </select>
-            </div>
-          </div>
+                {String(genre.name).charAt(0).toUpperCase(0) +
+                  String(genre.name).slice(1)}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="related_titles_container">
-          <div className="related_titles">Related Titles :</div>
-          <div className="related_titles_content">
-            {searchGenres.map((genre, index) => {
-              return (
-                search && (
+        <div className="Sort_child">
+          <select
+            className="selection-container"
+            name="genre"
+            id="genre"
+            onChange={handleCountry}
+          >
+            <option value="">Country</option>
+            {nationCodes.map((item) => (
+              <option
+                className="option"
+                key={item}
+                value={"original_country=" + item}
+              >
+                {item.toUpperCase()}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="Sort_child">
+          <select
+            className="selection-container"
+            name="genre"
+            id="genre"
+            onChange={handleYear}
+          >
+            <option value="">Release Date</option>
+            {Array(12)
+              .fill(2010)
+              .map((year, index) => (
+                <option
+                  className="option"
+                  value={"year=" + Number(year + index)}
+                  key={year + index}
+                >
+                  {year + index}
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
+      <div className="related_titles_container">
+        <div className="related_titles">Related Titles :</div>
+        <div className="related_titles_content">
+          {searchGenres.map((genre, index) => {
+            return (
+              search && (
+                <div className="related_titles_content_child_container">
+                  <div className="related_titles_content_child">
+                    &nbsp; {genre.name} &nbsp;
+                  </div>
+                  <p className="related_titles_content_child_p">|</p>
+                </div>
+              )
+            );
+          })}
+          {currentMovies.map((movie, index) => {
+            if (search) {
+              if (index > currentMovies.length - 1 || index > 10) {
+                return;
+              } else if (index == currentMovies.length - 1 || index == 10) {
+                return (
                   <div className="related_titles_content_child_container">
-                    <div className="related_titles_content_child">
-                      &nbsp; {genre.name} &nbsp;
+                    <div
+                      className="related_titles_content_child"
+                      onClick={() => setChoice(movie.title.toLowerCase())}
+                    >
+                      &nbsp; {movie.title}
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <div className="related_titles_content_child_container">
+                    <div
+                      className="related_titles_content_child"
+                      onClick={() => setChoice(movie.title.toLowerCase())}
+                    >
+                      &nbsp; {movie.title} &nbsp;
                     </div>
                     <p className="related_titles_content_child_p">|</p>
                   </div>
-                )
-              );
-            })}
-            {currentMovies.map((movie, index) => {
-              if (search) {
-                if (index > currentMovies.length - 1 || index > 10) {
-                  return;
-                } else if (index == currentMovies.length - 1 || index == 10) {
-                  return (
-                    <div className="related_titles_content_child_container">
-                      <div
-                        className="related_titles_content_child"
-                        onClick={() => setChoice(movie.title.toLowerCase())}
-                      >
-                        &nbsp; {movie.title}
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div className="related_titles_content_child_container">
-                      <div
-                        className="related_titles_content_child"
-                        onClick={() => setChoice(movie.title.toLowerCase())}
-                      >
-                        &nbsp; {movie.title} &nbsp;
-                      </div>
-                      <p className="related_titles_content_child_p">|</p>
-                    </div>
-                  );
-                }
+                );
               }
-            })}
-          </div>
-        </div>
-        <div className="movies">
-          {currentMovies.map((movie) => {
-            return <MovieItem key={movie._id} movie={movie}></MovieItem>;
+            }
           })}
         </div>
-        <div className="Pagination">
-          <Pagination
-            moviesPerPage={moviesPerPage}
-            totalMovies={movies.length}
-            paginate={paginate}
-          ></Pagination>
-        </div>
-        {movies.length === 0 && (
-          <div className="loading">
-            <PuffLoader color={"#36D7B7"} loading={true} size={60} />
-          </div>
-        )}
       </div>
-    </>
+      <div className="movies">
+        {currentMovies.map((movie) => {
+          return <MovieItem key={movie._id} movie={movie}></MovieItem>;
+        })}
+      </div>
+      <div className="Pagination">
+        <Pagination
+          moviesPerPage={moviesPerPage}
+          totalMovies={movies.length}
+          paginate={paginate}
+        ></Pagination>
+      </div>
+      {movies.length === 0 && (
+        <div className="loading">
+          <PuffLoader color={"#36D7B7"} loading={true} size={60} />
+        </div>
+      )}
+    </div>
   );
 };
 

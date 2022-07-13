@@ -1,10 +1,11 @@
 .movies {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, max-content));
-  grid-gap: 5px;
-  justify-content: center;
-  padding: initial;
-  padding: 0px 20px 70px;
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 0px 10px 70px 40px;
 }
 
 /* .Movies-container{
