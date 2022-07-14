@@ -19,6 +19,7 @@ import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
 
 import Listitem from "../main/list/List";
+import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
 
 const MovieDetail = () => {
   const params = useParams();
@@ -30,7 +31,7 @@ const MovieDetail = () => {
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
-
+  const [topRanking] = state.topRanking;
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   // likedGenres (danh sách thể loại yêu thích của người dùng cho model)
@@ -83,12 +84,13 @@ const MovieDetail = () => {
             // lọc lại giá trị các genres id thành mảng truyền xuống backend
             let allGenreIDs = [];
 
-            if (res.data.movie?.allGenres) {
-              allGenreIDs = res.data.movie.allGenres.map(
-                (genreItem) => genreItem._id
-              );
-              await getSimilarMovies(allGenreIDs);
-            }
+            // if (res.data.movie?.allGenres) {
+            //   allGenreIDs = res.data.movie.allGenres.map(
+            //     (genreItem) => genreItem._id
+            //   );
+
+            //   await getSimilarMovies(allGenreIDs);
+            // }
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -508,13 +510,17 @@ const MovieDetail = () => {
         movieDetailCallback={movieDetailCallback}
         setMovieDetailCallback={setMovieDetailCallback}
       ></Comments>
-      <div>
-        <Listitem
-          movies={similarMovies}
-          title="Similar Movies"
-          getTrigger={getTrigger}
-          ToggleTrigger={ToggleTrigger}
-        ></Listitem>
+      <div className="list-item-container">
+        {topRanking ? (
+          <Listitem
+            movies={topRanking}
+            title="Similar Movies"
+            getTrigger={getTrigger}
+            ToggleTrigger={ToggleTrigger}
+          ></Listitem>
+        ) : (
+          <SkeletonList />
+        )}
       </div>
     </div>
   );

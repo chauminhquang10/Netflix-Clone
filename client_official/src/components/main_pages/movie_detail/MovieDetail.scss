@@ -9,6 +9,14 @@
   min-height: 100vh;
   position: relative;
   gap: 30px;
+  .list-item-container{
+    position: relative;
+    width: 100%;
+    padding: 0px 20px;
+    .list{
+      margin: 0px;
+    }
+  }
   .banner {
     top: -70px;
     width: 100%;

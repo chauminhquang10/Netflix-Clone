@@ -81,16 +81,18 @@ const SearchPage = () => {
     <div className="movies_container">
       <div className="Sort_container">
         {/* phần sorting sắp xếp mới */}
-        <div className="row">
-          <span>Sort By:</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
-            <option value="">Newest</option>
+        <div className="Sort_child">
+          <select
+            className="selection-container"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="">Sort By</option>
             <option value="sort=-views">Most View</option>
             <option value="sort=-imdb_rating">Best Rating</option>
             <option value="sort=-year">Produce Year</option>
           </select>
         </div>
-
         <div className="Sort_child">
           <select
             className="selection-container"

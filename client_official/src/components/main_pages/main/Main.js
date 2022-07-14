@@ -70,15 +70,6 @@ const Movies = () => {
 
   return (
     <>
-      {/* Popup thông báo hết hạn */}
-
-      {/* <div className="popup_container">
-        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
-          <h1>My Popup</h1>
-          <p>This is the notification that your account is expired</p>
-        </PopUp>
-      </div> */}
-
       <Featured
         trailer="https://youtu.be/Rt_UqUm38BI"
         bigImg="https://phongvu.vn/cong-nghe/wp-content/uploads/2022/05/Doctor-Strange-2-hut-20-ty-ngay-doctor-strange-multiverse-1280-1651093649295-16520-1652081546-633-width1280height720.jpg"
