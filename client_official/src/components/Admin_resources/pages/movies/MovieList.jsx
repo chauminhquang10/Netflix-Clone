@@ -257,7 +257,7 @@ const MovieList = () => {
                 Authorization: token,
               },
             });
-            // await res;
+
             Swal.fire(res.data.msg, "", "success");
             //Notify
             const msg = {

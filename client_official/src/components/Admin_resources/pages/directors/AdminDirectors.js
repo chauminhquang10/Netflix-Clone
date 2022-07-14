@@ -131,9 +131,19 @@ const AdminDirectors = () => {
   ];
 
   const deleteAll = () => {
-    directors.forEach((director) => {
-      if (director.checked) deleteDirector(director._id);
+    let needDeletedDirectors = [];
+    directors.forEach(async (director) => {
+      if (director.checked) {
+        needDeletedDirectors.push(director._id);
+        await deleteDirectorForDeleteAll(director._id);
+      }
     });
+
+    // set lại state cho directors
+    const newDirectors = directors.filter(
+      (item) => !needDeletedDirectors.includes(item._id)
+    );
+    setDirectors([...newDirectors]);
     setIsChecked(false);
   };
 
@@ -205,6 +215,18 @@ const AdminDirectors = () => {
       const newDirectors = directors.filter((item) => item._id !== id);
 
       setDirectors([...newDirectors]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteDirectorForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/directors/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }

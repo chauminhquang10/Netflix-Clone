@@ -133,9 +133,18 @@ const AdminActors = () => {
   ];
 
   const deleteAll = () => {
-    actors.forEach((actor) => {
-      if (actor.checked) deleteActor(actor._id);
+    let needDeletedActors = [];
+    actors.forEach(async (actor) => {
+      if (actor.checked) {
+        needDeletedActors.push(actor._id);
+        await deleteActorForDeleteAll(actor._id);
+      }
     });
+    // set lại state cho actors
+    const newActors = actors.filter(
+      (item) => !needDeletedActors.includes(item._id)
+    );
+    setActors([...newActors]);
     setIsChecked(false);
   };
 
@@ -206,6 +215,18 @@ const AdminActors = () => {
       const newActors = actors.filter((item) => item._id !== id);
 
       setActors([...newActors]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteActorForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/actors/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
