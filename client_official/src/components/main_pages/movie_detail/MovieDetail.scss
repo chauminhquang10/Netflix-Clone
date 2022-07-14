@@ -104,6 +104,30 @@
           color: white;
         }
       }
+      .rating-container{
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 40px;
+        .imdb-rating{
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 4px;
+          background-color: rgb(181, 145, 36);
+          color: black;
+          padding: 0px 5px;
+          border-radius: 5px;
+          font-weight: bold;
+          >*{
+            filter: brightness(1.5)
+          }
+          span{
+            color: white;
+          }
+        }
+      }
       .react-container{
         display: flex;
         width: 100%;

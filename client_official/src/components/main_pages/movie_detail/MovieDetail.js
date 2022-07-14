@@ -17,9 +17,8 @@ import CommentDisplayRating from "./Comments/CommentDisplayRating";
 import LikeButton from "./LikeButton";
 
 import DislikeButton from "./DislikeButton";
-
-import Listitem from "../main/list/List";
 import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
+import Listitem from "../main/list/List";
 
 const MovieDetail = () => {
   const params = useParams();
@@ -31,7 +30,7 @@ const MovieDetail = () => {
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const addToWatchList = state.usersAPI.addToWatchList;
   const removeFromWatchList = state.usersAPI.removeFromWatchList;
-  const [topRanking] = state.topRanking;
+
   const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
 
   // likedGenres (danh sách thể loại yêu thích của người dùng cho model)
@@ -70,9 +69,6 @@ const MovieDetail = () => {
   // callback dành riêng cho movie detail
   const [movieDetailCallback, setMovieDetailCallback] = useState(false);
 
-  // CHỨA DANH SÁCH THỂ LOẠI CỦA PHIM
-  const [movieAllGenres, setMovieAllGenres] = useState([]);
-
   useEffect(() => {
     const getDetailMovie = async () => {
       if (params.id) {
@@ -84,7 +80,13 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
-            setMovieAllGenres(res.data.movie?.allGenres);
+            if (res.data.movie?.allGenres.length > 0) {
+              // lọc lại giá trị các genres id thành mảng truyền xuống backend
+              const allGenreIDs = res.data.movie?.allGenres.map(
+                (genreItem) => genreItem._id
+              );
+              await getSimilarMovies(allGenreIDs);
+            }
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -96,24 +98,17 @@ const MovieDetail = () => {
       }
     };
 
-    getDetailMovie();
-  }, [params.id, movieDetailCallback]);
-
-  useEffect(() => {
     const getSimilarMovies = async (allGenreIDs) => {
       try {
-        const res = await axios.post("/api/similarMovies", allGenreIDs);
+        const res = await axios.post("/api/similarMovies", { allGenreIDs });
         setSimilarMovies(res.data?.similarMovies);
       } catch (error) {
         alert(error.response.data.msg);
       }
     };
-    if (movieAllGenres.length > 0) {
-      // lọc lại giá trị các genres id thành mảng truyền xuống backend
-      let allGenreIDs = movieAllGenres.map((genreItem) => genreItem._id);
-      getSimilarMovies(allGenreIDs);
-    }
-  }, [movieAllGenres]);
+
+    getDetailMovie();
+  }, [params.id, movieDetailCallback]);
 
   useEffect(() => {
     if (movieDetail.length !== 0) {
@@ -407,9 +402,14 @@ const MovieDetail = () => {
             ))}
           </div>
           <p className="overview">{movieDetail.desc}</p>
-          <CommentDisplayRating
-            rating={movieDetail.rating}
-          ></CommentDisplayRating>
+          <div className="rating-container">
+            <CommentDisplayRating
+              rating={movieDetail.rating}
+            ></CommentDisplayRating>
+            <div className="imdb-rating">
+              IMDB rating: <span>{movieDetail.imdb_rating}</span>
+            </div>
+          </div>
           <div className="react-container">
             <div className="like-container">
               <LikeButton
@@ -508,9 +508,9 @@ const MovieDetail = () => {
         setMovieDetailCallback={setMovieDetailCallback}
       ></Comments>
       <div className="list-item-container">
-        {topRanking ? (
+        {similarMovies ? (
           <Listitem
-            movies={topRanking}
+            movies={similarMovies}
             title="Similar Movies"
             getTrigger={getTrigger}
             ToggleTrigger={ToggleTrigger}

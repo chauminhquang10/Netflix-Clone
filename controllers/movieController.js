@@ -639,7 +639,9 @@ const movieController = {
   },
   getSimilarMovies: async (req, res) => {
     try {
-      const finalGenreIDs = req.body?.allGenreIDs.map((genreID) => {
+      const { allGenreIDs } = req.body;
+
+      const finalGenreIDs = allGenreIDs.map((genreID) => {
         return ObjectId(genreID);
       });
       const similarMovies = await Movies.aggregate([
