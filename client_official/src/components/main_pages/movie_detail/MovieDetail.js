@@ -70,6 +70,9 @@ const MovieDetail = () => {
   // callback dành riêng cho movie detail
   const [movieDetailCallback, setMovieDetailCallback] = useState(false);
 
+  // CHỨA DANH SÁCH THỂ LOẠI CỦA PHIM
+  const [movieAllGenres, setMovieAllGenres] = useState([]);
+
   useEffect(() => {
     const getDetailMovie = async () => {
       if (params.id) {
@@ -81,13 +84,7 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
-            if (res.data.movie?.allGenres.length > 0) {
-              // lọc lại giá trị các genres id thành mảng truyền xuống backend
-              let allGenreIDs = res.data.movie.allGenres.map(
-                (genreItem) => genreItem._id
-              );
-              await getSimilarMovies(allGenreIDs);
-            }
+            setMovieAllGenres(res.data.movie?.allGenres);
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -99,19 +96,24 @@ const MovieDetail = () => {
       }
     };
 
+    getDetailMovie();
+  }, [params.id, movieDetailCallback]);
+
+  useEffect(() => {
     const getSimilarMovies = async (allGenreIDs) => {
       try {
         const res = await axios.post("/api/similarMovies", allGenreIDs);
-        if (res.data?.similarMovies.length > 0) {
-          setSimilarMovies(res.data.similarMovies);
-        }
+        setSimilarMovies(res.data?.similarMovies);
       } catch (error) {
         alert(error.response.data.msg);
       }
     };
-
-    getDetailMovie();
-  }, [params.id, movieDetailCallback]);
+    if (movieAllGenres.length > 0) {
+      // lọc lại giá trị các genres id thành mảng truyền xuống backend
+      let allGenreIDs = movieAllGenres.map((genreItem) => genreItem._id);
+      getSimilarMovies(allGenreIDs);
+    }
+  }, [movieAllGenres]);
 
   useEffect(() => {
     if (movieDetail.length !== 0) {
