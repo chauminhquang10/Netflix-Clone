@@ -27,6 +27,10 @@ const initialState = {
   directorsBelongTo: [],
   trailer: "",
   TMDBid: "",
+  original_language: "",
+  imdbId: "",
+  imdb_rating: 0,
+  original_country: "",
 };
 
 const ITEM_HEIGHT = 48;
@@ -66,7 +70,8 @@ const NewMovie = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  // const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [movies, setMovies] = state.moviesAPI.movies;
   const theme = useTheme();
 
   const handleUpload = async (e) => {
@@ -262,7 +267,9 @@ const NewMovie = () => {
 
       dispatch(createNotify({ msg, socket, token, userData }));
 
-      setMoviesCallback(!moviesCallback);
+      res.data?.newMovie && setMovies([...movies, res.data?.newMovie]);
+
+      //setMoviesCallback(!moviesCallback);
       history.push("/movies");
     } catch (error) {
       alert(error.response.data.msg);

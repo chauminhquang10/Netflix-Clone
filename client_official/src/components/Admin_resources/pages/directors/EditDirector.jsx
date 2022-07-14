@@ -55,9 +55,9 @@ const DirectorDetail = () => {
   const param = useParams();
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [directors, setDirectors] = state.directorsAPI.directors;
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -161,7 +161,12 @@ const DirectorDetail = () => {
         }
       );
       Swal.fire(res.data.msg, "", "success");
-      setMoviesCallback(!moviesCallback);
+      const newDirectors = directors.map((item) =>
+        item._id === director._id ? { ...director, imgSmall } : item
+      );
+      setDirectors([...newDirectors]);
+      history.push("/directors");
+      // setMoviesCallback(!moviesCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }

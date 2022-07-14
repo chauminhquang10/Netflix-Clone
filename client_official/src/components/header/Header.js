@@ -126,15 +126,6 @@ const Header = () => {
               </Link>
             </li>
           )}
-
-          {/* Thử nghiệm mua gói */}
-          {/* {isValidAccount && (
-            <li className="header_li">
-              <Link className="header_Link" to="/packages">
-                Packages
-              </Link>
-            </li>
-          )} */}
           {/* Phần lịch sử mua gói */}
           {isValidAccount && (
             <li className="header_li">
@@ -176,7 +167,7 @@ const Header = () => {
                 class="search-box"
               />
 
-              <Link to="/movies">
+              <div>
                 <span
                   onClick={() => {
                     setToggleSearch(!toggleSearch);
@@ -185,7 +176,7 @@ const Header = () => {
                 >
                   <span class="search-icon"></span>
                 </span>
-              </Link>
+              </div>
             </div>
           )}
         </div>

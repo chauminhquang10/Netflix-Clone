@@ -11,8 +11,8 @@ import Featured from "./Feature/Feature";
 import Grid from "./grid/Grid";
 import VerticalList from "./VerticalList/VerticalList";
 import HorizontalList from "./HorizontalList/HorizontalList";
-
 import PopUp from "../utils/popup/PopUp";
+import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
 
 const Movies = () => {
   const state = useContext(GlobalState);
@@ -87,12 +87,16 @@ const Movies = () => {
         desc="Doctor Strange, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary."
       />
       <div className="main_page">
-        <Listitem
-          movies={recommend}
-          title="For You"
-          getTrigger={getTrigger}
-          ToggleTrigger={ToggleTrigger}
-        ></Listitem>
+        {recommend.length > 0 ? (
+          <Listitem
+            movies={recommend}
+            title="For You"
+            getTrigger={getTrigger}
+            ToggleTrigger={ToggleTrigger}
+          ></Listitem>
+        ) : (
+          <SkeletonList />
+        )}
         <Listitem
           movies={topRanking}
           title="Top Trending"

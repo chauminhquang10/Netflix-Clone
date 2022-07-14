@@ -21,8 +21,8 @@ const SingleComment = ({
   movieId,
   commentCallback,
   setCommentCallback,
-  moviesCallback,
-  setMoviesCallback,
+  movieDetailCallback,
+  setMovieDetailCallback,
 }) => {
   const state = useContext(GlobalState);
 
@@ -97,7 +97,8 @@ const SingleComment = ({
         }
       );
       setCommentCallback(!commentCallback);
-      setMoviesCallback(!moviesCallback);
+      // setMoviesCallback(!moviesCallback);
+      setMovieDetailCallback(!movieDetailCallback);
       setOpenEdit(!openEdit);
     } catch (error) {
       alert(error.response.data.msg);
@@ -111,7 +112,8 @@ const SingleComment = ({
         headers: { Authorization: token },
       });
       setCommentCallback(!commentCallback);
-      setMoviesCallback(!moviesCallback);
+      // setMoviesCallback(!moviesCallback);
+      setMovieDetailCallback(!movieDetailCallback);
     } catch (error) {
       alert(error.response.data.msg);
     }

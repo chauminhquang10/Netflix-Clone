@@ -17,7 +17,6 @@ const Step1 = () => {
             style={{ color: "#2596be", fontSize: "45px" }}
             className="step1_logo"
           />
-
           <div className="step1_number">
             Step <span className="step1_bold_number">1</span> of
             <span className="step1_bold_number"> 3</span>

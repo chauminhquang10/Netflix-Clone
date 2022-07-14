@@ -38,8 +38,19 @@ const directorController = {
         biography,
         tmdbID,
       });
-      await newDirector.save();
-      res.json({ msg: "Created a new director" });
+      const createdDirector = await newDirector.save();
+      res.json({ msg: "Created a new director", createdDirector });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  getOneDirector: async (req, res) => {
+    try {
+      const director = await Directors.findById(req.params.id).populate(
+        "knownFor"
+      );
+      return res.status(200).json({ director });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -79,13 +90,13 @@ const directorController = {
 
   updateDirectors: async (req, res) => {
     try {
-      let rawdata = fs.readFileSync("./DirectorTest.json");
+      let rawdata = fs.readFileSync("./UpdatedDirectors.json");
 
       let directors = JSON.parse(rawdata);
 
       directors.forEach(async (director) => {
         const a = await Directors.updateOne(
-          { tmdbID: director["tmdbID"] },
+          { tmdbID: director["_id"] },
           { knownFor: director["knownFor"] }
         );
       });

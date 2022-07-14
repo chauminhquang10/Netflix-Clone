@@ -48,8 +48,8 @@ const actorController = {
         biography,
         tmdbID,
       });
-      await newActor.save();
-      res.json({ msg: "Created a new actor" });
+      const createdActor = await newActor.save();
+      res.json({ msg: "Created a new actor", createdActor });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -69,13 +69,14 @@ const actorController = {
   },
   updateActors: async (req, res) => {
     try {
-      let rawdata = fs.readFileSync("./ActorTest.json");
+      let rawdata = fs.readFileSync("./UpdatedActors.json");
 
       let actors = JSON.parse(rawdata);
 
-      actors.forEach(async (actor) => {
+      await actors.forEach(async (actor) => {
+        console.log(`updating ${actor["_id"]} with ${actor["knownFor"]}`);
         const a = await Actors.updateOne(
-          { tmdbID: actor["tmdbID"] },
+          { tmdbID: actor["_id"] },
           { knownFor: actor["knownFor"] }
         );
       });

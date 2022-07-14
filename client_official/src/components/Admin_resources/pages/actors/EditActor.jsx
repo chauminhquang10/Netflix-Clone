@@ -55,9 +55,9 @@ const ActorDetail = () => {
   const param = useParams();
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [actors, setActors] = state.actorsAPI.actors;
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -161,7 +161,12 @@ const ActorDetail = () => {
         }
       );
       Swal.fire(res.data.msg, "", "success");
-      setMoviesCallback(!moviesCallback);
+      history.push("/actors");
+      // setMoviesCallback(!moviesCallback);
+      const newActors = actors.map((item) =>
+        item._id === actor._id ? { ...actor, imgSmall } : item
+      );
+      setActors([...newActors]);
     } catch (error) {
       alert(error.response.data.msg);
     }

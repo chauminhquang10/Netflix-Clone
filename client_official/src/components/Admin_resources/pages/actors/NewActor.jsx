@@ -54,10 +54,11 @@ const ActorDetail = () => {
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const param = useParams();
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
+  const [actors, setActors] = state.actorsAPI.actors;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -170,7 +171,10 @@ const ActorDetail = () => {
         confirmButtonText: "Yes",
       });
 
-      setMoviesCallback(!moviesCallback);
+      history.push("/actors");
+
+      //  setMoviesCallback(!moviesCallback);
+      res.data?.createdActor && setActors([...actors, res.data.createdActor]);
     } catch (error) {
       alert(error.response.data.msg);
     }

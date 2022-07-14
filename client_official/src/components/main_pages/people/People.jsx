@@ -43,7 +43,15 @@ const People = () => {
         <div className="people-page-container">
           <div className="left-column-container">
             <div className="left-column-img">
-              <img src={actor.image}></img>
+              {actor.image == "https://image.tmdb.org/t/p/original/null" ? (
+                <img
+                  src={
+                    "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg"
+                  }
+                />
+              ) : (
+                <img src={actor.image}></img>
+              )}
             </div>
             <div className="left-column-media">
               <div className="media-item">FB</div>
@@ -75,10 +83,12 @@ const People = () => {
             <div className="right-column-bio">
               <div className="bio-title">Biography</div>
               <div className="bio-content">
-                {actor.biography.replace(
-                  "From Wikipedia, the free encyclopedia",
-                  ""
-                )}
+                {actor.biography.length > 0
+                  ? actor.biography.replace(
+                      "From Wikipedia, the free encyclopedia",
+                      ""
+                    )
+                  : "There are no information about this person Biography, we will update as soon as possible :3"}
               </div>
             </div>
             <div className="know-for">

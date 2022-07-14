@@ -12,7 +12,8 @@ router
 router
   .route("/movies")
   .get(movieController.getMovies)
-  .post(auth, authAdmin, movieController.createMovie);
+  .post(auth, authAdmin, movieController.createMovie)
+  .delete(auth, authAdmin, movieController.deleteMovies);
 
 // router.route("/allMovies").get(movieController.getAllMovies);
 
@@ -37,10 +38,14 @@ router.get(
 );
 
 router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
+router.route("/updatemovies").post(movieController.updateMovies);
 
 router.route("/fetchGenres").post(movieController.fetchGenres);
 
 // Thống kê những top movies với điểm (score) cao nhất để làm bxh bên user.
 router.get("/topMoviesRanking", movieController.getRankingMovies);
+
+// lấy những phim cùng thể loại
+router.route("/similarMovies/:genreID").get(movieController.getSimilarMovies);
 
 module.exports = router;
