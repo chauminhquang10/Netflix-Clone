@@ -58,7 +58,7 @@ const ActorDetail = () => {
   const [actors, setActors] = state.actorsAPI.actors;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -170,6 +170,8 @@ const ActorDetail = () => {
         icon: "success",
         confirmButtonText: "Yes",
       });
+
+      history.push("/actors");
 
       //  setMoviesCallback(!moviesCallback);
       res.data?.createdActor && setActors([...actors, res.data.createdActor]);

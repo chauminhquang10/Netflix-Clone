@@ -4,17 +4,10 @@ import { GlobalState } from "../../../GlobalState";
 import CastList from "./CastList";
 import VideoList from "./VideoList";
 import "./MovieDetail.scss";
-import { Button } from "../../button/Button";
 import { PlayArrow } from "@material-ui/icons";
-import MovieList from "../movie-list/MovieList";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { OutlineButton } from "../../button/Button";
 import axios from "axios";
-
-// import LikeAndShare from "../../Social Plugin/LikeAndShare";
-// import Comment from "../../Social Plugin/Comment";
-
 import PopUp from "../utils/popup/PopUp";
 
 import Comments from "./Comments/Comments";
@@ -24,6 +17,8 @@ import CommentDisplayRating from "./Comments/CommentDisplayRating";
 import LikeButton from "./LikeButton";
 
 import DislikeButton from "./DislikeButton";
+
+import Listitem from "../main/list/List";
 
 const MovieDetail = () => {
   const params = useParams();
@@ -54,7 +49,7 @@ const MovieDetail = () => {
 
   //trigger Popup
   const [popupTrigger, setPopupTrigger] = useState(false);
-
+  const [listTrigger, setListTrigger] = useState(true);
   // like featured
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
@@ -153,7 +148,6 @@ const MovieDetail = () => {
 
   //  Dislikes
   useEffect(() => {
-    console.log(likedGenres);
     if (movieDetail.length !== 0) {
       if (movieDetail.dislikes.find((dislike) => dislike === userData._id)) {
         setIsDislike(true);
@@ -376,129 +370,135 @@ const MovieDetail = () => {
     });
   };
 
+  const ToggleTrigger = (value) => {
+    setListTrigger(value);
+  };
+
+  const getTrigger = () => {
+    return listTrigger;
+  };
+
   // tránh trường hợp chưa có dữ liệu mà render thì văng lỗi
   if (movieDetail.length === 0) return null;
 
   return (
-    <>
+    <div className="movieDetail-section">
       <div className="movie_detail_popup_container">
-        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}>
-          <h1>Notification !!</h1>
-          <p>This is the notification that your account is expired</p>
-        </PopUp>
+        <PopUp trigger={popupTrigger} setTrigger={setPopupTrigger}></PopUp>
       </div>
-
       <div
         className="banner"
         style={{
           backgroundImage: `url(${movieDetail.img})`,
         }}
       ></div>
-      <div className="mb-3 movie-content container">
-        <div className="movie-content__poster">
-          <div
-            className="movie-content__poster__img"
-            style={{
-              backgroundImage: `url(${movieDetail.imgSmall})`,
-            }}
-          ></div>
+      <div className="header-container">
+        <div className="poster-container">
+          <div className="poster">
+            <img className="poster-img" src={movieDetail.imgSmall}></img>
+          </div>
         </div>
-        <div className="movie-content__info">
+        <div className="info-container">
           <h1 className="title">{movieDetail.title}</h1>
           <div className="genre">
             {movieDetail?.allGenres.map((item, index) => (
-              <span className="genre__item" key={index}>
+              <div className="genre__item" key={index}>
                 {item?.name}
-              </span>
+              </div>
             ))}
           </div>
           <p className="overview">{movieDetail.desc}</p>
-          {/* Hiển thị số sao trung bình */}
           <CommentDisplayRating
             rating={movieDetail.rating}
           ></CommentDisplayRating>
-          {/* Like Featured */}
-          <LikeButton
-            isLike={isLike}
-            handleLike={handleLike}
-            handleUnLike={handleUnLike}
-          />
-          <h6>{likesNumber} likes</h6>
-          {/* Dislike Featured */}
-          <DislikeButton
-            isDislike={isDislike}
-            handleDislike={handleDislike}
-            handleUnDislike={handleUnDislike}
-          />
-          <h6>{dislikesNumber} dislikes</h6>
-
-          <div className="cast">
-            <div className="section__header">
+          <div className="react-container">
+            <div className="like-container">
+              <LikeButton
+                isLike={isLike}
+                handleLike={handleLike}
+                handleUnLike={handleUnLike}
+              />
+              <h6>{likesNumber} likes</h6>
+            </div>
+            <div className="dislike-container">
+              <DislikeButton
+                isDislike={isDislike}
+                handleDislike={handleDislike}
+                handleUnDislike={handleUnDislike}
+              />
+              <h6>{dislikesNumber} dislikes</h6>
+            </div>
+          </div>
+          <div className="cast-container">
+            <div className="header">
               <h2>Casts</h2>
             </div>
             {movieDetail?.actorsBelongTo && (
               <CastList actors={movieDetail.actorsBelongTo} />
             )}
-
-            <div className="movie_detail_buttons">
-              <div className="buttons">
-                {isNotExpireAccount ? (
-                  <Link
-                    className="detail_link"
-                    to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
-                  >
-                    <button className="play">
-                      <PlayArrow />
-                      <span className="Movie_detail_span">Play</span>
-                    </button>
-                  </Link>
-                ) : (
-                  <button className="play" onClick={handlePlayMovie}>
+          </div>
+          <div className="movie_detail_buttons">
+            <div className="buttons">
+              {isNotExpireAccount ? (
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movieDetail.TMDBid}/${movieDetail._id}`}
+                >
+                  <button className="play">
                     <PlayArrow />
                     <span className="Movie_detail_span">Play</span>
                   </button>
-                )}
+                </Link>
+              ) : (
+                <button className="play" onClick={handlePlayMovie}>
+                  <PlayArrow />
+                  <span className="Movie_detail_span">Play</span>
+                </button>
+              )}
 
-                {isAddedToWatchList ? (
-                  <button
-                    className="more"
-                    onClick={() => {
-                      removeFromWatchList(movieDetail._id);
-                      setIsAddedToWatchList(false);
-                    }}
-                  >
-                    <RemoveIcon />
-                    Remove
-                  </button>
-                ) : (
-                  <button
-                    className="more"
-                    onClick={() => {
-                      addToWatchList(movieDetail);
-                      setIsAddedToWatchList(true);
-                    }}
-                  >
-                    <AddIcon />
-                    My List
-                  </button>
-                )}
-              </div>
+              {isAddedToWatchList ? (
+                <button
+                  className="more"
+                  onClick={() => {
+                    removeFromWatchList(movieDetail._id);
+                    setIsAddedToWatchList(false);
+                  }}
+                >
+                  <RemoveIcon />
+                  Remove
+                </button>
+              ) : (
+                <button
+                  className="more"
+                  onClick={() => {
+                    addToWatchList(movieDetail);
+                    setIsAddedToWatchList(true);
+                  }}
+                >
+                  <AddIcon />
+                  My List
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {/* <div className="container">
-        <div className="section mb-3">
-          <VideoList></VideoList>
+      {movieDetail && (
+        <div className="trailer-container">
+          <iframe
+            width="971"
+            height="546"
+            src={movieDetail.trailer.replace(
+              "https://www.youtube.com/watch?v=",
+              "https://www.youtube.com/embed/"
+            )}
+            title="Trailer"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
-        <div className="section mb-3">
-          <div className="section__header mb-2">
-            <h2>Recommendations</h2>
-          </div>
-          <MovieList movies={movies} movieDetail={movieDetail}></MovieList>
-        </div>
-      </div> */}
-
+      )}
       <Comments
         movieId={movieDetail._id}
         commentList={commentList}
@@ -508,7 +508,15 @@ const MovieDetail = () => {
         movieDetailCallback={movieDetailCallback}
         setMovieDetailCallback={setMovieDetailCallback}
       ></Comments>
-    </>
+      <div>
+        <Listitem
+          movies={similarMovies}
+          title="Similar Movies"
+          getTrigger={getTrigger}
+          ToggleTrigger={ToggleTrigger}
+        ></Listitem>
+      </div>
+    </div>
   );
 };
 

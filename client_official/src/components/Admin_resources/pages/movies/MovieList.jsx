@@ -184,7 +184,7 @@ const MovieList = () => {
 
             const newMovies = movies.filter((item) => item._id !== id);
 
-            setMovies([...newMovies]);
+            // setMovies([...newMovies]);
             //setMoviesCallback(!moviesCallback);
           } catch (error) {
             alert(error.response.data.msg);

@@ -82,6 +82,7 @@ const Comments = ({
         margin: "3rem",
         padding: "1rem",
       }}
+      className="Comment_container"
     >
       <br />
       <p>{replyNumbers} replies</p>

@@ -10,12 +10,13 @@ router
 
 router
   .route("/directors/:id")
+  .get(directorController.getOneDirector)
   .delete(auth, authAdmin, directorController.deleteDirector)
   .put(auth, authAdmin, directorController.updateDirector);
 
 router
   .route("/loaddirectors")
-  .post(auth, authAdmin, directorController.deleteDirectors);
+  .post(auth, authAdmin, directorController.loadDirector);
 
 router.route("/updatedirectors").post(directorController.updateDirectors);
 module.exports = router;

@@ -58,7 +58,7 @@ const DirectorDetail = () => {
   const [directors, setDirectors] = state.directorsAPI.directors;
   const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
-
+  const history = useHistory();
   const handleUpload = async (e) => {
     e.preventDefault();
     try {
@@ -170,7 +170,7 @@ const DirectorDetail = () => {
         icon: "success",
         confirmButtonText: "Yes",
       });
-
+      history.push("/directors");
       //  setMoviesCallback(!moviesCallback);
       res.data?.createdDirector &&
         setDirectors([...directors, res.data.createdDirector]);

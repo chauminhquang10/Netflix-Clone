@@ -25,6 +25,7 @@ const CheckOutStep = () => {
   const [userPackage, setUserPackage] = state.usersAPI.userPackage;
   const [packages] = state.packagesAPI.packages;
   const [isValidAccount, setIsValidAccount] = state.usersAPI.isValidAccount;
+  const [likedGenres, setLikedGenres] = state.usersAPI.likedGenres;
   const [isNotExpireAccount, setIsNotExpireAccount] =
     state.usersAPI.isNotExpireAccount;
 
@@ -257,7 +258,7 @@ const CheckOutStep = () => {
     setIsNotExpireAccount(true);
 
     // chuyển trang
-    history.push("/survey");
+    likedGenres ? history.push("/") : history.push("/survey");
   };
 
   const stripeTranSucess = async (payment) => {
@@ -313,7 +314,7 @@ const CheckOutStep = () => {
       setIsNotExpireAccount(true);
 
       // chuyển trang
-      history.push("/survey");
+      likedGenres ? history.push("/") : history.push("/survey");
     }
   };
 
