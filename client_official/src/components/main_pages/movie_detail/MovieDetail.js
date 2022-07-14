@@ -4,17 +4,10 @@ import { GlobalState } from "../../../GlobalState";
 import CastList from "./CastList";
 import VideoList from "./VideoList";
 import "./MovieDetail.scss";
-import { Button } from "../../button/Button";
 import { PlayArrow } from "@material-ui/icons";
-import MovieList from "../movie-list/MovieList";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { OutlineButton } from "../../button/Button";
 import axios from "axios";
-
-// import LikeAndShare from "../../Social Plugin/LikeAndShare";
-// import Comment from "../../Social Plugin/Comment";
-
 import PopUp from "../utils/popup/PopUp";
 
 import Comments from "./Comments/Comments";

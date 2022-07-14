@@ -1,5 +1,6 @@
 import React from "react";
 import "./PopUp.scss";
+import { Link } from "react-router-dom";
 
 const PopUp = (props) => {
   return props.trigger ? (
@@ -15,9 +16,13 @@ const PopUp = (props) => {
               click the button below to reactive your subscription.
             </div>
             <div>Your friend at REX.</div>
-            <button className="button" onClick={() => props.setTrigger(false)}>
+            <Link
+              to="/step_1"
+              className="button"
+              onClick={() => props.setTrigger(false)}
+            >
               Reactive your subscription
-            </button>
+            </Link>
           </div>
           <div className="bottomContent">
             <div className="underline"></div>

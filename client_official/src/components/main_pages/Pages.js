@@ -236,7 +236,6 @@ const Pages = () => {
                 exact
                 component={isLogged ? Movies : LandingPage}
               />
-              {/* hello */}
               <Route
                 path="/search"
                 exact
