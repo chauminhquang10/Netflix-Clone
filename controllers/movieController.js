@@ -34,23 +34,23 @@ const movieController = {
       //   temp = [];
       // }
 
-      if (req.query.original_country) {
-        for (let i = 0; i < tempMovies.length; i++) {
-          if (
-            tempMovies[i].original_country.includes(req.query.original_country)
-          )
-            temp.push(tempMovies[i]);
-        }
-        tempMovies = temp;
-        temp = [];
-      }
+      // if (req.query.original_country) {
+      //   for (let i = 0; i < tempMovies.length; i++) {
+      //     if (
+      //       tempMovies[i].original_country.includes(req.query.original_country)
+      //     )
+      //       temp.push(tempMovies[i]);
+      //   }
+      //   tempMovies = temp;
+      //   temp = [];
+      // }
 
-      if (req.query.genre) {
-        for (let i = 0; i < tempMovies.length; i++) {
-          if (tempMovies[i].allGenres.includes(ObjectId(req.query.genre)))
-            temp.push(tempMovies[i]);
-        }
-      }
+      // if (req.query.genre) {
+      //   for (let i = 0; i < tempMovies.length; i++) {
+      //     if (tempMovies[i].allGenres.includes(ObjectId(req.query.genre)))
+      //       temp.push(tempMovies[i]);
+      //   }
+      // }
 
       return res.status(200).json({
         status: "success",
