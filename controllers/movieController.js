@@ -12,50 +12,16 @@ const fs = require(`fs`);
 const movieController = {
   getMovies: async (req, res) => {
     try {
-      const features = new APIFeatures(
-        Movies.find().populate("allGenres", "name"),
-        req.query
-      )
+      const features = new APIFeatures(Movies.find(), req.query)
         .moviesFiltering()
         .sorting();
 
       const movies = await features.query;
 
-      let temp = [];
-
-      let tempMovies = movies;
-
-      // if (req.query.year) {
-      //   for (let i = 0; i < tempMovies.length; i++) {
-      //     if (Number(tempMovies[i].year) == Number(req.query.year))
-      //       temp.push(tempMovies[i]);
-      //   }
-      //   tempMovies = temp;
-      //   temp = [];
-      // }
-
-      // if (req.query.original_country) {
-      //   for (let i = 0; i < tempMovies.length; i++) {
-      //     if (
-      //       tempMovies[i].original_country.includes(req.query.original_country)
-      //     )
-      //       temp.push(tempMovies[i]);
-      //   }
-      //   tempMovies = temp;
-      //   temp = [];
-      // }
-
-      // if (req.query.genre) {
-      //   for (let i = 0; i < tempMovies.length; i++) {
-      //     if (tempMovies[i].allGenres.includes(ObjectId(req.query.genre)))
-      //       temp.push(tempMovies[i]);
-      //   }
-      // }
-
       return res.status(200).json({
         status: "success",
-        result: temp.length > 0 ? temp.length : movies.length,
-        movies: temp.length > 0 ? temp : movies,
+        result: movies.length,
+        movies: movies,
       });
     } catch (error) {
       console.log(error);

@@ -15,17 +15,10 @@ const SearchPage = () => {
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
   const [searchGenres, setSearchGenres] = useState([]);
-  const [search] = state.moviesAPI.search;
+  const [search, setSearch] = state.moviesAPI.search;
   const nationCodes = ["us", "jp", "uk"];
 
-  useEffect(() => {
-    const getSearchGenres = async () => {
-      const res = await axios.get(`/api/genres?name[regex]=${search}`);
-      setSearchGenres(res.data);
-    };
-    if (search) getSearchGenres();
-    else setSearchGenres([]);
-  }, [search]);
+  const [sort, setSort] = state.moviesAPI.sort;
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
@@ -42,6 +35,15 @@ const SearchPage = () => {
   const [year, setYear] = state.moviesAPI.year;
   const [original_country, setCountry] = state.moviesAPI.original_country;
   const [genres] = state.genresAPI.genres;
+
+  useEffect(() => {
+    const getSearchGenres = async () => {
+      const res = await axios.get(`/api/genres?name[regex]=${search}`);
+      setSearchGenres(res.data);
+    };
+    if (search) getSearchGenres();
+    else setSearchGenres([]);
+  }, [search]);
 
   //Chuyển trang
   const paginate = (pageNumber) => {
@@ -64,17 +66,31 @@ const SearchPage = () => {
   }
   const handleGenre = (e) => {
     setGenre(e.target.value);
+    setSearch("");
   };
   const handleYear = (e) => {
     setYear(e.target.value);
+    setSearch("");
   };
   const handleCountry = (e) => {
     setCountry(e.target.value);
+    setSearch("");
   };
 
   return (
     <div className="movies_container">
       <div className="Sort_container">
+        {/* phần sorting sắp xếp mới */}
+        <div className="row">
+          <span>Sort By:</span>
+          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="">Newest</option>
+            <option value="sort=-views">Most View</option>
+            <option value="sort=-imdb_rating">Best Rating</option>
+            <option value="sort=-year">Produce Year</option>
+          </select>
+        </div>
+
         <div className="Sort_child">
           <select
             className="selection-container"
