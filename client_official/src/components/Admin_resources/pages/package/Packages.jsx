@@ -70,8 +70,8 @@ const Packages = () => {
   const [token] = state.token;
   const [packages, setPackages] = state.packagesAPI.packages;
 
-  const [packagesCallback, setPackagesCallback] =
-    state.packagesAPI.packagesCallback;
+  //const [packagesCallback, setPackagesCallback] =
+  //state.packagesAPI.packagesCallback;
 
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -141,18 +141,17 @@ const Packages = () => {
 
   const deletePackage = async (id, public_id) => {
     try {
-      const res = await axios.delete(`/api/packages/${id}`, {
+      await axios.delete(`/api/packages/${id}`, {
         headers: {
           Authorization: token,
         },
       });
-      await res;
-      //Notify
-      const msg = {
-        id,
-        url: `/detail/${id}`,
-      };
-      setPackagesCallback(!packagesCallback);
+
+      const newPackages = packages.filter((item) => item._id !== id);
+
+      setPackages([...newPackages]);
+
+      //setPackagesCallback(!packagesCallback);
     } catch (error) {
       Swal.fire(error.response.data.msg, "", "success");
     }

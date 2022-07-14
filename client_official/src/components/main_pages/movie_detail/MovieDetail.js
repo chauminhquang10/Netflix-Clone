@@ -17,7 +17,7 @@ import CommentDisplayRating from "./Comments/CommentDisplayRating";
 import LikeButton from "./LikeButton";
 
 import DislikeButton from "./DislikeButton";
-
+import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
 import Listitem from "../main/list/List";
 
 const MovieDetail = () => {
@@ -80,7 +80,13 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
-            await getSimilarMovies(res.data.movie?.allGenres[0]._id);
+            if (res.data.movie?.allGenres.length > 0) {
+              // lọc lại giá trị các genres id thành mảng truyền xuống backend
+              const allGenreIDs = res.data.movie?.allGenres.map(
+                (genreItem) => genreItem._id
+              );
+              await getSimilarMovies(allGenreIDs);
+            }
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -92,16 +98,12 @@ const MovieDetail = () => {
       }
     };
 
-    const getSimilarMovies = async (genreId) => {
-      if (genreId) {
-        try {
-          const res = await axios.get(`/api/similarMovies/${genreId}`);
-          if (res.data.similarMovies.length > 0) {
-            setSimilarMovies(res.data.similarMovies);
-          }
-        } catch (error) {
-          alert(error.response.data.msg);
-        }
+    const getSimilarMovies = async (allGenreIDs) => {
+      try {
+        const res = await axios.post("/api/similarMovies", { allGenreIDs });
+        setSimilarMovies(res.data?.similarMovies);
+      } catch (error) {
+        alert(error.response.data.msg);
       }
     };
 
@@ -400,9 +402,14 @@ const MovieDetail = () => {
             ))}
           </div>
           <p className="overview">{movieDetail.desc}</p>
-          <CommentDisplayRating
-            rating={movieDetail.rating}
-          ></CommentDisplayRating>
+          <div className="rating-container">
+            <CommentDisplayRating
+              rating={movieDetail.rating}
+            ></CommentDisplayRating>
+            <div className="imdb-rating">
+              IMDB rating: <span>{movieDetail.imdb_rating}</span>
+            </div>
+          </div>
           <div className="react-container">
             <div className="like-container">
               <LikeButton
@@ -500,13 +507,17 @@ const MovieDetail = () => {
         movieDetailCallback={movieDetailCallback}
         setMovieDetailCallback={setMovieDetailCallback}
       ></Comments>
-      <div>
-        <Listitem
-          movies={similarMovies}
-          title="Similar Movies"
-          getTrigger={getTrigger}
-          ToggleTrigger={ToggleTrigger}
-        ></Listitem>
+      <div className="list-item-container">
+        {similarMovies ? (
+          <Listitem
+            movies={similarMovies}
+            title="Similar Movies"
+            getTrigger={getTrigger}
+            ToggleTrigger={ToggleTrigger}
+          ></Listitem>
+        ) : (
+          <SkeletonList />
+        )}
       </div>
     </div>
   );

@@ -32,8 +32,8 @@ const packageController = {
         image,
         devices,
       });
-      await newPack.save();
-      res.json({ msg: "Created a new package" });
+      const createdPack = await newPack.save();
+      res.json({ msg: "Created a new package", createdPack });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

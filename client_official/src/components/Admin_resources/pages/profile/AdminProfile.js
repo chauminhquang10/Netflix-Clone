@@ -34,7 +34,7 @@ const AdminProfile = () => {
   const [loading, setLoading] = useState(false);
 
   const [allUsers, setAllUsers] = state.usersAPI.allUsers;
-  const [callback, setCallback] = state.usersAPI.callback;
+  // const [callback, setCallback] = state.usersAPI.callback;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;

@@ -3,7 +3,6 @@
 .movie_detail_list {
   position: relative;
   .swiper-slide {
-    width: fit-content;
 
     @include tablet {
       width: 30%;

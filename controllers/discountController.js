@@ -80,8 +80,8 @@ const discountController = {
         discountValue,
         expireTime,
       });
-      await newDiscount.save();
-      res.json({ msg: "New coupon code created!" });
+      const createdDiscount = await newDiscount.save();
+      res.json({ msg: "New coupon code created!", createdDiscount });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

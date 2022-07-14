@@ -54,7 +54,6 @@ const EditUser = () => {
             },
           }
         );
-        await res;
         Swal.fire(res.data.msg, "", "success");
         setSuccess(res.data.msg);
         setNumber(0);

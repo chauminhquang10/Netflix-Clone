@@ -181,7 +181,9 @@ const Discounts = () => {
         headers: { Authorization: token },
       });
 
-      setCallback(!callback);
+      //setCallback(!callback);
+      const newDiscounts = discounts.filter((item) => item._id !== discountID);
+      setDiscounts([...newDiscounts]);
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -358,8 +360,10 @@ const Discounts = () => {
           setUpdateDiscount={setUpdateDiscount}
           notify={notify}
           setNotify={setNotify}
-          callback={callback}
-          setCallback={setCallback}
+          //callback={callback}
+          //setCallback={setCallback}
+          discounts={discounts}
+          setDiscounts={setDiscounts}
           onEdit={onEdit}
           setOnEdit={setOnEdit}
         ></DiscountsForm>

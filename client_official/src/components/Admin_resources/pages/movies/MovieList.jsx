@@ -172,7 +172,7 @@ const MovieList = () => {
                 Authorization: token,
               },
             });
-            // await res;
+
             Swal.fire(res.data.msg, "", "success");
             //Notify
             const msg = {
@@ -183,9 +183,89 @@ const MovieList = () => {
             dispatch(removeNotify({ msg, socket, token }));
 
             const newMovies = movies.filter((item) => item._id !== id);
+            setMovies([...newMovies]);
 
-            // setMovies([...newMovies]);
             //setMoviesCallback(!moviesCallback);
+          } catch (error) {
+            alert(error.response.data.msg);
+          }
+        }
+      });
+    } else {
+      try {
+        if (public_id) {
+          const deleteImg = axios.post(
+            "/api/delete",
+            { public_id },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+          await deleteImg;
+        }
+        const res = await axios.delete(`/api/movies/${id}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        const msg = {
+          id,
+          url: `/detail/${id}`,
+        };
+        dispatch(removeNotify({ msg, socket, token }));
+
+        const newMovies = movies.filter((item) => item._id !== id);
+        setMovies([...newMovies]);
+
+        // setMoviesCallback(!moviesCallback);
+      } catch (error) {
+        alert(error.response.data.msg);
+      }
+    }
+  };
+
+  const deleteMovieForDeleteAll = async (id, public_id, isMulti) => {
+    if (!isMulti) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed || isMulti) {
+          try {
+            if (public_id) {
+              const deleteImg = axios.post(
+                "/api/delete",
+                { public_id },
+                {
+                  headers: {
+                    Authorization: token,
+                  },
+                }
+              );
+              await deleteImg;
+            }
+            const res = await axios.delete(`/api/movies/${id}`, {
+              headers: {
+                Authorization: token,
+              },
+            });
+            // await res;
+            Swal.fire(res.data.msg, "", "success");
+            //Notify
+            const msg = {
+              id,
+              url: `/detail/${id}`,
+            };
+
+            dispatch(removeNotify({ msg, socket, token }));
           } catch (error) {
             alert(error.response.data.msg);
           }
@@ -216,12 +296,6 @@ const MovieList = () => {
           url: `/detail/${id}`,
         };
         dispatch(removeNotify({ msg, socket, token }));
-
-        const newMovies = movies.filter((item) => item._id !== id);
-
-        setMovies([...newMovies]);
-
-        // setMoviesCallback(!moviesCallback);
       } catch (error) {
         alert(error.response.data.msg);
       }
@@ -247,12 +321,20 @@ const MovieList = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        // lưu mảng để xóa các phim ra khỏi state
+        let needDeletedMovies = [];
+
         movies.forEach(async (movie) => {
           if (movie.checked) {
-            console.log(`checked Here ${movie._id}`);
-            await deleteMovie(movie._id, movie.img.public_id, true);
+            needDeletedMovies.push(movie._id);
+            await deleteMovieForDeleteAll(movie._id, movie.img.public_id, true);
           }
         });
+        // set lại state cho movies
+        const newMovies = movies.filter(
+          (item) => !needDeletedMovies.includes(item._id)
+        );
+        setMovies([...newMovies]);
       }
     });
     // Swal.fire("Movies Deleted", "", "success");

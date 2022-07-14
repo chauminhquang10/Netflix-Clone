@@ -6,9 +6,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100vh;  
   position: relative;
   gap: 30px;
+  .list-item-container{
+    position: relative;
+    width: 100%;
+    padding: 0px 20px;
+    .list{
+      margin: 0px;
+    }
+  }
   .banner {
     top: -70px;
     width: 100%;
@@ -94,6 +102,30 @@
           margin-right: 5px;
           text-transform: capitalize;
           color: white;
+        }
+      }
+      .rating-container{
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 40px;
+        .imdb-rating{
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 4px;
+          background-color: rgb(181, 145, 36);
+          color: black;
+          padding: 0px 5px;
+          border-radius: 5px;
+          font-weight: bold;
+          >*{
+            filter: brightness(1.5)
+          }
+          span{
+            color: white;
+          }
         }
       }
       .react-container{
