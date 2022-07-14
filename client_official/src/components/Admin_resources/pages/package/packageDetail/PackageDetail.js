@@ -47,24 +47,24 @@ function getStyles(name, devices, theme) {
 export default function MultipleSelect() {
   const param = useParams();
   const state = useContext(GlobalState);
-  const [packagesCallback, setPackagesCallback] =
-    state.packagesAPI.packagesCallback;
+  //const [packagesCallback, setPackagesCallback] =
+  // state.packagesAPI.packagesCallback;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const [pack, setPack] = useState(initialState);
-  const [packs] = state.packagesAPI.packages;
+  const [packages, setPackages] = state.packagesAPI.packages;
   const theme = useTheme();
   const history = useHistory();
 
   useEffect(() => {
     if (param.id) {
-      packs.forEach((pack) => {
+      packages.forEach((pack) => {
         if (pack._id === param.id) {
           setPack(pack);
         }
       });
     }
-  }, [param.id, packs]);
+  }, [param.id, packages]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -76,33 +76,50 @@ export default function MultipleSelect() {
     try {
       if (!isAdmin) return alert("You're not an admin");
 
-      const res = param.id
-        ? await axios.put(
-            `/api/packages/${pack._id}`,
-            { ...pack },
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          )
-        : await axios.post(
-            "/api/packages",
-            { ...pack },
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-      swal({
-        title: "Info !",
-        text: res.data.msg,
-        icon: "success",
-        confirmButtonText: "Yes",
-      });
+      if (param.id) {
+        await axios.put(
+          `/api/packages/${pack._id}`,
+          { ...pack },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
 
-      setPackagesCallback(!packagesCallback);
+        const newPackages = packages.map((item) =>
+          item._id === pack._id ? { ...pack } : item
+        );
+
+        setPackages([...newPackages]);
+        swal({
+          title: "Info !",
+          text: res.data.msg,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      } else {
+        const res = await axios.post(
+          "/api/packages",
+          { ...pack },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        res.data?.createdPack &&
+          setPackages([...packages, res.data.createdPack]);
+
+        swal({
+          title: "Info !",
+          text: res.data.msg,
+          icon: "success",
+          confirmButtonText: "Yes",
+        });
+      }
+
+      //setPackagesCallback(!packagesCallback);
       history.push("/packages");
     } catch (error) {
       swal({

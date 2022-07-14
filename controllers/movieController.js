@@ -673,11 +673,23 @@ const movieController = {
   },
   getSimilarMovies: async (req, res) => {
     try {
-      const { genreID } = req.params;
+      const { allGenreIDs } = req.body;
 
-      const similarMovies = await Movies.find({ allGenres: genreID })
-        .sort({ createdAt: -1 })
-        .limit(10);
+      const finalGenreIDs = allGenreIDs.map((genreID) => {
+        return ObjectId(genreID);
+      });
+
+      const similarMovies = await Movies.aggregate([
+        {
+          $match: {
+            allGenres: {
+              $in: [finalGenreIDs],
+            },
+          },
+        },
+        { $sort: { createdAt: -1 } },
+        { $limit: 10 },
+      ]);
 
       res.status(200).json({ similarMovies });
     } catch (error) {

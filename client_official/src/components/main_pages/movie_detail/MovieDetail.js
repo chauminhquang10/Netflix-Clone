@@ -80,7 +80,15 @@ const MovieDetail = () => {
             setLikesNumber(res.data.movie.likes.length);
             setDislikesNumber(res.data.movie.dislikes.length);
 
-            await getSimilarMovies(res.data.movie?.allGenres[0]._id);
+            // lọc lại giá trị các genres id thành mảng truyền xuống backend
+            let allGenreIDs = [];
+
+            if (res.data.movie?.allGenres) {
+              allGenreIDs = res.data.movie.allGenres.map(
+                (genreItem) => genreItem._id
+              );
+              await getSimilarMovies(allGenreIDs);
+            }
 
             // reload để cập nhật phim mới vào danh sách phim
             if (movies.every((movie) => movie._id !== params.id))
@@ -92,10 +100,10 @@ const MovieDetail = () => {
       }
     };
 
-    const getSimilarMovies = async (genreId) => {
-      if (genreId) {
+    const getSimilarMovies = async (allGenreIDs) => {
+      if (allGenreIDs) {
         try {
-          const res = await axios.get(`/api/similarMovies/${genreId}`);
+          const res = await axios.get("/api/similarMovies", allGenreIDs);
           if (res.data.similarMovies.length > 0) {
             setSimilarMovies(res.data.similarMovies);
           }

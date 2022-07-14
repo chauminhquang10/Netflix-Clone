@@ -46,6 +46,6 @@ router.route("/fetchGenres").post(movieController.fetchGenres);
 router.get("/topMoviesRanking", movieController.getRankingMovies);
 
 // lấy những phim cùng thể loại
-router.route("/similarMovies/:genreID").get(movieController.getSimilarMovies);
+router.route("/similarMovies").get(movieController.getSimilarMovies);
 
 module.exports = router;
