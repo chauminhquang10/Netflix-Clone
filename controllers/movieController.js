@@ -631,7 +631,7 @@ const movieController = {
   getRankingMovies: async (req, res) => {
     try {
       // Thống kê những top movies với điểm (score) cao nhất để làm bxh bên user.
-      const topScoreMovies = await Movies.find().sort({ score: -1 }).limit(5);
+      const topScoreMovies = await Movies.find().sort({ score: -1 }).limit(6);
       res.status(200).json({ topScoreMovies });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -639,10 +639,11 @@ const movieController = {
   },
   getSimilarMovies: async (req, res) => {
     try {
-      const finalGenreIDs = req.body.allGenreIDs.map((genreID) => {
+      const { allGenreIDs } = req.body;
+
+      const finalGenreIDs = allGenreIDs.map((genreID) => {
         return ObjectId(genreID);
       });
-
       const similarMovies = await Movies.aggregate([
         {
           $match: {
