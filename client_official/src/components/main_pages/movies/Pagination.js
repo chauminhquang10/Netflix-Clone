@@ -16,9 +16,9 @@ const Pagination = ({ currentPage, moviesPerPage, totalMovies, paginate }) => {
         {currentPage >= 4 && <button className="page-link">...</button>}
         {pageNumbers.map(
           (number) =>
-            (number + 1 == currentPage + 1 ||
-              number + 1 == currentPage - 1 ||
-              number + 1 == currentPage) &&
+            (number + 1 === currentPage + 1 ||
+              number + 1 === currentPage - 1 ||
+              number + 1 === currentPage) &&
             number < pageNumbers.length - 1 && (
               <li key={number + 1} className="page-item">
                 <button
