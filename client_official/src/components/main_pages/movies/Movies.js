@@ -51,6 +51,7 @@ const Movies = () => {
       </div>
       <div className="Pagination">
         <Pagination
+          currentPage={currentPage}
           moviesPerPage={moviesPerPage}
           totalMovies={movies.length}
           paginate={paginate}
