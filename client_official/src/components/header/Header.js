@@ -8,7 +8,7 @@ import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
 import NotifyModal from "../main_pages/notify/NotifyModal";
 import logo from "../../images/logo-t-rex.jpg";
-
+import { useHistory } from "react-router-dom";
 const Header = () => {
   const state = useContext(GlobalState);
   const [isValidAccount] = state.usersAPI.isValidAccount;
@@ -19,6 +19,7 @@ const Header = () => {
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
+  const history = useHistory();
 
   function OnScroll() {
     if (headerRef.current) {
@@ -147,7 +148,10 @@ const Header = () => {
                 type="text"
                 value={search}
                 placeholder="Search..."
-                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                onChange={(e) => {
+                  setSearch(e.target.value.toLowerCase());
+                  if (search) history.push(`/search`);
+                }}
                 className="search-box"
               />
 

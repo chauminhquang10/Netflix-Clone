@@ -1,6 +1,6 @@
 import React from "react";
 
-const Pagination = ({ moviesPerPage, totalMovies, paginate }) => {
+const Pagination = ({ currentPage, moviesPerPage, totalMovies, paginate }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalMovies / moviesPerPage); i++) {
@@ -10,13 +10,35 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate }) => {
   return (
     <nav>
       <ul className="pagination">
-        {pageNumbers.map((number) => (
-          <li key={number} className="page-item">
-            <button className="page-link" onClick={() => paginate(number)}>
-              {number}
-            </button>
-          </li>
-        ))}
+        <button className="page-link" onClick={() => paginate(1)}>
+          1
+        </button>
+        {currentPage >= 4 && <button className="page-link">...</button>}
+        {pageNumbers.map(
+          (number) =>
+            (number + 1 == currentPage + 1 ||
+              number + 1 == currentPage - 1 ||
+              number + 1 == currentPage) &&
+            number < pageNumbers.length - 1 && (
+              <li key={number + 1} className="page-item">
+                <button
+                  className="page-link"
+                  onClick={() => paginate(number + 1)}
+                >
+                  {number + 1}
+                </button>
+              </li>
+            )
+        )}
+        {currentPage < pageNumbers.length - 2 && (
+          <button className="page-link">...</button>
+        )}
+        <button
+          className="page-link"
+          onClick={() => paginate(pageNumbers.length)}
+        >
+          {pageNumbers.length}
+        </button>
       </ul>
     </nav>
   );

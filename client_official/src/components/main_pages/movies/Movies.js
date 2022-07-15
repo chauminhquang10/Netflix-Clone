@@ -36,6 +36,7 @@ const Movies = () => {
   return (
     <div className="Movies-container">
       <Featured
+        watch="/watch/335983/62d1434e0adaae26c057488b"
         type="movies"
         bigImg="https://images3.alphacoders.com/948/thumb-1920-948864.jpg"
         smallImg="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg"
