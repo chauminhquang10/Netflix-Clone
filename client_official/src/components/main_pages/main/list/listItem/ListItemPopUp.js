@@ -80,7 +80,12 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
             </Link>
             <div className="itemInfo">
               <div className="icons">
-                <PlayArrow className="icon"></PlayArrow>
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movie.TMDBid}/${movie._id}`}
+                >
+                  <PlayArrow className="icon"></PlayArrow>
+                </Link>
                 <Link
                   to="#!"
                   onClick={() => {

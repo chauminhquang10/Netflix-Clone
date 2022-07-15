@@ -21,10 +21,19 @@ const People = () => {
     const getDetailActor = async () => {
       if (params.id) {
         try {
-          const res = await axios.get(`/api/actors/${params.id}`);
-          if (res !== null) {
-            setActor(res.data.actor);
-            console.log(res.data.actor);
+          if (params.id[0] === "@") {
+            const res = await axios.get(
+              `/api/directors/${params.id.replace("@", "")}`
+            );
+            if (res !== null) {
+              setActor(res.data.director);
+              console.log();
+            }
+          } else {
+            const res = await axios.get(`/api/actors/${params.id}`);
+            if (res !== null) {
+              setActor(res.data.actor);
+            }
           }
         } catch (error) {
           alert(error.response.data.msg);

@@ -428,11 +428,12 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="cast-container">
-            <div className="header">
-              <h2>Casts</h2>
-            </div>
+            <div className="header"></div>
             {movieDetail?.actorsBelongTo && (
-              <CastList actors={movieDetail.actorsBelongTo} />
+              <CastList
+                actors={movieDetail.actorsBelongTo}
+                directors={movieDetail.directorsBelongTo}
+              />
             )}
           </div>
           <div className="movie_detail_buttons">

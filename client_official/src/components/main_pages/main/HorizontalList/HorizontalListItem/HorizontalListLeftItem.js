@@ -57,7 +57,12 @@ const HorizontalListLeftItem = ({ movie }) => {
       ></img>
       <div className="HorizontalListLeftItem_itemInfo">
         <div className="HorizontalListLeftItem_icons">
-          <PlayArrow className="HorizontalListLeftItem_icon"></PlayArrow>
+          <Link
+            className="detail_link"
+            to={`/watch/${movie.TMDBid}/${movie._id}`}
+          >
+            <PlayArrow className="HorizontalListLeftItem_icon"></PlayArrow>
+          </Link>
           <Link
             to="#!"
             onClick={() => {
