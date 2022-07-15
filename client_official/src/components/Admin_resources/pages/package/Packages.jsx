@@ -151,6 +151,18 @@ const Packages = () => {
     }
   };
 
+  const deletePackageForDeleteAll = async (id, public_id) => {
+    try {
+      await axios.delete(`/api/packages/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      Swal.fire(error.response.data.msg, "", "success");
+    }
+  };
+
   const deleteAPackage = async (id, public_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -187,9 +199,22 @@ const Packages = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        packages.forEach((pack) => {
-          if (pack.checked) deletePackage(pack._id);
+        // lưu mảng để xóa các phim ra khỏi state
+        let needDeletedPackages = [];
+
+        packages.forEach(async (pack) => {
+          if (pack.checked) {
+            needDeletedPackages.push(pack._id);
+            await deletePackageForDeleteAll(pack._id);
+          }
         });
+
+        // set lại state cho movies
+        const newPackages = packages.filter(
+          (item) => !needDeletedPackages.includes(item._id)
+        );
+        setPackages([...newPackages]);
+
         Swal.fire("Deleted all checked pack", "", "success");
         setIsChecked(false);
       }

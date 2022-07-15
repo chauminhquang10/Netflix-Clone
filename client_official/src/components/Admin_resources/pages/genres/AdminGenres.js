@@ -114,9 +114,18 @@ const AdminGenres = () => {
   ];
 
   const deleteAll = () => {
-    genres.forEach((genre) => {
-      if (genre.checked) deleteGenre(genre._id);
+    let needDeletedGenres = [];
+    genres.forEach(async (genre) => {
+      if (genre.checked) {
+        needDeletedGenres.push(genre._id);
+        await deleteGenreForDeleteAll(genre._id);
+      }
     });
+    // set lại state cho genres
+    const newGenres = genres.filter(
+      (item) => !needDeletedGenres.includes(item._id)
+    );
+    setGenres([...newGenres]);
     setIsChecked(false);
   };
 
@@ -189,6 +198,18 @@ const AdminGenres = () => {
       const newGenres = genres.filter((item) => item._id !== id);
 
       setGenres([...newGenres]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteGenreForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/genres/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
