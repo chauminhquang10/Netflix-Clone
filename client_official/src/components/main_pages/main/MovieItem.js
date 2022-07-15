@@ -1,6 +1,5 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
+import { Add, PlayArrow } from "@material-ui/icons";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import "./MovieItem.scss";

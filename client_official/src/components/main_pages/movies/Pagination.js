@@ -12,9 +12,9 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate }) => {
       <ul className="pagination">
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
-            <a href="#" className="page-link" onClick={() => paginate(number)}>
+            <button className="page-link" onClick={() => paginate(number)}>
               {number}
-            </a>
+            </button>
           </li>
         ))}
       </ul>

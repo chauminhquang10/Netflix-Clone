@@ -369,9 +369,9 @@ const LandingPage = () => {
                     If you decide Rex isn't for you - no problem. No commitment.
                     Cancel online anytime.
                   </p>
-                  <a href="#" className="landing-btn landing-btn-large">
+                  <button className="landing-btn landing-btn-large">
                     Watch Free For 30 days
-                  </a>
+                  </button>
                 </div>
                 <img
                   src="https://i.ibb.co/J2xDJV7/tab-content-1.png"
@@ -393,9 +393,9 @@ const LandingPage = () => {
                   Watch TV shows and movies anytime, anywhere - personalized for
                   you.
                 </p>
-                <a href="#" className="landing-btn landing-btn-large">
+                <button className="landing-btn landing-btn-large">
                   Watch Free For 30 days
-                </a>
+                </button>
               </div>
               <div className="tab-2-content-bottom">
                 <div>
@@ -445,9 +445,9 @@ const LandingPage = () => {
                 <p className="text-large">
                   Choose one plan and watch everything on Rex
                 </p>
-                <a href="#" className="landing-btn landing-btn-large">
+                <button className="landing-btn landing-btn-large">
                   Watch Free For 30 days
-                </a>
+                </button>
               </div>
 
               <table className="landing-table">

@@ -34,7 +34,7 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
             setAvatar3(true);
           }}
         >
-          <img className="profile_Img" src={userAvatar}></img>
+          <img alt="" className="profile_Img" src={userAvatar}></img>
         </div>
         <div
           className={
@@ -42,11 +42,17 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
               ? "userlink_menu "
               : "userlink_menu active"
           }
-          onMouseOver={() => (setAvatar2(false), setAvatar3(false))}
-          onMouseLeave={() => (toggleAvatar2(), setAvatar3(true))}
+          onMouseOver={() => {
+            setAvatar2(false);
+            setAvatar3(false);
+          }}
+          onMouseLeave={() => {
+            toggleAvatar2();
+            setAvatar3(true);
+          }}
         >
           <div className="popupProfile">
-            <img className="propup_Img" src={userAvatar}></img>
+            <img alt="" className="propup_Img" src={userAvatar}></img>
           </div>
           <h3>
             {userName}

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import "./ListItem.scss";
 import { Link } from "react-router-dom";
 
-const ListItem = ({ SetMovie, movie, MoveOut }) => {
+const ListItem = ({ SetMovie, movie }) => {
   const inputRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
   return (
     <Link to={{ pathname: "", movie }}>
       <div

@@ -6,6 +6,7 @@ const GridItem = ({ movie, isBig }) => {
     <div className="Grid_item_container">
       <Link to={`/detail/${movie._id}`}>
         <img
+          alt=""
           className="Grid_item_img"
           src={isBig ? movie.img : movie.img.replace("original", "w300")}
         ></img>

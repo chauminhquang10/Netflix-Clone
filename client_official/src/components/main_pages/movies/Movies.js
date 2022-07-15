@@ -1,20 +1,15 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "../main/MovieItem";
-import Filter from "./Filter";
 import Pagination from "./Pagination";
 import "./Movies.css";
 import PuffLoader from "react-spinners/PuffLoader";
-import axios from "axios";
 import Featured from "../main/Feature/Feature";
 
 const Movies = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;
   const [loading, setLoading] = useState(false);
-
-  //xử lí delete all
-  const [isChecked, setIsChecked] = useState(false);
 
   // phân trang trên front end
   const [currentPage, setCurrentPage] = useState(1);

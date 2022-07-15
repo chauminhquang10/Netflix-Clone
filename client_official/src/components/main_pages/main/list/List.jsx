@@ -1,12 +1,8 @@
-import {
-  ArrowBackIosOutlined,
-  ArrowForwardIosOutlined,
-} from "@material-ui/icons";
 import "./List.scss";
-import React, { useContext, useState, useRef } from "react";
+import React, { useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination, Controller, Thumbs } from "swiper";
+import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/swiper-bundle.css";
 
 import { OutlineButton } from "../../../button/Button";

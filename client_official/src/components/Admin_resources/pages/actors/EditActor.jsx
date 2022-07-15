@@ -4,14 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import swal from "sweetalert";
-import { Link, useHistory, useParams } from "react-router-dom";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  OutlinedInput,
-} from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Gender = ["Not specified", "Female", "Male"];
@@ -37,15 +30,6 @@ const MenuProps = {
     },
   },
 };
-
-function getStyles(name, devices, theme) {
-  return {
-    fontWeight:
-      devices.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 const ActorDetail = () => {
   const [actor, setActor] = useState(initialState);

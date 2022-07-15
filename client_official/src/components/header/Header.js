@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { GlobalState } from "../../GlobalState";
-import { Menu, Clear, ContactSupportOutlined } from "@material-ui/icons";
+import { Menu, Clear } from "@material-ui/icons";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -9,12 +8,10 @@ import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
 import NotifyModal from "../main_pages/notify/NotifyModal";
 import logo from "../../images/logo-t-rex.jpg";
-import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
 
 const Header = () => {
   const state = useContext(GlobalState);
   const [isValidAccount] = state.usersAPI.isValidAccount;
-  const [token] = state.token;
   const [search, setSearch] = state.moviesAPI.search;
   const [userData] = state.usersAPI.userData;
   const [isLogged] = state.usersAPI.isLogged;
@@ -22,10 +19,6 @@ const Header = () => {
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
-
-  // phần thông báo
-  const { notify } = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   function OnScroll() {
     if (headerRef.current) {

@@ -9,9 +9,10 @@ const CastList = ({ actors }) => {
         <Link to={`/person/${cast._id}`}>
           <div key={index} className="casts__item">
             <img
+              alt=""
               className="casts__item__img"
               src={
-                cast.image == "https://image.tmdb.org/t/p/original/null"
+                cast.image === "https://image.tmdb.org/t/p/original/null"
                   ? "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg"
                   : cast.image
               }
