@@ -1,12 +1,10 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import "./UserLink.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 const UserLink = ({ logout, userName, userAvatar, userMail }) => {
   const [avatar1, setAvatar1] = useState(true);

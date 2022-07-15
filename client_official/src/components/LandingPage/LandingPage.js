@@ -1,12 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./LandingPage.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CardImg1 from "../../images/tv.png";
-import CardImg2 from "../../images/mobile-image.jpg";
-import CardImg3 from "../../images/boxshot.png";
 import CardImg4 from "../../images/kids.png";
-import CardVideo1 from "../../videos/netflix_ui.m4v";
-import CardVideo2 from "../../videos/vid1.m4v";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";

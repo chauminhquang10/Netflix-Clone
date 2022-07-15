@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../GlobalState";
 import "./Survery.scss";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Survery = () => {
   const state = useContext(GlobalState);

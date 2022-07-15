@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./ServicePackage.css";
 import { GlobalState } from "../../../GlobalState";
 import PackageItem from "./PackageItem";

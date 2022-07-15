@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../../GlobalState";
-import { Link } from "react-router-dom";
 import "./OrderHistory.scss";
 import PaymentDetail from "./OrderDetail";
 import moment from "moment";

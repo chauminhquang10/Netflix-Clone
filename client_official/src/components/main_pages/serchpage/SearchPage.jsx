@@ -10,10 +10,7 @@ const SearchPage = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;
   const [Choice, setChoice] = state.moviesAPI.search;
-  const [token] = state.token;
-  const [isAdmin] = state.usersAPI.isAdmin;
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
-  const [loading, setLoading] = useState(false);
   const [searchGenres, setSearchGenres] = useState([]);
   const [search, setSearch] = state.moviesAPI.search;
   const nationCodes = ["us", "jp", "uk"];
@@ -21,7 +18,6 @@ const SearchPage = () => {
   const [sort, setSort] = state.moviesAPI.sort;
 
   //xử lí delete all
-  const [isChecked, setIsChecked] = useState(false);
 
   // phân trang trên front end
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,20 +46,6 @@ const SearchPage = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleCheck = (id) => {
-    movies.forEach((movie) => {
-      if (movie._id === id) movie.checked = !movie.checked;
-    });
-    setMovies([...movies]);
-  };
-
-  if (loading) {
-    return (
-      <div className="loading">
-        <PuffLoader color={"#36D7B7"} loading={true} size={60} />
-      </div>
-    );
-  }
   const handleGenre = (e) => {
     setGenre(e.target.value);
     setSearch("");
@@ -173,7 +155,7 @@ const SearchPage = () => {
             if (search) {
               if (index > currentMovies.length - 1 || index > 10) {
                 return;
-              } else if (index == currentMovies.length - 1 || index == 10) {
+              } else if (index === currentMovies.length - 1 || index === 10) {
                 return (
                   <div className="related_titles_content_child_container">
                     <div

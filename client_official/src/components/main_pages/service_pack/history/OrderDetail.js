@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext } from "react";
 import Review from "../../../Admin_resources/pages/payments/Review";
 import { makeStyles, Paper } from "@material-ui/core";
 
@@ -32,8 +31,6 @@ const PaymentDetail = ({ id, setId }) => {
   const classes = useStyles();
   const state = useContext(GlobalState);
   const [userHistory] = state.usersAPI.userHistory;
-  const [orderDetails, setOrderDetails] = useState([]);
-  const params = useParams();
 
   if (!id) return null;
 
@@ -43,7 +40,7 @@ const PaymentDetail = ({ id, setId }) => {
         if (item._id === id) {
           console.log(item);
           return <Review paymentDetail={item} />;
-        }
+        } else return null;
       })}
     </Paper>
   );
