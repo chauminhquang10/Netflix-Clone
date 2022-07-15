@@ -1,5 +1,5 @@
-import React, { createElement, useState, useContext, useEffect } from "react";
-import { Comment, Avatar, Tooltip, Button, Input } from "antd";
+import React, { useState, useContext, useEffect } from "react";
+import { Comment, Avatar, Button, Input } from "antd";
 
 import LikeDislike from "./LikeDislike";
 
@@ -71,7 +71,7 @@ const SingleComment = ({
       content: replyComment,
       star: 0,
       movieId: movieId,
-      responseTo: comment._id,
+      responseTo: comment?._id,
     };
 
     try {
@@ -108,7 +108,7 @@ const SingleComment = ({
   const handleDelete = async (event) => {
     event.preventDefault();
     try {
-      await axios.delete(`/api/deleteComment/${comment._id}`, {
+      await axios.delete(`/api/deleteComment/${comment?._id}`, {
         headers: { Authorization: token },
       });
       setCommentCallback(!commentCallback);
@@ -141,8 +141,8 @@ const SingleComment = ({
       <Comment
         className="AntSingleComment"
         actions={action}
-        author={comment.writer.name}
-        avatar={<Avatar src={comment.writer.avatar} alt="commentor image" />}
+        author={comment?.writer?.name}
+        avatar={<Avatar src={comment?.writer?.avatar} alt="commentor image" />}
         content={
           openEdit ? (
             <textarea
@@ -155,11 +155,13 @@ const SingleComment = ({
               onChange={(e) => setContent(e.target.value)}
             />
           ) : (
-            <div>{comment.content}</div>
+            <div>{comment?.content}</div>
           )
         }
         datetime={
-          <span style={{ marginLeft: "8px" }}>{format(comment.createdAt)}</span>
+          <span style={{ marginLeft: "8px" }}>
+            {format(comment?.createdAt)}
+          </span>
         }
       ></Comment>
       <div className="single_comment_option">
@@ -195,7 +197,7 @@ const SingleComment = ({
               setRating={setUpdateRating}
             ></StarRating>
           ) : (
-            <CommentDisplayRating rating={comment.star} />
+            <CommentDisplayRating rating={comment?.star} />
           )}
         </div>
       )}

@@ -403,8 +403,8 @@ const LandingPage = () => {
                     src="https://i.ibb.co/DpdN7Gn/tab-content-2-1.png"
                     alt=""
                   />
-                  <p class="text-medium">Watch on your TV</p>
-                  <p class="text-dark">
+                  <p className="text-medium">Watch on your TV</p>
+                  <p className="text-dark">
                     Smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray
                     players and more.
                   </p>
@@ -414,10 +414,10 @@ const LandingPage = () => {
                     src="https://i.ibb.co/R3r1SPX/tab-content-2-2.png"
                     alt=""
                   />
-                  <p class="text-medium">
+                  <p className="text-medium">
                     Watch instantly or download for later
                   </p>
-                  <p class="text-dark">
+                  <p className="text-dark">
                     Available on phone and tablet, wherever you go.
                   </p>
                 </div>
@@ -426,8 +426,8 @@ const LandingPage = () => {
                     src="https://i.ibb.co/gDhnwWn/tab-content-2-3.png"
                     alt=""
                   />
-                  <p class="text-medium">Use any computer</p>
-                  <p class="text-dark">Watch right on Netflix.com.</p>
+                  <p className="text-medium">Use any computer</p>
+                  <p className="text-dark">Watch right on Netflix.com.</p>
                 </div>
               </div>
             </div>

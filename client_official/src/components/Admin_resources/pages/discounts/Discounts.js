@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import Input from "../components/Controls/Input";
 
@@ -40,7 +40,6 @@ const Discounts = () => {
   const [token] = state.token;
 
   const [discounts, setDiscounts] = state.discountsAPI.discounts;
-  const [callback, setCallback] = state.discountsAPI.callback;
 
   const [onEdit, setOnEdit] = useState(false);
 

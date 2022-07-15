@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import "./Packages.css";
 import axios from "axios";
@@ -9,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,

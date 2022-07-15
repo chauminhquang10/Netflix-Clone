@@ -22,16 +22,12 @@ const initialState = {
 const UserProfile = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [isAdmin] = state.usersAPI.isAdmin;
   const [userData] = state.usersAPI.userData;
 
   const [data, setData] = useState(initialState);
   const { name, password, confirm_password, err, success } = data;
   const [avatar, setAvatar] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [allUsers, setAllUsers] = state.usersAPI.allUsers;
-  //const [callback, setCallback] = state.usersAPI.callback;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;

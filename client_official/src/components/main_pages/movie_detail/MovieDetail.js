@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { GlobalState } from "../../../GlobalState";
 import CastList from "./CastList";
-import VideoList from "./VideoList";
 import "./MovieDetail.scss";
 import { PlayArrow } from "@material-ui/icons";
 import AddIcon from "@mui/icons-material/Add";

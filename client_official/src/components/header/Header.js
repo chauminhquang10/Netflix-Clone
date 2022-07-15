@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import UserLink from "../UserLink/UserLink";
 import "./SearchBar.scss";
-import { Button, OutlineButton } from "../button/Button.jsx";
 import NotifyModal from "../main_pages/notify/NotifyModal";
 import logo from "../../images/logo-t-rex.jpg";
 import { deleteAllNewNotifies } from "../../redux/actions/notifyAction";
@@ -19,8 +18,6 @@ const Header = () => {
   const [search, setSearch] = state.moviesAPI.search;
   const [userData] = state.usersAPI.userData;
   const [isLogged] = state.usersAPI.isLogged;
-  const [isAdmin] = state.usersAPI.isAdmin;
-  const [watchList] = state.usersAPI.watchList;
   const [toggleSearch, setToggleSearch] = useState(true);
   const [button, setButton] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(true);
@@ -94,15 +91,6 @@ const Header = () => {
     );
   };
 
-  const handleClickNewNotifies = () => {
-    //đóng cái dropdown navbar lại
-    //rồi sau đó
-
-    if (notify.newNotifies.length !== 0) {
-      dispatch(deleteAllNewNotifies(token));
-    }
-  };
-
   return (
     <>
       <header className="Mainheader" ref={headerRef}>
@@ -158,13 +146,16 @@ const Header = () => {
         </ul>
         <div style={{ display: "grid", justifyContent: "flex-end" }}>
           {isValidAccount && (
-            <div class={toggleSearch ? "search" : "search open"} id="searchBar">
+            <div
+              className={toggleSearch ? "search" : "search open"}
+              id="searchBar"
+            >
               <input
                 type="text"
                 value={search}
                 placeholder="Search..."
                 onChange={(e) => setSearch(e.target.value.toLowerCase())}
-                class="search-box"
+                className="search-box"
               />
 
               <div>
@@ -172,9 +163,9 @@ const Header = () => {
                   onClick={() => {
                     setToggleSearch(!toggleSearch);
                   }}
-                  class="search-button"
+                  className="search-button"
                 >
-                  <span class="search-icon"></span>
+                  <span className="search-icon"></span>
                 </span>
               </div>
             </div>

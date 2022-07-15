@@ -25,8 +25,14 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
       <div className="action">
         <div
           className="profile"
-          onMouseOver={() => (setAvatar1(false), setAvatar3(false))}
-          onMouseLeave={() => (toggleAvatar1(), setAvatar3(true))}
+          onMouseOver={() => {
+            setAvatar1(false);
+            setAvatar3(false);
+          }}
+          onMouseLeave={() => {
+            toggleAvatar1();
+            setAvatar3(true);
+          }}
         >
           <img className="profile_Img" src={userAvatar}></img>
         </div>

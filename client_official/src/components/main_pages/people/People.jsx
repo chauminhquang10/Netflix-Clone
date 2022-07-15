@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { GlobalState } from "../../../GlobalState";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -15,10 +14,8 @@ const Person = {
   knownFor: [],
 };
 const People = () => {
-  const state = useContext(GlobalState);
   const params = useParams();
   const [actor, setActor] = useState(Person);
-  const [actors, setActors] = state.actorsAPI.actors;
 
   useEffect(() => {
     const getDetailActor = async () => {
@@ -43,14 +40,15 @@ const People = () => {
         <div className="people-page-container">
           <div className="left-column-container">
             <div className="left-column-img">
-              {actor.image == "https://image.tmdb.org/t/p/original/null" ? (
+              {actor.image === "https://image.tmdb.org/t/p/original/null" ? (
                 <img
+                  alt=""
                   src={
                     "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg"
                   }
                 />
               ) : (
-                <img src={actor.image}></img>
+                <img alt="" src={actor.image}></img>
               )}
             </div>
             <div className="left-column-media">
@@ -99,6 +97,7 @@ const People = () => {
                       <div className="know-for-item">
                         <div className="item-img">
                           <img
+                            alt=""
                             src={item.imgSmall.replace("original", "w300")}
                           ></img>
                         </div>

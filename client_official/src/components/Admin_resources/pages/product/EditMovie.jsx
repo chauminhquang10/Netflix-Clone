@@ -1,19 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import PuffLoader from "react-spinners/PuffLoader";
 import "./EditMovie.css";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Chart from "../../Admin_components/chart/Chart";
 import { productData } from "../../Admin_components/dummyData";
-import { Publish } from "@material-ui/icons";
 import { useTheme } from "@mui/material/styles";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  OutlinedInput,
-} from "@material-ui/core";
+import { Select, MenuItem, OutlinedInput } from "@material-ui/core";
 import Swal from "sweetalert2";
 
 const initialState = {
@@ -67,7 +60,6 @@ const EditMovie = () => {
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const theme = useTheme();
   //hiển thị thể loại của phim
-  const [movieGenre, setMovieGenre] = useState([]);
   var Genres = [];
   var Actors = [];
   var Directors = [];
@@ -276,67 +268,71 @@ const EditMovie = () => {
       <form className="addMovieForm" onSubmit={handleSubmit}>
         <div className="movieBottom">
           <div className="child_container">
-            <div class="file-upload">
+            <div className="file-upload">
               <label className="Addmovie-label">BackDrop</label>
               {img ? (
-                <div class="file-upload-content">
-                  <img class="file-upload-image" src={img} alt="your image" />
-                  <div class="image-title-wrap">
+                <div className="file-upload-content">
+                  <img
+                    className="file-upload-image"
+                    src={img}
+                    alt="your image"
+                  />
+                  <div className="image-title-wrap">
                     <button
                       type="button"
                       onClick={() => {
                         setImg(false);
                       }}
-                      class="remove-image"
+                      className="remove-image"
                     >
-                      Remove <span class="image-title">Back Drop</span>
+                      Remove <span className="image-title">Back Drop</span>
                     </button>
                   </div>
                 </div>
               ) : (
-                <div class="image-upload-wrap">
+                <div className="image-upload-wrap">
                   <input
-                    class="file-upload-input"
+                    className="file-upload-input"
                     type="file"
                     id="file"
                     onChange={handleUpload}
                   />
-                  <div class="drag-text">
+                  <div className="drag-text">
                     <h5>Drag and drop a file or select add Back Drop</h5>
                   </div>
                 </div>
               )}
             </div>
-            <div class="file-upload">
+            <div className="file-upload">
               <label className="Addmovie-label">Poster</label>
               {imgSmall ? (
-                <div class="file-upload-content">
+                <div className="file-upload-content">
                   <img
-                    class="file-upload-image"
+                    className="file-upload-image"
                     src={imgSmall}
                     alt="your image"
                   />
-                  <div class="image-title-wrap">
+                  <div className="image-title-wrap">
                     <button
                       type="button"
                       onClick={() => {
                         setImgSmall(false);
                       }}
-                      class="remove-image"
+                      className="remove-image"
                     >
-                      Remove <span class="image-title">Poster</span>
+                      Remove <span className="image-title">Poster</span>
                     </button>
                   </div>
                 </div>
               ) : (
-                <div class="image-upload-wrap">
+                <div className="image-upload-wrap">
                   <input
-                    class="file-upload-input"
+                    className="file-upload-input"
                     type="file"
                     id="fileSmall"
                     onChange={handleUploadSmall}
                   />
-                  <div class="drag-text">
+                  <div className="drag-text">
                     <h5>Drag and drop a file or select add Poster</h5>
                   </div>
                 </div>

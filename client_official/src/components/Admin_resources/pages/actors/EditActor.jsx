@@ -187,36 +187,36 @@ const ActorDetail = () => {
     <form className="addMovieForm">
       <div className="newMovie">
         <div className="child_container">
-          <div class="file-upload">
+          <div className="file-upload">
             <label className="Addmovie-label">Profile Image</label>
             {imgSmall ? (
-              <div class="file-upload-content">
+              <div className="file-upload-content">
                 <img
-                  class="file-upload-image"
+                  className="file-upload-image"
                   src={imgSmall}
                   alt="your image"
                 />
-                <div class="image-title-wrap">
+                <div className="image-title-wrap">
                   <button
                     type="button"
                     onClick={() => {
                       setImgSmall(false);
                     }}
-                    class="remove-image"
+                    className="remove-image"
                   >
-                    Remove <span class="image-title">Poster</span>
+                    Remove <span className="image-title">Poster</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div class="image-upload-wrap">
+              <div className="image-upload-wrap">
                 <input
-                  class="file-upload-input"
+                  className="file-upload-input"
                   type="file"
                   id="fileSmall"
                   onChange={handleUploadSmall}
                 />
-                <div class="drag-text">
+                <div className="drag-text">
                   <h5>Drag and drop a file or select add Poster</h5>
                 </div>
               </div>
