@@ -17,7 +17,6 @@ import {
 import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
 import { TblPagination } from "../components/Controls/Utils";
-import PuffLoader from "react-spinners/PuffLoader";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
@@ -28,7 +27,6 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
-import { removeNotify } from "../../../../redux/actions/notifyAction";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -71,9 +69,6 @@ const Packages = () => {
 
   //const [packagesCallback, setPackagesCallback] =
   //state.packagesAPI.packagesCallback;
-
-  const { socket } = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);

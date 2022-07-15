@@ -20,7 +20,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AddIcon from "@material-ui/icons/Add";
-import PopUp from "../../Admin_components/popup/PopUp";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
@@ -74,7 +73,6 @@ const AdminDirectors = () => {
   const [id, setId] = useState("");
 
   //xử lí popup
-  const [openPopup, setOpenPopup] = useState(false);
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
   const classes = useStyles();
@@ -301,7 +299,6 @@ const AdminDirectors = () => {
                       color="primary"
                       onClick={() => {
                         editDirector(director._id, director.name);
-                        setOpenPopup(true);
                       }}
                     >
                       <EditOutlinedIcon fontSize="small" />

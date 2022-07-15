@@ -3,7 +3,7 @@ import "./NewMovie.scss";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
 import { createNotify } from "../../../../redux/actions/notifyAction";
@@ -207,7 +207,8 @@ const NewMovie = () => {
       let tempActors = [];
       for (let i = 0; i < movie.actorsBelongTo.length; i++) {
         let rs = actors.find(
-          (el) => el.name.toLowerCase() == movie.actorsBelongTo[i].toLowerCase()
+          (el) =>
+            el.name.toLowerCase() === movie.actorsBelongTo[i].toLowerCase()
         );
         if (rs) tempActors.push(rs._id);
       }
@@ -277,7 +278,7 @@ const NewMovie = () => {
             <label className="Addmovie-label">BackDrop</label>
             {img ? (
               <div className="file-upload-content">
-                <img className="file-upload-image" src={img} alt="your image" />
+                <img className="file-upload-image" src={img} alt="" />
                 <div className="image-title-wrap">
                   <button
                     type="button"
@@ -308,11 +309,7 @@ const NewMovie = () => {
             <label className="Addmovie-label">Poster</label>
             {imgSmall ? (
               <div className="file-upload-content">
-                <img
-                  className="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
+                <img className="file-upload-image" src={imgSmall} alt="" />
                 <div className="image-title-wrap">
                   <button
                     type="button"

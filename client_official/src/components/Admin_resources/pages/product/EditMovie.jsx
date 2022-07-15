@@ -273,11 +273,7 @@ const EditMovie = () => {
               <label className="Addmovie-label">BackDrop</label>
               {img ? (
                 <div className="file-upload-content">
-                  <img
-                    className="file-upload-image"
-                    src={img}
-                    alt="your image"
-                  />
+                  <img className="file-upload-image" src={img} alt="" />
                   <div className="image-title-wrap">
                     <button
                       type="button"
@@ -308,11 +304,7 @@ const EditMovie = () => {
               <label className="Addmovie-label">Poster</label>
               {imgSmall ? (
                 <div className="file-upload-content">
-                  <img
-                    className="file-upload-image"
-                    src={imgSmall}
-                    alt="your image"
-                  />
+                  <img className="file-upload-image" src={imgSmall} alt="" />
                   <div className="image-title-wrap">
                     <button
                       type="button"

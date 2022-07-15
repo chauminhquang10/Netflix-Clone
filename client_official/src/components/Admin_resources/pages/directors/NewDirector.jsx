@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import "./NewDirector.scss";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import { useHistory, useParams } from "react-router-dom";
@@ -18,15 +17,11 @@ const initialState = {
   tmdbID: "",
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
 const DirectorDetail = () => {
   const [movie, setMovie] = useState(initialState);
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
-  const param = useParams();
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [directors, setDirectors] = state.directorsAPI.directors;
   const [imgSmall, setImgSmall] = useState("");

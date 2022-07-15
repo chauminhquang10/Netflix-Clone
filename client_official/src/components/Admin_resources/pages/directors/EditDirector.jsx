@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./EditDirector.scss";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import swal from "sweetalert";
@@ -137,11 +136,7 @@ const DirectorDetail = () => {
             <label className="Addmovie-label">Profile Image</label>
             {imgSmall ? (
               <div className="file-upload-content">
-                <img
-                  className="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
+                <img className="file-upload-image" src={imgSmall} alt="" />
                 <div className="image-title-wrap">
                   <button
                     type="button"
