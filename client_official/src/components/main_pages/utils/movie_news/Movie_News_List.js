@@ -28,6 +28,7 @@ const Movie_News_List = ({
         </div>
         {notify.data.map((item, index) => (
           <MovieNewsItem
+            key={index}
             notify={item}
             handleIsRead={handleIsRead}
             handleDeleteSingleNotify={handleDeleteSingleNotify}
