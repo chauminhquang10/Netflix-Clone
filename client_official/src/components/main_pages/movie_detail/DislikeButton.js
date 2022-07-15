@@ -4,13 +4,13 @@ import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutl
 
 const DislikeButton = ({ isDislike, handleDislike, handleUnDislike }) => {
   return (
-    <>
+    <div className="dislike">
       {isDislike ? (
         <ThumbDownAltIcon onClick={handleUnDislike} fontSize="large" />
       ) : (
         <ThumbDownOffAltOutlinedIcon onClick={handleDislike} fontSize="large" />
       )}
-    </>
+    </div>
   );
 };
 

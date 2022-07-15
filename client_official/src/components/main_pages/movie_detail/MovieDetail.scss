@@ -135,6 +135,9 @@
         justify-content: flex-start;
         gap: 40px;
         .like-container{
+          .like:hover{
+            cursor: pointer;
+          }
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -142,6 +145,9 @@
           gap: 20px;
         }
         .dislike-container{
+          .dislike:hover{
+            cursor: pointer;
+          }
           display: flex;
           flex-direction: column;
           align-items: center;
