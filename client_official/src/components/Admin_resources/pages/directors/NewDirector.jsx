@@ -20,14 +20,6 @@ const initialState = {
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 const DirectorDetail = () => {
   const [movie, setMovie] = useState(initialState);
@@ -37,36 +29,8 @@ const DirectorDetail = () => {
   const param = useParams();
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [directors, setDirectors] = state.directorsAPI.directors;
-  const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
   const history = useHistory();
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    try {
-      if (!isAdmin) return alert("You're not an admin");
-      const file = e.target.files[0];
-
-      if (!file) return alert("File not exist");
-
-      if (file.size > 4024 * 4024) return alert("Size too large");
-
-      if (file.type !== "image/png" && file.type !== "image/jpeg")
-        return alert("File format is incorrect");
-
-      let formData = new FormData();
-      formData.append("file", file);
-
-      const res = await axios.post("/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: token,
-        },
-      });
-      setImgSmall(res.data.url);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
 
   const handleUploadSmall = async (e) => {
     e.preventDefault();
@@ -168,11 +132,7 @@ const DirectorDetail = () => {
             <label className="Addmovie-label">Profile Image</label>
             {imgSmall ? (
               <div className="file-upload-content">
-                <img
-                  className="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
+                <img className="file-upload-image" src={imgSmall} alt="" />
                 <div className="image-title-wrap">
                   <button
                     type="button"

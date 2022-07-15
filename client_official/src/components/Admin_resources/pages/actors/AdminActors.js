@@ -149,43 +149,6 @@ const AdminActors = () => {
     setActors([...actors]);
     setIsChecked(!isChecked);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (onEdit) {
-        await axios.put(
-          `/api/actors/${id}`,
-          { name: actor },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        const newActors = actors.map((item) =>
-          item._id === id ? { ...item, name: actor } : item
-        );
-
-        setActors([...newActors]);
-      } else {
-        const res = await axios.post(
-          "/api/actors",
-          { name: actor },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        res.data?.createdActor && setActors([...actors, res.data.createdActor]);
-      }
-      setOnEdit(false);
-      setActor("");
-      setOpenPopup(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
 
   const editActor = async (id, name) => {
     setId(id);
@@ -250,11 +213,11 @@ const AdminActors = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
-  const handleSort = (id) => {
-    const isAsc = orderBy === id && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(id);
-  };
+  // const handleSort = (id) => {
+  //   const isAsc = orderBy === id && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(id);
+  // };
 
   return (
     <div className="admin-actors">

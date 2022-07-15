@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import "./MovieList.css";
 import axios from "axios";
@@ -9,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
@@ -18,7 +17,6 @@ import {
 import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
 import { TblPagination } from "../components/Controls/Utils";
-import PuffLoader from "react-spinners/PuffLoader";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";

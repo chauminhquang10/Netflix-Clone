@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminDirectors.css";
 import {
   InputAdornment,
@@ -7,9 +7,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Paper,
 } from "@material-ui/core";
@@ -149,44 +147,6 @@ const AdminDirectors = () => {
     });
     setDirectors([...directors]);
     setIsChecked(!isChecked);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (onEdit) {
-        await axios.put(
-          `/api/directors/${id}`,
-          { name: director },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        const newDirectors = directors.map((item) =>
-          item._id === id ? { ...item, name: director } : item
-        );
-
-        setDirectors([...newDirectors]);
-      } else {
-        const res = await axios.post(
-          "/api/directors",
-          { name: director },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        res.data?.createdDirector &&
-          setDirectors([...directors, res.data.createdDirector]);
-      }
-      setOnEdit(false);
-      setDirector("");
-      setOpenPopup(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
   };
 
   const editDirector = async (id, name) => {

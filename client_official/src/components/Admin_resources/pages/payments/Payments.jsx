@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import "./AdminPayments.css";
-import axios from "axios";
 import {
   InputAdornment,
   makeStyles,
@@ -9,7 +8,6 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
@@ -21,8 +19,6 @@ import { TblPagination } from "../components/Controls/Utils";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
-import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {

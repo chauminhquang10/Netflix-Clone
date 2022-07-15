@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import "./NewActor.scss";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import { useHistory } from "react-router-dom";
