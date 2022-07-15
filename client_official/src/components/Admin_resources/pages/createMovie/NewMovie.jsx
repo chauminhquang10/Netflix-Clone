@@ -3,18 +3,12 @@ import "./NewMovie.scss";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
 import { createNotify } from "../../../../redux/actions/notifyAction";
 
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  OutlinedInput,
-} from "@material-ui/core";
+import { Select, MenuItem, OutlinedInput } from "@material-ui/core";
 
 const initialState = {
   title: "",
@@ -69,7 +63,6 @@ const NewMovie = () => {
   const [imgSmall, setImgSmall] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const param = useParams();
   // const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [movies, setMovies] = state.moviesAPI.movies;
   const theme = useTheme();
@@ -206,7 +199,7 @@ const NewMovie = () => {
       let tempGenres = [];
       for (let i = 0; i < movie.allGenres.length; i++) {
         let rs = genres.find(
-          (el) => el.name.toLowerCase() == movie.allGenres[i].toLowerCase()
+          (el) => el.name.toLowerCase() === movie.allGenres[i].toLowerCase()
         );
         if (rs) tempGenres.push(rs._id);
       }
@@ -214,7 +207,8 @@ const NewMovie = () => {
       let tempActors = [];
       for (let i = 0; i < movie.actorsBelongTo.length; i++) {
         let rs = actors.find(
-          (el) => el.name.toLowerCase() == movie.actorsBelongTo[i].toLowerCase()
+          (el) =>
+            el.name.toLowerCase() === movie.actorsBelongTo[i].toLowerCase()
         );
         if (rs) tempActors.push(rs._id);
       }
@@ -223,7 +217,7 @@ const NewMovie = () => {
       for (let i = 0; i < movie.directorsBelongTo.length; i++) {
         let rs = directors.find(
           (el) =>
-            el.name.toLowerCase() == movie.directorsBelongTo[i].toLowerCase()
+            el.name.toLowerCase() === movie.directorsBelongTo[i].toLowerCase()
         );
         tempDirectors.push(rs._id);
       }
@@ -280,67 +274,63 @@ const NewMovie = () => {
     <form className="addMovieForm">
       <div className="newMovie">
         <div className="child_container">
-          <div class="file-upload">
+          <div className="file-upload">
             <label className="Addmovie-label">BackDrop</label>
             {img ? (
-              <div class="file-upload-content">
-                <img class="file-upload-image" src={img} alt="your image" />
-                <div class="image-title-wrap">
+              <div className="file-upload-content">
+                <img className="file-upload-image" src={img} alt="" />
+                <div className="image-title-wrap">
                   <button
                     type="button"
                     onClick={() => {
                       setImg(false);
                     }}
-                    class="remove-image"
+                    className="remove-image"
                   >
-                    Remove <span class="image-title">Back Drop</span>
+                    Remove <span className="image-title">Back Drop</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div class="image-upload-wrap">
+              <div className="image-upload-wrap">
                 <input
-                  class="file-upload-input"
+                  className="file-upload-input"
                   type="file"
                   id="file"
                   onChange={handleUpload}
                 />
-                <div class="drag-text">
+                <div className="drag-text">
                   <h5>Drag and drop a file or select add Back Drop</h5>
                 </div>
               </div>
             )}
           </div>
-          <div class="file-upload">
+          <div className="file-upload">
             <label className="Addmovie-label">Poster</label>
             {imgSmall ? (
-              <div class="file-upload-content">
-                <img
-                  class="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
-                <div class="image-title-wrap">
+              <div className="file-upload-content">
+                <img className="file-upload-image" src={imgSmall} alt="" />
+                <div className="image-title-wrap">
                   <button
                     type="button"
                     onClick={() => {
                       setImgSmall(false);
                     }}
-                    class="remove-image"
+                    className="remove-image"
                   >
-                    Remove <span class="image-title">Poster</span>
+                    Remove <span className="image-title">Poster</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div class="image-upload-wrap">
+              <div className="image-upload-wrap">
                 <input
-                  class="file-upload-input"
+                  className="file-upload-input"
                   type="file"
                   id="fileSmall"
                   onChange={handleUploadSmall}
                 />
-                <div class="drag-text">
+                <div className="drag-text">
                   <h5>Drag and drop a file or select add Poster</h5>
                 </div>
               </div>

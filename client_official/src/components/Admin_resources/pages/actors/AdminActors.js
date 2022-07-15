@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminActors.scss";
 import {
   InputAdornment,
@@ -7,11 +7,9 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
-  Toolbar,
   Paper,
+  Toolbar,
 } from "@material-ui/core";
 import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
@@ -22,7 +20,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AddIcon from "@material-ui/icons/Add";
-import PopUp from "../../Admin_components/popup/PopUp";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
@@ -133,9 +130,18 @@ const AdminActors = () => {
   ];
 
   const deleteAll = () => {
-    actors.forEach((actor) => {
-      if (actor.checked) deleteActor(actor._id);
+    let needDeletedActors = [];
+    actors.forEach(async (actor) => {
+      if (actor.checked) {
+        needDeletedActors.push(actor._id);
+        await deleteActorForDeleteAll(actor._id);
+      }
     });
+    // set lại state cho actors
+    const newActors = actors.filter(
+      (item) => !needDeletedActors.includes(item._id)
+    );
+    setActors([...newActors]);
     setIsChecked(false);
   };
 
@@ -151,43 +157,6 @@ const AdminActors = () => {
     });
     setActors([...actors]);
     setIsChecked(!isChecked);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (onEdit) {
-        await axios.put(
-          `/api/actors/${id}`,
-          { name: actor },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        const newActors = actors.map((item) =>
-          item._id === id ? { ...item, name: actor } : item
-        );
-
-        setActors([...newActors]);
-      } else {
-        const res = await axios.post(
-          "/api/actors",
-          { name: actor },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        res.data?.createdActor && setActors([...actors, res.data.createdActor]);
-      }
-      setOnEdit(false);
-      setActor("");
-      setOpenPopup(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
   };
 
   const editActor = async (id, name) => {
@@ -206,6 +175,18 @@ const AdminActors = () => {
       const newActors = actors.filter((item) => item._id !== id);
 
       setActors([...newActors]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteActorForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/actors/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -253,11 +234,11 @@ const AdminActors = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
-  const handleSort = (id) => {
-    const isAsc = orderBy === id && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(id);
-  };
+  // const handleSort = (id) => {
+  //   const isAsc = orderBy === id && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(id);
+  // };
 
   return (
     <div className="admin-actors">

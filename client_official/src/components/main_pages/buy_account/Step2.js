@@ -2,10 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import "./Step2.css";
 import CheckIcon from "@mui/icons-material/Check";
 import { Link } from "react-router-dom";
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import TabletIcon from "@mui/icons-material/Tablet";
-import ComputerIcon from "@mui/icons-material/Computer";
-import ConnectedTvIcon from "@mui/icons-material/ConnectedTv";
 
 import { GlobalState } from "../../../GlobalState";
 
@@ -177,6 +173,7 @@ const Step2 = () => {
             subject to your internet service and device capabilities. Not all
             content is available in all resolutions. See our{" "}
             <a
+              rel="noreferrer"
               href="https://help.netflix.com/legal/termsofuse"
               style={{ color: "#0071eb" }}
               target="_blank"

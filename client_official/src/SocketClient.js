@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalState } from "./GlobalState";
-import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import { NOTIFY_TYPES } from "./redux/actions/notifyAction";
 
 import audioBell from "./audio/audio_got-it-done-613.mp3";

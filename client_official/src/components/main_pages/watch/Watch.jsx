@@ -1,4 +1,3 @@
-import { ArrowBackOutlined } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
 import "./Watch.scss";
 import { useParams } from "react-router-dom";
@@ -33,6 +32,7 @@ const Watch = () => {
       <div className="watch">
         <iframe
           width="100%"
+          title="watch"
           height="100%"
           src={
             params.TMDBid

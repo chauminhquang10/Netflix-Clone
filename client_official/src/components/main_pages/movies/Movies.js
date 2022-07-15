@@ -1,24 +1,15 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../../../GlobalState";
 import MovieItem from "../main/MovieItem";
-import Filter from "./Filter";
 import Pagination from "./Pagination";
 import "./Movies.css";
 import PuffLoader from "react-spinners/PuffLoader";
-import axios from "axios";
 import Featured from "../main/Feature/Feature";
 
 const Movies = () => {
   const state = useContext(GlobalState);
   const [movies, setMovies] = state.moviesAPI.movies;
-  const [token] = state.token;
-  const [isAdmin] = state.usersAPI.isAdmin;
-  const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [loading, setLoading] = useState(false);
-  const [lists, setLists] = state.listsAPI.lists;
-
-  //xử lí delete all
-  const [isChecked, setIsChecked] = useState(false);
 
   // phân trang trên front end
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,54 +25,6 @@ const Movies = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleCheck = (id) => {
-    movies.forEach((movie) => {
-      if (movie._id === id) movie.checked = !movie.checked;
-    });
-    setMovies([...movies]);
-  };
-
-  const deleteMovie = async (id, public_id) => {
-    try {
-      setLoading(true);
-      const deleteImg = axios.post(
-        "/api/delete",
-        { public_id },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      const delMovie = axios.delete(`/api/movies/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      await deleteImg;
-      await delMovie;
-      setMoviesCallback(!moviesCallback);
-      setLoading(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
-
-  const checkAll = () => {
-    movies.forEach((movie) => {
-      movie.checked = !isChecked;
-    });
-    setMovies([...movies]);
-    setIsChecked(!isChecked);
-  };
-
-  const deleteAll = () => {
-    movies.forEach((movie) => {
-      if (movie.checked) deleteMovie(movie._id, movie.img.public_id);
-    });
-    setIsChecked(false);
-  };
-
   if (loading) {
     return (
       <div className="loading">
@@ -93,6 +36,7 @@ const Movies = () => {
   return (
     <div className="Movies-container">
       <Featured
+        watch="/watch/335983/62d1434e0adaae26c057488b"
         type="movies"
         bigImg="https://images3.alphacoders.com/948/thumb-1920-948864.jpg"
         smallImg="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg"
@@ -102,15 +46,7 @@ const Movies = () => {
       />
       <div className="movies">
         {currentMovies.map((movie) => {
-          return (
-            <MovieItem
-              key={movie._id}
-              movie={movie}
-              isAdmin={isAdmin}
-              deleteMovie={deleteMovie}
-              handleCheck={handleCheck}
-            ></MovieItem>
-          );
+          return <MovieItem key={movie._id} movie={movie}></MovieItem>;
         })}
       </div>
       <div className="Pagination">

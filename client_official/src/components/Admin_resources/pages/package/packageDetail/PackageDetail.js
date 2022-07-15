@@ -77,7 +77,7 @@ export default function MultipleSelect() {
       if (!isAdmin) return alert("You're not an admin");
 
       if (param.id) {
-        await axios.put(
+        const res = await axios.put(
           `/api/packages/${pack._id}`,
           { ...pack },
           {

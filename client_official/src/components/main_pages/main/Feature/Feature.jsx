@@ -5,6 +5,7 @@ import React, { useState, useRef, useContext } from "react";
 import { Close } from "@material-ui/icons";
 import "./Modal.scss";
 import { GlobalState } from "../../../../GlobalState";
+import { Link } from "react-router-dom";
 
 // function OnScroll() {
 //   let offset = window.pageYOffset;
@@ -22,6 +23,7 @@ export default function Featured({
   titleImg,
   desc,
   smallImg,
+  watch,
 }) {
   const [active, setActive] = useState(false);
   const state = useContext(GlobalState);
@@ -62,9 +64,9 @@ export default function Featured({
           </select>
         </div>
       )}
-      <img className="big_img" id="bigImg" src={bigImg} alt="" />
+      <img alt="" className="big_img" id="bigImg" src={bigImg} />
       <div className="titleImg">
-        <img src={titleImg} />
+        <img alt="" src={titleImg} />
       </div>
       {/* <div className="poster_card">
         <img className="small_img" src={smallImg} alt="" />
@@ -72,10 +74,12 @@ export default function Featured({
       <div className="info">
         <span className="desc">{desc}</span>
         <div className="buttons">
-          <Button>
-            <PlayArrow className="play" color="primary" />
-            Play
-          </Button>
+          <Link to={watch ? watch : "#"}>
+            <Button>
+              <PlayArrow className="play" color="primary" />
+              Play
+            </Button>
+          </Link>
           <OutlineButton onClick={openModal}>
             <InfoOutlined />
             Watch trailer

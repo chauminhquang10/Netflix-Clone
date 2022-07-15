@@ -1,6 +1,5 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
+import { Add, PlayArrow } from "@material-ui/icons";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import "./MovieItem.scss";
@@ -75,7 +74,12 @@ const ListItem = ({ index, movie }) => {
             ></img>
             <div className="itemInfo">
               <div className="icons">
-                <PlayArrow className="icon"></PlayArrow>
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movie.TMDBid}/${movie._id}`}
+                >
+                  <PlayArrow className="icon"></PlayArrow>
+                </Link>
                 <Link
                   to="#!"
                   onClick={() => {

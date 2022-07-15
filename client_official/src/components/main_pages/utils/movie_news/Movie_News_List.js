@@ -1,6 +1,6 @@
 import React from "react";
 import "./Movie_News_List.scss";
-import Movie_News_Item from "./Movie_News_Item";
+import MovieNewsItem from "./Movie_News_Item";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
 import Button from "@mui/material/Button";
@@ -27,7 +27,7 @@ const Movie_News_List = ({
           </Button>
         </div>
         {notify.data.map((item, index) => (
-          <Movie_News_Item
+          <MovieNewsItem
             notify={item}
             handleIsRead={handleIsRead}
             handleDeleteSingleNotify={handleDeleteSingleNotify}

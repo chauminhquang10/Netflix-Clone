@@ -1,7 +1,7 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
+import { Add, PlayArrow } from "@material-ui/icons";
 import CheckIcon from "@mui/icons-material/Check";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../../../../GlobalState";
 import axios from "axios";
@@ -57,7 +57,12 @@ const HorizontalListLeftItem = ({ movie }) => {
       ></img>
       <div className="HorizontalListLeftItem_itemInfo">
         <div className="HorizontalListLeftItem_icons">
-          <PlayArrow className="HorizontalListLeftItem_icon"></PlayArrow>
+          <Link
+            className="detail_link"
+            to={`/watch/${movie.TMDBid}/${movie._id}`}
+          >
+            <PlayArrow className="HorizontalListLeftItem_icon"></PlayArrow>
+          </Link>
           <Link
             to="#!"
             onClick={() => {

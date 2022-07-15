@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminGenres.css";
 import {
   InputAdornment,
@@ -7,9 +7,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Paper,
 } from "@material-ui/core";
@@ -26,7 +24,6 @@ import PopUp from "../../Admin_components/popup/PopUp";
 import GenresForm from "./GenresForm";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
-import Swal from "sweetalert2";
 import Checkbox from "@mui/material/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
@@ -117,9 +114,18 @@ const AdminGenres = () => {
   ];
 
   const deleteAll = () => {
-    genres.forEach((genre) => {
-      if (genre.checked) deleteGenre(genre._id);
+    let needDeletedGenres = [];
+    genres.forEach(async (genre) => {
+      if (genre.checked) {
+        needDeletedGenres.push(genre._id);
+        await deleteGenreForDeleteAll(genre._id);
+      }
     });
+    // set lại state cho genres
+    const newGenres = genres.filter(
+      (item) => !needDeletedGenres.includes(item._id)
+    );
+    setGenres([...newGenres]);
     setIsChecked(false);
   };
 
@@ -197,6 +203,18 @@ const AdminGenres = () => {
     }
   };
 
+  const deleteGenreForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/genres/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -239,11 +257,11 @@ const AdminGenres = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
-  const handleSort = (id) => {
-    const isAsc = orderBy === id && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(id);
-  };
+  // const handleSort = (id) => {
+  //   const isAsc = orderBy === id && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(id);
+  // };
 
   return (
     <div className="admin-genres">

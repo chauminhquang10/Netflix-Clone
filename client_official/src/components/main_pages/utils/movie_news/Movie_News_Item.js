@@ -2,7 +2,6 @@ import React from "react";
 import "./Movie_News_Item.scss";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import CancelIcon from "@mui/icons-material/Cancel";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 const Movie_News_Item = ({
@@ -29,7 +28,7 @@ const Movie_News_Item = ({
           onClick={() => handleIsRead(notify, notify.seenUsers)}
           style={{ textDecoration: "none" }}
         >
-          <img className="Movie_News_Item_img" src={notify.image} />
+          <img alt="" className="Movie_News_Item_img" src={notify.image} />
         </Link>
       </div>
       <div>

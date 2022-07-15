@@ -1,39 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
-import MovieItem from "./MovieItem";
-import Filter from "./Filter";
-import LoadMore from "./LoadMore";
 import "./Main.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 import Listitem from "../main/list/List";
 import Featured from "./Feature/Feature";
 import Grid from "./grid/Grid";
-import VerticalList from "./VerticalList/VerticalList";
 import HorizontalList from "./HorizontalList/HorizontalList";
-import PopUp from "../utils/popup/PopUp";
 import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
 
 const Movies = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [isAdmin] = state.usersAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
   const [recommend, setRecommend] = useState([]);
   const [listTrigger, setListTrigger] = useState(true);
   const [topRanking] = state.topRanking;
-  const [isNotExpireAccount, setIsNotExpireAccount] =
-    state.usersAPI.isNotExpireAccount;
-
-  //trigger Popup
-  const [popupTrigger, setPopupTrigger] = useState(true);
-
-  useEffect(() => {
-    if (isNotExpireAccount) {
-      setPopupTrigger(false);
-    }
-  }, [isNotExpireAccount]);
 
   useEffect(() => {
     const getData = async () => {
@@ -71,6 +54,7 @@ const Movies = () => {
   return (
     <>
       <Featured
+        watch="/watch/453395/62cd4cc3050b9012b85c9afa"
         trailer="https://youtu.be/Rt_UqUm38BI"
         bigImg="https://phongvu.vn/cong-nghe/wp-content/uploads/2022/05/Doctor-Strange-2-hut-20-ty-ngay-doctor-strange-multiverse-1280-1651093649295-16520-1652081546-633-width1280height720.jpg"
         titleImg="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/078277ed-5380-4deb-b166-997beba79634/df0bvfh-a800000f-1d9d-42e0-b1d6-bccab4cef2f3.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzA3ODI3N2VkLTUzODAtNGRlYi1iMTY2LTk5N2JlYmE3OTYzNFwvZGYwYnZmaC1hODAwMDAwZi0xZDlkLTQyZTAtYjFkNi1iY2NhYjRjZWYyZjMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.iM8oJp_L9pLRomQ0E-QIZ9CAQzUuPyVOjmGcxnFL3fE"

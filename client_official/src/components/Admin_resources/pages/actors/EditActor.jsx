@@ -1,17 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./EditActor.scss";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
 import swal from "sweetalert";
-import { Link, useHistory, useParams } from "react-router-dom";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  OutlinedInput,
-} from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Gender = ["Not specified", "Female", "Male"];
@@ -27,64 +19,16 @@ const initialState = {
   tmdbID: "",
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name, devices, theme) {
-  return {
-    fontWeight:
-      devices.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const ActorDetail = () => {
   const [actor, setActor] = useState(initialState);
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const param = useParams();
-  const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [actors, setActors] = state.actorsAPI.actors;
   const history = useHistory();
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    try {
-      if (!isAdmin) return alert("You're not an admin");
-      const file = e.target.files[0];
-
-      if (!file) return alert("File not exist");
-
-      if (file.size > 4024 * 4024) return alert("Size too large");
-
-      if (file.type !== "image/png" && file.type !== "image/jpeg")
-        return alert("File format is incorrect");
-
-      let formData = new FormData();
-      formData.append("file", file);
-
-      const res = await axios.post("/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: token,
-        },
-      });
-      setImgSmall(res.data.url);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
 
   const handleUploadSmall = async (e) => {
     e.preventDefault();
@@ -187,36 +131,32 @@ const ActorDetail = () => {
     <form className="addMovieForm">
       <div className="newMovie">
         <div className="child_container">
-          <div class="file-upload">
+          <div className="file-upload">
             <label className="Addmovie-label">Profile Image</label>
             {imgSmall ? (
-              <div class="file-upload-content">
-                <img
-                  class="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
-                <div class="image-title-wrap">
+              <div className="file-upload-content">
+                <img className="file-upload-image" src={imgSmall} alt="" />
+                <div className="image-title-wrap">
                   <button
                     type="button"
                     onClick={() => {
                       setImgSmall(false);
                     }}
-                    class="remove-image"
+                    className="remove-image"
                   >
-                    Remove <span class="image-title">Poster</span>
+                    Remove <span className="image-title">Poster</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div class="image-upload-wrap">
+              <div className="image-upload-wrap">
                 <input
-                  class="file-upload-input"
+                  className="file-upload-input"
                   type="file"
                   id="fileSmall"
                   onChange={handleUploadSmall}
                 />
-                <div class="drag-text">
+                <div className="drag-text">
                   <h5>Drag and drop a file or select add Poster</h5>
                 </div>
               </div>

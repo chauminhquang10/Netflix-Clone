@@ -1,7 +1,4 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
-import CheckIcon from "@mui/icons-material/Check";
-import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../../../../GlobalState";
 import axios from "axios";
@@ -12,7 +9,6 @@ const HorizontalListBottomItem = ({ movie }) => {
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
   const [token] = state.token;
-  const addToWatchList = state.usersAPI.addToWatchList;
 
   useEffect(() => {
     if (movie) {
@@ -36,17 +32,17 @@ const HorizontalListBottomItem = ({ movie }) => {
     );
   };
 
-  const removeMovie = (id) => {
-    if (window.confirm("Do you want to remove this movie?")) {
-      watchList.forEach((item, index) => {
-        if (item._id === id) {
-          watchList.splice(index, 1);
-        }
-      });
-      setWatchList([...watchList]);
-      updateWatchList(watchList);
-    }
-  };
+  // const removeMovie = (id) => {
+  //   if (window.confirm("Do you want to remove this movie?")) {
+  //     watchList.forEach((item, index) => {
+  //       if (item._id === id) {
+  //         watchList.splice(index, 1);
+  //       }
+  //     });
+  //     setWatchList([...watchList]);
+  //     updateWatchList(watchList);
+  //   }
+  // };
 
   return (
     <div className="HorizontalListBottomItem_container">

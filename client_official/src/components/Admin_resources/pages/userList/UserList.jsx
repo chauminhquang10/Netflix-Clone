@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
@@ -17,10 +16,7 @@ import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
 import Swal from "sweetalert2";
 import axios from "axios";
-import {
-  showErrMessage,
-  showSuccessMessage,
-} from "../../../main_pages/utils/notifications/Notification";
+import { showErrMessage } from "../../../main_pages/utils/notifications/Notification";
 import { Check, Clear } from "@material-ui/icons";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";

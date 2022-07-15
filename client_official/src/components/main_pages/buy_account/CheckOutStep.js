@@ -16,8 +16,6 @@ import moment from "moment";
 
 import PaidIcon from "@mui/icons-material/Paid";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import LoadingButton from "@mui/lab/LoadingButton";
 
 const CheckOutStep = () => {
   const state = useContext(GlobalState);
@@ -377,14 +375,16 @@ const CheckOutStep = () => {
         <span className="checkout_step_subtext checkout_step_second_subtext">
           By checking the checkbox below, you agree to our{" "}
           <a
+            rel="noreferrer"
             target="_blank"
             href="https://help.netflix.com/legal/termsofuse"
             className="policy_term_text"
           >
             Terms of Use
           </a>
-          ,{" "}
+          ,
           <a
+            rel="noreferrer"
             target="_blank"
             href="https://help.netflix.com/legal/privacy"
             className="policy_term_text"

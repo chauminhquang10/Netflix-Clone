@@ -15,7 +15,7 @@ const Grid = ({ movies, title, index }) => {
       </div>
       <div
         className={
-          index % 2 == 0
+          index % 2 === 0
             ? "MP_First_Grid_container"
             : "MP_Second_Grid_container"
         }
@@ -29,6 +29,7 @@ const Grid = ({ movies, title, index }) => {
                   <div className="Grid_item_title_large">{movie.title}</div>
                   <div>
                     <img
+                      alt=""
                       className="Grid_item_HD"
                       src="https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1640439030/movie/ultra-4k-hd-logo-AAA0E9BB23-seeklogo.com_ccexpress_yaag0h.png"
                     />

@@ -1,12 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./LandingPage.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CardImg1 from "../../images/tv.png";
-import CardImg2 from "../../images/mobile-image.jpg";
-import CardImg3 from "../../images/boxshot.png";
 import CardImg4 from "../../images/kids.png";
-import CardVideo1 from "../../videos/netflix_ui.m4v";
-import CardVideo2 from "../../videos/vid1.m4v";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -374,9 +369,9 @@ const LandingPage = () => {
                     If you decide Rex isn't for you - no problem. No commitment.
                     Cancel online anytime.
                   </p>
-                  <a href="#" className="landing-btn landing-btn-large">
+                  <button className="landing-btn landing-btn-large">
                     Watch Free For 30 days
-                  </a>
+                  </button>
                 </div>
                 <img
                   src="https://i.ibb.co/J2xDJV7/tab-content-1.png"
@@ -398,9 +393,9 @@ const LandingPage = () => {
                   Watch TV shows and movies anytime, anywhere - personalized for
                   you.
                 </p>
-                <a href="#" className="landing-btn landing-btn-large">
+                <button className="landing-btn landing-btn-large">
                   Watch Free For 30 days
-                </a>
+                </button>
               </div>
               <div className="tab-2-content-bottom">
                 <div>
@@ -408,8 +403,8 @@ const LandingPage = () => {
                     src="https://i.ibb.co/DpdN7Gn/tab-content-2-1.png"
                     alt=""
                   />
-                  <p class="text-medium">Watch on your TV</p>
-                  <p class="text-dark">
+                  <p className="text-medium">Watch on your TV</p>
+                  <p className="text-dark">
                     Smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray
                     players and more.
                   </p>
@@ -419,10 +414,10 @@ const LandingPage = () => {
                     src="https://i.ibb.co/R3r1SPX/tab-content-2-2.png"
                     alt=""
                   />
-                  <p class="text-medium">
+                  <p className="text-medium">
                     Watch instantly or download for later
                   </p>
-                  <p class="text-dark">
+                  <p className="text-dark">
                     Available on phone and tablet, wherever you go.
                   </p>
                 </div>
@@ -431,8 +426,8 @@ const LandingPage = () => {
                     src="https://i.ibb.co/gDhnwWn/tab-content-2-3.png"
                     alt=""
                   />
-                  <p class="text-medium">Use any computer</p>
-                  <p class="text-dark">Watch right on Netflix.com.</p>
+                  <p className="text-medium">Use any computer</p>
+                  <p className="text-dark">Watch right on Netflix.com.</p>
                 </div>
               </div>
             </div>
@@ -450,9 +445,9 @@ const LandingPage = () => {
                 <p className="text-large">
                   Choose one plan and watch everything on Rex
                 </p>
-                <a href="#" className="landing-btn landing-btn-large">
+                <button className="landing-btn landing-btn-large">
                   Watch Free For 30 days
-                </a>
+                </button>
               </div>
 
               <table className="landing-table">

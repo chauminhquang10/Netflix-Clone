@@ -3,7 +3,7 @@ import "./FeaturedInfo.css";
 
 import axios from "axios";
 
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import { ArrowUpward } from "@material-ui/icons";
 
 import { GlobalState } from "../../../../GlobalState";
 

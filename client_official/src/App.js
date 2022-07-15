@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import MainHeader from "./components/main_header/MainHeader";
@@ -9,7 +9,7 @@ import { useContext } from "react";
 
 import { GlobalState } from "./GlobalState";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
 
 import { getNotifies, getNewNotifies } from "./redux/actions/notifyAction";

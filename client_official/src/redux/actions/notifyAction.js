@@ -1,4 +1,5 @@
-import { GLOBALTYPES } from "./globalTypes";
+// import { GLOBALTYPES } from "./globalTypes";
+// Fix warning
 import {
   postDataAPI,
   getDataAPI,
@@ -36,7 +37,6 @@ export const createNotify =
       alert(error.response.data.msg);
     }
   };
-
 export const removeNotify =
   ({ msg, socket, token }) =>
   async (dispatch) => {

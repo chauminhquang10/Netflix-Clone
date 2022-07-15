@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { GlobalState } from "../../../GlobalState";
-import { HighlightOff } from "@material-ui/icons";
 import "./Favorite.css";
-import axios from "axios";
 import ListItem from "../main/MovieItem";
 
 const Favorite = () => {

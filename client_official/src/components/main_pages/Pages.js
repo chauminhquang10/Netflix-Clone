@@ -32,7 +32,6 @@ import EditActor from "../Admin_resources/pages/actors/EditActor";
 import NewDirector from "../Admin_resources/pages/directors/NewDirector";
 import EditDirector from "../Admin_resources/pages/directors/EditDirector";
 import AdminLists from "../Admin_resources/pages/lists/AdminLists";
-import CreateMovie from "./create_movie/CreateMovie";
 import Person from "./people/People";
 import Discounts from "../Admin_resources/pages/discounts/Discounts";
 
@@ -54,7 +53,6 @@ import Step2 from "./buy_account/Step2";
 import Step3 from "./buy_account/Step3";
 import CheckOutStep from "./buy_account/CheckOutStep";
 import Survery from "./survery/Survery";
-import RankingMovies from "./main/Ranking/RankingMovies";
 
 const Pages = () => {
   const state = useContext(GlobalState);

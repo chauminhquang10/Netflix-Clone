@@ -1,20 +1,9 @@
 import React, { useState, useContext } from "react";
 import "./NewActor.scss";
-import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { GlobalState } from "../../../../GlobalState";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
-import { createNotify } from "../../../../redux/actions/notifyAction";
-
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  OutlinedInput,
-} from "@material-ui/core";
 
 const Gender = ["Not specified", "Female", "Male"];
 
@@ -28,64 +17,15 @@ const initialState = {
   tmdbID: "",
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name, devices, theme) {
-  return {
-    fontWeight:
-      devices.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const ActorDetail = () => {
   const [actor, setActor] = useState(initialState);
   const state = useContext(GlobalState);
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
-  const param = useParams();
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [actors, setActors] = state.actorsAPI.actors;
-  const theme = useTheme();
   const [imgSmall, setImgSmall] = useState("");
   const history = useHistory();
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    try {
-      if (!isAdmin) return alert("You're not an admin");
-      const file = e.target.files[0];
-
-      if (!file) return alert("File not exist");
-
-      if (file.size > 4024 * 4024) return alert("Size too large");
-
-      if (file.type !== "image/png" && file.type !== "image/jpeg")
-        return alert("File format is incorrect");
-
-      let formData = new FormData();
-      formData.append("file", file);
-
-      const res = await axios.post("/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: token,
-        },
-      });
-      setImgSmall(res.data.url);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
-  };
 
   const handleUploadSmall = async (e) => {
     e.preventDefault();
@@ -188,11 +128,7 @@ const ActorDetail = () => {
             <label className="Addmovie-label">Profile Image</label>
             {imgSmall ? (
               <div class="file-upload-content">
-                <img
-                  class="file-upload-image"
-                  src={imgSmall}
-                  alt="your image"
-                />
+                <img class="file-upload-image" src={imgSmall} alt="" />
                 <div class="image-title-wrap">
                   <button
                     type="button"

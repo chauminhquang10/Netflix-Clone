@@ -1,4 +1,4 @@
-import { Add, PlayArrow, ThumbUpAltOutlined } from "@material-ui/icons";
+import { Add, PlayArrow } from "@material-ui/icons";
 import CheckIcon from "@mui/icons-material/Check";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import React, { useContext, useState, useEffect, useRef } from "react";
@@ -80,7 +80,12 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
             </Link>
             <div className="itemInfo">
               <div className="icons">
-                <PlayArrow className="icon"></PlayArrow>
+                <Link
+                  className="detail_link"
+                  to={`/watch/${movie.TMDBid}/${movie._id}`}
+                >
+                  <PlayArrow className="icon"></PlayArrow>
+                </Link>
                 <Link
                   to="#!"
                   onClick={() => {

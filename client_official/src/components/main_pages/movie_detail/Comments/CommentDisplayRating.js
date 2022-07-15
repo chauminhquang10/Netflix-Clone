@@ -25,7 +25,7 @@ const CommentDisplayRating = ({ rating }) => {
           <div className="stars-inner" style={{ width: starWidth }}></div>
         </div>
       ) : (
-        <h4>Not rated yet!</h4>
+        <h4>N/A</h4>
       )}
     </>
   );

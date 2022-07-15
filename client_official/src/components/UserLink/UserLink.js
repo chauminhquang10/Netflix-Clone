@@ -1,12 +1,10 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import "./UserLink.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 const UserLink = ({ logout, userName, userAvatar, userMail }) => {
   const [avatar1, setAvatar1] = useState(true);
@@ -27,10 +25,16 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
       <div className="action">
         <div
           className="profile"
-          onMouseOver={() => (setAvatar1(false), setAvatar3(false))}
-          onMouseLeave={() => (toggleAvatar1(), setAvatar3(true))}
+          onMouseOver={() => {
+            setAvatar1(false);
+            setAvatar3(false);
+          }}
+          onMouseLeave={() => {
+            toggleAvatar1();
+            setAvatar3(true);
+          }}
         >
-          <img className="profile_Img" src={userAvatar}></img>
+          <img alt="" className="profile_Img" src={userAvatar}></img>
         </div>
         <div
           className={
@@ -38,11 +42,17 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
               ? "userlink_menu "
               : "userlink_menu active"
           }
-          onMouseOver={() => (setAvatar2(false), setAvatar3(false))}
-          onMouseLeave={() => (toggleAvatar2(), setAvatar3(true))}
+          onMouseOver={() => {
+            setAvatar2(false);
+            setAvatar3(false);
+          }}
+          onMouseLeave={() => {
+            toggleAvatar2();
+            setAvatar3(true);
+          }}
         >
           <div className="popupProfile">
-            <img className="propup_Img" src={userAvatar}></img>
+            <img alt="" className="propup_Img" src={userAvatar}></img>
           </div>
           <h3>
             {userName}

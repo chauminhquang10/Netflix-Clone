@@ -44,7 +44,11 @@ const WidgetLarge = () => {
             paymentsList.map((payment) => (
               <tr className="widgetLargeTr">
                 <td className="widgetLargeUser">
-                  <img className="widgetLargeImg" src={payment.avatar}></img>
+                  <img
+                    alt=""
+                    className="widgetLargeImg"
+                    src={payment.avatar}
+                  ></img>
                   <span className="widgetLargeName">{payment.name}</span>
                 </td>
                 <td className="widgetLargeDate">

@@ -9,12 +9,11 @@
 }
 
 .Fav_item_container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, max-content));
-  grid-gap: 5px;
-  justify-content: center;
-  padding: initial;
-  padding: 0px 20px 70px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 50px 20px;
+  gap: 10px;
 }
 
 .Fav_header {

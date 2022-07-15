@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminDirectors.css";
 import {
   InputAdornment,
@@ -7,9 +7,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Paper,
 } from "@material-ui/core";
@@ -22,7 +20,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AddIcon from "@material-ui/icons/Add";
-import PopUp from "../../Admin_components/popup/PopUp";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";
@@ -76,7 +73,6 @@ const AdminDirectors = () => {
   const [id, setId] = useState("");
 
   //xử lí popup
-  const [openPopup, setOpenPopup] = useState(false);
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
   const classes = useStyles();
@@ -131,9 +127,19 @@ const AdminDirectors = () => {
   ];
 
   const deleteAll = () => {
-    directors.forEach((director) => {
-      if (director.checked) deleteDirector(director._id);
+    let needDeletedDirectors = [];
+    directors.forEach(async (director) => {
+      if (director.checked) {
+        needDeletedDirectors.push(director._id);
+        await deleteDirectorForDeleteAll(director._id);
+      }
     });
+
+    // set lại state cho directors
+    const newDirectors = directors.filter(
+      (item) => !needDeletedDirectors.includes(item._id)
+    );
+    setDirectors([...newDirectors]);
     setIsChecked(false);
   };
 
@@ -149,44 +155,6 @@ const AdminDirectors = () => {
     });
     setDirectors([...directors]);
     setIsChecked(!isChecked);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (onEdit) {
-        await axios.put(
-          `/api/directors/${id}`,
-          { name: director },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        const newDirectors = directors.map((item) =>
-          item._id === id ? { ...item, name: director } : item
-        );
-
-        setDirectors([...newDirectors]);
-      } else {
-        const res = await axios.post(
-          "/api/directors",
-          { name: director },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        res.data?.createdDirector &&
-          setDirectors([...directors, res.data.createdDirector]);
-      }
-      setOnEdit(false);
-      setDirector("");
-      setOpenPopup(false);
-    } catch (error) {
-      alert(error.response.data.msg);
-    }
   };
 
   const editDirector = async (id, name) => {
@@ -205,6 +173,18 @@ const AdminDirectors = () => {
       const newDirectors = directors.filter((item) => item._id !== id);
 
       setDirectors([...newDirectors]);
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteDirectorForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/directors/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -341,7 +321,6 @@ const AdminDirectors = () => {
                       color="primary"
                       onClick={() => {
                         editDirector(director._id, director.name);
-                        setOpenPopup(true);
                       }}
                     >
                       <EditOutlinedIcon fontSize="small" />

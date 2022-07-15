@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { GlobalState } from "../../../../GlobalState";
 import "./Packages.css";
 import axios from "axios";
@@ -9,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   Toolbar,
@@ -18,7 +17,6 @@ import {
 import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
 import { TblPagination } from "../components/Controls/Utils";
-import PuffLoader from "react-spinners/PuffLoader";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
@@ -29,7 +27,6 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
-import { removeNotify } from "../../../../redux/actions/notifyAction";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -72,9 +69,6 @@ const Packages = () => {
 
   //const [packagesCallback, setPackagesCallback] =
   //state.packagesAPI.packagesCallback;
-
-  const { socket } = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   //xử lí delete all
   const [isChecked, setIsChecked] = useState(false);
@@ -157,6 +151,18 @@ const Packages = () => {
     }
   };
 
+  const deletePackageForDeleteAll = async (id, public_id) => {
+    try {
+      await axios.delete(`/api/packages/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      Swal.fire(error.response.data.msg, "", "success");
+    }
+  };
+
   const deleteAPackage = async (id, public_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -193,9 +199,22 @@ const Packages = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        packages.forEach((pack) => {
-          if (pack.checked) deletePackage(pack._id);
+        // lưu mảng để xóa các phim ra khỏi state
+        let needDeletedPackages = [];
+
+        packages.forEach(async (pack) => {
+          if (pack.checked) {
+            needDeletedPackages.push(pack._id);
+            await deletePackageForDeleteAll(pack._id);
+          }
         });
+
+        // set lại state cho movies
+        const newPackages = packages.filter(
+          (item) => !needDeletedPackages.includes(item._id)
+        );
+        setPackages([...newPackages]);
+
         Swal.fire("Deleted all checked pack", "", "success");
         setIsChecked(false);
       }
