@@ -89,7 +89,7 @@ const EditMovie = () => {
     if (movie.actorsBelongTo.length > 0) {
       for (let i = 0; i < movie.actorsBelongTo.length; i++) {
         for (let j = 0; j < actors.length; j++) {
-          if (actors[j]._id == movie.actorsBelongTo[i]) {
+          if (actors[j]._id === movie.actorsBelongTo[i]) {
             Actors.push(actors[j].name.toLowerCase());
             break;
           }
