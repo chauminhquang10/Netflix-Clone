@@ -23,6 +23,8 @@ import AddIcon from "@material-ui/icons/Add";
 import ListsForm from "./ListsForm";
 import { TblPagination } from "../components/Controls/Utils";
 import { GlobalState } from "../../../../GlobalState";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Checkbox from "@mui/material/Checkbox";
 import Swal from "sweetalert2";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -73,6 +75,7 @@ const AdminLists = () => {
   const [openPopup, setOpenPopup] = useState(false);
 
   const classes = useStyles();
+  const [isChecked, setIsChecked] = useState(false);
 
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
@@ -239,6 +242,49 @@ const AdminLists = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
+  const deleteListForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/lists/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteAll = () => {
+    let needDeletedItems = [];
+    lists.forEach(async (item) => {
+      if (item.checked) {
+        needDeletedItems.push(item._id);
+        await deleteListForDeleteAll(item._id);
+      }
+    });
+    // set lại state cho genres
+    const newLists = lists.filter(
+      (item) => !needDeletedItems.includes(item._id)
+    );
+    setLists([...newLists]);
+    setIsChecked(false);
+  };
+
+  const handleCheck = (id) => {
+    lists.forEach((item) => {
+      if (item._id === id) item.checked = !item.checked;
+    });
+    setLists([...lists]);
+  };
+
+  const checkAll = () => {
+    lists.forEach((item) => {
+      item.checked = !isChecked;
+    });
+    setLists([...lists]);
+    setIsChecked(!isChecked);
+  };
+
   // const handleSort = (id) => {
   //   const isAsc = orderBy === id && order === "asc";
   //   setOrder(isAsc ? "desc" : "asc");
@@ -249,6 +295,13 @@ const AdminLists = () => {
     <div className="admin-lists">
       <Paper className={classes.pageContent}>
         <Toolbar className={classes.toolsContainer}>
+          <AdminNormalButton
+            text="Delete(s)"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            className={classes.deleteButton}
+            onClick={deleteAll}
+          ></AdminNormalButton>
           <Input
             onChange={handleSearch}
             label="Search Discounts"
@@ -279,6 +332,16 @@ const AdminLists = () => {
               </TableCell>
             </TableRow>
             <TableRow>
+              <TableCell>
+                <Checkbox
+                  color="primary"
+                  onChange={checkAll}
+                  checked={isChecked}
+                  inputProps={{
+                    "aria-label": "select all desserts",
+                  }}
+                />
+              </TableCell>
               {headCells.map((item) => (
                 <TableCell key={item.id}>{item.label}</TableCell>
               ))}
@@ -287,6 +350,13 @@ const AdminLists = () => {
           <TableBody>
             {recordsAfterPagingAndSorting().map((list, index) => (
               <TableRow key={index}>
+                <TableCell>
+                  <Checkbox
+                    color="primary"
+                    checked={list.checked}
+                    onChange={() => handleCheck(list._id)}
+                  />
+                </TableCell>
                 <TableCell>{list._id}</TableCell>
                 <TableCell>
                   {list.title.replace(/\w\S*/g, (w) =>

@@ -32,12 +32,14 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DiscountsStatus from "./DiscountsStatus";
 
 import { GlobalState } from "../../../../GlobalState";
-
+import DeleteIcon from "@material-ui/icons/Delete";
+import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 
 const Discounts = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
+  const [isChecked, setIsChecked] = useState(false);
 
   const [discounts, setDiscounts] = state.discountsAPI.discounts;
 
@@ -227,6 +229,49 @@ const Discounts = () => {
     },
   }));
 
+  const deleteDiscountForDeleteAll = async (id) => {
+    try {
+      await axios.delete(`/api/lists/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
+  const deleteAll = () => {
+    let needDeletedItems = [];
+    discounts.forEach(async (item) => {
+      if (item.checked) {
+        needDeletedItems.push(item._id);
+        await deleteDiscountForDeleteAll(item._id);
+      }
+    });
+    // set lại state cho genres
+    const newDiscounts = discounts.filter(
+      (item) => !needDeletedItems.includes(item._id)
+    );
+    setDiscounts([...newDiscounts]);
+    setIsChecked(false);
+  };
+
+  const handleCheck = (id) => {
+    discounts.forEach((item) => {
+      if (item._id === id) item.checked = !item.checked;
+    });
+    setDiscounts([...discounts]);
+  };
+
+  const checkAll = () => {
+    discounts.forEach((item) => {
+      item.checked = !isChecked;
+    });
+    setDiscounts([...discounts]);
+    setIsChecked(!isChecked);
+  };
+
   const classes = useStyles();
 
   return (
@@ -234,13 +279,13 @@ const Discounts = () => {
       {/* Discounts List */}
       <Paper className={classes.pageContent}>
         <Toolbar className={classes.toolsContainer}>
-          {/* <AdminNormalButton
+          <AdminNormalButton
             text="Delete(s)"
             variant="outlined"
             startIcon={<DeleteIcon />}
             className={classes.deleteButton}
             onClick={deleteAll}
-          ></AdminNormalButton> */}
+          ></AdminNormalButton>
           <Input
             onChange={handleSearch}
             label="Search Discounts"
@@ -272,6 +317,16 @@ const Discounts = () => {
               </TableCell>
             </TableRow>
             <TableRow>
+              <TableCell>
+                <Checkbox
+                  color="primary"
+                  onChange={checkAll}
+                  checked={isChecked}
+                  inputProps={{
+                    "aria-label": "select all desserts",
+                  }}
+                />
+              </TableCell>
               {headCells.map((headCell) => (
                 <TableCell
                   key={headCell.id}
@@ -298,6 +353,13 @@ const Discounts = () => {
           <TableBody>
             {recordsAfterPagingAndSorting().map((discount, index) => (
               <TableRow key={index}>
+                <TableCell>
+                  <Checkbox
+                    color="primary"
+                    checked={discount.checked}
+                    onChange={() => handleCheck(discount._id)}
+                  />
+                </TableCell>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{discount.name}</TableCell>
                 <TableCell>{discount.discountValue}%</TableCell>
