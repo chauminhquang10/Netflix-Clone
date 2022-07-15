@@ -103,7 +103,7 @@ const EditMovie = () => {
     if (movie.directorsBelongTo.length > 0) {
       for (let i = 0; i < movie.directorsBelongTo.length; i++) {
         for (let j = 0; j < directors.length; j++) {
-          if (directors[j]._id == movie.directorsBelongTo[i]) {
+          if (directors[j]._id === movie.directorsBelongTo[i]) {
             Directors.push(directors[j].name.toLowerCase());
             break;
           }
@@ -191,7 +191,7 @@ const EditMovie = () => {
       let tempGenres = [];
       for (let i = 0; i < movie.allGenres.length; i++) {
         let rs = genres.find(
-          (el) => el.name.toLowerCase() == movie.allGenres[i].toLowerCase()
+          (el) => el.name.toLowerCase() === movie.allGenres[i].toLowerCase()
         );
         if (rs) tempGenres.push(rs._id);
       }
@@ -199,7 +199,8 @@ const EditMovie = () => {
       let tempActors = [];
       for (let i = 0; i < movie.actorsBelongTo.length; i++) {
         let rs = actors.find(
-          (el) => el.name.toLowerCase() == movie.actorsBelongTo[i].toLowerCase()
+          (el) =>
+            el.name.toLowerCase() === movie.actorsBelongTo[i].toLowerCase()
         );
         if (rs) tempActors.push(rs._id);
       }
@@ -208,7 +209,7 @@ const EditMovie = () => {
       for (let i = 0; i < movie.directorsBelongTo.length; i++) {
         let rs = directors.find(
           (el) =>
-            el.name.toLowerCase() == movie.directorsBelongTo[i].toLowerCase()
+            el.name.toLowerCase() === movie.directorsBelongTo[i].toLowerCase()
         );
         tempDirectors.push(rs._id);
       }

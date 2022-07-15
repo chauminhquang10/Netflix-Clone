@@ -45,7 +45,7 @@ const TopUsersList = () => {
           },
         });
 
-        if (res.data.length != 0) {
+        if (res.data.length !== 0) {
           const statsList = res.data.map(({ _id, ...item }) => ({
             id: _id,
             ...item,
@@ -64,7 +64,7 @@ const TopUsersList = () => {
   return (
     <div className="top_users_list">
       <div className="top_users_datatable">
-        {topUsersStats.length != 0 ? (
+        {topUsersStats.length !== 0 ? (
           <DataGrid
             rows={topUsersStats}
             columns={topUsersColumns}

@@ -1,39 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import { GlobalState } from "../../../GlobalState";
-import MovieItem from "./MovieItem";
-import Filter from "./Filter";
-import LoadMore from "./LoadMore";
 import "./Main.css";
 import PuffLoader from "react-spinners/PuffLoader";
 import axios from "axios";
 import Listitem from "../main/list/List";
 import Featured from "./Feature/Feature";
 import Grid from "./grid/Grid";
-import VerticalList from "./VerticalList/VerticalList";
 import HorizontalList from "./HorizontalList/HorizontalList";
-import PopUp from "../utils/popup/PopUp";
 import SkeletonList from "../utils/skeleton/SkeletonList/SkeletonList";
 
 const Movies = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
-  const [isAdmin] = state.usersAPI.isAdmin;
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = state.listsAPI.lists;
   const [recommend, setRecommend] = useState([]);
   const [listTrigger, setListTrigger] = useState(true);
   const [topRanking] = state.topRanking;
-  const [isNotExpireAccount, setIsNotExpireAccount] =
-    state.usersAPI.isNotExpireAccount;
-
-  //trigger Popup
-  const [popupTrigger, setPopupTrigger] = useState(true);
-
-  useEffect(() => {
-    if (isNotExpireAccount) {
-      setPopupTrigger(false);
-    }
-  }, [isNotExpireAccount]);
 
   useEffect(() => {
     const getData = async () => {

@@ -388,7 +388,7 @@ const MovieDetail = () => {
       <div className="header-container">
         <div className="poster-container">
           <div className="poster">
-            <img className="poster-img" src={movieDetail.imgSmall}></img>
+            <img alt="" className="poster-img" src={movieDetail.imgSmall}></img>
           </div>
         </div>
         <div className="info-container">

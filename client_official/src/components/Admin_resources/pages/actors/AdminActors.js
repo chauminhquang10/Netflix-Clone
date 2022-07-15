@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminActors.scss";
 import {
   InputAdornment,
@@ -7,11 +7,9 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
-  Toolbar,
   Paper,
+  Toolbar,
 } from "@material-ui/core";
 import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
@@ -22,7 +20,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
 import AddIcon from "@material-ui/icons/Add";
-import PopUp from "../../Admin_components/popup/PopUp";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Swal from "sweetalert2";

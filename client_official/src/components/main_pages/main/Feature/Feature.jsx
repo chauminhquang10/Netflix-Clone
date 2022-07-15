@@ -62,9 +62,9 @@ export default function Featured({
           </select>
         </div>
       )}
-      <img className="big_img" id="bigImg" src={bigImg} alt="" />
+      <img alt="" className="big_img" id="bigImg" src={bigImg} />
       <div className="titleImg">
-        <img src={titleImg} />
+        <img alt="" src={titleImg} />
       </div>
       {/* <div className="poster_card">
         <img className="small_img" src={smallImg} alt="" />

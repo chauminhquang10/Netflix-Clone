@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./AdminLists.css";
 import {
   InputAdornment,
@@ -7,9 +7,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Paper,
 } from "@material-ui/core";
@@ -17,7 +15,6 @@ import Input from "../components/Controls/Input";
 import { Search } from "@material-ui/icons";
 import axios from "axios";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import AdminActionButtons from "../../Admin_components/admin_button/AdminActionButtons";
 import AdminNormalButton from "../../Admin_components/admin_button/AdminNormalButton";
@@ -242,23 +239,16 @@ const AdminLists = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
-  const handleSort = (id) => {
-    const isAsc = orderBy === id && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(id);
-  };
+  // const handleSort = (id) => {
+  //   const isAsc = orderBy === id && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(id);
+  // };
 
   return (
     <div className="admin-lists">
       <Paper className={classes.pageContent}>
         <Toolbar className={classes.toolsContainer}>
-          {/* <AdminNormalButton
-            text="Delete(s)"
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            className={classes.deleteButton}
-            onClick={deleteAll}
-          ></AdminNormalButton> */}
           <Input
             onChange={handleSearch}
             label="Search Discounts"

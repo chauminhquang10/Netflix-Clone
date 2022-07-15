@@ -63,7 +63,6 @@ const NewMovie = () => {
   const [imgSmall, setImgSmall] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const param = useParams();
   // const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [movies, setMovies] = state.moviesAPI.movies;
   const theme = useTheme();
@@ -200,7 +199,7 @@ const NewMovie = () => {
       let tempGenres = [];
       for (let i = 0; i < movie.allGenres.length; i++) {
         let rs = genres.find(
-          (el) => el.name.toLowerCase() == movie.allGenres[i].toLowerCase()
+          (el) => el.name.toLowerCase() === movie.allGenres[i].toLowerCase()
         );
         if (rs) tempGenres.push(rs._id);
       }
@@ -217,7 +216,7 @@ const NewMovie = () => {
       for (let i = 0; i < movie.directorsBelongTo.length; i++) {
         let rs = directors.find(
           (el) =>
-            el.name.toLowerCase() == movie.directorsBelongTo[i].toLowerCase()
+            el.name.toLowerCase() === movie.directorsBelongTo[i].toLowerCase()
         );
         tempDirectors.push(rs._id);
       }
