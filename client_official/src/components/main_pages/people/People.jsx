@@ -57,7 +57,7 @@ const People = () => {
                   }
                 />
               ) : (
-                <img alt="" src={actor.image}></img>
+                <img alt="" src={actor.image.replace("original", "w300")}></img>
               )}
             </div>
             <div className="left-column-media">

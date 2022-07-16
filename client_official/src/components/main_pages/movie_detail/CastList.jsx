@@ -17,7 +17,7 @@ const CastList = ({ actors, directors }) => {
                   src={
                     cast.image === "https://image.tmdb.org/t/p/original/null"
                       ? "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg"
-                      : cast.image
+                      : cast.image.replace("original", "w300")
                   }
                 ></img>
                 <p className="casts__item__name">{cast.name}</p>
@@ -38,7 +38,7 @@ const CastList = ({ actors, directors }) => {
                   src={
                     cast.image === "https://image.tmdb.org/t/p/original/null"
                       ? "https://res.cloudinary.com/minh-quang-21-kg/image/upload/v1655541960/movie/unknown_p0ax5n.jpg"
-                      : cast.image
+                      : cast.image.replace("original", "w300")
                   }
                 ></img>
                 <p className="casts__item__name">{cast.name}</p>
