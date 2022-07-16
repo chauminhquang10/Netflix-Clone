@@ -34,7 +34,7 @@ export const DataProvider = ({ children }) => {
     // auto refresh ranking movies
     setTimeout(() => {
       refreshNewRankingMovies();
-    }, 1 * 60 * 1000);
+    }, 10 * 60 * 1000);
   };
 
   useEffect(() => {
