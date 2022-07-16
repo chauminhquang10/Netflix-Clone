@@ -209,6 +209,7 @@ const MovieList = () => {
           },
         });
 
+        Swal.fire(res.data.msg, "", "success");
         const msg = {
           id,
           url: `/detail/${id}`,
@@ -322,21 +323,21 @@ const MovieList = () => {
         // lưu mảng để xóa các phim ra khỏi state
         let needDeletedMovies = [];
 
-        movies.forEach(async (movie) => {
+        await movies.forEach(async (movie) => {
           if (movie.checked) {
             needDeletedMovies.push(movie._id);
             await deleteMovieForDeleteAll(movie._id, movie.img.public_id, true);
           }
         });
         // set lại state cho movies
+        Swal.fire("Movies Deleted", "", "success");
+        setIsChecked(false);
         const newMovies = movies.filter(
           (item) => !needDeletedMovies.includes(item._id)
         );
         setMovies([...newMovies]);
       }
     });
-    // Swal.fire("Movies Deleted", "", "success");
-    // setIsChecked(false);
   };
 
   const handleChangePage = (event, newPage) => {

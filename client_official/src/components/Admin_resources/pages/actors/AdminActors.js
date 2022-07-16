@@ -130,19 +130,32 @@ const AdminActors = () => {
   ];
 
   const deleteAll = () => {
-    let needDeletedActors = [];
-    actors.forEach(async (actor) => {
-      if (actor.checked) {
-        needDeletedActors.push(actor._id);
-        await deleteActorForDeleteAll(actor._id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let needDeletedActors = [];
+        await actors.forEach(async (actor) => {
+          if (actor.checked) {
+            needDeletedActors.push(actor._id);
+            await deleteActorForDeleteAll(actor._id);
+          }
+        });
+        // set lại state cho actors
+        const newActors = actors.filter(
+          (item) => !needDeletedActors.includes(item._id)
+        );
+        Swal.fire("Actors Deleted", "", "success");
+        setActors([...newActors]);
+        setIsChecked(false);
       }
     });
-    // set lại state cho actors
-    const newActors = actors.filter(
-      (item) => !needDeletedActors.includes(item._id)
-    );
-    setActors([...newActors]);
-    setIsChecked(false);
   };
 
   const handleCheck = (id) => {
@@ -167,14 +180,27 @@ const AdminActors = () => {
 
   const deleteActor = async (id) => {
     try {
-      await axios.delete(`/api/actors/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      const newActors = actors.filter((item) => item._id !== id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let res = await axios.delete(`/api/actors/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          const newActors = actors.filter((item) => item._id !== id);
 
-      setActors([...newActors]);
+          Swal.fire(res.data.msg, "", "success");
+          setActors([...newActors]);
+        }
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }

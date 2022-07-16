@@ -25,6 +25,7 @@ import GenresForm from "./GenresForm";
 import { GlobalState } from "../../../../GlobalState";
 import { TblPagination } from "../components/Controls/Utils";
 import Checkbox from "@mui/material/Checkbox";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -114,19 +115,32 @@ const AdminGenres = () => {
   ];
 
   const deleteAll = () => {
-    let needDeletedGenres = [];
-    genres.forEach(async (genre) => {
-      if (genre.checked) {
-        needDeletedGenres.push(genre._id);
-        await deleteGenreForDeleteAll(genre._id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let needDeletedGenres = [];
+        await genres.forEach(async (genre) => {
+          if (genre.checked) {
+            needDeletedGenres.push(genre._id);
+            await deleteGenreForDeleteAll(genre._id);
+          }
+        });
+        Swal.fire("Genres Deleted", "", "success");
+        // set lại state cho genres
+        const newGenres = genres.filter(
+          (item) => !needDeletedGenres.includes(item._id)
+        );
+        setGenres([...newGenres]);
+        setIsChecked(false);
       }
     });
-    // set lại state cho genres
-    const newGenres = genres.filter(
-      (item) => !needDeletedGenres.includes(item._id)
-    );
-    setGenres([...newGenres]);
-    setIsChecked(false);
   };
 
   const handleCheck = (id) => {
@@ -190,14 +204,26 @@ const AdminGenres = () => {
 
   const deleteGenre = async (id) => {
     try {
-      await axios.delete(`/api/genres/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      const newGenres = genres.filter((item) => item._id !== id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.delete(`/api/genres/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          const newGenres = genres.filter((item) => item._id !== id);
 
-      setGenres([...newGenres]);
+          setGenres([...newGenres]);
+        }
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
