@@ -51,44 +51,24 @@ const Step2 = () => {
 
           <ul className="step2_checkmark_group">
             <li className="step2_checkmark_group_item">
-              <CheckIcon style={{ color: "red", fontSize: "28px" }} />
+              <CheckIcon style={{ color: "#2596be", fontSize: "28px" }} />
               <p>Watch all you want. Ad-free.</p>
             </li>
             <li className="step2_checkmark_group_item">
               <CheckIcon
                 style={{
-                  color: "red",
+                  color: "#2596be",
                   fontSize: "28px",
                 }}
               />
               <p>Recommendations just for you.</p>
             </li>
             <li className="step2_checkmark_group_item">
-              <CheckIcon style={{ color: "red", fontSize: "28px" }} />
+              <CheckIcon style={{ color: "#2596be", fontSize: "28px" }} />
               <p>Change or cancel your plan anytime.</p>
             </li>
           </ul>
         </div>
-
-        {/* Table of package contents */}
-        {/* <div className="plan_table_header">
-          <div className="plan_table_header_wrapper">
-            {packages.map((pack, index) => (
-              <div
-                className={
-                  togglePackage === pack._id
-                    ? "plan_table_header_item plan_table_header_item_active"
-                    : "plan_table_header_item"
-                }
-                onClick={() => handleActivePackage(pack)}
-              >
-                <span className="plan_table_header_item_choice ">
-                  {pack._id}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div> */}
         <table className="plan_table_body">
           <tbody>
             <tr>
@@ -171,7 +151,7 @@ const Step2 = () => {
           <span>
             HD (720p), Full HD (1080p), Ultra HD (4K) and HDR availability
             subject to your internet service and device capabilities. Not all
-            content is available in all resolutions. See our{" "}
+            content is available in all resolutions. See our
             <a
               rel="noreferrer"
               href="https://help.netflix.com/legal/termsofuse"
@@ -179,7 +159,7 @@ const Step2 = () => {
               target="_blank"
             >
               Terms of Use
-            </a>{" "}
+            </a>
             for more details.
           </span>
           <span>

@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import axios from "axios";
 
-import "./CheckOutStep.css";
+import "./CheckOutStep.scss";
 
 import PayPalCheckOut from "./PayPalCheckOut";
 
@@ -16,6 +16,8 @@ import moment from "moment";
 
 import PaidIcon from "@mui/icons-material/Paid";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const CheckOutStep = () => {
   const state = useContext(GlobalState);
@@ -312,7 +314,7 @@ const CheckOutStep = () => {
       setIsNotExpireAccount(true);
 
       // chuyển trang
-      likedGenres ? history.push("/") : history.push("/survey");
+      likedGenres.length > 2 ? history.push("/") : history.push("/survey");
     }
   };
 
@@ -323,9 +325,9 @@ const CheckOutStep = () => {
           Step <span className="checkout_step_bold_number">3</span> of
           <span className="checkout_step_bold_number"> 3</span>
         </div>
-        <h2 className="choice_text_checkout_step">
+        <h4 className="choice_text_checkout_step">
           Set up your credit or debit card
-        </h2>
+        </h4>
         <div className="checkout_step_logos">
           <img
             alt=""
@@ -397,27 +399,32 @@ const CheckOutStep = () => {
           cancel at any time to avoid future charges.
         </span>
         {/* Coupon Code */}
-        {/* <div style={{ margin: "40px 0px" }}>
-          <TextField
-            label="Coupon Code"
-            id="outlined-size-normal"
-            value={discountInput}
-            onChange={(e) => setDiscountInput(e.target.value)}
-            error={discountError}
-            helperText={discountErrorText}
-          />
-          <LoadingButton
-            loadingIndicator="Loading..."
-            variant="outlined"
-            onClick={handleVerifyCode}
-            loading={loading}
-          >
-            Verify
-          </LoadingButton>
-          {`Giảm giá is : ${reducePrice}`}
-          {`Total is : ${total}`}
+        <div className="discount-container">
+          <div className="discount-box">
+            <TextField
+              label="Coupon Code"
+              id="outlined-size-normal"
+              value={discountInput}
+              onChange={(e) => setDiscountInput(e.target.value)}
+              error={discountError}
+              helperText={discountErrorText}
+            />
+            <LoadingButton
+              loadingIndicator="Loading..."
+              variant="outlined"
+              onClick={handleVerifyCode}
+              loading={loading}
+            >
+              Verify
+            </LoadingButton>
+          </div>
+          <div className="discount-box">
+            {`Discounted amount : ${reducePrice} ₫`}
+          </div>
+          <div className="discount-box">{`Total is : ${total} ₫`}</div>
+
           {userDiscounts.map((item) => (
-            <div>
+            <div className="discount-box">
               <h1>{item.name}</h1>
               <h4>{`${item.discountValue}%`}</h4>
               <Button
@@ -428,7 +435,7 @@ const CheckOutStep = () => {
               </Button>
             </div>
           ))}
-        </div> */}
+        </div>
         {checkOutPackage?.packId && (
           <div className="payment-group">
             <PayPalCheckOut
