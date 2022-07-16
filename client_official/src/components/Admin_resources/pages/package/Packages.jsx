@@ -135,7 +135,7 @@ const Packages = () => {
 
   const deletePackage = async (id, public_id) => {
     try {
-      await axios.delete(`/api/packages/${id}`, {
+      let res = await axios.delete(`/api/packages/${id}`, {
         headers: {
           Authorization: token,
         },
@@ -143,6 +143,7 @@ const Packages = () => {
 
       const newPackages = packages.filter((item) => item._id !== id);
 
+      Swal.fire(res.data.msg, "", "success");
       setPackages([...newPackages]);
 
       //setPackagesCallback(!packagesCallback);
@@ -175,7 +176,6 @@ const Packages = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deletePackage(id);
-        Swal.fire("Deleted a pack", "", "success");
       }
     });
   };
@@ -215,7 +215,7 @@ const Packages = () => {
         );
         setPackages([...newPackages]);
 
-        Swal.fire("Deleted all checked pack", "", "success");
+        Swal.fire("Packages Deleted", "", "success");
         setIsChecked(false);
       }
     });

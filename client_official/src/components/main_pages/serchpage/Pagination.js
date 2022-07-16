@@ -33,12 +33,14 @@ const Pagination = ({ currentPage, moviesPerPage, totalMovies, paginate }) => {
         {currentPage < pageNumbers.length - 2 && (
           <button className="page-link">...</button>
         )}
-        <button
-          className="page-link"
-          onClick={() => paginate(pageNumbers.length)}
-        >
-          {pageNumbers.length}
-        </button>
+        {pageNumbers.length > 1 && (
+          <button
+            className="page-link"
+            onClick={() => paginate(pageNumbers.length)}
+          >
+            {pageNumbers.length}
+          </button>
+        )}
       </ul>
     </nav>
   );

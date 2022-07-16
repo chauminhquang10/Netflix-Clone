@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import "./HomePage.css";
+import "./HomePage.scss";
 import FeaturedInfo from "../../Admin_components/featuredInfo/FeaturedInfo";
 import Chart from "../../Admin_components/chart/Chart";
 import WidgetLarge from "../../Admin_components/WidgetLarge/WidgetLarge";
@@ -76,9 +76,17 @@ const HomePage = () => {
         dataKey="New User"
       ></Chart>
 
-      <div className="admin-charts">
+      <div className="child-chart">
         <FeaturedRevenue />
         <RevenueChart />
+      </div>
+
+      <div className="admin-charts">
+        <h3 className="chartTitle">Discount Analytics</h3>
+        <DiscountPriceChart />
+        <DiscountQuantityLineChart />
+        <h3 className="chartTitle">Sale Analytics</h3>
+        <PackagePieChart />
       </div>
 
       {/* Tạm thời comment để chừa chỗ hiển thị , nhớ chuyển vài cái chart ra page khác, không để chung hết 1 chỗ như bây h */}

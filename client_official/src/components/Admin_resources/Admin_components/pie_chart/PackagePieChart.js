@@ -139,8 +139,10 @@ const PackagePieChart = () => {
 
   return (
     <>
-      <h1 style={{ color: "red" }}>Total: {totalSold}</h1>
-      <PieChart width={800} height={400}>
+      <h2 style={{ color: "red", width: "100%" }}>
+        Total Package Sold: {totalSold}
+      </h2>
+      <PieChart width={800} height={250}>
         <Pie
           data={packagesStats}
           activeIndex={activeIndex}

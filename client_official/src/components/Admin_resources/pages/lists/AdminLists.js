@@ -255,19 +255,32 @@ const AdminLists = () => {
   };
 
   const deleteAll = () => {
-    let needDeletedItems = [];
-    lists.forEach(async (item) => {
-      if (item.checked) {
-        needDeletedItems.push(item._id);
-        await deleteListForDeleteAll(item._id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let needDeletedItems = [];
+        lists.forEach(async (item) => {
+          if (item.checked) {
+            needDeletedItems.push(item._id);
+            await deleteListForDeleteAll(item._id);
+          }
+        });
+        // set lại state cho genres
+        const newLists = lists.filter(
+          (item) => !needDeletedItems.includes(item._id)
+        );
+        Swal.fire("Lists Deleted", "", "success");
+        setLists([...newLists]);
+        setIsChecked(false);
       }
     });
-    // set lại state cho genres
-    const newLists = lists.filter(
-      (item) => !needDeletedItems.includes(item._id)
-    );
-    setLists([...newLists]);
-    setIsChecked(false);
   };
 
   const handleCheck = (id) => {

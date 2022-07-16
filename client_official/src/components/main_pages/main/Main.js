@@ -65,7 +65,7 @@ const Movies = () => {
         {recommend.length > 0 ? (
           <Listitem
             movies={recommend}
-            title="For You"
+            title="You May Like"
             getTrigger={getTrigger}
             ToggleTrigger={ToggleTrigger}
           ></Listitem>

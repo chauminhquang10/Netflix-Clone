@@ -127,20 +127,33 @@ const AdminDirectors = () => {
   ];
 
   const deleteAll = () => {
-    let needDeletedDirectors = [];
-    directors.forEach(async (director) => {
-      if (director.checked) {
-        needDeletedDirectors.push(director._id);
-        await deleteDirectorForDeleteAll(director._id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let needDeletedDirectors = [];
+        await directors.forEach(async (director) => {
+          if (director.checked) {
+            needDeletedDirectors.push(director._id);
+            await deleteDirectorForDeleteAll(director._id);
+          }
+        });
+
+        // set lại state cho directors
+        const newDirectors = directors.filter(
+          (item) => !needDeletedDirectors.includes(item._id)
+        );
+        Swal.fire("Directors Deleted", "", "success");
+        setDirectors([...newDirectors]);
+        setIsChecked(false);
       }
     });
-
-    // set lại state cho directors
-    const newDirectors = directors.filter(
-      (item) => !needDeletedDirectors.includes(item._id)
-    );
-    setDirectors([...newDirectors]);
-    setIsChecked(false);
   };
 
   const handleCheck = (id) => {
@@ -165,14 +178,27 @@ const AdminDirectors = () => {
 
   const deleteDirector = async (id) => {
     try {
-      await axios.delete(`/api/directors/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      const newDirectors = directors.filter((item) => item._id !== id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let res = await axios.delete(`/api/directors/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          const newDirectors = directors.filter((item) => item._id !== id);
 
-      setDirectors([...newDirectors]);
+          Swal.fire(res.data.msg, "", "success");
+          setDirectors([...newDirectors]);
+        }
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }

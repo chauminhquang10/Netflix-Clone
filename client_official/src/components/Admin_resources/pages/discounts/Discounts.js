@@ -35,6 +35,7 @@ import { GlobalState } from "../../../../GlobalState";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Discounts = () => {
   const state = useContext(GlobalState);
@@ -175,16 +176,29 @@ const Discounts = () => {
   };
 
   const onDelete = async (discountID) => {
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-
     try {
-      await axios.delete(`/api/discount/${discountID}`, {
-        headers: { Authorization: token },
-      });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let res = await axios.delete(`/api/discount/${discountID}`, {
+            headers: { Authorization: token },
+          });
 
-      //setCallback(!callback);
-      const newDiscounts = discounts.filter((item) => item._id !== discountID);
-      setDiscounts([...newDiscounts]);
+          //setCallback(!callback);
+          Swal.fire(res.data.msg, "", "success");
+          const newDiscounts = discounts.filter(
+            (item) => item._id !== discountID
+          );
+          setDiscounts([...newDiscounts]);
+        }
+      });
     } catch (error) {
       alert(error.response.data.msg);
     }
@@ -242,19 +256,32 @@ const Discounts = () => {
   };
 
   const deleteAll = () => {
-    let needDeletedItems = [];
-    discounts.forEach(async (item) => {
-      if (item.checked) {
-        needDeletedItems.push(item._id);
-        await deleteDiscountForDeleteAll(item._id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let needDeletedItems = [];
+        discounts.forEach(async (item) => {
+          if (item.checked) {
+            needDeletedItems.push(item._id);
+            await deleteDiscountForDeleteAll(item._id);
+          }
+        });
+        // set lại state cho genres
+        Swal.fire("Discounts Deleted", "", "success");
+        const newDiscounts = discounts.filter(
+          (item) => !needDeletedItems.includes(item._id)
+        );
+        setDiscounts([...newDiscounts]);
+        setIsChecked(false);
       }
     });
-    // set lại state cho genres
-    const newDiscounts = discounts.filter(
-      (item) => !needDeletedItems.includes(item._id)
-    );
-    setDiscounts([...newDiscounts]);
-    setIsChecked(false);
   };
 
   const handleCheck = (id) => {
@@ -382,14 +409,7 @@ const Discounts = () => {
                   <ActionButton
                     color="secondary"
                     onClick={() => {
-                      setConfirmDialog({
-                        isOpen: true,
-                        title: "Are you sure to delete this discount?",
-                        subTitle: "You can't undo this action!",
-                        onConfirm: () => {
-                          onDelete(discount._id);
-                        },
-                      });
+                      onDelete(discount._id);
                     }}
                   >
                     <CloseIcon fontSize="small"></CloseIcon>
