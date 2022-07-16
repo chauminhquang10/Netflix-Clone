@@ -9,6 +9,8 @@ import "./SearchBar.scss";
 import NotifyModal from "../main_pages/notify/NotifyModal";
 import logo from "../../images/logo-t-rex.jpg";
 import { useHistory } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+
 const Header = () => {
   const state = useContext(GlobalState);
   const [isValidAccount] = state.usersAPI.isValidAccount;
@@ -20,6 +22,7 @@ const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const headerRef = useRef(null);
   const history = useHistory();
+  const [likedGenres, setLikedGenres] = state.usersAPI.likedGenres;
 
   function OnScroll() {
     if (headerRef.current) {
@@ -156,14 +159,12 @@ const Header = () => {
               />
 
               <div>
-                <span
+                <SearchIcon
+                  className="search-button"
                   onClick={() => {
                     setToggleSearch(!toggleSearch);
                   }}
-                  className="search-button"
-                >
-                  <span className="search-icon"></span>
-                </span>
+                />
               </div>
             </div>
           )}

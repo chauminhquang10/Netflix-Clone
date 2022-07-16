@@ -5,8 +5,11 @@ const authAdmin = require("../middlewares/AuthAdmin");
 
 router
   .route("/lists")
-  .get(listController.getLists)
+  .get(listController.getAllLists)
   .post(auth, authAdmin, listController.createList);
+
+// get all list for admin dashboard
+router.route("/top5Lists").get(listController.getTop5Lists);
 
 router
   .route("/lists/:id")

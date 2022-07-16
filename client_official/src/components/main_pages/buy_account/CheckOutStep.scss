@@ -1,7 +1,10 @@
 .checkout_step_container {
+  width: 100%;
+  max-width: 1920px;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
   min-height: 100vh;
   background-color: white;
   color: #333;
@@ -22,16 +25,6 @@
   padding: 0 0 0 .2rem;
 }
 
-.CheckOut_Container{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  row-gap: 1rem ;
-  padding: 2rem 0;
-}
-
 .checkout_step_wrapper {
   display: flex;
   flex-direction: column;
@@ -40,20 +33,68 @@
   justify-content: space-around;
   gap: 20px;
   max-width: 440px;
-  margin: 80px auto;
+  margin: 0px auto;
   .discount-container{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 10px;
+    gap: 20px;
     .discount-box{
+      color: #2596be;
       display: flex;
       gap: 10px;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       width: 100%;
+      &:hover{
+        cursor: pointer;
+      }
+      .discount-box-field{
+        width: 100%;
+        max-height: 45px;
+        & > * {
+          max-height: 45px;
+        }
+        label{
+          margin: 0px;
+        }
+      }
+      .discount-box-button{
+        min-height: 45px;
+        max-width: 100px;
+        border: 1px solid #2596be;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cancel-button{
+        max-height: 20px;
+        font-size: 12px;
+        padding: 5px;
+      }
+    }
+    .total-field{
+      font-size: 1.5em;
+      font-weight: bold;
+      &:hover{
+        cursor: unset;
+      }
+    }
+    .discount-box-button{
+      color: #2596be;
+      border: none;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: transparent;
+      width: 100%;
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
 }

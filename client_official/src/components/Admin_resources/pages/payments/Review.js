@@ -51,7 +51,9 @@ export default function Review({ paymentDetail }) {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            ${paymentDetail.service_pack.packId.price}
+            $
+            {paymentDetail.service_pack.packId.price -
+              paymentDetail.discountPrice}
           </Typography>
         </ListItem>
       </List>

@@ -18,6 +18,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
+import DiscountIcon from "@mui/icons-material/Discount";
 
 const CheckOutStep = () => {
   const state = useContext(GlobalState);
@@ -258,7 +259,8 @@ const CheckOutStep = () => {
     setIsNotExpireAccount(true);
 
     // chuyển trang
-    likedGenres ? history.push("/") : history.push("/survey");
+    console.log(likedGenres, "called LikeGenres");
+    likedGenres.length > 0 ? history.push("/") : history.push("/survey");
   };
 
   const stripeTranSucess = async (payment) => {
@@ -314,7 +316,8 @@ const CheckOutStep = () => {
       setIsNotExpireAccount(true);
 
       // chuyển trang
-      likedGenres.length > 2 ? history.push("/") : history.push("/survey");
+      console.log(likedGenres, "called LikeGenres");
+      likedGenres.length > 0 ? history.push("/") : history.push("/survey");
     }
   };
 
@@ -375,7 +378,7 @@ const CheckOutStep = () => {
         </span>
 
         <span className="checkout_step_subtext checkout_step_second_subtext">
-          By checking the checkbox below, you agree to our{" "}
+          By checking the checkbox below, you agree to our
           <a
             rel="noreferrer"
             target="_blank"
@@ -402,32 +405,28 @@ const CheckOutStep = () => {
         <div className="discount-container">
           <div className="discount-box">
             <TextField
+              className="discount-box-field"
               label="Coupon Code"
-              id="outlined-size-normal"
+              id="outlined-size-small"
               value={discountInput}
               onChange={(e) => setDiscountInput(e.target.value)}
               error={discountError}
               helperText={discountErrorText}
             />
             <LoadingButton
-              loadingIndicator="Loading..."
+              className="discount-box-button"
               variant="outlined"
               onClick={handleVerifyCode}
-              loading={loading}
             >
               Verify
             </LoadingButton>
           </div>
-          <div className="discount-box">
-            {`Discounted amount : ${reducePrice} ₫`}
-          </div>
-          <div className="discount-box">{`Total is : ${total} ₫`}</div>
-
           {userDiscounts.map((item) => (
             <div className="discount-box">
-              <h1>{item.name}</h1>
-              <h4>{`${item.discountValue}%`}</h4>
+              <div>{item.name}</div>
+              <div>{`${item.discountValue}%`}</div>
               <Button
+                className="cancel-button"
                 variant="outlined"
                 onClick={() => handleCancelCode(item._id)}
               >
@@ -435,6 +434,14 @@ const CheckOutStep = () => {
               </Button>
             </div>
           ))}
+          {userDiscounts.length > 0 ? (
+            <div className="discount-box">
+              {`Discounted amount : ${reducePrice} ₫`}
+            </div>
+          ) : (
+            <div className="discount-box">{`No Coupon Used`}</div>
+          )}
+          <div className="discount-box total-field">{`Total : ${total} ₫`}</div>
         </div>
         {checkOutPackage?.packId && (
           <div className="payment-group">
@@ -457,8 +464,7 @@ const CheckOutStep = () => {
                 variant="contained"
                 startIcon={<PaidIcon />}
               >
-                <div className="Stripe_button_d"> STRIP</div>
-                <p className="Stripe_button_p">Checkout</p>
+                <div className="Stripe_button_d"> STRIPE</div>
               </Button>
             </StripeCheckout>
           </div>

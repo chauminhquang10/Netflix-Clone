@@ -7,7 +7,7 @@ import { GlobalState } from "../../../../../GlobalState";
 import axios from "axios";
 import "./ListItemPopUp.scss";
 
-const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
+const ListItemPopUp = ({ movie, top, left, SetTrigger, setHoverLeft }) => {
   const state = useContext(GlobalState);
   const [watchList, setWatchList] = state.usersAPI.watchList;
   const [isAddedToWatchList, setIsAddedToWatchList] = useState(false);
@@ -49,14 +49,13 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger }) => {
     }
   };
 
-  const handlePosition = () => {
-    left = left - 100;
-    if (left < 0) left = 0;
-    if (left > 1111) left = 1111;
-    PopupRef.current.style.left = `${left}px`;
-  };
-
   useEffect(() => {
+    const handlePosition = () => {
+      left = left - 100;
+      if (left < 0) left = 0;
+      if (left > 1111) left = 1111;
+      PopupRef.current.style.left = `${left}px`;
+    };
     if (left) {
       handlePosition();
     }

@@ -484,9 +484,10 @@ const MovieDetail = () => {
       </div>
       {movieDetail && (
         <div className="trailer-container">
+          <div className="trailer-title">{`International Trailer`}</div>
           <iframe
-            width="971"
-            height="546"
+            width="1280"
+            height="586"
             src={movieDetail.trailer.replace(
               "https://www.youtube.com/watch?v=",
               "https://www.youtube.com/embed/"
