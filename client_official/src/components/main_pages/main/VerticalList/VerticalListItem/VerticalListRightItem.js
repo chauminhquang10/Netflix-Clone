@@ -19,30 +19,6 @@ const VerticalListRightItem = ({ movie }) => {
     }
   }, [movie, watchList]);
 
-  // const updateWatchList = async (watchList) => {
-  //   await axios.patch(
-  //     "/user/addwatchlist",
-  //     { watchlist: watchList },
-  //     {
-  //       headers: {
-  //         Authorization: token,
-  //       },
-  //     }
-  //   );
-  // };
-
-  // const removeMovie = (id) => {
-  //   if (window.confirm("Do you want to remove this movie?")) {
-  //     watchList.forEach((item, index) => {
-  //       if (item._id === id) {
-  //         watchList.splice(index, 1);
-  //       }
-  //     });
-  //     setWatchList([...watchList]);
-  //     updateWatchList(watchList);
-  //   }
-  // };
-
   return (
     <div className="VerticalListRightItem_container">
       <img

@@ -99,9 +99,6 @@ const Comments = ({
                   movieId={movieId}
                   commentCallback={commentCallback}
                   setCommentCallback={setCommentCallback}
-                  // moviesCallback={moviesCallback}
-                  // setMoviesCallback={setMoviesCallback}
-
                   movieDetailCallback={movieDetailCallback}
                   setMovieDetailCallback={setMovieDetailCallback}
                 ></SingleComment>

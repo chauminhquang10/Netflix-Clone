@@ -39,7 +39,6 @@ export default function VerticalList({ title, movies }) {
                 key={`slide-${index}`}
                 tag="li"
               >
-                {/* <ListItem SetMovie={handleChangeMovie} movie={movie}></ListItem> */}
                 <ItemRight movie={movie} />
               </SwiperSlide>
             ))}
@@ -62,7 +61,6 @@ export default function VerticalList({ title, movies }) {
                 key={`slide-${index}`}
                 tag="li"
               >
-                {/* <ListItem SetMovie={handleChangeMovie} movie={movie}></ListItem> */}
                 <ItemLeft movie={movie} />
               </SwiperSlide>
             ))}
@@ -70,6 +68,5 @@ export default function VerticalList({ title, movies }) {
         </div>
       </div>
     </div>
-    //</React.Fragment>
   );
 }

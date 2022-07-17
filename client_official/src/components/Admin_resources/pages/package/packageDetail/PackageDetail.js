@@ -47,8 +47,6 @@ function getStyles(name, devices, theme) {
 export default function MultipleSelect() {
   const param = useParams();
   const state = useContext(GlobalState);
-  //const [packagesCallback, setPackagesCallback] =
-  // state.packagesAPI.packagesCallback;
   const [isAdmin] = state.usersAPI.isAdmin;
   const [token] = state.token;
   const [pack, setPack] = useState(initialState);
@@ -118,8 +116,6 @@ export default function MultipleSelect() {
           confirmButtonText: "Yes",
         });
       }
-
-      //setPackagesCallback(!packagesCallback);
       history.push("/packages");
     } catch (error) {
       swal({
@@ -206,7 +202,11 @@ export default function MultipleSelect() {
           </FormControl>
         </div>
         <div className="PackItem">
-          <button onClick={handleSubmit} className="addPackButton">
+          <button
+            style={{ marginTop: "57px" }}
+            onClick={handleSubmit}
+            className="addPackButton"
+          >
             {param.id ? "Update" : "Create"}
           </button>
         </div>

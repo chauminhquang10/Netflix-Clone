@@ -202,12 +202,6 @@ const Discounts = () => {
     } catch (error) {
       alert(error.response.data.msg);
     }
-
-    setNotify({
-      isOpen: true,
-      message: "Deleted Successfully!",
-      type: "error",
-    });
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -441,8 +435,6 @@ const Discounts = () => {
           setUpdateDiscount={setUpdateDiscount}
           notify={notify}
           setNotify={setNotify}
-          //callback={callback}
-          //setCallback={setCallback}
           discounts={discounts}
           setDiscounts={setDiscounts}
           onEdit={onEdit}

@@ -283,12 +283,6 @@ const AdminGenres = () => {
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
 
-  // const handleSort = (id) => {
-  //   const isAsc = orderBy === id && order === "asc";
-  //   setOrder(isAsc ? "desc" : "asc");
-  //   setOrderBy(id);
-  // };
-
   return (
     <div className="admin-genres">
       <Paper className={classes.pageContent}>

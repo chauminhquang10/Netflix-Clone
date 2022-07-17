@@ -60,7 +60,6 @@ export default function HorizontalList({ title, movies }) {
                 key={`slide-${index}`}
                 tag="li"
               >
-                {/* <ListItem SetMovie={handleChangeMovie} movie={movie}></ListItem> */}
                 <ItemLeft movie={movie} />
               </SwiperSlide>
             ))}

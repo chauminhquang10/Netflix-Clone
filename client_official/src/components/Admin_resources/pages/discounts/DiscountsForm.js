@@ -37,8 +37,6 @@ const DiscountsForm = ({
   setUpdateDiscount,
   notify,
   setNotify,
-  //callback,
-  //setCallback,
   discounts,
   setDiscounts,
   onEdit,
@@ -104,7 +102,6 @@ const DiscountsForm = ({
               name,
               discountValue,
               expireTime: castDate,
-              //id: updateDiscount._id,
             },
             {
               headers: { Authorization: token },
@@ -168,7 +165,6 @@ const DiscountsForm = ({
       setUpdateDiscount(null);
       resetForm();
       setOpenPopUp(false);
-      //setCallback(!callback);
     }
   };
 
