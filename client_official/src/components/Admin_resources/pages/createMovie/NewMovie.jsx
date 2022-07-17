@@ -488,6 +488,7 @@ const NewMovie = () => {
             </Select>
           </div>
           <button
+            style={{ marginRight: "30px" }}
             type="submit"
             onClick={handleSubmit}
             className="addMovieButton"
