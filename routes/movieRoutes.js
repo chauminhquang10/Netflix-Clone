@@ -38,7 +38,9 @@ router.get(
 );
 
 router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
-router.route("/updatemovies").post(movieController.updateMovies);
+router
+  .route("/updatemovies")
+  .post(auth, authAdmin, movieController.updateMovies);
 
 router.route("/fetchGenres").post(movieController.fetchGenres);
 

@@ -21,6 +21,8 @@ router.get("/discountsInfo", auth, userController.getUserDiscountsInfo);
 
 router.get("/all_info", auth, authAdmin, userController.getAllUsersInfo);
 
+router.get("/loadUsers", auth, authAdmin, userController.loadUsers);
+
 router.get("/logout", userController.logout);
 
 router.patch("/update", auth, userController.updateUserInfo);
