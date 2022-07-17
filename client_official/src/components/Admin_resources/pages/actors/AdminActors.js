@@ -87,8 +87,6 @@ const AdminActors = () => {
     },
   });
 
-  // useEffect(() => {}, []);
-
   const handleSearch = (event) => {
     let target = event.target;
     setFilterFunc({
@@ -259,12 +257,6 @@ const AdminActors = () => {
       getComparator(order, orderBy)
     ).slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
-
-  // const handleSort = (id) => {
-  //   const isAsc = orderBy === id && order === "asc";
-  //   setOrder(isAsc ? "desc" : "asc");
-  //   setOrderBy(id);
-  // };
 
   return (
     <div className="admin-actors">

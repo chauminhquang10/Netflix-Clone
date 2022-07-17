@@ -99,7 +99,6 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger, setHoverLeft }) => {
                     <CheckIcon className="icon" />
                   )}
                 </Link>
-                {/* <ThumbUpAltOutlined className="icon"></ThumbUpAltOutlined> */}
                 <Link to={`/detail/${movie._id}`}>
                   <DoubleArrowIcon className="icon"></DoubleArrowIcon>
                 </Link>
@@ -115,7 +114,6 @@ const ListItemPopUp = ({ movie, top, left, SetTrigger, setHoverLeft }) => {
                 >
                   {movie.title}
                 </span>
-                {/* <span className="limit">{movie.limitAge}+</span> */}
                 <span className="limit">13+</span>
                 <span>{movie.year}</span>
               </div>

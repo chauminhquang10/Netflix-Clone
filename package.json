@@ -10,11 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.1.18",
-    "@material-ui/pickers": "^3.3.10",
-    "@pathofdev/react-tag-input": "^1.0.7",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.0",
     "cookie-parser": "^1.4.5",
@@ -35,9 +30,7 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "socket.io": "^4.4.1",
-    "stripe": "^8.209.0",
-    "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.4.8"
+    "stripe": "^8.209.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

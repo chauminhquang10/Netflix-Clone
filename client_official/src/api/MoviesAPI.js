@@ -11,7 +11,6 @@ const MoviesAPI = () => {
   const [original_country, setCountry] = useState("");
   const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
-  // const [page, setPage] = useState(1);
   const [result, setResult] = useState(0);
 
   useEffect(() => {

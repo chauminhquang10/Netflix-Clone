@@ -15,6 +15,7 @@ import "./Login.scss";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 
+import Notification from "../../Admin_resources/pages/components/Controls/Notification";
 import { showErrMessage } from "../utils/notifications/Notification";
 
 const initialState = {
@@ -27,7 +28,13 @@ const initialState = {
 const Login = () => {
   const [user, setUser] = useState(initialState);
 
-  const { email, password, err, success } = user;
+  const { email, password, err } = user;
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -43,6 +50,12 @@ const Login = () => {
         err: "",
         success: res.data.msg,
       });
+      setNotify({
+        isOpen: true,
+        message: res.data.msg,
+        type: "success",
+      });
+
       localStorage.setItem("firstLogin", true);
       window.location.href = "/";
     } catch (error) {
@@ -52,6 +65,11 @@ const Login = () => {
           err: error.response.data.msg,
           success: "",
         });
+      setNotify({
+        isOpen: true,
+        message: error.response.data.msg,
+        type: "error",
+      });
     }
   };
 
@@ -65,6 +83,11 @@ const Login = () => {
         err: "",
         success: res.data.msg,
       });
+      setNotify({
+        isOpen: true,
+        message: res.data.msg,
+        type: "success",
+      });
       localStorage.setItem("firstLogin", true);
       window.location.href = "/";
     } catch (error) {
@@ -74,6 +97,11 @@ const Login = () => {
           err: error.response.data.msg,
           success: "",
         });
+      setNotify({
+        isOpen: true,
+        message: error.response.data.msg,
+        type: "error",
+      });
     }
   };
 
@@ -89,6 +117,11 @@ const Login = () => {
         err: "",
         success: res.data.msg,
       });
+      setNotify({
+        isOpen: true,
+        message: res.data.msg,
+        type: "success",
+      });
       localStorage.setItem("firstLogin", true);
       window.location.href = "/";
     } catch (error) {
@@ -98,62 +131,15 @@ const Login = () => {
           err: error.response.data.msg,
           success: "",
         });
+      setNotify({
+        isOpen: true,
+        message: error.response.data.msg,
+        type: "error",
+      });
     }
   };
 
   return (
-    // <div className="login_page">
-    //   <h2>Login</h2>
-    //   {err && showErrMessage(err)}
-    //   {success && showSuccessMessage(success)}
-    //   <form onSubmit={loginSubmit}>
-    //     <input
-    //       type="email"
-    //       name="email"
-    //       required
-    //       placeholder="Your email"
-    //       value={email}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       autoComplete="on"
-    //       required
-    //       placeholder="Your password"
-    //       value={password}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <div className="row">
-    //       <button type="submit">Login</button>
-
-    //       <Link to="/forgot_password">Forgot your password?</Link>
-    //     </div>
-    //   </form>
-
-    //   <div className="hr">Or Login With</div>
-
-    //   <div className="social">
-    //     <GoogleLogin
-    //       clientId="995505543329-q9ug4f4eqvp402h4vv16963e3pi2oro0.apps.googleusercontent.com"
-    //       buttonText="Login with google"
-    //       onSuccess={responseGoogle}
-    //       cookiePolicy={"single_host_origin"}
-    //     />
-
-    //     <FacebookLogin
-    //       appId="467718794599736"
-    //       autoLoad={false}
-    //       fields="name,email,picture"
-    //       callback={responseFacebook}
-    //     />
-    //   </div>
-
-    //   <p>
-    //     New Member? <Link to="/register">Register</Link>
-    //   </p>
-    // </div>
-
     <div
       className="footer"
       style={{
@@ -164,7 +150,6 @@ const Login = () => {
     >
       <Container>
         <Title>SIGN IN</Title>
-        {err && showErrMessage(err)}
         <Base onSubmit={loginSubmit}>
           <Input
             type="email"
@@ -217,6 +202,7 @@ const Login = () => {
           Learn more.
         </TextSmall>
       </Container>
+      <Notification notify={notify} setNotify={setNotify}></Notification>
     </div>
   );
 };

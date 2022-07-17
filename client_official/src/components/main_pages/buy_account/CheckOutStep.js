@@ -18,7 +18,6 @@ import PaidIcon from "@mui/icons-material/Paid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
-import DiscountIcon from "@mui/icons-material/Discount";
 
 const CheckOutStep = () => {
   const state = useContext(GlobalState);

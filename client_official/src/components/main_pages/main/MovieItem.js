@@ -48,9 +48,6 @@ const ListItem = ({ index, movie }) => {
         }
       });
     }
-    // if (PopupRef.current.getBoundingClientRect().left < 0) {
-    //   PopupRef.current.style.left = "4px";
-    // }
   }, [movie, watchList]);
 
   return (
@@ -94,7 +91,6 @@ const ListItem = ({ index, movie }) => {
                     <DeleteForeverIcon className="icon" />
                   )}
                 </Link>
-                {/* <ThumbUpAltOutlined className="icon"></ThumbUpAltOutlined> */}
                 <Link to={`/detail/${movie._id}`}>
                   <DoubleArrowIcon className="icon"></DoubleArrowIcon>
                 </Link>

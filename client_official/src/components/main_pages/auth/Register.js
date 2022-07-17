@@ -85,49 +85,6 @@ const Register = () => {
   };
 
   return (
-    // <div className="login_page">
-    //   <h2>Register</h2>
-    //   {err && showErrMessage(err)}
-    //   {success && showSuccessMessage(success)}
-    //   <form onSubmit={registerSubmit}>
-    //     <input
-    //       type="text"
-    //       name="name"
-    //       placeholder="Your Username"
-    //       value={name}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <input
-    //       type="text"
-    //       name="email"
-    //       placeholder="Your email"
-    //       value={email}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <input
-    //       type="password"
-    //       name="password"
-    //       autoComplete="on"
-    //       placeholder="Your password"
-    //       value={password}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <input
-    //       type="password"
-    //       name="cf_password"
-    //       autoComplete="on"
-    //       placeholder="Confirm your password"
-    //       value={cf_password}
-    //       onChange={onChangeInput}
-    //     ></input>
-    //     <div className="row">
-    //       <button type="submit">Register</button>
-    //     </div>
-    //   </form>
-    //   <p>
-    //     Already have an account? <Link to="/login">Login</Link>
-    //   </p>
-    // </div>
     <div
       className="footer"
       style={{

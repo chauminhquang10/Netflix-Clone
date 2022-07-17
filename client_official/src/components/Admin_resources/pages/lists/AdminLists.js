@@ -64,7 +64,6 @@ const AdminLists = () => {
   const [token] = state.token;
   const [lists, setLists] = state.listsAPI.lists;
 
-  //const [listsCallback, setListsCallback] = state.listsAPI.listsCallback;
   //update list
   const [list, setList] = useState("");
   const [genre, setGenre] = useState("");
@@ -156,7 +155,6 @@ const AdminLists = () => {
       setOnEdit(false);
       setList("");
       setGenre("");
-      //setListsCallback(!listsCallback);
       setOpenPopup(false);
     } catch (error) {
       Swal.fire(error.response.data.msg, "", "error");
@@ -192,7 +190,6 @@ const AdminLists = () => {
           setLists([...newLists]);
 
           Swal.fire(res.data.msg, "", "success");
-          //setListsCallback(!listsCallback);
         } catch (error) {
           alert(error.response.data.msg);
         }
@@ -297,12 +294,6 @@ const AdminLists = () => {
     setLists([...lists]);
     setIsChecked(!isChecked);
   };
-
-  // const handleSort = (id) => {
-  //   const isAsc = orderBy === id && order === "asc";
-  //   setOrder(isAsc ? "desc" : "asc");
-  //   setOrderBy(id);
-  // };
 
   return (
     <div className="admin-lists">

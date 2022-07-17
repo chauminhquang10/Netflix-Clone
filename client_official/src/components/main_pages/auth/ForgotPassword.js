@@ -36,24 +36,6 @@ const ForgotPassword = () => {
   };
 
   return (
-    // <div className="forgot_password">
-    //   <h2>Forgot Your Password?</h2>
-
-    //   <div className="row">
-    //     {err && showErrMessage(err)}
-    //     {success && showSuccessMessage(success)}
-    //     <label htmlFor="email">Enter your email</label>
-    //     <input
-    //       type="email"
-    //       name="email"
-    //       id="email"
-    //       value={email}
-    //       onChange={handleChangeInput}
-    //     ></input>
-    //     <button onClick={handleForgotPassword}>Verify your email</button>
-    //   </div>
-    // </div>
-
     <div
       className="footer"
       style={{

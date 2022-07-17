@@ -66,14 +66,6 @@ const Analytics = () => {
       <DiscountQuantityLineChart />
       <h3 className="chartTitle">Sale Analytics</h3>
       <PackagePieChart />
-
-      {/* Tạm thời comment để chừa chỗ hiển thị , nhớ chuyển vài cái chart ra page khác, không để chung hết 1 chỗ như bây h */}
-      {/* <PackagePieChart />
-
-      <DiscountBarChart />
-
-      */}
-
       <TopUsersList />
     </div>
   );

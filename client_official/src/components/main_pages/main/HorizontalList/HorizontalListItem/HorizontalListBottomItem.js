@@ -32,18 +32,6 @@ const HorizontalListBottomItem = ({ movie }) => {
     );
   };
 
-  // const removeMovie = (id) => {
-  //   if (window.confirm("Do you want to remove this movie?")) {
-  //     watchList.forEach((item, index) => {
-  //       if (item._id === id) {
-  //         watchList.splice(index, 1);
-  //       }
-  //     });
-  //     setWatchList([...watchList]);
-  //     updateWatchList(watchList);
-  //   }
-  // };
-
   return (
     <div className="HorizontalListBottomItem_container">
       <Link to={`/detail/${movie._id}`}>
