@@ -13,7 +13,7 @@ const SearchPage = () => {
   //const [moviesCallback, setMoviesCallback] = state.moviesAPI.moviesCallback;
   const [searchGenres, setSearchGenres] = useState([]);
   const [search, setSearch] = state.moviesAPI.search;
-  const nationCodes = ["us", "jp", "uk"];
+  const nationCodes = ["us", "jp"];
 
   const [sort, setSort] = state.moviesAPI.sort;
 
@@ -143,7 +143,13 @@ const SearchPage = () => {
             return (
               search && (
                 <div className="related_titles_content_child_container">
-                  <div className="related_titles_content_child">
+                  <div
+                    className="related_titles_content_child"
+                    onClick={() => {
+                      setGenre(`allGenres=${genre["name"]}`);
+                      setSearch("");
+                    }}
+                  >
                     &nbsp; {genre.name} &nbsp;
                   </div>
                   <p className="related_titles_content_child_p">|</p>
