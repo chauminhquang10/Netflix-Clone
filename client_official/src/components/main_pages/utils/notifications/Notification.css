@@ -3,7 +3,9 @@
   color: #fff9;
   text-align: center;
   padding: 10px 0;
+  border-radius: 10px;
   letter-spacing: 1.3px;
+  font-size: 1em;
 }
 
 .successMessage {

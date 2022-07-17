@@ -15,10 +15,7 @@ import "./Login.scss";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 
-import {
-  showErrMessage,
-  showSuccessMessage,
-} from "../utils/notifications/Notification";
+import { showErrMessage } from "../utils/notifications/Notification";
 
 const initialState = {
   email: "",
@@ -168,7 +165,6 @@ const Login = () => {
       <Container>
         <Title>SIGN IN</Title>
         {err && showErrMessage(err)}
-        {success && showSuccessMessage(success)}
         <Base onSubmit={loginSubmit}>
           <Input
             type="email"
