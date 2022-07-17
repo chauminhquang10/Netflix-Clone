@@ -134,7 +134,7 @@ export default function MultipleSelect() {
   return (
     <div className="Pack_container">
       <div>
-        <div className="PackItem">
+        <div className="addMovieItem">
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -145,7 +145,7 @@ export default function MultipleSelect() {
             onChange={handleChangeInput}
           ></input>
         </div>
-        <div className="PackItem">
+        <div className="addMovieItem">
           <label htmlFor="price">Price</label>
           <input
             type="number"
@@ -156,7 +156,7 @@ export default function MultipleSelect() {
             onChange={handleChangeInput}
           ></input>
         </div>
-        <div className="PackItem">
+        <div className="addMovieItem">
           <label htmlFor="video_quality">Video Quality</label>
           <input
             type="text"
@@ -169,7 +169,7 @@ export default function MultipleSelect() {
         </div>
       </div>
       <div>
-        <div className="PackItem">
+        <div className="addMovieItem">
           <label htmlFor="video_quality">Resolution</label>
           <input
             type="number"
