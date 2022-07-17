@@ -2,7 +2,7 @@ import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
-import "./UserLink.css";
+import "./UserLink.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -68,14 +68,6 @@ const UserLink = ({ logout, userName, userAvatar, userMail }) => {
                 </Link>
               </Button>
             </li>
-            {/* <li className="userlink_item">
-              <Button style={{ justifyContent: "flex-start" }}>
-                <SettingsIcon style={{ fill: "#344ceb" }} />
-                <Link className="profile-link" to="">
-                  Setting
-                </Link>
-              </Button>
-            </li> */}
             <li className="userlink_item">
               <Button style={{ justifyContent: "flex-start" }}>
                 <LogoutIcon style={{ fill: "#344ceb" }} />

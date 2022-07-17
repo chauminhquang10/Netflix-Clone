@@ -14,26 +14,28 @@ const OrderHistory = () => {
         className="section-history-container"
         onClick={() => ID && setID("")}
       >
-        <div className="title">History</div>
         <div className="content-container">
-          <div className="left-content">Payment List</div>
+          <div className="left-content">Payment History</div>
           <div className="right-content">
             <div className="right-content-title">
-              <div>Payment ID</div>
-              <div>Purchase Date</div>
+              <div className="column-title">Payment ID</div>
+              <div className="column-title">Purchase Date</div>
+              <div className="column-title">Action</div>
               <div></div>
             </div>
-            {userHistory.map((items) => (
-              <div className="content">
-                <div>{items.paymentID}</div>
-                <div>
-                  {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
+            {userHistory.map((items) => {
+              return (
+                <div className="content">
+                  <div>{items.paymentID}</div>
+                  <div>
+                    {moment(new Date(items.createdAt)).format("MMMM Do YYYY")}
+                  </div>
+                  <div onClick={() => setID(items._id)} className="button">
+                    View
+                  </div>
                 </div>
-                <div onClick={() => setID(items._id)} className="button">
-                  View
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

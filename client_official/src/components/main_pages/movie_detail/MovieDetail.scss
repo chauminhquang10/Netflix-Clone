@@ -258,10 +258,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    overflow: hidden;
     margin: auto;
+    gap: 15px;
+    .trailer-title{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-start;
+      text-transform: capitalize;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
   }
   .Comment_container {
     background-color: white;

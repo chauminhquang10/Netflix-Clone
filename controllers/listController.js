@@ -5,10 +5,19 @@ const { ObjectId } = require("mongodb");
 
 const listController = {
   //lay random 5 lists
-  getLists: async (req, res) => {
+  getTop5Lists: async (req, res) => {
     try {
       const lists = await Lists.aggregate([{ $sample: { size: 5 } }]);
       res.json(lists);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  getAllLists: async (req, res) => {
+    try {
+      const allLists = await Lists.find();
+      res.json(allLists);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

@@ -23,6 +23,8 @@ const { ObjectId } = require("mongodb");
 
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+const fs = require(`fs`);
+
 const userController = {
   register: async (req, res) => {
     try {
@@ -72,6 +74,36 @@ const userController = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  loadUsers: async (req, res) => {
+    try {
+      let rawdata = fs.readFileSync("./json/NewUsers.json");
+
+      let users = JSON.parse(rawdata);
+
+      await users.forEach(async (user, index) => {
+        console.log(`${index} / ${users.length}`);
+        console.log("============");
+        const { buy_package, role, avatar, name, email, password } = user;
+
+        const newUser = new Users({
+          buy_package,
+          role,
+          avatar,
+          name,
+          email,
+          password,
+        });
+
+        await newUser.save();
+      });
+
+      res.json({ msg: "Created a new users" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   activateEmail: async (req, res) => {
     try {
       const { activation_token } = req.body;

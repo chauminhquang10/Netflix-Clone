@@ -93,7 +93,12 @@ const List = ({ title, movies, getTrigger, ToggleTrigger }) => {
           ))}
         </Swiper>
       </div>
-      <ListItemPopUp movie={movie} SetTrigger={togglePopup2} left={hoverLeft} />
+      <ListItemPopUp
+        movie={movie}
+        SetTrigger={togglePopup2}
+        left={hoverLeft}
+        setHoverLeft={setHoverLeft}
+      />
     </div>
   );
 };

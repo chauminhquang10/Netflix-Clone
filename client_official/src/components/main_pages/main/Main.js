@@ -13,10 +13,26 @@ const Movies = () => {
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [loading, setLoading] = useState(false);
-  const [lists, setLists] = state.listsAPI.lists;
+  const [top5Lists, setTop5Lists] = useState([]);
   const [recommend, setRecommend] = useState([]);
   const [listTrigger, setListTrigger] = useState(true);
   const [topRanking] = state.topRanking;
+
+  useEffect(() => {
+    const getTop5Lists = async () => {
+      try {
+        const res = await axios.get("/api/top5Lists", {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setTop5Lists(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTop5Lists();
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +42,6 @@ const Movies = () => {
             Authorization: token,
           },
         });
-        console.log("Here", res.data.responseData);
         setRecommend(res.data.responseData);
       } catch (err) {
         console.log(err);
@@ -78,7 +93,7 @@ const Movies = () => {
           getTrigger={getTrigger}
           ToggleTrigger={ToggleTrigger}
         ></Listitem>
-        {lists.map((list, index) => {
+        {top5Lists.map((list, index) => {
           switch (index) {
             case 2:
               return <HorizontalList movies={list.items} />;

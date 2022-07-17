@@ -402,19 +402,15 @@ const movieController = {
   },
   updateMovies: async (req, res) => {
     try {
-      let rawdata = fs.readFileSync("./MoviesForUpdate.json");
+      let rawdata = fs.readFileSync("./json/MoviesForUpdate.json");
 
       let movies = JSON.parse(rawdata);
 
       await movies.forEach(async (movie, index) => {
-        let view = 0;
-        if (movie["imdb_rating"]) view = movie["imdb_rating"] * 10;
-        console.log(
-          `updating ${movie["_id"]} at ${index} / ${movies.length} with ${movie.trailer}`
-        );
+        console.log(`update ${movie._id} with ${movie.likes.length} like`);
         const a = await Movies.updateOne(
           { _id: movie["_id"] },
-          { trailer: movie.trailer }
+          { likes: movie.likes }
         );
       });
 

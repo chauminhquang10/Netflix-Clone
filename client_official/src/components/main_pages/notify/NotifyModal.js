@@ -73,12 +73,12 @@ const NotifyModal = () => {
         <div className="notify_count">{notify.newNotifies.length}</div>
         {notify.sound ? (
           <NotificationsActiveIcon
-            style={{ fontSize: "40px", cursor: "pointer" }}
+            style={{ fontSize: "30px", cursor: "pointer" }}
             onClick={handleSound}
           />
         ) : (
           <NotificationsOffIcon
-            style={{ fontSize: "40px", cursor: "pointer" }}
+            style={{ fontSize: "30px", cursor: "pointer" }}
             onClick={handleSound}
           />
         )}

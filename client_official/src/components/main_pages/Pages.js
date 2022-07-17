@@ -16,6 +16,7 @@ import Watch from "./watch/Watch";
 
 import SideBar from "../Admin_resources/Admin_components/sidebar/SideBar";
 import HomePage from "../Admin_resources/pages/homepage/HomePage";
+import Analytics from "../Admin_resources/pages/analytics/Analytics";
 import UserList from "../Admin_resources/pages/userList/UserList";
 import EditUser from "../Admin_resources/pages/edit_user/EditUser";
 import AdminMovieList from "../Admin_resources/pages/movies/MovieList";
@@ -74,6 +75,8 @@ const Pages = () => {
                 path="/users"
                 component={isAdmin ? UserList : NotFound}
               />
+
+              <Route exact path="/analytics" component={Analytics} />
 
               <Route
                 path="/edit_user/:id"

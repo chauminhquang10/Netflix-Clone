@@ -11,7 +11,7 @@ const Step3 = () => {
     <div className="step3_container">
       <div className="step3_wrapper">
         <LockIcon
-          style={{ color: "red", fontSize: "45px" }}
+          style={{ color: "#2596be", fontSize: "45px" }}
           className="step3_logo"
         />
 

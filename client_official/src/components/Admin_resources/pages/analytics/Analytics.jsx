@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import "./HomePage.scss";
-import FeaturedInfo from "../../Admin_components/featuredInfo/FeaturedInfo";
-import Chart from "../../Admin_components/chart/Chart";
-import WidgetLarge from "../../Admin_components/WidgetLarge/WidgetLarge";
-import WidgetSmall from "../../Admin_components/widgetSmall/WidgetSmall";
+import "./Analytics.scss";
 
-import RevenueChart from "../../Admin_components/revenue_chart/RevenueChart";
-import FeaturedRevenue from "../../Admin_components/featured_revenue/FeaturedRevenue";
+import PackagePieChart from "../../Admin_components/pie_chart/PackagePieChart.js";
+
+import DiscountBarChart from "../../Admin_components/bar_chart/DiscountBarChart.js";
+
+import DiscountPriceChart from "../../Admin_components/composed_chart/DiscountPriceChart.js";
+
+import DiscountQuantityLineChart from "../../Admin_components/line_chart/DiscountQuantityLineChart.js";
+
+import TopUsersList from "../../Admin_components/top_users_table/TopUsersList.js";
 
 import { GlobalState } from "../../../../GlobalState";
 
-const HomePage = () => {
+const Analytics = () => {
   const months = [
     "Jan",
     "Feb",
@@ -58,25 +61,22 @@ const HomePage = () => {
 
   return (
     <div className="admin-home">
-      <FeaturedInfo />
-      <Chart
-        data={userStats}
-        title="User Analytics"
-        grid={true}
-        dataKey="New User"
-      ></Chart>
+      <h3 className="chartTitle">Discount Analytics</h3>
+      <DiscountPriceChart />
+      <DiscountQuantityLineChart />
+      <h3 className="chartTitle">Sale Analytics</h3>
+      <PackagePieChart />
 
-      <div className="child-chart">
-        <FeaturedRevenue />
-        <RevenueChart />
-      </div>
+      {/* Tạm thời comment để chừa chỗ hiển thị , nhớ chuyển vài cái chart ra page khác, không để chung hết 1 chỗ như bây h */}
+      {/* <PackagePieChart />
 
-      <div className="homeWidgets">
-        <WidgetSmall></WidgetSmall>
-        <WidgetLarge></WidgetLarge>
-      </div>
+      <DiscountBarChart />
+
+      */}
+
+      <TopUsersList />
     </div>
   );
 };
 
-export default HomePage;
+export default Analytics;
