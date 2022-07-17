@@ -406,7 +406,10 @@ const MovieDetail = () => {
               rating={movieDetail.rating}
             ></CommentDisplayRating>
             <div className="imdb-rating">
-              IMDB rating: <span>{movieDetail.imdb_rating}</span>
+              IMDB rating:
+              <span>
+                {movieDetail.imdb_rating > 0 ? movieDetail.imdb_rating : `N/A`}
+              </span>
             </div>
           </div>
           <div className="react-container">

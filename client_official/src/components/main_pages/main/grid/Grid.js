@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Grid = ({ movies, title, index }) => {
   return (
-    <div>
+    <div style={{ marginBottom: "50px" }}>
       <div className="grid_header">
         <span className="gridTitle">{title}</span>
         <Link to="/movies">
