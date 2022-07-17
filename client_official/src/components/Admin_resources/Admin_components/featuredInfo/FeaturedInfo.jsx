@@ -76,7 +76,7 @@ const FeaturedInfo = () => {
       <div className="adminFeaturedItem">
         <span className="adminFeaturedTitle">Earnings</span>
         <div className="adminFeaturedMoneyContainer">
-          <span className="adminFeaturedMoney">${currentMonthRevenue}</span>
+          <span className="adminFeaturedMoney">{currentMonthRevenue}₫</span>
           <span className="adminFeaturedMoneyRate">
             +21 % <ArrowUpward className="adminFeaturedIcon " />
           </span>
