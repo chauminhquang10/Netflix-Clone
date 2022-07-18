@@ -429,12 +429,14 @@ const NewMovie = () => {
               input={<OutlinedInput label="Genres" />}
               MenuProps={MenuProps}
               onChange={handleChangeInput}
+              className="toCapitalize"
             >
               {genres.map((genre) => (
                 <MenuItem
                   key={genre._id}
                   value={genre.name.toLowerCase()}
                   style={getStyles(genre, movie.allGenres, theme)}
+                  className="toCapitalize"
                 >
                   {genre.name}
                 </MenuItem>
@@ -452,12 +454,14 @@ const NewMovie = () => {
               input={<OutlinedInput label="Actors" />}
               MenuProps={MenuProps}
               onChange={handleChangeInput}
+              className="toCapitalize"
             >
               {actors.map((actor) => (
                 <MenuItem
                   key={actor._id}
                   value={actor.name.toLowerCase()}
                   style={getStyles(actor, movie.actorsBelongTo, theme)}
+                  className="toCapitalize"
                 >
                   {actor.name}
                 </MenuItem>
@@ -475,9 +479,11 @@ const NewMovie = () => {
               input={<OutlinedInput label="Directors" />}
               MenuProps={MenuProps}
               onChange={handleChangeInput}
+              className="toCapitalize"
             >
               {directors.map((director) => (
                 <MenuItem
+                  className="toCapitalize"
                   key={director._id}
                   value={director.name.toLowerCase()}
                   style={getStyles(director, movie.directorsBelongTo, theme)}

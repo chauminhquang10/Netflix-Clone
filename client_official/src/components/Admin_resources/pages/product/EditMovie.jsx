@@ -66,8 +66,17 @@ const EditMovie = () => {
 
   useEffect(() => {
     if (param.id) {
-      movies.forEach((movie) => {
+      movies.forEach(async (movie) => {
         if (movie._id === param.id) {
+          let tempGenres = [];
+          for (let i = 0; i < movie.allGenres.length; i++) {
+            for (let j = 0; j < genres.length; j++) {
+              if (genres[j]._id === movie.allGenres[i]) {
+                tempGenres.push(genres[j].name);
+              }
+            }
+          }
+          movie.allGenres = tempGenres;
           setMovie(movie);
           setImg(movie.img);
           if (movie.imgSmall) setImgSmall(movie.imgSmall);
@@ -424,9 +433,11 @@ const EditMovie = () => {
                 input={<OutlinedInput label="Genres" />}
                 MenuProps={MenuProps}
                 onChange={handleChangeInput}
+                className="toCapitalize"
               >
                 {genres.map((genre) => (
                   <MenuItem
+                    className="toCapitalize"
                     key={genre._id}
                     value={genre.name.toLowerCase()}
                     style={getStyles(genre, movie.allGenres, theme)}
@@ -447,12 +458,14 @@ const EditMovie = () => {
                 input={<OutlinedInput label="Actors" />}
                 MenuProps={MenuProps}
                 onChange={handleChangeInput}
+                className="toCapitalize"
               >
                 {actors.map((actor) => (
                   <MenuItem
                     key={actor._id}
                     value={actor.name.toLowerCase()}
                     style={getStyles(actor, movie.actorsBelongTo, theme)}
+                    className="toCapitalize"
                   >
                     {actor.name}
                   </MenuItem>
@@ -462,6 +475,7 @@ const EditMovie = () => {
             <div className="addMovieItem hideLegend">
               <label htmlFor="duration">Directors</label>
               <Select
+                className="toCapitalize"
                 name="directorsBelongTo"
                 labelId="demo-multiple-name-label"
                 id="demo-multiple-name"
@@ -473,6 +487,7 @@ const EditMovie = () => {
               >
                 {directors.map((director) => (
                   <MenuItem
+                    className="toCapitalize"
                     key={director._id}
                     value={director.name.toLowerCase()}
                     style={getStyles(director, movie.directorsBelongTo, theme)}

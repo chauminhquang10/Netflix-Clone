@@ -146,7 +146,7 @@ const CheckOutStep = () => {
       setLoading(true);
       const res = await axios.post(
         "/api/verifyDiscount",
-        { name: discountInput, checkTotalPercents },
+        { name: discountInput.toLowerCase(), checkTotalPercents },
         {
           headers: {
             Authorization: token,
@@ -407,7 +407,7 @@ const CheckOutStep = () => {
               className="discount-box-field"
               label="Coupon Code"
               id="outlined-size-small"
-              value={discountInput}
+              value={discountInput.toLowerCase()}
               onChange={(e) => setDiscountInput(e.target.value)}
               error={discountError}
               helperText={discountErrorText}

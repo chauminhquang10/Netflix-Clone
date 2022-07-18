@@ -9,6 +9,10 @@
   justify-content: flex-end;
 }
 
+.toCapitalize{
+  text-transform: capitalize;
+}
+
 .movieAddButton {
   width: 80px;
   border: none;

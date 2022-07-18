@@ -138,10 +138,15 @@ const PackagePieChart = () => {
   }, [token]);
 
   return (
-    <>
-      <h3 style={{ color: "#2596be", width: "100%" }}>
-        Total Package Sold: {totalSold}
-      </h3>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h5 style={{ color: "#2596be" }}>Total Package Sold: {totalSold}</h5>
       <PieChart width={800} height={250}>
         <Pie
           data={packagesStats}
@@ -159,7 +164,7 @@ const PackagePieChart = () => {
           ))}
         </Pie>
       </PieChart>
-    </>
+    </div>
   );
 };
 
