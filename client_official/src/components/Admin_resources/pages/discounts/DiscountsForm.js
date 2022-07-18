@@ -55,9 +55,9 @@ const DiscountsForm = ({
     const { name, value } = event.target;
     setValues({
       ...values,
-      [name]: value,
+      [name]: value.toLowerCase(),
     });
-    validate({ [name]: value });
+    validate({ [name]: value.toLowerCase() });
   };
 
   const validate = (fieldValues = values) => {
@@ -182,7 +182,7 @@ const DiscountsForm = ({
               variant="outlined"
               label="New Discount"
               name="name"
-              value={values.name}
+              value={values.name.toLowerCase()}
               onChange={handleChange}
               error={errors.name}
               type="text"

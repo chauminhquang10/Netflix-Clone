@@ -61,12 +61,21 @@ const Analytics = () => {
 
   return (
     <div className="admin-home">
-      <h3 className="chartTitle">Discount Analytics</h3>
-      <DiscountPriceChart />
-      <DiscountQuantityLineChart />
-      <h3 className="chartTitle">Sale Analytics</h3>
-      <PackagePieChart />
-      <TopUsersList />
+      <div className="chart-container">
+        <h3 className="chartTitle">Total Discount Analytics</h3>
+        <DiscountPriceChart />
+      </div>
+      <div className="chart-container">
+        <h3 className="chartTitle">Discount Total Use Analytics</h3>
+        <DiscountQuantityLineChart />
+      </div>
+      <div className="chart-container">
+        <h3 className="chartTitle">Sale Analytics</h3>
+        <PackagePieChart />
+      </div>
+      <div className="chart-container non-center">
+        <TopUsersList />
+      </div>
     </div>
   );
 };
