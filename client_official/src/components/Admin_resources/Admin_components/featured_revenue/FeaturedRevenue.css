@@ -1,0 +1,80 @@
+.featured_revenue {
+  flex: 1;
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 20px;
+  color: #333;
+}
+
+.featured_revenue_top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: gray;
+}
+
+.featured_revenue_top_title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.featured_revenue_bottom {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured_revenue_bottom_chart {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+}
+
+.featured_revenue_bottom_title {
+  font-weight: 500;
+  color: gray;
+}
+
+.featured_revenue_bottom_amount {
+  font-size: 30px;
+}
+
+.featured_revenue_bottom_description {
+  font-weight: 300;
+  font-size: 12px;
+  color: gray;
+  text-align: center;
+}
+
+.featured_revenue_bottom_summary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.featured_revenue_bottom_summary_item {
+  text-align: center;
+}
+
+.featured_revenue_bottom_summary_item_title {
+  font-size: 14px;
+  color: gray;
+}
+
+.featured_revenue_bottom_summary_item_result {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.summary_item_result_positive {
+  color: green;
+}
+
+.summary_item_result_negative {
+  color: red;
+}

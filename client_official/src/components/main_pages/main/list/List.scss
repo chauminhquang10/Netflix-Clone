@@ -1,0 +1,16 @@
+.list {
+  margin-top: 10px;
+  margin-left: 3vw;
+  position: relative;
+  .list_header {
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    margin-bottom: 10px;
+  }
+  .listTitle {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+}

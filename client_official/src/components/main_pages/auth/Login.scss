@@ -1,0 +1,23 @@
+.hr {
+  margin: 15px 0;
+  color: gray;
+}
+
+.social button {
+  width: 100%;
+  margin: 10px 0;
+  height: 50px;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: capitalize;
+  letter-spacing: 1.3px;
+  box-shadow: 0 2px 4px #777;
+}
+
+.footer {
+  position: relative;
+  padding: 6rem 2rem;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

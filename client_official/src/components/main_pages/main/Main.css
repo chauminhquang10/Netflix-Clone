@@ -1,0 +1,24 @@
+.main_page {
+  position: relative;
+  gap: 40px;
+  top: -110px;
+}
+
+.popup_container {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.skeleton-container{
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 3vw;
+  align-items: center;
+  gap: 15px;
+  justify-content: flex-start;
+}

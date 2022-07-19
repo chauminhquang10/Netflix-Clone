@@ -1,0 +1,139 @@
+.movie {
+  flex: 4;
+  padding: 20px;
+}
+
+.movieTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.toCapitalize{
+  text-transform: capitalize;
+}
+
+.movieAddButton {
+  width: 80px;
+  border: none;
+  padding: 10px;
+  background-color: darkcyan;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.movieAddButton:hover {
+  background-color: teal;
+}
+
+.movieTop {
+  display: flex;
+}
+
+.movieTopLeft,
+.movieTopRight {
+  flex: 1;
+}
+
+.movieTopRight {
+  padding: 20px;
+  margin: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.movieInfoImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.movieInfoName {
+  font-weight: 600;
+  color: #333;
+}
+
+.movieInfoBottom {
+  margin-top: 10px;
+}
+
+.movieInfoItem {
+  width: 600px;
+  display: flex;
+  justify-content: flex-start;
+  color: black;
+}
+
+.movieInfoValue {
+  margin-left: 20px;
+  font-weight: 300;
+}
+
+.movieBottom {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 20px;
+}
+
+.movieForm {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 20px;
+}
+
+.movieFormLeft {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.movieFormLeft > label {
+  margin: 10px 0;
+  color: gray;
+}
+
+.movieFormLeft > input {
+  margin-bottom: 10px;
+  border: none;
+  padding: 5px;
+  border-bottom: 1px solid gray;
+}
+
+.movieFormLeft > select {
+  margin-bottom: 10px;
+}
+
+.movieUploadImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.movieFormRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 700px;
+}
+
+.movieUpload {
+  display: flex;
+  align-items: center;
+}
+
+.movieButton {
+  margin-top: 20px;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

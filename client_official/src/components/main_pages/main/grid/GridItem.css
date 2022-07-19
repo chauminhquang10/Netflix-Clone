@@ -1,0 +1,17 @@
+.Grid_item_container {
+  position: relative;
+}
+
+.Grid_item_img {
+  width: fit-content;
+  min-height: 190px;
+  object-fit: fill;
+  transition: all 0.75s;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Grid_item_img:hover {
+  transform: scale(1.2);
+}

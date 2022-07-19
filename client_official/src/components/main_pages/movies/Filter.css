@@ -1,0 +1,22 @@
+.filter_menu {
+  width: fit-content;
+  min-height: 40px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  margin: 15px 0;
+  position: absolute;
+}
+
+.filter_menu select,
+input {
+  border: 1px solid #ccc;
+  height: 40px;
+  outline: none;
+  padding: 0 5px;
+}
+
+.filter_menu input {
+  flex: 1;
+  margin: 0 10px;
+}

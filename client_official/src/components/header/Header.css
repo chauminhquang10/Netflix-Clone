@@ -1,0 +1,162 @@
+.Mainheader {
+  min-height: 70px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 3fr 9fr 4fr 1fr 1fr;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: 1s all;
+  left: 0;
+}
+
+.logoImg {
+  margin-bottom: 3rem;
+}
+
+.logo {
+  height: 60px;
+  width: 60px;
+  position: relative;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+  left: 33px;
+}
+
+.header_ul {
+  display: grid;
+  grid-template-columns: auto auto auto auto 1fr;
+  column-gap: 40px;
+  align-items: flex-start;
+  margin: 0;
+}
+
+.header_lastItem {
+  display: grid;
+  justify-items: flex-end;
+}
+
+.header_logo {
+  margin-right: 40px;
+}
+
+.Menu {
+  color: white;
+}
+
+.Menu:hover {
+  cursor: pointer;
+}
+
+.Clear {
+  color: white;
+}
+
+.Clear:hover {
+  cursor: pointer;
+}
+.login_btn {
+  height: 40px;
+  width: 100px;
+  font-family: "Radiant EF Text Demi Bold";
+  font-size: 20px;
+  background-color: #2596be;
+  color: white;
+  opacity: 0.8;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-left: 20px;
+  border: none;
+  box-shadow: 1px 1px 2px 0px white
+}
+
+.login_btn:hover {
+  opacity: 1;
+}
+
+.header_Link {
+  position: relative;
+  color: white;
+  font-weight: 500;
+}
+
+.header_Link.active {
+  color: #2596be;
+}
+
+.header_Link:hover {
+  text-decoration: none;
+  color: #2596be;
+}
+
+.header_Link_normal {
+  position: relative;
+  color: white;
+}
+
+.header_Link_normal:hover {
+  text-decoration: none;
+  color: #2596be;
+}
+
+.header_Link:after {
+  content: "";
+  position: absolute;
+  background-color: #2596be;
+  height: 3px;
+  width: 0;
+  left: 0;
+  bottom: -10px;
+  transition: 0.3s;
+}
+
+.header_Link:hover:after {
+  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  .header_ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    top: 70px;
+    left: -100%;
+    opacity: 1;
+    transition: all 1s ease;
+    width: 100%;
+  }
+
+  .header_ul.active {
+    background: #242222;
+    left: 0;
+    opacity: 1;
+    transition: all 1s ease;
+    z-index: 1;
+  }
+
+  .header_Link {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    color: white;
+    font-family: "Radiant EF Text Demi Bold";
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+  }
+  .header_li {
+    position: relative;
+    text-align: center;
+    height: 60px;
+    width: 100%;
+  }
+  .header_li:hover {
+    background-color: gray;
+    opacity: 0.8;
+  }
+}

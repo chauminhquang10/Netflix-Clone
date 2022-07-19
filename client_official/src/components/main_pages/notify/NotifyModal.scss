@@ -1,0 +1,29 @@
+.notification-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notify_count {
+  background-color: #2596be;
+  border-radius: 50%;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  line-height: 15px;
+  right: 0;
+  font-size: 0.7em
+}
+.Notify_container {
+  .Movie_News_List_container {
+    display: none;
+    transition-delay: 4s;
+    transition: all 1s;
+  }
+}
+.Notify_container:hover {
+  .Movie_News_List_container {
+    display: block;
+    transition: all 1s;
+  }
+}

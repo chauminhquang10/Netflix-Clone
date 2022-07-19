@@ -1,0 +1,160 @@
+.grid_header {
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+  margin-top: 1em;
+  margin-left: 3em;
+}
+
+.gridTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.MP_First_Grid_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "one one  one   two   three"
+    "one one  one   five  four"
+    "ten nine eight seven six";
+  height: 100vh;
+  margin: 10px 10px 0 3em;
+  grid-gap: 5px;
+  max-height: 500px;
+}
+
+.MP_Second_Grid_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "two three  four   six   eight"
+    "five seven  one   one  one"
+    "ten nine one one one";
+  height: 100vh;
+  margin: 10px 10px 0 3em;
+  grid-gap: 5px;
+  max-height: 500px;
+}
+
+.Grid_1 {
+  position: relative;
+  grid-area: one;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_2 {
+  position: relative;
+  grid-area: two;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_3 {
+  position: relative;
+  grid-area: three;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_4 {
+  position: relative;
+  grid-area: four;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_5 {
+  position: relative;
+  grid-area: five;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_6 {
+  position: relative;
+  grid-area: six;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_7 {
+  position: relative;
+  grid-area: seven;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_8 {
+  position: relative;
+  grid-area: eight;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_9 {
+  position: relative;
+  grid-area: nine;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_10 {
+  position: relative;
+  grid-area: ten;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+}
+
+.Grid_item_title {
+  position: absolute;
+  bottom: 0px;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.Grid_item_title_large {
+  position: absolute;
+  bottom: 0px;
+  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.Grid_item_HD {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  object-fit: contain;
+  width: 50px;
+  height: 50px;
+}

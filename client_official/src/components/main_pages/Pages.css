@@ -1,0 +1,9 @@
+.admin-container {
+  display: flex;
+  background-color: white;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

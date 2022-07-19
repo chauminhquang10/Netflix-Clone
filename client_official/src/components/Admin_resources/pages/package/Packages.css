@@ -1,0 +1,13 @@
+.movieAddButton {
+  width: fit-content;
+}
+
+.admin-list-container {
+  flex: 4;
+}
+
+.MuiToolbar-regular {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

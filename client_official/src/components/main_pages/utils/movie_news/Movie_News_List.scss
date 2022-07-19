@@ -1,0 +1,44 @@
+.Movie_News_List_container {
+  width: 650px;
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-top: 1px ridge white;
+  border-bottom: 0.5px ridge #343434;
+  background-color: rgba(0, 0, 0, 0.856);
+}
+.Movie_News_List {
+  position: absolute;
+  width: fit-content;
+  right: 8%;
+  top: 3rem;
+}
+.Movie_News_List ::before {
+  content: "\A";
+  border-style: solid;
+  border-width: 10px 15px 10px 0;
+  border-color: transparent white transparent transparent;
+  position: absolute;
+  position: absolute;
+  top: -20px;
+  right: 1.1rem;
+  width: 20px;
+  height: 20px;
+  transform: rotate(90deg);
+}
+.Movie_News_List_buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+    color: #2596be;
+    border-color: #2596be;
+    transition: 0.5s all;
+  }
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
+    color: #215a93;
+  }
+  ::before {
+    display: none;
+  }
+}

@@ -1,0 +1,114 @@
+.section-history{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    min-height: calc(100vh - 60px);
+    background-color: rgb(246, 246, 246);
+    color: black;
+    .popup-container{
+        @keyframes ani {
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+        position: absolute;
+        width: 500px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        animation: 0.6s ani linear 1;
+        .payment-frame{
+            min-width: 500px;
+            width: 500px;
+            height: 524px;
+            position: absolute;
+            .close{
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                color: black;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        .MuiPaper-rounded{
+            min-width: 500px;
+            width: 500px; 
+        }
+    }
+    .section-history-container{
+        width: 100%;
+        max-width: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 20px;
+        gap: 40px;
+        .title{
+            font-size: 3em;
+        }
+        .content-container{
+            height: calc(60vh - 70px);
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 60px;
+            .left-content{
+                height: 100%;
+                min-width: fit-content;
+            font-size: 2em;
+        }
+            .right-content{
+                border-left: 8px solid #2596be;
+                height: 100%;
+                padding: 0px 60px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                .right-content-title{
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    align-items: center;
+                    border-bottom: 1px solid #2596be;
+                    padding-bottom: 15px;
+                    .column-title{
+                        font-weight: bold;
+                        font-size: 1.2em;
+                    }
+                }
+                .content{
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    align-items: center;
+                    .button{
+                        color: #2596be;
+                    }
+                    Link{
+                        transition: all 1s;
+                        &:hover{
+                            cursor: pointer;
+                            filter: brightness(1.5);
+                            transition: all 1s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
