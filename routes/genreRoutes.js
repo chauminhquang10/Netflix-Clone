@@ -14,12 +14,7 @@ router
   .put(auth, authAdmin, genreController.updateGenre);
 
 // Thống kê những top genres (tổng lượt views cao nhất).
-router.get(
-  "/topGenresStats",
-  auth,
-  authAdmin,
-  genreController.getTopGenresStats
-);
+router.get("/topGenresStats", genreController.getTopGenresStats);
 
 router.route("/loadgenres").post(genreController.loadgenres);
 
