@@ -30,12 +30,7 @@ router
   .patch(auth, movieController.unDislikeMovie);
 
 // Thống kê những movie với top views (tổng lượt views cao nhất).
-router.get(
-  "/topMoviesStats",
-  auth,
-  authAdmin,
-  movieController.getTopMoviesStats
-);
+router.get("/topMoviesStats", movieController.getTopMoviesStats);
 
 router.route("/loadmovies").post(auth, authAdmin, movieController.loadmovies);
 router
